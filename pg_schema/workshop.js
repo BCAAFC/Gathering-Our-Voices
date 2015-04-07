@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var Workshop = sequelize.define("User", {
+    var Workshop = sequelize.define("Workshop", {
         // Housekeeping
         id: { type: DataTypes.INTEGER, autoincrement: true },
         createdAt: { type: DataTypes.DATE, validate: { notNull: true }, },

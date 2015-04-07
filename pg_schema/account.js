@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var Account = sequelize.define("User", {
+    var Account = sequelize.define("Account", {
         // Housekeeping
         id: { type: DataTypes.INTEGER, autoincrement: true, primaryKey: true },
         createdAt: { type: DataTypes.DATE, validate: { notNull: true }, },
@@ -35,13 +35,13 @@ module.exports = function(sequelize, DataTypes) {
         },
         // Phone/Fax
         phone: {
-            types: DataTypes.STRING,
+            type: DataTypes.STRING,
             validate: {
                 notNull: true,
             },
         },
         fax: {
-            types: DataTypes.STRING,
+            type: DataTypes.STRING,
             validate: {},
         },
         // Mailing information.

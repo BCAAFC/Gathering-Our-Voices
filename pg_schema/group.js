@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var Group = sequelize.define("User", {
+    var Group = sequelize.define("Group", {
         // Housekeeping
         id: { type: DataTypes.INTEGER, autoincrement: true, primaryKey: true },
         createdAt: { type: DataTypes.DATE, validate: { notNull: true }, },

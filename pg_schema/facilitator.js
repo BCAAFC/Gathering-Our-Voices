@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var Facilitator = sequelize.define("User", {
+    var Facilitator = sequelize.define("Facilitator", {
         // Housekeeping
         id: { type: DataTypes.INTEGER, autoincrement: true, primaryKey: true },
         createdAt: { type: DataTypes.DATE, validate: { notNull: true }, },
@@ -157,7 +157,7 @@ module.exports = function(sequelize, DataTypes) {
             },
             comment: "Applicant written notes.",
         },
-        //
+    }, {
         classMethods: {
             associate: function(models) {
                 Facilitator.hasOne(models.Workshop);

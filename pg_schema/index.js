@@ -4,8 +4,7 @@ var fs        = require("fs"),
     path      = require("path"),
     Sequelize = require("sequelize"),
     env       = process.env.NODE_ENV || "development",
-    config    = require(__dirname + '/../config/config.json')[env],
-    sequelize = new Sequelize(config.database, config.username, config.password, config),
+    sequelize = new Sequelize(process.env.DATABASE_URL),
     db        = {};
 
 fs.readdirSync(__dirname)

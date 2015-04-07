@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function(sequelize, DataTypes) {
-    var Member = sequelize.define("User", {
+    var Member = sequelize.define("Member", {
         // Housekeeping
         id: { type: DataTypes.INTEGER, autoincrement: true, primaryKey: true },
         createdAt: { type: DataTypes.DATE, validate: { notNull: true }, },
@@ -31,7 +31,7 @@ module.exports = function(sequelize, DataTypes) {
             validate: {},
         },
         birthdate: {
-            types: DataTypes.DATE,
+            type: DataTypes.DATE,
             validate: {
                 // TODO: Age validation.
             },
@@ -48,8 +48,8 @@ module.exports = function(sequelize, DataTypes) {
         contactRelation: { type: DataTypes.STRING, },
         contactPhone: { type: DataTypes.STRING, },
         medicalNumber: { type: DataTypes.STRING, },
-        allergies: { type: DataTypes.STRING, },
-        conditions: { type: DataTypes.CONDITIONS, },
+        allergies: { type: DataTypes.ARRAY(DataTypes.STRING), },
+        conditions: { type: DataTypes.ARRAY(DataTypes.STRING), },
         // Private Data.
         complete: { type: DataTypes.BOOLEAN, },
         ticketType: {
