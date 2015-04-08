@@ -1,29 +1,19 @@
 "use strict";
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
     var Workshop = sequelize.define("Workshop", {
-        // Housekeeping
-        id: { type: DataTypes.INTEGER, autoincrement: true },
-        createdAt: { type: DataTypes.DATE, validate: { notNull: true }, },
-        updatedAt: { type: DataTypes.DATE, validate: { notNull: true }, },
         // Info
         name: {
             type: DataTypes.STRING,
-            validate: {
-                notNull: true,
-            }
+            allowNull: false,
         },
         description: {
             type: DataTypes.TEXT,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         allows: {
             type: DataTypes.ARRAY(DataTypes.STRING),
-            validate: {
-                notNull: true,
-            }
+            allowNull: false,
         },
         category: {
             type: DataTypes.ENUM,
@@ -33,18 +23,17 @@ module.exports = function(sequelize, DataTypes) {
                 "Mental",
                 "Physical",
             ],
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         tags: {
             type: DataTypes.ARRAY(DataTypes.STRING),
+            allowNull: true,
         },
     }, {
         classMethods: {
             associate: function(models) {
                 Workshop.hasMany(models.Session);
-                Workshop.hasOne(models.Facilitator);
+                Workshop.belongsTo(models.Facilitator);
             }
         }
     });

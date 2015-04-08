@@ -1,26 +1,19 @@
 "use strict";
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
     var Payment = sequelize.define("Payment", {
-        // Housekeeping
-        id: { type: DataTypes.INTEGER, autoincrement: true, primaryKey: true },
-        createdAt: { type: DataTypes.DATE, validate: { notNull: true }, },
-        updatedAt: { type: DataTypes.DATE, validate: { notNull: true }, },
         // Info
         date: {
             type: DataTypes.DATE,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         amount: {
             type: DataTypes.INTEGER,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         number: {
             type: DataTypes.STRING,
+            allowNull: true,
         },
         type: {
             type: DataTypes.ENUM,
@@ -32,14 +25,16 @@ module.exports = function(sequelize, DataTypes) {
                 "Paypal",
                 "Waived",
             ],
+            allowNull: false,
         },
         description: {
             type: DataTypes.TEXT,
+            allowNull: true,
         }
     }, {
         classMethods: {
             associate: function(models) {
-                Payment.hasOne(models.Account);
+                Payment.belongsTo(models.Account);
             }
         }
     });

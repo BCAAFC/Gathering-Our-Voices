@@ -1,61 +1,54 @@
 "use strict";
+var bcrypt = require("bcrypt");
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
     var Account = sequelize.define("Account", {
-        // Housekeeping
-        id: { type: DataTypes.INTEGER, autoincrement: true, primaryKey: true },
-        createdAt: { type: DataTypes.DATE, validate: { notNull: true }, },
-        updatedAt: { type: DataTypes.DATE, validate: { notNull: true }, },
         // Info
         email: {
             type: DataTypes.STRING,
+            allowNull: false,
+            index: true,
             validate: {
                 isEmail: true,
-                notNull: true,
-                index: true,
             },
         },
         password: {
-            type: DataTypes.STRING,
-            validate: {
-                notNull: true,
+            type: DataTypes.VIRTUAL,
+            set: function (val) {
+                // TODO: Not sync?
+                var hash = bcrypt.hashSync(val, 10);
+                this.setDataValue('password_hash', hash);
             },
+        },
+        password_hash: {
+            type: DataTypes.STRING,
+            allowNull: false,
         },
         name: {
             type: DataTypes.STRING,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         affiliation: {
             type: DataTypes.STRING,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         // Phone/Fax
         phone: {
             type: DataTypes.STRING,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         fax: {
             type: DataTypes.STRING,
-            validate: {},
+            allowNull: true,
         },
         // Mailing information.
         address: {
             type: DataTypes.STRING,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         city: {
             type: DataTypes.STRING,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         province: {
             type: DataTypes.ENUM,
@@ -75,19 +68,15 @@ module.exports = function(sequelize, DataTypes) {
                 "Yukon",
                 "Other (Outside Canada)",
             ],
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         postalCode: {
             type: DataTypes.STRING,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
     }, {
         classMethods: {
-            associate: function(models) {
+            associate: function (models) {
                 Account.hasOne(models.Group);
                 Account.hasOne(models.Facilitator);
                 Account.hasOne(models.Exhibitor);

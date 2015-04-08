@@ -1,17 +1,11 @@
 "use strict";
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
     var Member = sequelize.define("Member", {
-        // Housekeeping
-        id: { type: DataTypes.INTEGER, autoincrement: true, primaryKey: true },
-        createdAt: { type: DataTypes.DATE, validate: { notNull: true }, },
-        updatedAt: { type: DataTypes.DATE, validate: { notNull: true }, },
         // Main
         name: {
             type: DataTypes.STRING,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         type: {
             type: DataTypes.ENUM,
@@ -21,46 +15,73 @@ module.exports = function(sequelize, DataTypes) {
                 "Chaperone",
                 "Young Chaperone",
             ],
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         gender: {
             type: DataTypes.ENUM,
             values: [ 'Male', 'Female', 'Other' ],
-            validate: {},
+            allowNull: true,
         },
         birthdate: {
             type: DataTypes.DATE,
+            allowNull: true,
             validate: {
                 // TODO: Age validation.
             },
         },
-        phone: { type: DataTypes.STRING, },
+        phone: {
+            type: DataTypes.STRING,
+            allowNull: true
+        },
         email: {
             type: DataTypes.STRING,
+            allowNull: true,
             validate: {
                 isEmail: true,
             }
         },
         // Emergency Info
-        contactName: { type: DataTypes.STRING, },
-        contactRelation: { type: DataTypes.STRING, },
-        contactPhone: { type: DataTypes.STRING, },
-        medicalNumber: { type: DataTypes.STRING, },
-        allergies: { type: DataTypes.ARRAY(DataTypes.STRING), },
-        conditions: { type: DataTypes.ARRAY(DataTypes.STRING), },
+        contactName: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        contactRelation: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        contactPhone: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        medicalNumber: {
+            type: DataTypes.STRING,
+            allowNull: true,
+        },
+        allergies: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            allowNull: true,
+        },
+        conditions: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            allowNull: true,
+        },
         // Private Data.
-        complete: { type: DataTypes.BOOLEAN, },
+        complete: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+            allowNull: false,
+        },
         ticketType: {
             type: DataTypes.ENUM,
-            values: [ "Early", "Regular", ]
+            values: [ "Early", "Regular", ],
+            defaultValue: "Regular",
+            allowNull: false,
         },
     }, {
         classMethods: {
             associate: function(models) {
                 Member.belongsTo(models.Group);
-                Member.hasMany(models.Workshop);
+                Member.belongsToMany(models.Session, { through: "Sessions" });
             }
         }
     });

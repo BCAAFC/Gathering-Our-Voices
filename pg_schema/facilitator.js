@@ -1,107 +1,73 @@
 "use strict";
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
     var Facilitator = sequelize.define("Facilitator", {
-        // Housekeeping
-        id: { type: DataTypes.INTEGER, autoincrement: true, primaryKey: true },
-        createdAt: { type: DataTypes.DATE, validate: { notNull: true }, },
-        updatedAt: { type: DataTypes.DATE, validate: { notNull: true }, },
         // Workshop specifics
         title: {
             type: DataTypes.STRING,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         length: {
             type: DataTypes.ENUM,
             values: [ "1.5 hour", "3 hour", "Full day" ],
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         category: {
             type: DataTypes.ENUM,
             values: [ "Cultural", "Physical", "Emotional", "Mental" ],
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         categoryReason: {
             type: DataTypes.TEXT,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         audience: {
             // Can't do ARRAY(ENUM)
             type: DataTypes.ARRAY(DataTypes.STRING),
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         type: {
             // Can't do ARRAY(ENUM)
             type: DataTypes.ARRAY(DataTypes.STRING),
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         description: {
             type: DataTypes.TEXT,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         summary: {
             type: DataTypes.TEXT,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         interactionLevel: {
             type: DataTypes.TEXT,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         capacity: {
             type: DataTypes.INTEGER,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         // Requirements
         mailing: {
             type: DataTypes.BOOLEAN,
-            validate: {
-                notNull: true,
-            },
-            comment: "Is a mailing requred?"
+            allowNull: false,
+            comment: "Is a mailing required?"
         },
         flipchart: {
             type: DataTypes.INTEGER,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         projector: {
             type: DataTypes.BOOLEAN,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         screen: {
             type: DataTypes.BOOLEAN,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         player: {
             type: DataTypes.BOOLEAN,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         room: {
             type: DataTypes.ENUM,
@@ -115,51 +81,40 @@ module.exports = function(sequelize, DataTypes) {
                 "Boardroom",
                 "Clear",
             ],
+            allowNull: false,
         },
         // Facilitator Specifics
         biography: {
             type: DataTypes.TEXT,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         // Compensation Specifics
         meals: {
             type: DataTypes.BOOLEAN,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         accomodation: {
             type: DataTypes.BOOLEAN,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
         },
         travel: {
             type: DataTypes.STRING,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
             comment: "Requires travel from.",
         },
         honorarium: {
             type: DataTypes.TEXT,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
             comment: "Honorarium Amount & Details.",
         },
         notes: {
             type: DataTypes.TEXT,
-            validate: {
-                notNull: true,
-            },
+            allowNull: false,
             comment: "Applicant written notes.",
         },
     }, {
         classMethods: {
-            associate: function(models) {
+            associate: function (models) {
                 Facilitator.hasOne(models.Workshop);
                 Facilitator.belongsTo(models.Account);
             }
