@@ -91,6 +91,15 @@ module.exports = function (sequelize, DataTypes) {
                 Member.belongsToMany(models.Session, { through: "Sessions" });
             },
         },
+        instanceMethods: {
+            cost: function () {
+                if (this.ticketType === "Early") {
+                    return 125;
+                } else {
+                    return 175;
+                }
+            },
+        },
         hooks: {
             afterValidate: function (member, options, fn) {
                 if (member.name &&

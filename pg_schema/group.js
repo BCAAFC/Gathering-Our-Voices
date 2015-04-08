@@ -1,5 +1,7 @@
 "use strict";
 
+var Promise = require("bluebird");
+
 module.exports = function (sequelize, DataTypes) {
     var Group = sequelize.define("Group", {
         // Info
@@ -38,7 +40,16 @@ module.exports = function (sequelize, DataTypes) {
                 Group.hasMany(models.Member);
                 Group.belongsTo(models.Account);
             }
-        }
+        },
+        instanceMethods: {
+            balance: function () {
+                return this.getMembers().then(function (members) {
+                    return members.reduce(function (total, member) {
+                        return total + member.cost();
+                    }, 0);
+                });
+            },
+        },
     });
 
     return Group;

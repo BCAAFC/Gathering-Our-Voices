@@ -166,7 +166,7 @@ describe("Schemas", function () {
             });
         });
         it("can find related account", function () {
-            return schemas.Account.find({ where: {  email: "test@test.ca" } }).then(function (account) {
+            return schemas.Account.findOne({ where: { email: "test@test.ca" } }).then(function (account) {
                 return account.getGroup();
             }).then(function (group) {
                 should.exist(group);
@@ -175,7 +175,29 @@ describe("Schemas", function () {
                 should.not.exist(error);
             });
         });
+        it("calculates empty group's cost correctly", function () {
+            return schemas.Account.findOne({ where: { email: "test@test.ca" } }).then(function (account) {
+                return account.cost().then(function (cost) {
+                    should.equal(cost, 0);
+                });
+            });
+        });
+        it("calculates empty group's paid correctly", function () {
+            return schemas.Account.findOne({ where: { email: "test@test.ca" } }).then(function (account) {
+                return account.paid().then(function (paid) {
+                    should.equal(paid, 0);
+                });
+            });
+        });
+        it("calculates empty group's balance correctly", function () {
+            return schemas.Account.findOne({ where: { email: "test@test.ca" } }).then(function (account) {
+                return account.balance().then(function (balance) {
+                    should.equal(balance, 0);
+                });
+            });
+        });
     });
+
     describe("Member", function () {
         it("can be created with minimal information", function () {
             return schemas.Member.create({
@@ -255,4 +277,6 @@ describe("Schemas", function () {
             });
         });
     });
+
+
 });

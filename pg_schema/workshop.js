@@ -35,7 +35,7 @@ module.exports = function (sequelize, DataTypes) {
                 Workshop.hasMany(models.Session);
                 Workshop.belongsTo(models.Facilitator);
             }
-        }
+        },
     });
 
     return Workshop;
