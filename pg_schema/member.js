@@ -1,5 +1,7 @@
 "use strict";
 
+var moment = require("moment");
+
 module.exports = function (sequelize, DataTypes) {
     var Member = sequelize.define("Member", {
         // Main
@@ -22,11 +24,16 @@ module.exports = function (sequelize, DataTypes) {
             values: [ 'Male', 'Female', 'Other' ],
             allowNull: true,
         },
-        birthdate: {
+        birthDate: {
             type: DataTypes.DATE,
             allowNull: true,
             validate: {
-                // TODO: Age validation.
+                // TODO: More age validation.
+                tooYoung: function (val) {
+                    if (moment(val).isAfter("2001-03-18")) {
+                        throw new Error("Member too young to attend the conference.");
+                    }
+                },
             },
         },
         phone: {
@@ -79,11 +86,28 @@ module.exports = function (sequelize, DataTypes) {
         },
     }, {
         classMethods: {
-            associate: function(models) {
+            associate: function (models) {
                 Member.belongsTo(models.Group);
                 Member.belongsToMany(models.Session, { through: "Sessions" });
-            }
-        }
+            },
+        },
+        hooks: {
+            afterValidate: function (member, options, fn) {
+                if (member.name &&
+                    member.type &&
+                    member.gender &&
+                    member.birthDate &&
+                    member.phone &&
+                    member.contactName &&
+                    member.contactRelation &&
+                    member.contactPhone &&
+                    member.medicalNumber)
+                {
+                    member.complete = true;
+                }
+                fn(null, member);
+            },
+        },
     });
 
     return Member;
