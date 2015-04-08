@@ -12,6 +12,7 @@ module.exports = function (sequelize, DataTypes) {
                 "MCFD or Delegated Agency",
                 "Other",
             ],
+            allowNull: false,
         },
         youthInCare: {
             type: DataTypes.INTEGER,

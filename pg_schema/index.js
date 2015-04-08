@@ -7,7 +7,7 @@ var fs        = require("fs"),
     sequelize = new Sequelize(process.env.DATABASE_URL, {
         timestamps: true,
         paranoid: true,
-        logging: false, // Switch to `console.log` for output.
+        logging: (process.env.PG_LOG === "true") ? console.log : false, // Switch to `console.log` for output.
     }),
     db        = {};
 
