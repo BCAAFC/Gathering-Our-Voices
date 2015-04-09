@@ -1,6 +1,9 @@
 node_js:
 - '0.12'
-before_install: npm install -g grunt-cli
+before_script:
+- psql -c 'create database travis_ci_test;' -U postgres
+before_install:
+- npm install -g grunt-cli
 services:
 - redis
 - postgres
