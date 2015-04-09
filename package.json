@@ -43,7 +43,7 @@
     "marked": "0.3.3",
     "method-override": "2.3.2",
     "mocha": "2.2.1",
-    "moment": "2.10.0",
+    "moment": "2.10.2",
     "morgan": "1.5.1",
     "multer": "0.1.8",
     "pg": "^4.3.0",
