@@ -136,6 +136,13 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
             comment: "Applicant written notes.",
         },
+        // Stateful Meaning
+        approved: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+            comment: "If the workshop has been approved by the team.",
+        },
     }, {
         classMethods: {
             associate: function (models) {

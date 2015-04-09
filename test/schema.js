@@ -351,7 +351,7 @@ describe("Schemas", function () {
         });
         it("can be associated with an account", function () {
             return schemas.Account.find({
-                where: { email: "test@test.ca" },
+                where: { email: "test@test.ca", },
                 include: [{ all: true }],
             }).then(function (account) {
                 return account.createWorkshop({
@@ -381,6 +381,23 @@ describe("Schemas", function () {
             }).then(function (workshop) {
                 should.exist(workshop);
             }).catch(function (error) {
+                should.not.exist(error);
+            });
+        });
+        it("can be approved", function () {
+            return schemas.Workshop.findOne({
+                where: { title: "Tester Workshop Application 2" },
+            }).then(function (workshop) {
+                workshop.approved = true;
+                return workshop.save();
+            }).then(function () {
+                return schemas.Workshop.findAll({
+                    where: { approved: true },
+                });
+            }).then(function (approved) {
+                should.equal(approved.length, 1);
+            }).catch(function (error) {
+                console.error(error);
                 should.not.exist(error);
             });
         });
