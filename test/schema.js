@@ -301,6 +301,19 @@ describe("Schemas", function () {
             }).then(function (workshop) {
                 workshop.should.be.an.instanceOf(schemas.Workshop.Instance);
             }).catch(function (error) {
+                console.log(error);
+                should.not.exist(error);
+            });
+        });
+        it("accepts specific attendee types", function () {
+            return schemas.Workshop.findOne({
+                where: { title: "Tester Workshop Application", },
+            }).then(function (workshop) {
+                workshop.accepts("Youth").should.equal(true);
+                workshop.accepts("Young Adult").should.equal(true);
+                workshop.accepts("Young Chaperone").should.equal(true);
+                workshop.accepts("Chaperone").should.equal(false);
+            }).catch(function (error) {
                 should.not.exist(error);
             });
         });
@@ -401,7 +414,7 @@ describe("Schemas", function () {
                     end: moment("2016-03-18 10:30").toDate(),
                     room: "Test",
                     venue: "Test",
-                    capacity: 200,
+                    capacity: 1,
                 });
             }).then(function (session) {
                 session.should.exist.and.be.an.instanceOf(schemas.Session.Instance);
@@ -411,13 +424,114 @@ describe("Schemas", function () {
         });
         it("can not be created with incorrect information", function () {
             return schemas.Workshop.find({
-
+                where: { approved: true }
             }).then(function (workshop) {
-
+                return workshop.createSession({
+                    start: "Foo",
+                    end: "Bar",
+                });
+            }).catch(function (error) {
+                should.exist(error);
+            });
+        });
+        it("can have members added to it", function () {
+            return Promise.join(
+                schemas.Session.findOne({ where: { room: "Test" } }),
+                schemas.Member.findOne({ where: { name: "Complete Tester" } }),
+                function done(session, member) {
+                    session.should.be.an.instanceOf(schemas.Session.Instance);
+                    member.should.be.an.instanceOf(schemas.Member.Instance);
+                    return session.addMember(member);
+            }).then(function () {
+                return schemas.Session.findOne({
+                    where: { room: "Test" },
+                    include: [ schemas.Member ]
+                });
+            }).then(function (session) {
+                return session.getMembers();
+            }).then(function (members) {
+                members.should.be.an.instanceOf(Array);
+                members.length.should.equal(1);
+                members.forEach(function (member) {
+                    member.should.be.an.instanceOf(schemas.Member.Instance);
+                });
+            }).catch(function (error) {
+                console.log(error);
+                should.not.exist(error);
+            });
+        });
+        it("can add conditionally based on capacity", function () {
+            return Promise.join(
+                schemas.Session.findOne({ where: { room: "Test" } }),
+                schemas.Member.findOne({ where: { name: "Complete Tester" } }),
+                function done(session, member) {
+                    session.should.be.an.instanceOf(schemas.Session.Instance);
+                    member.should.be.an.instanceOf(schemas.Member.Instance);
+                    return session.getMembers().then(function (members) {
+                        if (members.length < session.capacity) {
+                            session.addMember(member);
+                        } else {
+                            throw new Error("Over capacity.");
+                        }
+                    });
             }).catch(function (error) {
                 should.exist(error);
             });
         });
     });
-
+    describe("Exhibitor", function () {
+        it("can be created with valid information", function () {
+            return schemas.Exhibitor.create({
+                representatives: [ "Test", "Test 2" ],
+                categories: [ "Post-Secondary", "Industry" ],
+                provides: [ "Giveaway items", "Other" ],
+                electrical: false,
+                delegateBags: false,
+                payment: "Cheque",
+            }).then(function (exhibitor) {
+                exhibitor.should.be.an.instanceOf(schemas.Exhibitor.Instance);
+                exhibitor.paid.should.equal(false);
+            }).catch(function (error) {
+                should.not.exist(error);
+            });
+        });
+        it("cannot be created with valid information", function () {
+            return schemas.Exhibitor.create({
+                representatives: [ "Test", "Test 2" ],
+                categories: [ "Biking" ], // Invalid
+                provides: [ "Nothing", "Other" ], // Invalid
+                electrical: false,
+                delegateBags: false,
+                payment: "Cheque",
+            }).then(function (exhibitor) {
+                should.not.exist(exhibitor);
+            }).catch(function (error) {
+                should.exist(error);
+            });
+        });
+        it("can be associated", function () {
+            return schemas.Account.find({
+                where: { email: "test@test.ca" } 
+            }).then(function (account) {
+                return account.createExhibitor({
+                    representatives: [ "Test", "Test 2" ],
+                    categories: [ "Post-Secondary", "Industry" ],
+                    provides: [ "Giveaway items", "Other" ],
+                    electrical: false,
+                    delegateBags: false,
+                    payment: "Cheque",
+                });
+            });
+        });
+        it("can be set to paid", function () {
+            return schemas.Account.find({
+                where: { email: "test@test.ca" }
+            }).then(function (account) {
+                return account.getExhibitor();
+            }).then(function (exhibitor) {
+                exhibitor.paid = true;
+                return exhibitor.save();
+            });
+        });
+    });
 });

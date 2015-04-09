@@ -26,9 +26,10 @@ module.exports = function (sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
+                Session.hasMany(models.Member, { hooks: true });
                 Session.belongsTo(models.Workshop);
-            }
-        }
+            },
+        },
     });
 
     return Session;

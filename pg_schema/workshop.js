@@ -149,7 +149,12 @@ module.exports = function (sequelize, DataTypes) {
                 Workshop.hasMany(models.Session);
                 Workshop.belongsTo(models.Account);
             }
-        }
+        },
+        instanceMethods: {
+            accepts: function(type) {
+                return this.audience.indexOf(type) !== -1;
+            },
+        },
     });
 
     return Workshop;
