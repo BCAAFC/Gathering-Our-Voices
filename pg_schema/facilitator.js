@@ -23,13 +23,37 @@ module.exports = function (sequelize, DataTypes) {
         },
         audience: {
             // Can't do ARRAY(ENUM)
+            // Permits: "Youth", "Young Adult", "Young Chaperone", "Chaperone"
             type: DataTypes.ARRAY(DataTypes.STRING),
             allowNull: false,
+            validate: {
+                correctInputs: function (value) {
+                    var options = ["Youth", "Young Adult", "Young Chaperone", "Chaperone"];
+                    var valid = value.some(function (v) { return options.indexOf(v) === -1; });
+                    if (valid) {
+                        throw new Error("Invalid input.");
+                    } else {
+                        return;
+                    }
+                },
+            },
         },
         type: {
             // Can't do ARRAY(ENUM)
+            // Permits: "Presentation", "Exercise", "Roleplay", "Q/A", "Other"
             type: DataTypes.ARRAY(DataTypes.STRING),
             allowNull: false,
+            validate: {
+                correctInputs: function (value) {
+                    var options = ["Presentation", "Exercise", "Roleplay", "Q/A", "Other"];
+                    var valid = value.some(function (v) { return options.indexOf(v) === -1; });
+                    if (valid) {
+                        throw new Error("Invalid input.");
+                    } else {
+                        return;
+                    }
+                },
+            },
         },
         description: {
             type: DataTypes.TEXT,

@@ -15,15 +15,14 @@ var expect = chai.expect,
 describe("Schemas", function () {
     before("Drop & Sync", function (done) {
         // Drop all tables.
-        schemas.sequelize.drop()
-            .then(function () {
-                return schemas.sequelize.sync();
-            }).done(function () {
-                done();
-            }).catch(function (error) {
-                assert.fail(error, null, "Should have been able to drop & sync.");
-                done();
-            });
+        schemas.sequelize.drop().then(function () {
+            return schemas.sequelize.sync();
+        }).done(function () {
+            done();
+        }).catch(function (error) {
+            assert.fail(error, null, "Should have been able to drop & sync.");
+            done();
+        });
     });
 
     describe("Account", function () {
@@ -276,7 +275,121 @@ describe("Schemas", function () {
                 should.not.exist(error, "Should have been able to retrieve member.");
             });
         });
+        it("calculates cost correctly", function () {
+            return schemas.Member.create({
+                name: "Cost Tester",
+                type: "Youth",
+            }).then(function (member) {
+                member.ticketType = "Early";
+                should.equal(member.cost(), 125);
+                member.ticketType = "Regular";
+                should.equal(member.cost(), 175);
+            }).catch(function (error) {
+                should.not.exist(error, "Should have been able to create member.");
+            });
+        });
+    });
+    
+    describe("Facilitator", function () {
+        it("can be created with correct information", function () {
+            return schemas.Facilitator.create({
+                title: "Tester Workshop Application",
+                length: "1.5 hour",
+                category: "Cultural",
+                categoryReason: "Because I feel like it.",
+                audience: ["Youth", "Young Adult", "Young Chaperone"],
+                type: ["Q/A", "Presentation"],
+                description: "A test.",
+                summary: "A summary of testing.",
+                interactionLevel: "Just a test.",
+                capacity: 200,
+                mailing: false,
+                flipchart: 10,
+                projector: false,
+                screen: false,
+                player: false,
+                room: "Circle",
+                biography: "A test.",
+                meals: true,
+                accomodation: false,
+                travel: false,
+                honorarium: "Please pay me some money.",
+                notes: "Just some notes.",
+            }).then(function (facilitator) {
+                should.exist(facilitator);
+            }).catch(function (error) {
+                should.not.exist(error);
+            });
+        });
+        it("cannot be created with incorrect information", function () {
+            return schemas.Facilitator.create({
+                title: "Tester Workshop Application",
+                length: "1.5 hour",
+                category: "Cultural",
+                categoryReason: "Because I feel like it.",
+                audience: ["Teeth", "Young Adult"], // Invalid.
+                type: ["Q/A", "Teeth"], // Invalid.
+                description: "A test.",
+                summary: "A summary of testing.",
+                interactionLevel: "Just a test.",
+                capacity: 200,
+                mailing: false,
+                flipchart: 10,
+                projector: false,
+                screen: false,
+                player: false,
+                room: "Circle",
+                biography: "A test.",
+                meals: true,
+                accomodation: false,
+                travel: false,
+                honorarium: "Please pay me some money.",
+                notes: "Just some notes.",
+            }).then(function (facilitator) {
+                should.not.exist(facilitator);
+            }).catch(function (error) {
+                should.exist(error);
+            });
+        });
+        it("can be associated with an account", function () {
+            return schemas.Account.find({
+                where: { email: "test@test.ca" },
+                include: [{ all: true }],
+            }).then(function (account) {
+                return account.createFacilitator({
+                    title: "Tester Workshop Application 2",
+                    length: "Full day",
+                    category: "Mental",
+                    categoryReason: "Because I feel like it.",
+                    audience: ["Youth", "Young Adult", "Young Chaperone"],
+                    type: ["Q/A", "Presentation"],
+                    description: "A test.",
+                    summary: "A summary of testing.",
+                    interactionLevel: "Just a test.",
+                    capacity: 200,
+                    mailing: false,
+                    flipchart: 10,
+                    projector: false,
+                    screen: false,
+                    player: false,
+                    room: "Circle",
+                    biography: "A test.",
+                    meals: true,
+                    accomodation: false,
+                    travel: false,
+                    honorarium: "Please pay me some money.",
+                    notes: "Just some notes.",
+                });
+            }).then(function (facilitator) {
+                should.exist(facilitator);
+            }).catch(function (error) {
+                should.not.exist(error);
+            });
+        });
     });
 
+    describe("Workshop", function () {
+
+    });
 
 });
