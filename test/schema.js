@@ -18,23 +18,7 @@ describe("Schemas", function () {
         return schemas.sequelize.drop().then(function () {
             return schemas.sequelize.sync();
         }).catch(function (error) {
-            console.error(error);
-            assert.fail(error, null, "Should have been able to drop & sync");
-        });
-    });
-
-    describe("General", function () {
-        describe("Loading", function () {
-            it("should not be null", function () {
-                should.exist(schemas);
-                should.exist(schemas.Account);
-                should.exist(schemas.Exhibitor);
-                should.exist(schemas.Group);
-                should.exist(schemas.Member);
-                should.exist(schemas.Payment);
-                should.exist(schemas.Session);
-                should.exist(schemas.Workshop);
-            });
+            should.not.exist(error);
         });
     });
 
@@ -52,9 +36,8 @@ describe("Schemas", function () {
                 province: "British Columbia",
                 postalCode: "A1B 2C3",
             }).then(function (account) {
-                should.exist(account, "Account should exist");
+                account.should.be.an.instanceOf(schemas.Account.Instance);
             }).catch(function (error) {
-                console.log(error);
                 should.not.exist(error);
             });
         });
@@ -62,9 +45,9 @@ describe("Schemas", function () {
             return schemas.Account.create({
                 // Deliberately nothing here.
             }).then(function (account) {
-                should.not.exist(account, "Account should have not existed.");
+                account.should.not.exist();
             }).catch(function (error) {
-                should.exist(error, "Error should have existed.");
+                should.exist(error);
             });
         });
         it("should complain if information is wrong", function () {
@@ -80,9 +63,9 @@ describe("Schemas", function () {
                 province: "British Columbia",
                 postalCode: "A1B 2C3",
             }).then(function (account) {
-                should.not.exist(account, "Account should have not existed.");
+                account.should.be.an.instanceOf(schemas.Account.Instance);
             }).catch(function (error) {
-                should.exist(error, "Error should have existed.");
+                should.exist(error);
             });
         });
         it("should be able to be removed", function () {
@@ -102,9 +85,9 @@ describe("Schemas", function () {
             }).then(function () {
                 return schemas.Account.findOne({ where: { email: "delete@test.ca" }});
             }).then(function (account) {
-                should.not.exist(account, "Account should not have been found.");
+                should.not.exist(account);
             }).catch(function (error) {
-                should.exist(error, "Account should have been deleted.");
+                should.exist(error);
             });
         });
     });
@@ -118,9 +101,9 @@ describe("Schemas", function () {
                 notes: "Blah blah blah.",
                 tags: ["Blah", "Blurp", "Bleep"],
             }).then(function (group) {
-                should.exist(group, "Group should have been created.");
+                group.should.be.an.instanceOf(schemas.Group.Instance);
             }).catch(function (error) {
-                should.not.exist(error, "Group should have been created.");
+                should.not.exist(error);
             });
         });
         it ("cannot be created with lacking information", function () {
@@ -129,9 +112,9 @@ describe("Schemas", function () {
                 notes: "Blah blah blah.",
                 tags: ["Blah", "Blurp", "Bleep"],
             }).then(function (group) {
-                should.not.exist(group, "Group should not have been created.");
+                should.not.exist(group);
             }).catch(function (error) {
-                should.exist(error, "Group should not have been created.");
+                should.exist(error);
             });
         });
         it ("cannot be created with wrong information", function () {
@@ -142,9 +125,9 @@ describe("Schemas", function () {
                 notes: "Blah blah blah.",
                 tags: ["Blah", "Blurp", "Bleep"],
             }).then(function (group) {
-                should.not.exist(group, "Group should not have been created.");
+                should.not.exist(group);
             }).catch(function (error) {
-                should.exist(error, "Group should not have been created.");
+                should.exist(error);
             });
         });
         it("can be associated", function () {
@@ -159,15 +142,15 @@ describe("Schemas", function () {
                     tags: ["Blah", "Blurp", "Bleep"],
                 });
             }).catch(function (error) {
-                should.not.exist(error, "Could not associate Group to Account");
+                should.not.exist(error);
             });
         });
         it("can find related account", function () {
             return schemas.Account.findOne({ where: { email: "test@test.ca" } }).then(function (account) {
                 return account.getGroup();
             }).then(function (group) {
-                should.exist(group);
-                should.equal(group.affiliationType, "Friendship Centre");
+                group.should.be.an.instanceOf(schemas.Group.Instance);
+                group.affiliationType.should.equal("Friendship Centre");
             }).catch(function (error) {
                 should.not.exist(error);
             });
@@ -175,21 +158,21 @@ describe("Schemas", function () {
         it("calculates empty group's cost correctly", function () {
             return schemas.Account.findOne({ where: { email: "test@test.ca" } }).then(function (account) {
                 return account.cost().then(function (cost) {
-                    should.equal(cost, 0);
+                    cost.should.equal(0);
                 });
             });
         });
         it("calculates empty group's paid correctly", function () {
             return schemas.Account.findOne({ where: { email: "test@test.ca" } }).then(function (account) {
                 return account.paid().then(function (paid) {
-                    should.equal(paid, 0);
+                    paid.should.equal(0);
                 });
             });
         });
         it("calculates empty group's balance correctly", function () {
             return schemas.Account.findOne({ where: { email: "test@test.ca" } }).then(function (account) {
                 return account.balance().then(function (balance) {
-                    should.equal(balance, 0);
+                    balance.should.equal(0);
                 });
             });
         });
@@ -220,8 +203,8 @@ describe("Schemas", function () {
                 allergies: ["Hair", "Bear", "Lice"],
                 conditions: ["Tester"],
             }).then(function (member) {
-                should.exist(member, "Should have been able to create member.");
-                should.equal(member.complete, true, "Member should be complete.");
+                member.should.be.an.instanceOf(schemas.Member.Instance);
+                member.complete.should.equal(true);
             });
         });
         it("cannot be created if too young to attend", function () {
@@ -230,22 +213,22 @@ describe("Schemas", function () {
                 type: "Youth",
                 birthDate: moment("2010-01-01").toDate(),
             }).then(function (member) {
-                should.not.exist(member, "Should not have been able to create member.");
+                should.not.exist(member);
             }).catch(function (error) {
-                should.exist(error, "Should not have been able to create member.");
+                should.exist(error);
             });
         });
         it("cannot be created with lacking information", function () {
             return schemas.Member.create({
                 name: "Testy Incomplete",
             }).then(function (member) {
-                should.not.exist(member, "Should have not been able to create member.");
+                should.not.exist(member);
             }).catch(function (error) {
-                should.exist(error, "Should have not been able to create member.");
+                should.exist(error);
             });
         });
         it("can be associated with a group", function () {
-            return schemas.Account.find({ 
+            return schemas.Account.find({
                 where: { email: "test@test.ca" },
                 include: [ schemas.Group ],
             }).then(function (account) {
@@ -255,8 +238,10 @@ describe("Schemas", function () {
                     name: "Associated Tester",
                     type: "Chaperone",
                 });
+            }).then(function (member) {
+                member.should.be.an.instanceOf(schemas.Member.Instance);
             }).catch(function (error) {
-                should.not.exist(error, "Should have been able to associate.");
+                should.not.exist(error);
             });
         });
         it("can be retrieved after association", function () {
@@ -268,9 +253,9 @@ describe("Schemas", function () {
             }).then(function (group) {
                 return group.getMembers();
             }).then(function (members) {
-                should.exist(members[0], "Member should exist.");
+                members[0].should.be.an.instanceOf(schemas.Member.Instance);
             }).catch(function (error) {
-                should.not.exist(error, "Should have been able to retrieve member.");
+                should.not.exist(error);
             });
         });
         it("calculates cost correctly", function () {
@@ -279,15 +264,15 @@ describe("Schemas", function () {
                 type: "Youth",
             }).then(function (member) {
                 member.ticketType = "Early";
-                should.equal(member.cost(), 125);
+                member.cost().should.equal(125);
                 member.ticketType = "Regular";
-                should.equal(member.cost(), 175);
+                member.cost().should.equal(175);
             }).catch(function (error) {
-                should.not.exist(error, "Should have been able to create member.");
+                should.not.exist(error);
             });
         });
     });
-    
+
     describe("Workshop", function () {
         it("can be created with correct information", function () {
             return schemas.Workshop.create({
@@ -314,7 +299,7 @@ describe("Schemas", function () {
                 honorarium: "Please pay me some money.",
                 notes: "Just some notes.",
             }).then(function (workshop) {
-                should.exist(workshop);
+                workshop.should.be.an.instanceOf(schemas.Workshop.Instance);
             }).catch(function (error) {
                 should.not.exist(error);
             });
@@ -379,7 +364,8 @@ describe("Schemas", function () {
                     notes: "Just some notes.",
                 });
             }).then(function (workshop) {
-                should.exist(workshop);
+                workshop.should.be.an.instanceOf(schemas.Workshop.Instance);
+                workshop.approved.should.equal(false);
             }).catch(function (error) {
                 should.not.exist(error);
             });
@@ -391,14 +377,45 @@ describe("Schemas", function () {
                 workshop.approved = true;
                 return workshop.save();
             }).then(function () {
-                return schemas.Workshop.findAll({
+                return schemas.Workshop.findOne({
                     where: { approved: true },
                 });
             }).then(function (approved) {
-                should.equal(approved.length, 1);
+                approved.should.be.an.instanceOf(schemas.Workshop.Instance);
+                approved.approved.should.equal(true);
             }).catch(function (error) {
                 console.error(error);
+                error.should.not.exist();
+            });
+        });
+    });
+
+    describe("Session", function () {
+        it("can be created with correct information", function () {
+            return schemas.Workshop.find({
+                where: { approved: true }
+            }).then(function (workshop) {
+                workshop.should.exist.and.be.an.instanceOf(schemas.Workshop.Instance);
+                return workshop.createSession({
+                    start: moment("2016-03-18 09:00").toDate(),
+                    end: moment("2016-03-18 10:30").toDate(),
+                    room: "Test",
+                    venue: "Test",
+                    capacity: 200,
+                });
+            }).then(function (session) {
+                session.should.exist.and.be.an.instanceOf(schemas.Session.Instance);
+            }).catch(function (error) {
                 should.not.exist(error);
+            });
+        });
+        it("can not be created with incorrect information", function () {
+            return schemas.Workshop.find({
+
+            }).then(function (workshop) {
+
+            }).catch(function (error) {
+                should.exist(error);
             });
         });
     });
