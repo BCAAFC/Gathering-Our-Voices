@@ -2,40 +2,147 @@
 
 module.exports = function (sequelize, DataTypes) {
     var Workshop = sequelize.define("Workshop", {
-        // Info
-        name: {
+        // Workshop specifics
+        title: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        length: {
+            type: DataTypes.ENUM,
+            values: [ "1.5 hour", "3 hour", "Full day" ],
+            allowNull: false,
+        },
+        category: {
+            type: DataTypes.ENUM,
+            values: [ "Cultural", "Physical", "Emotional", "Mental" ],
+            allowNull: false,
+        },
+        categoryReason: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+        },
+        audience: {
+            // Can't do ARRAY(ENUM)
+            // Permits: "Youth", "Young Adult", "Young Chaperone", "Chaperone"
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            allowNull: false,
+            validate: {
+                correctInputs: function (value) {
+                    var options = ["Youth", "Young Adult", "Young Chaperone", "Chaperone"];
+                    var valid = value.some(function (v) { return options.indexOf(v) === -1; });
+                    if (valid) {
+                        throw new Error("Invalid input.");
+                    } else {
+                        return;
+                    }
+                },
+            },
+        },
+        type: {
+            // Can't do ARRAY(ENUM)
+            // Permits: "Presentation", "Exercise", "Roleplay", "Q/A", "Other"
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            allowNull: false,
+            validate: {
+                correctInputs: function (value) {
+                    var options = ["Presentation", "Exercise", "Roleplay", "Q/A", "Other"];
+                    var valid = value.some(function (v) { return options.indexOf(v) === -1; });
+                    if (valid) {
+                        throw new Error("Invalid input.");
+                    } else {
+                        return;
+                    }
+                },
+            },
         },
         description: {
             type: DataTypes.TEXT,
             allowNull: false,
         },
-        allows: {
-            type: DataTypes.ARRAY(DataTypes.STRING),
+        summary: {
+            type: DataTypes.TEXT,
             allowNull: false,
         },
-        category: {
+        interactionLevel: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+        },
+        capacity: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        // Requirements
+        mailing: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            comment: "Is a mailing required?"
+        },
+        flipchart: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        projector: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
+        screen: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
+        player: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
+        room: {
             type: DataTypes.ENUM,
             values: [
-                "Spritual",
-                "Emotional",
-                "Mental",
-                "Physical",
+                "Circle",
+                "Semicircle",
+                "Gym",
+                "Banquet",
+                "Classroom",
+                "Dance",
+                "Boardroom",
+                "Clear",
             ],
             allowNull: false,
         },
-        tags: {
-            type: DataTypes.ARRAY(DataTypes.STRING),
-            allowNull: true,
+        // Facilitator Specifics
+        biography: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+        },
+        // Compensation Specifics
+        meals: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
+        accomodation: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
+        travel: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            comment: "Requires travel from.",
+        },
+        honorarium: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+            comment: "Honorarium Amount & Details.",
+        },
+        notes: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+            comment: "Applicant written notes.",
         },
     }, {
         classMethods: {
-            associate: function(models) {
+            associate: function (models) {
                 Workshop.hasMany(models.Session);
-                Workshop.belongsTo(models.Facilitator);
+                Workshop.belongsTo(models.Account);
             }
-        },
+        }
     });
 
     return Workshop;

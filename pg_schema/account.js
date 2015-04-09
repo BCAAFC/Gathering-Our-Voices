@@ -79,9 +79,9 @@ module.exports = function (sequelize, DataTypes) {
         classMethods: {
             associate: function (models) {
                 Account.hasOne(models.Group);
-                Account.hasOne(models.Facilitator);
                 Account.hasOne(models.Exhibitor);
                 Account.hasOne(models.Volunteer);
+                Account.hasOne(models.Workshop);
                 Account.hasMany(models.Payment);
             }
         },

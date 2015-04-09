@@ -13,19 +13,17 @@ var expect = chai.expect,
 
 // Start
 describe("Schemas", function () {
-    before("Drop & Sync", function (done) {
+    before("Drop & Sync", function () {
         // Drop all tables.
-        schemas.sequelize.drop().then(function () {
+        return schemas.sequelize.drop().then(function () {
             return schemas.sequelize.sync();
-        }).done(function () {
-            done();
         }).catch(function (error) {
-            assert.fail(error, null, "Should have been able to drop & sync.");
-            done();
+            console.error(error);
+            assert.fail(error, null, "Should have been able to drop & sync");
         });
     });
 
-    describe("Account", function () {
+    describe("General", function () {
         describe("Loading", function () {
             it("should not be null", function () {
                 should.exist(schemas);
@@ -36,77 +34,77 @@ describe("Schemas", function () {
                 should.exist(schemas.Payment);
                 should.exist(schemas.Session);
                 should.exist(schemas.Workshop);
-                should.exist(schemas.Facilitator);
             });
         });
-        describe("Account", function () {
-            it("should permit registration with all information", function () {
-                return schemas.Account.create({
-                    email: "test@test.ca",
-                    password: "hunter2",
-                    name: "Testy Mc. Testerton",
-                    affiliation: "Testers Inc.",
-                    phone: "(123) 123-1234",
-                    fax: "(123) 123-12345",
-                    address: "123 Tester Way",
-                    city: "Testerville",
-                    province: "British Columbia",
-                    postalCode: "A1B 2C3",
-                }).then(function (account) {
-                    should.exist(account, "Account should exist");
-                }).catch(function (error) {
-                    console.log(error);
-                    should.not.exist(error);
-                });
+    });
+
+    describe("Account", function () {
+        it("should permit registration with all information", function () {
+            return schemas.Account.create({
+                email: "test@test.ca",
+                password: "hunter2",
+                name: "Testy Mc. Testerton",
+                affiliation: "Testers Inc.",
+                phone: "(123) 123-1234",
+                fax: "(123) 123-12345",
+                address: "123 Tester Way",
+                city: "Testerville",
+                province: "British Columbia",
+                postalCode: "A1B 2C3",
+            }).then(function (account) {
+                should.exist(account, "Account should exist");
+            }).catch(function (error) {
+                console.log(error);
+                should.not.exist(error);
             });
-            it("should complain if information is incomplete", function () {
-                return schemas.Account.create({
-                    // Deliberately nothing here.
-                }).then(function (account) {
-                    should.not.exist(account, "Account should have not existed.");
-                }).catch(function (error) {
-                    should.exist(error, "Error should have existed.");
-                });
+        });
+        it("should complain if information is incomplete", function () {
+            return schemas.Account.create({
+                // Deliberately nothing here.
+            }).then(function (account) {
+                should.not.exist(account, "Account should have not existed.");
+            }).catch(function (error) {
+                should.exist(error, "Error should have existed.");
             });
-            it("should complain if information is wrong", function () {
-                return schemas.Account.create({
-                    email: "test.test.ca", // Not an email.
-                    password: "hunter2",
-                    name: "Testy Mc. Testerton",
-                    affiliation: "Testers Inc.",
-                    phone: "(123) 123-1234",
-                    fax: "(123) 123-12345",
-                    address: "123 Tester Way",
-                    city: "Testerville",
-                    province: "British Columbia",
-                    postalCode: "A1B 2C3",
-                }).then(function (account) {
-                    should.not.exist(account, "Account should have not existed.");
-                }).catch(function (error) {
-                    should.exist(error, "Error should have existed.");
-                });
+        });
+        it("should complain if information is wrong", function () {
+            return schemas.Account.create({
+                email: "test.test.ca", // Not an email.
+                password: "hunter2",
+                name: "Testy Mc. Testerton",
+                affiliation: "Testers Inc.",
+                phone: "(123) 123-1234",
+                fax: "(123) 123-12345",
+                address: "123 Tester Way",
+                city: "Testerville",
+                province: "British Columbia",
+                postalCode: "A1B 2C3",
+            }).then(function (account) {
+                should.not.exist(account, "Account should have not existed.");
+            }).catch(function (error) {
+                should.exist(error, "Error should have existed.");
             });
-            it("should be able to be removed", function () {
-                return schemas.Account.create({
-                    email: "delete@test.ca",
-                    password: "hunter",
-                    name: "Delete Me",
-                    affiliation: "Deleters Inc.",
-                    phone: "(123) 123-1234",
-                    fax: "(123) 123-1234",
-                    address: "123 Deleter War",
-                    city: "Deleterville",
-                    province: "British Columbia",
-                    postalCode: "A1B 2C3",
-                }).then(function (account) {
-                    return account.destroy();
-                }).then(function () {
-                    return schemas.Account.findOne({ where: { email: "delete@test.ca" }});
-                }).then(function (account) {
-                    should.not.exist(account, "Account should not have been found.");
-                }).catch(function (error) {
-                    should.exist(error, "Account should have been deleted.");
-                });
+        });
+        it("should be able to be removed", function () {
+            return schemas.Account.create({
+                email: "delete@test.ca",
+                password: "hunter",
+                name: "Delete Me",
+                affiliation: "Deleters Inc.",
+                phone: "(123) 123-1234",
+                fax: "(123) 123-1234",
+                address: "123 Deleter War",
+                city: "Deleterville",
+                province: "British Columbia",
+                postalCode: "A1B 2C3",
+            }).then(function (account) {
+                return account.destroy();
+            }).then(function () {
+                return schemas.Account.findOne({ where: { email: "delete@test.ca" }});
+            }).then(function (account) {
+                should.not.exist(account, "Account should not have been found.");
+            }).catch(function (error) {
+                should.exist(error, "Account should have been deleted.");
             });
         });
     });
@@ -290,9 +288,9 @@ describe("Schemas", function () {
         });
     });
     
-    describe("Facilitator", function () {
+    describe("Workshop", function () {
         it("can be created with correct information", function () {
-            return schemas.Facilitator.create({
+            return schemas.Workshop.create({
                 title: "Tester Workshop Application",
                 length: "1.5 hour",
                 category: "Cultural",
@@ -315,14 +313,14 @@ describe("Schemas", function () {
                 travel: false,
                 honorarium: "Please pay me some money.",
                 notes: "Just some notes.",
-            }).then(function (facilitator) {
-                should.exist(facilitator);
+            }).then(function (workshop) {
+                should.exist(workshop);
             }).catch(function (error) {
                 should.not.exist(error);
             });
         });
         it("cannot be created with incorrect information", function () {
-            return schemas.Facilitator.create({
+            return schemas.Workshop.create({
                 title: "Tester Workshop Application",
                 length: "1.5 hour",
                 category: "Cultural",
@@ -345,8 +343,8 @@ describe("Schemas", function () {
                 travel: false,
                 honorarium: "Please pay me some money.",
                 notes: "Just some notes.",
-            }).then(function (facilitator) {
-                should.not.exist(facilitator);
+            }).then(function (workshop) {
+                should.not.exist(workshop);
             }).catch(function (error) {
                 should.exist(error);
             });
@@ -356,7 +354,7 @@ describe("Schemas", function () {
                 where: { email: "test@test.ca" },
                 include: [{ all: true }],
             }).then(function (account) {
-                return account.createFacilitator({
+                return account.createWorkshop({
                     title: "Tester Workshop Application 2",
                     length: "Full day",
                     category: "Mental",
@@ -380,16 +378,12 @@ describe("Schemas", function () {
                     honorarium: "Please pay me some money.",
                     notes: "Just some notes.",
                 });
-            }).then(function (facilitator) {
-                should.exist(facilitator);
+            }).then(function (workshop) {
+                should.exist(workshop);
             }).catch(function (error) {
                 should.not.exist(error);
             });
         });
-    });
-
-    describe("Workshop", function () {
-
     });
 
 });
