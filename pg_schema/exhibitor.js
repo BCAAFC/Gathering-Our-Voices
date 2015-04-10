@@ -1,5 +1,7 @@
 "use strict";
 
+var EXHIBITOR_COST = 400;
+
 module.exports = function (sequelize, DataTypes) {
     var Exhibitor = sequelize.define("Exhibitor", {
         // Info
@@ -85,8 +87,13 @@ module.exports = function (sequelize, DataTypes) {
         classMethods: {
             associate: function (models) {
                 Exhibitor.belongsTo(models.Account);
-            }
-        }
+            },
+        },
+        getterMethods: {
+            cost: function () {
+                return EXHIBITOR_COST;
+            },
+        },
     });
 
     return Exhibitor;

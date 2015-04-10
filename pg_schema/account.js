@@ -89,10 +89,10 @@ module.exports = function (sequelize, DataTypes) {
             cost: function () {
                 return Promise.join(
                     this.getGroup().then(function (group) {
-                        return group? group.balance() : 0;
+                        return group? group.cost() : 0;
                     }),
                     this.getExhibitor().then(function (exhibitor) {
-                        return exhibitor? exhibitor.balance() : 0;
+                        return exhibitor? exhibitor.cost() : 0;
                     }),
                     function done(group, exhibitor) {
                         return group + exhibitor;
@@ -110,7 +110,7 @@ module.exports = function (sequelize, DataTypes) {
                     function done(cost, payments) {
                         return cost + payments;
                 });
-            }
+            },
         },
     });
 

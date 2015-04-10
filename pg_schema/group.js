@@ -42,7 +42,7 @@ module.exports = function (sequelize, DataTypes) {
             }
         },
         instanceMethods: {
-            balance: function () {
+            cost: function () {
                 return this.getMembers().then(function (members) {
                     return members.reduce(function (total, member) {
                         return total + member.cost();
