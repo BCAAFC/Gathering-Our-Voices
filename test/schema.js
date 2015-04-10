@@ -4,7 +4,7 @@ var assert = require("assert"),
     chai = require("chai"),
     Promise = require("bluebird"),
     moment = require("moment"),
-    schemas = require("../schema/");
+    db = require("../src/db/")({ POSTGRES_URL: "postgres://localhost/test" });
 
 // Init
 var expect = chai.expect,
@@ -12,11 +12,11 @@ var expect = chai.expect,
     should = chai.should();
 
 // Start
-describe("Schemas", function () {
+describe("db", function () {
     before("Drop & Sync", function () {
         // Drop all tables.
-        return schemas.sequelize.drop().then(function () {
-            return schemas.sequelize.sync();
+        return db.sequelize.drop().then(function () {
+            return db.sequelize.sync();
         }).catch(function (error) {
             should.not.exist(error);
         });
@@ -24,7 +24,7 @@ describe("Schemas", function () {
 
     describe("Account", function () {
         it("should permit registration with all information", function () {
-            return schemas.Account.create({
+            return db.Account.create({
                 email: "test@test.ca",
                 password: "hunter2",
                 name: "Testy Mc. Testerton",
@@ -36,13 +36,13 @@ describe("Schemas", function () {
                 province: "British Columbia",
                 postalCode: "A1B 2C3",
             }).then(function (account) {
-                account.should.be.an.instanceOf(schemas.Account.Instance);
+                account.should.be.an.instanceOf(db.Account.Instance);
             }).catch(function (error) {
                 should.not.exist(error);
             });
         });
         it("should complain if information is incomplete", function () {
-            return schemas.Account.create({
+            return db.Account.create({
                 // Deliberately nothing here.
             }).then(function (account) {
                 account.should.not.exist();
@@ -51,7 +51,7 @@ describe("Schemas", function () {
             });
         });
         it("should complain if information is wrong", function () {
-            return schemas.Account.create({
+            return db.Account.create({
                 email: "test.test.ca", // Not an email.
                 password: "hunter2",
                 name: "Testy Mc. Testerton",
@@ -63,13 +63,13 @@ describe("Schemas", function () {
                 province: "British Columbia",
                 postalCode: "A1B 2C3",
             }).then(function (account) {
-                account.should.be.an.instanceOf(schemas.Account.Instance);
+                account.should.be.an.instanceOf(db.Account.Instance);
             }).catch(function (error) {
                 should.exist(error);
             });
         });
         it("should be able to be removed", function () {
-            return schemas.Account.create({
+            return db.Account.create({
                 email: "delete@test.ca",
                 password: "hunter",
                 name: "Delete Me",
@@ -83,7 +83,7 @@ describe("Schemas", function () {
             }).then(function (account) {
                 return account.destroy();
             }).then(function () {
-                return schemas.Account.findOne({ where: { email: "delete@test.ca" }});
+                return db.Account.findOne({ where: { email: "delete@test.ca" }});
             }).then(function (account) {
                 should.not.exist(account);
             }).catch(function (error) {
@@ -94,20 +94,20 @@ describe("Schemas", function () {
 
     describe("Group", function () {
         it("can be created with all information", function () {
-            return schemas.Group.create({
+            return db.Group.create({
                 affiliationType: "Friendship Centre",
                 youthInCare: 0,
                 youthInCareSupport: 0,
                 notes: "Blah blah blah.",
                 tags: ["Blah", "Blurp", "Bleep"],
             }).then(function (group) {
-                group.should.be.an.instanceOf(schemas.Group.Instance);
+                group.should.be.an.instanceOf(db.Group.Instance);
             }).catch(function (error) {
                 should.not.exist(error);
             });
         });
         it ("cannot be created with lacking information", function () {
-            schemas.Group.create({
+            db.Group.create({
                 youthInCareSupport: 0,
                 notes: "Blah blah blah.",
                 tags: ["Blah", "Blurp", "Bleep"],
@@ -118,7 +118,7 @@ describe("Schemas", function () {
             });
         });
         it ("cannot be created with wrong information", function () {
-            return schemas.Group.create({
+            return db.Group.create({
                 affiliationType: "Centre", // Not a valid option.
                 youthInCare: 0,
                 youthInCareSupport: 0,
@@ -131,7 +131,7 @@ describe("Schemas", function () {
             });
         });
         it("can be associated", function () {
-            return schemas.Account.find({
+            return db.Account.find({
                 where: { email: "test@test.ca" }
             }).then(function (account) {
                 return account.createGroup({
@@ -146,31 +146,31 @@ describe("Schemas", function () {
             });
         });
         it("can find related account", function () {
-            return schemas.Account.findOne({ where: { email: "test@test.ca" } }).then(function (account) {
+            return db.Account.findOne({ where: { email: "test@test.ca" } }).then(function (account) {
                 return account.getGroup();
             }).then(function (group) {
-                group.should.be.an.instanceOf(schemas.Group.Instance);
+                group.should.be.an.instanceOf(db.Group.Instance);
                 group.affiliationType.should.equal("Friendship Centre");
             }).catch(function (error) {
                 should.not.exist(error);
             });
         });
         it("calculates empty group's cost correctly", function () {
-            return schemas.Account.findOne({ where: { email: "test@test.ca" } }).then(function (account) {
+            return db.Account.findOne({ where: { email: "test@test.ca" } }).then(function (account) {
                 return account.cost().then(function (cost) {
                     cost.should.equal(0);
                 });
             });
         });
         it("calculates empty group's paid correctly", function () {
-            return schemas.Account.findOne({ where: { email: "test@test.ca" } }).then(function (account) {
+            return db.Account.findOne({ where: { email: "test@test.ca" } }).then(function (account) {
                 return account.paid().then(function (paid) {
                     paid.should.equal(0);
                 });
             });
         });
         it("calculates empty group's balance correctly", function () {
-            return schemas.Account.findOne({ where: { email: "test@test.ca" } }).then(function (account) {
+            return db.Account.findOne({ where: { email: "test@test.ca" } }).then(function (account) {
                 return account.balance().then(function (balance) {
                     balance.should.equal(0);
                 });
@@ -180,7 +180,7 @@ describe("Schemas", function () {
 
     describe("Member", function () {
         it("can be created with minimal information", function () {
-            return schemas.Member.create({
+            return db.Member.create({
                 name: "Incomplete Tester",
                 type: "Youth",
             }).then(function (member) {
@@ -189,7 +189,7 @@ describe("Schemas", function () {
             });
         });
         it("can be created with full information and marked complete", function () {
-            return schemas.Member.create({
+            return db.Member.create({
                 name: "Complete Tester",
                 type: "Youth",
                 gender: "Male",
@@ -203,12 +203,12 @@ describe("Schemas", function () {
                 allergies: ["Hair", "Bear", "Lice"],
                 conditions: ["Tester"],
             }).then(function (member) {
-                member.should.be.an.instanceOf(schemas.Member.Instance);
+                member.should.be.an.instanceOf(db.Member.Instance);
                 member.complete.should.equal(true);
             });
         });
         it("cannot be created if too young to attend", function () {
-            return schemas.Member.create({
+            return db.Member.create({
                 name: "Testy Tester",
                 type: "Youth",
                 birthDate: moment("2010-01-01").toDate(),
@@ -219,7 +219,7 @@ describe("Schemas", function () {
             });
         });
         it("cannot be created with lacking information", function () {
-            return schemas.Member.create({
+            return db.Member.create({
                 name: "Testy Incomplete",
             }).then(function (member) {
                 should.not.exist(member);
@@ -228,9 +228,9 @@ describe("Schemas", function () {
             });
         });
         it("can be associated with a group", function () {
-            return schemas.Account.find({
+            return db.Account.find({
                 where: { email: "test@test.ca" },
-                include: [ schemas.Group ],
+                include: [ db.Group ],
             }).then(function (account) {
                 return account.getGroup();
             }).then(function (group) {
@@ -239,13 +239,13 @@ describe("Schemas", function () {
                     type: "Chaperone",
                 });
             }).then(function (member) {
-                member.should.be.an.instanceOf(schemas.Member.Instance);
+                member.should.be.an.instanceOf(db.Member.Instance);
             }).catch(function (error) {
                 should.not.exist(error);
             });
         });
         it("can be retrieved after association", function () {
-            return schemas.Account.find({
+            return db.Account.find({
                 where: { email: "test@test.ca" },
                 include: [{ all: true }],
             }).then(function (account) {
@@ -253,13 +253,13 @@ describe("Schemas", function () {
             }).then(function (group) {
                 return group.getMembers();
             }).then(function (members) {
-                members[0].should.be.an.instanceOf(schemas.Member.Instance);
+                members[0].should.be.an.instanceOf(db.Member.Instance);
             }).catch(function (error) {
                 should.not.exist(error);
             });
         });
         it("calculates cost correctly", function () {
-            return schemas.Member.create({
+            return db.Member.create({
                 name: "Cost Tester",
                 type: "Youth",
             }).then(function (member) {
@@ -275,7 +275,7 @@ describe("Schemas", function () {
 
     describe("Workshop", function () {
         it("can be created with correct information", function () {
-            return schemas.Workshop.create({
+            return db.Workshop.create({
                 title: "Tester Workshop Application",
                 length: "1.5 hour",
                 category: "Cultural",
@@ -299,14 +299,14 @@ describe("Schemas", function () {
                 honorarium: "Please pay me some money.",
                 notes: "Just some notes.",
             }).then(function (workshop) {
-                workshop.should.be.an.instanceOf(schemas.Workshop.Instance);
+                workshop.should.be.an.instanceOf(db.Workshop.Instance);
             }).catch(function (error) {
                 console.log(error);
                 should.not.exist(error);
             });
         });
         it("accepts specific attendee types", function () {
-            return schemas.Workshop.findOne({
+            return db.Workshop.findOne({
                 where: { title: "Tester Workshop Application", },
             }).then(function (workshop) {
                 workshop.accepts("Youth").should.equal(true);
@@ -318,7 +318,7 @@ describe("Schemas", function () {
             });
         });
         it("cannot be created with incorrect information", function () {
-            return schemas.Workshop.create({
+            return db.Workshop.create({
                 title: "Tester Workshop Application",
                 length: "1.5 hour",
                 category: "Cultural",
@@ -348,7 +348,7 @@ describe("Schemas", function () {
             });
         });
         it("can be associated with an account", function () {
-            return schemas.Account.find({
+            return db.Account.find({
                 where: { email: "test@test.ca", },
                 include: [{ all: true }],
             }).then(function (account) {
@@ -377,24 +377,24 @@ describe("Schemas", function () {
                     notes: "Just some notes.",
                 });
             }).then(function (workshop) {
-                workshop.should.be.an.instanceOf(schemas.Workshop.Instance);
+                workshop.should.be.an.instanceOf(db.Workshop.Instance);
                 workshop.approved.should.equal(false);
             }).catch(function (error) {
                 should.not.exist(error);
             });
         });
         it("can be approved", function () {
-            return schemas.Workshop.findOne({
+            return db.Workshop.findOne({
                 where: { title: "Tester Workshop Application 2" },
             }).then(function (workshop) {
                 workshop.approved = true;
                 return workshop.save();
             }).then(function () {
-                return schemas.Workshop.findOne({
+                return db.Workshop.findOne({
                     where: { approved: true },
                 });
             }).then(function (approved) {
-                approved.should.be.an.instanceOf(schemas.Workshop.Instance);
+                approved.should.be.an.instanceOf(db.Workshop.Instance);
                 approved.approved.should.equal(true);
             }).catch(function (error) {
                 console.error(error);
@@ -405,10 +405,10 @@ describe("Schemas", function () {
 
     describe("Session", function () {
         it("can be created with correct information", function () {
-            return schemas.Workshop.find({
+            return db.Workshop.find({
                 where: { approved: true }
             }).then(function (workshop) {
-                workshop.should.exist.and.be.an.instanceOf(schemas.Workshop.Instance);
+                workshop.should.exist.and.be.an.instanceOf(db.Workshop.Instance);
                 return workshop.createSession({
                     start: moment("2016-03-18 09:00").toDate(),
                     end: moment("2016-03-18 10:30").toDate(),
@@ -417,13 +417,13 @@ describe("Schemas", function () {
                     capacity: 1,
                 });
             }).then(function (session) {
-                session.should.exist.and.be.an.instanceOf(schemas.Session.Instance);
+                session.should.exist.and.be.an.instanceOf(db.Session.Instance);
             }).catch(function (error) {
                 should.not.exist(error);
             });
         });
         it("can not be created with incorrect information", function () {
-            return schemas.Workshop.find({
+            return db.Workshop.find({
                 where: { approved: true }
             }).then(function (workshop) {
                 return workshop.createSession({
@@ -436,16 +436,16 @@ describe("Schemas", function () {
         });
         it("can have members added to it", function () {
             return Promise.join(
-                schemas.Session.findOne({ where: { room: "Test" } }),
-                schemas.Member.findOne({ where: { name: "Complete Tester" } }),
+                db.Session.findOne({ where: { room: "Test" } }),
+                db.Member.findOne({ where: { name: "Complete Tester" } }),
                 function done(session, member) {
-                    session.should.be.an.instanceOf(schemas.Session.Instance);
-                    member.should.be.an.instanceOf(schemas.Member.Instance);
+                    session.should.be.an.instanceOf(db.Session.Instance);
+                    member.should.be.an.instanceOf(db.Member.Instance);
                     return session.addMember(member);
             }).then(function () {
-                return schemas.Session.findOne({
+                return db.Session.findOne({
                     where: { room: "Test" },
-                    include: [ schemas.Member ]
+                    include: [ db.Member ]
                 });
             }).then(function (session) {
                 return session.getMembers();
@@ -453,7 +453,7 @@ describe("Schemas", function () {
                 members.should.be.an.instanceOf(Array);
                 members.length.should.equal(1);
                 members.forEach(function (member) {
-                    member.should.be.an.instanceOf(schemas.Member.Instance);
+                    member.should.be.an.instanceOf(db.Member.Instance);
                 });
             }).catch(function (error) {
                 console.log(error);
@@ -462,11 +462,11 @@ describe("Schemas", function () {
         });
         it("can add conditionally based on capacity", function () {
             return Promise.join(
-                schemas.Session.findOne({ where: { room: "Test" } }),
-                schemas.Member.findOne({ where: { name: "Complete Tester" } }),
+                db.Session.findOne({ where: { room: "Test" } }),
+                db.Member.findOne({ where: { name: "Complete Tester" } }),
                 function done(session, member) {
-                    session.should.be.an.instanceOf(schemas.Session.Instance);
-                    member.should.be.an.instanceOf(schemas.Member.Instance);
+                    session.should.be.an.instanceOf(db.Session.Instance);
+                    member.should.be.an.instanceOf(db.Member.Instance);
                     return session.getMembers().then(function (members) {
                         if (members.length < session.capacity) {
                             session.addMember(member);
@@ -481,7 +481,7 @@ describe("Schemas", function () {
     });
     describe("Exhibitor", function () {
         it("can be created with valid information", function () {
-            return schemas.Exhibitor.create({
+            return db.Exhibitor.create({
                 representatives: [ "Test", "Test 2" ],
                 categories: [ "Post-Secondary", "Industry" ],
                 provides: [ "Giveaway items", "Other" ],
@@ -489,14 +489,14 @@ describe("Schemas", function () {
                 delegateBags: false,
                 payment: "Cheque",
             }).then(function (exhibitor) {
-                exhibitor.should.be.an.instanceOf(schemas.Exhibitor.Instance);
+                exhibitor.should.be.an.instanceOf(db.Exhibitor.Instance);
                 exhibitor.paid.should.equal(false);
             }).catch(function (error) {
                 should.not.exist(error);
             });
         });
         it("cannot be created with valid information", function () {
-            return schemas.Exhibitor.create({
+            return db.Exhibitor.create({
                 representatives: [ "Test", "Test 2" ],
                 categories: [ "Biking" ], // Invalid
                 provides: [ "Nothing", "Other" ], // Invalid
@@ -510,8 +510,8 @@ describe("Schemas", function () {
             });
         });
         it("can be associated", function () {
-            return schemas.Account.find({
-                where: { email: "test@test.ca" } 
+            return db.Account.find({
+                where: { email: "test@test.ca" }
             }).then(function (account) {
                 return account.createExhibitor({
                     representatives: [ "Test", "Test 2" ],
@@ -524,7 +524,7 @@ describe("Schemas", function () {
             });
         });
         it("can be set to paid", function () {
-            return schemas.Account.find({
+            return db.Account.find({
                 where: { email: "test@test.ca" }
             }).then(function (account) {
                 return account.getExhibitor();

@@ -6,7 +6,7 @@ var fs        = require("fs"),
 
 module.exports = function (env) {
     // Connect
-    var sequelize = new Sequelize(env.DATABASE_URL, {
+    var sequelize = new Sequelize(env.POSTGRES_URL, {
             timestamps: true,
             paranoid: true,
             logging: (process.env.PG_LOG === "true") ? console.log : false, // Switch to `console.log` for output.

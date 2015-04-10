@@ -24,7 +24,7 @@ var getters = {
     get MAX_YOUTH () {
         return process.env.MAX_YOUTH;
     },
-    get DATABASE_URL () {
+    get POSTGRES_URL () {
         return process.env.POSTGRES_URL;
     },
     get REDIS_URL () {

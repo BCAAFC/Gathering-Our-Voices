@@ -4,7 +4,7 @@ var assert = require("assert"),
     chai = require("chai"),
     Promise = require("bluebird"),
     moment = require("moment"),
-    schemas = require("../schema/");
+    db = require("../src/db/")({ POSTGRES_URL: "postgres://localhost/test" });
 
 // Init
 var expect = chai.expect,
@@ -15,10 +15,10 @@ var expect = chai.expect,
 describe("Features", function () {
     before("Scaffold", function () {
         // Drop all tables.
-        return schemas.sequelize.drop().then(function () {
-            return schemas.sequelize.sync();
+        return db.sequelize.drop().then(function () {
+            return db.sequelize.sync();
         }).then(function () {
-            return schemas.Account.create({
+            return db.Account.create({
                 email: "test@test.ca",
                 password: "hunter2",
                 name: "Testy Mc. Testerton",
@@ -31,7 +31,7 @@ describe("Features", function () {
                 postalCode: "A1B 2C3",
             });
         }).then(function (account) {
-            account.should.be.an.instanceOf(schemas.Account.Instance);
+            account.should.be.an.instanceOf(db.Account.Instance);
             return account.createWorkshop({
                 title: "Tester Workshop",
                 length: "1.5 hour",
@@ -65,7 +65,7 @@ describe("Features", function () {
                 });
             }).then(function () { return account; });
         }).then(function (account) {
-            account.should.be.an.instanceOf(schemas.Account.Instance);
+            account.should.be.an.instanceOf(db.Account.Instance);
             return account.createGroup({
                 affiliationType: "Friendship Centre",
                 youthInCare: 0,
@@ -74,7 +74,7 @@ describe("Features", function () {
                 tags: ["Blah", "Blurp", "Bleep"],
             });
         }).then(function (group) {
-            group.should.be.an.instanceOf(schemas.Group.Instance);
+            group.should.be.an.instanceOf(db.Group.Instance);
             return group.createMember({
                 name: "Complete Tester",
                 type: "Youth",
@@ -97,21 +97,21 @@ describe("Features", function () {
 
     it("allows members to join workshops and reflects that bi-directionally", function () {
         return Promise.join(
-            schemas.Member.findOne({ where: { name: "Complete Tester" }}),
-            schemas.Session.findOne({ where: { room: "Test" }}),
+            db.Member.findOne({ where: { name: "Complete Tester" }}),
+            db.Session.findOne({ where: { room: "Test" }}),
             function (member, session) {
-                member.should.be.an.instanceOf(schemas.Member.Instance);
-                session.should.be.an.instanceOf(schemas.Session.Instance);
+                member.should.be.an.instanceOf(db.Member.Instance);
+                session.should.be.an.instanceOf(db.Session.Instance);
                 return member.addSession(session).then(function () { return session; });
         }).then(function (session) {
-            session.should.be.an.instanceOf(schemas.Session.Instance);
+            session.should.be.an.instanceOf(db.Session.Instance);
             return session.getMembers().then(function (members) {
                 members.length.should.equal(1);
                 members[0].name.should.equal("Complete Tester");
                 return members[0];
             });
         }).then(function (member) {
-            member.should.be.an.instanceOf(schemas.Member.Instance);
+            member.should.be.an.instanceOf(db.Member.Instance);
             return member.getSessions().then(function (sessions) {
                 sessions.length.should.equal(1);
                 sessions[0].room.should.equal("Test");
@@ -124,24 +124,24 @@ describe("Features", function () {
 
     it("prevents double joining", function () {
         return Promise.join(
-            schemas.Member.findOne({ where: { name: "Complete Tester" }}),
-            schemas.Session.findOne({ where: { room: "Test" }}),
+            db.Member.findOne({ where: { name: "Complete Tester" }}),
+            db.Session.findOne({ where: { room: "Test" }}),
             function (member, session) {
-                member.should.be.an.instanceOf(schemas.Member.Instance);
-                session.should.be.an.instanceOf(schemas.Session.Instance);
+                member.should.be.an.instanceOf(db.Member.Instance);
+                session.should.be.an.instanceOf(db.Session.Instance);
                 return member.addSession(session).then(function (nothing) {
                     should.not.exist(nothing); // How we know there was something already there.
                     return session;
                 });
         }).then(function (session) {
-            session.should.be.an.instanceOf(schemas.Session.Instance);
+            session.should.be.an.instanceOf(db.Session.Instance);
             return session.getMembers().then(function (members) {
                 members.length.should.equal(1);
                 members[0].name.should.equal("Complete Tester");
                 return members[0];
             });
         }).then(function (member) {
-            member.should.be.an.instanceOf(schemas.Member.Instance);
+            member.should.be.an.instanceOf(db.Member.Instance);
             return member.getSessions().then(function (sessions) {
                 sessions.length.should.equal(1);
                 sessions[0].room.should.equal("Test");
@@ -155,23 +155,23 @@ describe("Features", function () {
 
     it("allows members to be removed from workshops and reflects that bi-directionally", function () {
         return Promise.join(
-            schemas.Member.findOne({ where: { name: "Complete Tester" }}),
-            schemas.Session.findOne({ where: { room: "Test" }}),
+            db.Member.findOne({ where: { name: "Complete Tester" }}),
+            db.Session.findOne({ where: { room: "Test" }}),
             function (member, session) {
-                member.should.be.an.instanceOf(schemas.Member.Instance);
-                session.should.be.an.instanceOf(schemas.Session.Instance);
+                member.should.be.an.instanceOf(db.Member.Instance);
+                session.should.be.an.instanceOf(db.Session.Instance);
                 return member.removeSession(session).then(function () {
                     return [member, session];
                 });
         }).then(function (vec) {
             var member = vec[0], session = vec[1];
-            session.should.be.an.instanceOf(schemas.Session.Instance);
+            session.should.be.an.instanceOf(db.Session.Instance);
             return session.getMembers().then(function (members) {
                 members.length.should.equal(0);
                 return member;
             });
         }).then(function (member) {
-            member.should.be.an.instanceOf(schemas.Member.Instance);
+            member.should.be.an.instanceOf(db.Member.Instance);
             return member.getSessions().then(function (sessions) {
                 sessions.length.should.equal(0);
                 return;
@@ -183,21 +183,21 @@ describe("Features", function () {
 
     it("allows members to be added to workshops and reflects that bi-directionally", function () {
         return Promise.join(
-            schemas.Member.findOne({ where: { name: "Complete Tester" }}),
-            schemas.Session.findOne({ where: { room: "Test" }}),
+            db.Member.findOne({ where: { name: "Complete Tester" }}),
+            db.Session.findOne({ where: { room: "Test" }}),
             function (member, session) {
-                member.should.be.an.instanceOf(schemas.Member.Instance);
-                session.should.be.an.instanceOf(schemas.Session.Instance);
+                member.should.be.an.instanceOf(db.Member.Instance);
+                session.should.be.an.instanceOf(db.Session.Instance);
                 return session.addMember(member).then(function () { return session; });
         }).then(function (session) {
-            session.should.be.an.instanceOf(schemas.Session.Instance);
+            session.should.be.an.instanceOf(db.Session.Instance);
             return session.getMembers().then(function (members) {
                 members.length.should.equal(1);
                 members[0].name.should.equal("Complete Tester");
                 return members[0];
             });
         }).then(function (member) {
-            member.should.be.an.instanceOf(schemas.Member.Instance);
+            member.should.be.an.instanceOf(db.Member.Instance);
             return member.getSessions().then(function (sessions) {
                 sessions.length.should.equal(1);
                 sessions[0].room.should.equal("Test");
