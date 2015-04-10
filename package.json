@@ -11,7 +11,7 @@
     "test": "test"
   },
   "scripts": {
-    "start": "node server.js",
+    "start": "node index.js",
     "test": "grunt test",
     "build": "grunt build"
   },
