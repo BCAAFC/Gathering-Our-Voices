@@ -4,7 +4,7 @@ var assert = require("assert"),
     chai = require("chai"),
     Promise = require("bluebird"),
     moment = require("moment"),
-    schemas = require("../pg_schema/");
+    schemas = require("../schema/");
 
 // Init
 var expect = chai.expect,

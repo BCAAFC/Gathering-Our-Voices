@@ -148,7 +148,12 @@ module.exports = function (sequelize, DataTypes) {
             associate: function (models) {
                 Workshop.hasMany(models.Session);
                 Workshop.belongsTo(models.Account);
-            }
+            },
+            approved: function () {
+                return this.findAll({
+                    where: { approved: true, },
+                });
+            },
         },
         instanceMethods: {
             accepts: function(type) {
