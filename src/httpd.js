@@ -54,7 +54,25 @@ module.exports = function (env, db, redisClient) {
     }));
 
     // View engine
+    var hbs = require("express-hbs");
+    server.engine("hbs", hbs.express4({
+      partialsDir: "./views/partials",
+    }));
+    server.set("view engine", "hbs");
     server.set("views", "./views");
+
+    // Static Mappings
+    server.use("/css", express.static("./static/css",
+        {maxAge: 86400000 * 4}));
+    server.use("/documents", express.static("./static/documents",
+        {maxAge: 86400000 * 4}));
+    server.use("/fonts", express.static("./static/fonts",
+        {maxAge: 86400000 * 4}));
+    server.use("/img", express.static("./static/img",
+        {maxAge: 86400000 * 4}));
+    server.use("/js", express.static("./static/js",
+        {maxAge: 86400000 * 4}));
+    server.get("/favicon.ico", function (req, res) { res.send("./static/favicon.ico"); });
 
     return server;
 };

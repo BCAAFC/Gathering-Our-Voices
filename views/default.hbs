@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#">
+    <head>
+        <title>Gathering Our Voices</title>
+        <meta name="description" content="Gathering Our Voices is an annual conference in BC for Aboriginal Youth. This year it is hosted in Prince George.">
+
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <meta property="og:title" content="Gathering Our Voices">
+        <meta property="og:type" content="website">
+        <meta property="og:image" content="https://gatheringourvoices.bcaafc.com/img/gov.png">
+
+        <script src="/js/min.js"></script>
+
+        <!--[if IE 8]>
+            <script src="/js/html5shiv.min.js"></script>
+        <![endif]-->
+
+        <link href="/css/min.css" rel="stylesheet">
+        <link rel="shortcut icon" href="/favicon.ico">
+    </head>
+    <body>
+        <div id="wrap">
+            {{> header}}
+            {{#if message}}
+                <div class="alert">{{message}}</div>
+            {{/if}}
+            {{content}}
+            {{> footer}}
+        </div>
+    </body>
+</html>
