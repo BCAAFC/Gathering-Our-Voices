@@ -17,7 +17,7 @@ var redis = require("./src/redis")(env);
 var httpd = require("./src/httpd")(env, db, redis);
 
 // Assign the routers to the server.
-require("./src/routers")(httpd);
+httpd = require("./src/routers")(httpd, db, redis);
 
 httpd.listen(env.PORT, function () {
     console.log("Listening on " + env.PORT);
