@@ -33,6 +33,9 @@ var getters = {
     get MANDRILL_APIKEY () {
         return process.env.MANDRILL_APIKEY;
     },
+    get PG_SYNC () {
+        return process.env.PG_SYNC;
+    }
 };
 
 /**
@@ -60,6 +63,6 @@ module.exports = function () {
     check("POSTGRES_URL", process.env.HEROKU_POSTGRESQL_NAVY_URL || "postgres://localhost/test");
     check("REDIS_URL", process.env.REDISCLOUD_URL || "localhost");
     check("MANDRILL_APIKEY", undefined);
+    check("PG_SYNC", false);
     return getters;
 };
-

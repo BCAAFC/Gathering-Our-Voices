@@ -2,6 +2,18 @@
 var bcrypt = require("bcrypt"),
     Promise = require("bluebird");
 
+var compare = Promise.promisify(bcrypt.compare);
+
+// Run when password changes.
+var hashPasswordHook = function(account, opts, fn) {
+  if (!account.changed('password')) return fn();
+  bcrypt.hash(account.get('password'), 10, function (err, hash) {
+    if (err) return fn(err);
+    account.set('password', hash);
+    fn();
+  });
+};
+
 module.exports = function (sequelize, DataTypes) {
     var Account = sequelize.define("Account", {
         // Info
@@ -9,19 +21,12 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false,
             index: true,
+            unique: true,
             validate: {
                 isEmail: true,
             },
         },
         password: {
-            type: DataTypes.VIRTUAL,
-            set: function (val) {
-                // TODO: Not sync?
-                var hash = bcrypt.hashSync(val, 10);
-                this.setDataValue('password_hash', hash);
-            },
-        },
-        password_hash: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -83,6 +88,23 @@ module.exports = function (sequelize, DataTypes) {
                 Account.hasOne(models.Volunteer);
                 Account.hasOne(models.Workshop);
                 Account.hasMany(models.Payment);
+            },
+            auth: function (email, pass) {
+                return Account.findOne({
+                    where: { email: email },
+                }).then(function (account) {
+                    if (account) {
+                        return [account, account.passwordValid(pass)];
+                    } else {
+                        throw new Error("No user found.");
+                    }
+                }).spread(function (account, valid) {
+                    if (valid === true) {
+                        return account;
+                    } else {
+                        throw new Error("Invalid password.");
+                    }
+                });
             }
         },
         instanceMethods: {
@@ -111,7 +133,14 @@ module.exports = function (sequelize, DataTypes) {
                         return cost + payments;
                 });
             },
+            passwordValid: function (attempt) {
+                return compare(attempt, this.password);
+            },
         },
+        hooks: {
+            beforeCreate: hashPasswordHook,
+            beforeUpdate: hashPasswordHook,
+        }
     });
 
     return Account;

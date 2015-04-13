@@ -4,6 +4,18 @@ var marked = require("marked");
 
 module.exports = function (sequelize, DataTypes) {
     var Page = sequelize.define("Page", {
+        path: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+            primaryKey: true,
+        },
+        // Should be in Navbar.
+        featured: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+        },
         title: {
             type: DataTypes.STRING,
             allowNull: false,

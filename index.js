@@ -9,6 +9,7 @@ var env = require("./src/env")();
 
 // Connect to the database.
 var db = require("./src/db")(env);
+if (env.PG_SYNC == "true") { db.sequelize.sync(); }
 
 // Connect to redis.
 var redis = require("./src/redis")(env);

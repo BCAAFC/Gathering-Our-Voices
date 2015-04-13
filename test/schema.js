@@ -90,6 +90,25 @@ describe("db", function () {
                 should.exist(error);
             });
         });
+        it("should be able to auth valid users", function () {
+            return db.Account.auth("test@test.ca", "hunter2").then(function (account) {
+                should.exist(account);
+            });
+        });
+        it("should not auth invalid users", function () {
+            return db.Account.auth("doesnt@exist.ca", "hunter2").then(function (account) {
+                should.not.exist(account);
+            }).catch(function (error) {
+                should.exist(error);
+            });
+        });
+        it("should not auth with invalid passwords", function () {
+            return db.Account.auth("test@test.ca", "asdasd").then(function (account) {
+                should.not.exist(account);
+            }).catch(function (error) {
+                should.exist(error);
+            });
+        });
     });
 
     describe("Group", function () {
@@ -539,6 +558,7 @@ describe("db", function () {
     describe("Page", function () {
         it("can be rendered", function () {
             return db.Page.create({
+                path: "/test",
                 title: "Test",
                 content: "Test **test**",
             }).then(function (page) {

@@ -3,11 +3,12 @@ var middleware = require("../middleware");
 module.exports = function (httpd, db, redis) {
 
     httpd.use("/",
-        require("./root")(db, redis));
-    httpd.use("/account",
-        require("./account")(db, redis));
-    httpd.use("/workshops",
-        require("./workshops")(db, redis));
+        require("./pages")(db, redis));
+    // This is for DB stored images! Not statics!
+    httpd.use("/images",
+        require("./images")(db, redis));
+    httpd.use("/api",
+        require("./api")(db, redis));
     httpd.use("/admin", middleware.admin,
         require("./admin")(db, redis));
 
