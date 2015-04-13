@@ -26,7 +26,7 @@ module.exports = function (sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-                Session.belongsToMany(models.Member, { through: models.MemberSession });
+                Session.belongsToMany(models.Member, { through: "MemberSession" });
                 Session.belongsTo(models.Workshop);
             },
         },

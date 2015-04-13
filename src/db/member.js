@@ -88,7 +88,7 @@ module.exports = function (sequelize, DataTypes) {
         classMethods: {
             associate: function (models) {
                 Member.belongsTo(models.Group);
-                Member.belongsToMany(models.Session, { through: models.MemberSession });
+                Member.belongsToMany(models.Session, { through: "MemberSession" });
             },
         },
         instanceMethods: {
