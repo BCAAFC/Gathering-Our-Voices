@@ -6,7 +6,7 @@ var fs = require("fs"),
 
 module.exports = function (env, db, redisClient) {
     var server = express();
-    
+
     // Ensure that requests that should be SSL use SSL.
     server.use(function ensureSecurity(req, res, next) {
         // This detects if the original request (prior to Heroku"s forwarding) was SSL based.
@@ -17,10 +17,10 @@ module.exports = function (env, db, redisClient) {
             next();
         }
     });
-    
+
     // Logging
     server.use(morgan("common"));
-    
+
     // Favicon
     server.use(require("serve-favicon")("./static/favicon.ico"));
     // Parsers for JSON/URL encoding.
@@ -38,7 +38,7 @@ module.exports = function (env, db, redisClient) {
             return method;
         }
     }));
-    
+
     // Session handling.
     var session = require("express-session"),
         RedisStore = require("connect-redis")(session);
@@ -52,7 +52,7 @@ module.exports = function (env, db, redisClient) {
         saveUninitialized : true,
         secure            : true
     }));
-    
+
     // View engine
     server.set("views", "./views");
 

@@ -479,6 +479,7 @@ describe("db", function () {
             });
         });
     });
+
     describe("Exhibitor", function () {
         it("can be created with valid information", function () {
             return db.Exhibitor.create({
@@ -531,6 +532,37 @@ describe("db", function () {
             }).then(function (exhibitor) {
                 exhibitor.paid = true;
                 return exhibitor.save();
+            });
+        });
+    });
+
+    describe("Page", function () {
+        it("can be rendered", function () {
+            return db.Page.create({
+                title: "Test",
+                content: "Test **test**",
+            }).then(function (page) {
+                page.title.should.equal("Test");
+                page.render().should.equal("<p>Test <strong>test</strong></p>\n");
+            }).catch(function (error) {
+                console.log(error);
+                should.not.exist(error);
+            });
+        });
+    });
+
+    describe("Image", function () {
+        it("can be created and retrieved", function () {
+            var buffer = require("fs").readFileSync("./test/assets/bear.jpg");
+            return db.Image.create({
+                caption: "Test bear",
+                data: buffer,
+            }).then(function (image) {
+                image.caption.should.equal("Test bear");
+                image.data.should.deep.equal(buffer);
+            }).catch(function (error) {
+                console.log(error);
+                should.not.exist(error);
             });
         });
     });
