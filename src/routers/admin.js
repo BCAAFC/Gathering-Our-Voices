@@ -5,5 +5,13 @@ module.exports = function (db, redis) {
         res.send("Foobar!");
     });
 
+    router.get("/editor", function (req, res) {
+        db.Page.findAll({}).then(function (pages) {
+            res.render("editor", {
+                pages: pages,
+            });
+        });
+    });
+
     return router;
 };

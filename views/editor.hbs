@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#">
+    {{> head}}
+    <body>
+        <div id="wrap">
+            <main>
+                <select id="selector">
+                    <option>New</option>
+                    {{#each pages}}
+                        <option value="{{this.id}}">{{this.path}}</option>
+                    {{/each}}
+                </select>
+                <form id="editor" action="/api/page" method="POST">
+                    <input id="method" name="_method" value="POST">
+                    <input id="title" name="title" value="">
+                    <br>
+                    <textarea id="content" name="content"></textarea>
+                    <br>
+                    <input id="featured" name="featured" type="checkbox" value="">
+                    <br>
+                    <input id="path" name="path" value="">
+                    <br>
+                    <input type="submit">
+                </form>
+                <div id="preview"></div>
+            </main>
+        </div>
+        <script>
+            $("#selector").change(function () {
+                var selection = $(this).val();
+                if (selection == "New") {
+                    $("#method").val("POST");
+                    $("#editor").attr("action", "/api/page/");
+                    $("#editor input").val("");
+                } else {
+                    $.get("/api/page/" + selection, function (data) {
+                        $("#method").val("PUT");
+                        $("#editor").attr("action", "/api/page/" + data.id);
+                        $("#title").val(data.title);
+                        $("#content").val(data.content);
+                        $("#featured").val(data.featured);
+                        $("#path").val(data.path);
+                    });
+                }
+            });
+            $("#content").bind('input propertychange', function() {
+                $("#preview").html($("#content").val());
+            });
+        </script>
+    </body>
+</html>
