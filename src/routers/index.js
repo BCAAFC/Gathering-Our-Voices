@@ -2,8 +2,6 @@ var middleware = require("../middleware");
 
 module.exports = function (httpd, db, redis) {
 
-    httpd.use("/",
-        require("./pages")(db, redis));
     // This is for DB stored images! Not statics!
     httpd.use("/images",
         require("./images")(db, redis));
@@ -11,6 +9,9 @@ module.exports = function (httpd, db, redis) {
         require("./api")(db, redis));
     httpd.use("/admin", middleware.admin,
         require("./admin")(db, redis));
+    // It's quite important that this is last.
+    httpd.use("/",
+        require("./pages")(db, redis));
 
     // 404
     httpd.use(function notFoundHandler(req, res) {

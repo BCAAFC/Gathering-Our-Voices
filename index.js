@@ -23,3 +23,5 @@ httpd = require("./src/routers")(httpd, db, redis);
 httpd.listen(env.PORT, function () {
     console.log("Listening on " + env.PORT);
 });
+
+module.exports = httpd;

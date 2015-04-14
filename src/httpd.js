@@ -25,7 +25,7 @@ module.exports = function (env, db, redisClient) {
     server.use(require("serve-favicon")("./static/favicon.ico"));
     // Parsers for JSON/URL encoding.
     server.use(require("body-parser").json());
-    server.use(require("body-parser").urlencoded({extended: true}));
+    server.use(require("body-parser").urlencoded({ extended: true }));
     // Multipart form handling, for image uploads.
     server.use(require("multer")());
     // Allow PUT/DELETE in forms.
