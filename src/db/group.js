@@ -26,9 +26,11 @@ module.exports = function (sequelize, DataTypes) {
             defaultValue: 0,
             allowNull: false,
         },
+        // Admin only.
         notes: {
             type: DataTypes.TEXT,
             allowNull: true,
+            defaultValue: "",
         },
         tags: {
             type: DataTypes.ARRAY(DataTypes.STRING),

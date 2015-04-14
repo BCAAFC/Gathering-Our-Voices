@@ -164,12 +164,15 @@ describe("db", function () {
                 should.not.exist(error);
             });
         });
-        it("can find related account", function () {
+        it("can find related group", function () {
             return db.Account.findOne({ where: { email: "test@test.ca" } }).then(function (account) {
                 return account.getGroup();
             }).then(function (group) {
                 group.should.be.an.instanceOf(db.Group.Instance);
                 group.affiliationType.should.equal("Friendship Centre");
+                return group.getAccount();
+            }).then(function (account) {
+                account.email.should.equal("test@test.ca");
             }).catch(function (error) {
                 should.not.exist(error);
             });

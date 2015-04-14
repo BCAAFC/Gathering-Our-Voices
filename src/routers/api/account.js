@@ -3,12 +3,32 @@ var middleware = require("../../middleware");
 module.exports = function (db, redis) {
     var router = require("express").Router();
 
+    // Authenticate and login.
+    router.post("/auth", function (req, res) {
+        db.Account.auth(req.body.email, req.body.password).then(function (account) {
+            req.session.account = account.id;
+            if (process.env.ADMINS.indexOf(account.email) !== -1) {
+                req.session.isAdmin = true;
+            }
+            res.status(200)(account);
+        }).catch(function (error) {
+            res.status(401).json({ error: error.message });
+        });
+    });
+
+    // Logout.
+    router.get("/logout", function (req, res) {
+        if (req.session.account) { delete req.session.account; };
+        if (req.session.isAdmin) { delete req.session.isAdmin; };
+        res.status(200).json({});
+    });
+
     router.route("/")
     // Send all accounts.
     .get(middleware.admin, function (req, res) {
         // TODO: Costs?
         db.Account.findAll({}).then(function (accounts) {
-            res.status(200).json(account);
+            res.status(200).json(accounts);
         }).catch(function (error) {
             res.status(401).json({ error: error.message });
         });
@@ -69,26 +89,6 @@ module.exports = function (db, redis) {
         }).catch(function (error) {
             res.status(401).json({ error: error.message });
         });
-    });
-
-    // Authenticate and login.
-    router.post("/auth", function (req, res) {
-        db.Account.auth(req.body.email, req.body.password).then(function (account) {
-            req.session.account = account.id;
-            if (process.env.ADMINS.indexOf(account.email) !== -1) {
-                req.session.isAdmin = true;
-            }
-            res.status(200)(account);
-        }).catch(function (error) {
-            res.status(401).json({ error: error.message });
-        });
-    });
-
-    // Logout.
-    router.get("/logout", function (req, res) {
-        if (req.session.account) { delete req.session.account };
-        if (req.session.isAdmin) { delete req.session.isAdmin };
-        res.status(200).json({});
     });
 
     return router;
