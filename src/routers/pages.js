@@ -9,12 +9,17 @@ module.exports = function (db, redis) {
                 res.render("default", {
                     title: page.title,
                     content: page.render(),
+                    account: req.session.account,
+                    admin: req.session.isAdmin,
+                    featured: req.featured,
                 });
             } else if (req.session && req.session.isAdmin) {
                 res.render("default", {
                     title: "Not created...",
                     content: "Not created yet...",
+                    account: req.session.account,
                     admin: req.session.isAdmin,
+                    featured: req.featured,
                 });
             } else {
                 res.status(404);

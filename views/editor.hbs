@@ -72,7 +72,8 @@
                             $("#method").val("PUT");
                             $("#editor").attr("action", "/api/page/" + data.id);
                             $("#title").val(data.title);
-                            $("#featured").val(data.featured);
+                            console.log(data);
+                            $("#featured").attr("checked", data.featured);
                             $("#path").val(data.path);
                             content.setValue(data.content);
                         });

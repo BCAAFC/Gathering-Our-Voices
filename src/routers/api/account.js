@@ -10,7 +10,7 @@ module.exports = function (db, redis) {
             if (process.env.ADMINS.indexOf(account.email) !== -1) {
                 req.session.isAdmin = true;
             }
-            res.status(200)(account);
+            res.status(200).json(account);
         }).catch(function (error) {
             res.status(401).json({ error: error.message });
         });

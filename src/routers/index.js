@@ -1,12 +1,19 @@
 var middleware = require("../middleware");
 
 module.exports = function (httpd, db, redis) {
-
     // This is for DB stored images! Not statics!
     httpd.use("/images",
         require("./images")(db, redis));
     httpd.use("/api",
         require("./api")(db, redis));
+    
+    httpd.use(function (req, res, next) {
+        db.Page.findAll({ where: { featured: true, }, }).then(function (pages) {
+            req.featured = pages;
+            next();
+        });
+    });
+    // Admin routes.
     httpd.use("/admin", middleware.admin,
         require("./admin")(db, redis));
     // It's quite important that this is last.
