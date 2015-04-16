@@ -13,18 +13,9 @@ module.exports = function (db, redis) {
                     admin: req.session.isAdmin,
                     featured: req.featured,
                 });
-            } else if (req.session && req.session.isAdmin) {
-                res.render("default", {
-                    title: "Not created...",
-                    content: "Not created yet...",
-                    account: req.session.account,
-                    admin: req.session.isAdmin,
-                    featured: req.featured,
-                });
             } else {
-                res.status(404);
                 console.warn('Path `' + req.originalUrl + '`does not exist.');
-                res.send('Path `' + req.originalUrl + '`does not exist.');
+                res.status(404).send('Path `' + req.originalUrl + '`does not exist.');
             }
         });
     });

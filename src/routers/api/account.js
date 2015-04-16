@@ -10,7 +10,10 @@ module.exports = function (db, redis) {
             if (process.env.ADMINS.indexOf(account.email) !== -1) {
                 req.session.isAdmin = true;
             }
-            res.status(200).json(account);
+            res.format({
+                'text/html': function () { res.redirect('/account'); },
+                'default': function () { res.status(200).json(account); },
+            });
         }).catch(function (error) {
             res.status(401).json({ error: error.message });
         });
@@ -18,9 +21,12 @@ module.exports = function (db, redis) {
 
     // Logout.
     router.get("/logout", function (req, res) {
-        if (req.session.account) { delete req.session.account; };
-        if (req.session.isAdmin) { delete req.session.isAdmin; };
-        res.status(200).json({});
+        if (req.session.account) { delete req.session.account; }
+        if (req.session.isAdmin) { delete req.session.isAdmin; }
+        res.format({
+            'text/html': function () { res.redirect('/'); },
+            'default': function () { res.status(200).json({}); },
+        });
     });
 
     router.route("/")
@@ -28,7 +34,10 @@ module.exports = function (db, redis) {
     .get(middleware.admin, function (req, res) {
         // TODO: Costs?
         db.Account.findAll({}).then(function (accounts) {
-            res.status(200).json(accounts);
+            res.format({
+                'text/html': function () { res.redirect('/'); },
+                'default': function () { res.status(200).json(accounts); },
+            });
         }).catch(function (error) {
             res.status(401).json({ error: error.message });
         });
@@ -40,7 +49,10 @@ module.exports = function (db, redis) {
             if (process.env.ADMINS.indexOf(account.email) !== -1) {
                 req.session.isAdmin = true;
             }
-            res.status(200).json(account);
+            res.format({
+                'text/html': function () { res.redirect('/account'); },
+                'default': function () { res.status(200).json(account); },
+            });
         }).catch(function (error) {
             res.status(401).json({ error: error.message });
         });
@@ -51,7 +63,10 @@ module.exports = function (db, redis) {
     .get(middleware.ownAccount, function (req, res) {
         db.Account.findOne({ where: { id: req.params.id, }, }).then(function (account) {
             if (!account) { throw new Error("Account doesn't exist"); }
-            res.status(200).json(account);
+            res.format({
+                'text/html': function () { res.redirect('/account'); },
+                'default': function () { res.status(200).json(account); },
+            });
         }).catch(function (error) {
             res.status(401).json({ error: error.message });
         });
@@ -74,7 +89,10 @@ module.exports = function (db, redis) {
             // Save.
             return account.save();
         }).then(function (account) {
-            res.status(200).json(account);
+            res.format({
+                'text/html': function () { res.redirect('/account'); },
+                'default': function () { res.status(200).json(account); },
+            });
         }).catch(function (error) {
             res.status(401).json({ error: error.message });
         });
