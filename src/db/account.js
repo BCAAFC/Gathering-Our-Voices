@@ -10,7 +10,7 @@ var hashPasswordHook = function (account, opts, fn) {
   bcrypt.hash(account.get('password'), 10, function (err, hash) {
     if (err) return fn(err);
     account.set('password', hash);
-    fn();
+    fn(null, account);
   });
 };
 

@@ -3,6 +3,8 @@
 var hbs = require("hbs");
 hbs.registerPartials('./views/partials');
 
+
+
 module.exports = function (sequelize, DataTypes) {
     var Page = sequelize.define("Page", {
         path: {
@@ -18,6 +20,10 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.TEXT,
             allowNull: false,
         },
+        rollback: {
+            type: DataTypes.TEXT,
+            allowNull: true,
+        },
     }, {
         classMethods: {
             associate: function(models) {
@@ -29,6 +35,12 @@ module.exports = function (sequelize, DataTypes) {
                 data.content = hbs.compile(this.content)(data);
                 return res.render(target, data);
             },
+        },
+        hooks: {
+            beforeUpdate: function (page, options, fn) {
+                page.rollback = page._previousDataValues.content;
+                fn(null, page);
+          },
         },
     });
 

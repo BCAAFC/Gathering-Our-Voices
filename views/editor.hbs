@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="content">Content</label>
-                                    <p>Need help? See <a target="_blank" href="https://guides.github.com/features/mastering-markdown/">this guide</a>. Leave the <code>\{{word}}</code> things alone.</p>
+                                    <p>Need help? See <a target="_blank" href="https://guides.github.com/features/mastering-markdown/">this guide</a>. Leave the <code>\{{word}}</code> things alone. <a id="rollback" class="btn btn-xs btn-danger">Rollback</a></p>
                                     <textarea id="content" name="content" class="form-control"></textarea>
                                 </div>
                                 <div class="form-group">
@@ -53,6 +53,7 @@
         </div>
         <script>
             $(document).ready(function () {
+                // Configure CodeMirror
                 var content = CodeMirror.fromTextArea($("#content").get(0), {
                     mode:  "text/html",
                     lineNumbers: true,
@@ -60,6 +61,20 @@
                 });
                 content.on("changes", function (instance) {
                     $("#preview").html(instance.getValue());
+                });
+                // Clear things.
+                $("#selector").val("New");
+                $("#method").val("POST");
+                $("#editor").attr("action", "/api/page/");
+                $("#title").val("");
+                $("#featured").val(false);
+                $("#path").val("");
+                content.setValue("");
+                // Bind things.
+                $("#rollback").click(function () {
+                    $.get("/api/page/" + $("#selector").val(), function (data) {
+                        content.setValue(data.rollback);
+                    });
                 });
                 $("#selector").change(function () {
                     var selection = $(this).val();
