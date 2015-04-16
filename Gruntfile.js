@@ -3,60 +3,72 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         uglify: {
-            bootstrap: {
+            user: {
                 // options: {
                 //     mangle: false,
                 //     compress: false,
                 //     beautify: true
                 // },
                 files: {
-                    'static/js/min.js': [
-                        'lib/jquery-1.11.1.js',
-                        'lib/bootstrap/js/transition.js',
-                        'lib/bootstrap/js/alert.js',
-                        'lib/bootstrap/js/affix.js',
-                        'lib/bootstrap/js/button.js',
-                        'lib/bootstrap/js/carousel.js',
-                        'lib/bootstrap/js/collapse.js',
-                        'lib/bootstrap/js/dropdown.js',
-                        'lib/bootstrap/js/modal.js',
-                        'lib/bootstrap/js/tooltip.js',
-                        'lib/bootstrap/js/popover.js',
-                        'lib/bootstrap/js/scrollspy.js',
-                        'lib/bootstrap/js/tab.js',
-                        'lib/tagsinput/bootstrap-tagsinput.js',
-                        'lib/datatables/jquery.dataTables.js',
-                        'lib/datatables/dataTables.colVis.js',
-                        // 'lib/datatables/dataTables.fontAwesome.js',
-                        'lib/datatables/dataTables.responsive.js',
-                    ]
-                }
-            }
+                    'static/js/user.min.js': [
+                        // Jquery
+                        'bower_components/jquery/dist/jquery.js',
+                        // Bootstrap
+                        'bower_components/bootstrap/dist/js/bootstrap.js',
+                        // Tagsinput
+                        'bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js',
+                        // DataTables
+                        'bower_components/datatables/media/jquery.dataTables.js',
+                        'bower_components/datatables-colvis/js/dataTables.colVis.js',
+                        'bower_components/datatables-responsive/js/dataTables.responsive.js',
+                    ],
+                },
+            },
+            admin: {
+                files: {
+                    'static/js/admin.min.js': [
+                        // Codemirror
+                        'bower_components/codemirror/lib/codemirror.js',
+                        'bower_components/codemirror/mode/markdown/markdown.js',
+                    ],
+                },
+            },
         },
         less: {
-            build: {
+            user: {
                 options: {
                     cleancss: true
                 },
                 files: {
-                    'static/css/min.css': [
-                        'lib/bootstrap/less/bootstrap.less',
-                        'lib/font-awesome/less/font-awesome.less',
-                        'lib/tagsinput/bootstrap-tagsinput.css',
-                        'lib/datatables/jquery.dataTables.css',
-                        'lib/datatables/dataTables.bootstrap.css',
-                        'lib/datatables/dataTables.colVis.css',
-                        'lib/datatables/dataTables.fontAwesome.css',
-                        // 'lib/datatables/dataTables.responsive.css',
+                    'static/css/user.min.css': [
+                        // Bootstrap
+                        '/bower_components/bootstrap/less/bootstrap.less',
+                        // Font Awesome
+                        'bower_components/font-awesome/less/font-awesome.less',
+                        // Tagsinput
+                        'bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.less',
+                        // Datatables
+                        'bower_components/datatables/media/jquery.dataTables.css',
+                        'bower_components/datatables/media/css/dataTables.bootstrap.css',
+                        'bower_components/datatables-colvis/css/dataTables.colVis.css',
+                        'bower_components/datatables-responsive/css/dataTables.fontAwesome.css',
+                        // Custom
                         'lib/styles.css'
-                    ]
-                }
-            }
+                    ],
+                },
+            },
+            admin: {
+                files: {
+                    'static/css/admin.min.css': [
+                        'bower_components/codemirror/lib/codemirror.css',
+                    ],
+                },
+            },
         },
         copy: {
             build: {
                 files: [
-                    {expand:true, cwd: 'lib/font-awesome/', src: ['fonts/*'], dest: 'static/'}
+                    {expand:true, cwd: 'bower_components/font-awesome/', src: ['fonts/*'], dest: 'static/'}
                 ]
             }
         },
