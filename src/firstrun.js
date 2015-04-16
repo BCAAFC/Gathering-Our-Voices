@@ -1,8 +1,8 @@
 module.exports = function (env, db) {
     db.sequelize.sync().then(function () {
-        db.Page.create({
-            path: "/login",
-            title: "Login",
+        return db.Page.create({
+            path: "/register",
+            title: "Register",
             featured: true,
             content: "<form action='/api/account' method='POST'>" +
                     "<input name='email'><br>" +
@@ -15,6 +15,17 @@ module.exports = function (env, db) {
                     "<input name='city'><br>" +
                     "<input name='province'><br>" +
                     "<input name='postalCode'><br>" +
+                    "<input type='submit'><br>" +
+                "</form>",
+        });
+    }).then(function () {
+        return db.Page.create({
+            path: "/login",
+            title: "Login",
+            featured: true,
+            content: "<form action='/api/account/auth' method='POST'>" +
+                    "<input name='email'><br>" +
+                    "<input name='password' type='password'><br>" +
                     "<input type='submit'><br>" +
                 "</form>",
         });

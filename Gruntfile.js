@@ -18,7 +18,7 @@ module.exports = function(grunt) {
                         // Tagsinput
                         'bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js',
                         // DataTables
-                        'bower_components/datatables/media/jquery.dataTables.js',
+                        'bower_components/datatables/media/js/jquery.dataTables.js',
                         'bower_components/datatables-colvis/js/dataTables.colVis.js',
                         'bower_components/datatables-responsive/js/dataTables.responsive.js',
                     ],
@@ -30,6 +30,9 @@ module.exports = function(grunt) {
                         // Codemirror
                         'bower_components/codemirror/lib/codemirror.js',
                         'bower_components/codemirror/mode/markdown/markdown.js',
+                        'bower_components/codemirror/mode/xml/xml.js',
+                        // Marked
+                        'bower_components/marked/lib/marked.js',
                     ],
                 },
             },

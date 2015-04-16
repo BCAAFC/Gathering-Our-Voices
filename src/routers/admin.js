@@ -9,6 +9,7 @@ module.exports = function (db, redis) {
         db.Page.findAll({}).then(function (pages) {
             res.render("editor", {
                 pages: pages,
+                admin: req.session.isAdmin,
             });
         });
     });
