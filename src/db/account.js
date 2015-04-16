@@ -5,7 +5,7 @@ var bcrypt = require("bcrypt"),
 var compare = Promise.promisify(bcrypt.compare);
 
 // Run when password changes.
-var hashPasswordHook = function(account, opts, fn) {
+var hashPasswordHook = function (account, opts, fn) {
   if (!account.changed('password')) return fn();
   bcrypt.hash(account.get('password'), 10, function (err, hash) {
     if (err) return fn(err);

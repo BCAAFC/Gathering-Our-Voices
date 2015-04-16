@@ -10,9 +10,14 @@
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="CollapseNav">
             <ul class="nav navbar-nav">
-                {{#each featured}}
-                    <li><a href="{{path}}">{{title}}</a></li>
-                {{/each}}
+                <li><a href="/">Home</a></li>
+                <li><a href="/news">News</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/schedule">Schedule</a></li>
+                <li><a href="/venues">Venues</a></li>
+                <li><a href="/accommodations">Accommodations</a></li>
+                <li><a href="/workshops">Workshops</a></li>
+                <li><a href="/faq">FAQs</a></li>
                 <!-- Special cases -->
                 {{#if account}}
                     <li><a href="/account">Account</a></li>

@@ -6,12 +6,14 @@ module.exports = function (httpd, db, redis) {
         require("./images")(db, redis));
     httpd.use("/api",
         require("./api")(db, redis));
-    
+
     httpd.use(function (req, res, next) {
-        db.Page.findAll({ where: { featured: true, }, }).then(function (pages) {
-            req.featured = pages;
-            next();
-        });
+        // Consume message.
+        if (req.session.alert) {
+            req.alert = req.session.alert;
+            delete req.session.alert;
+        }
+        return next();
     });
     // Admin routes.
     httpd.use("/admin", middleware.admin,

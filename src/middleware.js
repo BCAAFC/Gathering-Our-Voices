@@ -10,7 +10,7 @@ module.exports = {
                     res.status(401).send({ message: message });
                 },
                 "default": function () {
-                    res.redirect('/account/login?message=' + message); // TODO: URL Encode?
+                    res.redirect('/login?message=' + message); // TODO: URL Encode?
                 },
             });
         }
@@ -29,7 +29,7 @@ module.exports = {
                     res.status(401).send({ message: message });
                 },
                 "default": function () {
-                    res.redirect('/account/login?message=' + message); // TODO: URL Encode?
+                    res.redirect('/login?message=' + message); // TODO: URL Encode?
                 },
             });
         }
@@ -45,7 +45,7 @@ module.exports = {
                     res.status(401).send({ message: message });
                 },
                 "default": function () {
-                    res.redirect('/account/login?message=' + message); // TODO: URL Encode?
+                    res.redirect('/login?message=' + message); // TODO: URL Encode?
                 },
             });
         }

@@ -5,38 +5,41 @@
         <div id="wrap">
             <main>
                 <div class="col-sm-6">
-                    <form id="editor" action="/api/page" method="POST"> 
-                        <input id="method" name="_method" value="POST" required style="display: none;">
-                        <div class="form-group">
-                            <label>Page</label>
-                            <select id="selector" class="form-control">
-                                <option>New</option>
-                                {{#each pages}}
-                                    <option value="{{this.id}}">{{this.path}}</option>
-                                {{/each}}
-                            </select>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Editor</h3>
                         </div>
-                        <div class="form-group">
-                            <label for="title">Title</label>
-                            <input id="title" name="title" value="" required class="form-control">
+                        <div class="panel-body">
+                            <form id="editor" action="/api/page" method="POST">
+                                <input id="method" name="_method" value="POST" required style="display: none;">
+                                <div class="form-group">
+                                    <label>Page</label>
+                                    <select id="selector" class="form-control">
+                                        <option>New</option>
+                                        {{#each pages}}
+                                            <option value="{{this.id}}">{{this.path}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input id="title" name="title" value="" required class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="content">Content</label>
+                                    <p>Need help? See <a target="_blank" href="https://guides.github.com/features/mastering-markdown/">this guide</a>. Leave the <code>\{{word}}</code> things alone.</p>
+                                    <textarea id="content" name="content" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="path">Path</label>
+                                    <input id="path" name="path" value="" required class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" class="form-control">
+                                </div>
+                            </form>
                         </div>
-                        <div class="form-group">
-                            <label for="content">Content</label>
-                            <p>Need help? See <a target="_blank" href="https://guides.github.com/features/mastering-markdown/">this guide</a>.
-                            <textarea id="content" name="content" class="form-control"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="featured">Featured</label>
-                            <input id="featured" name="featured" type="checkbox" value="" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label for="path">Path</label>
-                            <input id="path" name="path" value="" required class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" class="form-control">
-                        </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="col-sm-6">
                     <div class="panel panel-default">
@@ -51,12 +54,12 @@
         <script>
             $(document).ready(function () {
                 var content = CodeMirror.fromTextArea($("#content").get(0), {
-                    mode:  "markdown",
+                    mode:  "text/html",
                     lineNumbers: true,
                     smartIndent: true,
                 });
                 content.on("changes", function (instance) {
-                    $("#preview").html(marked(instance.getValue()));
+                    $("#preview").html(instance.getValue());
                 });
                 $("#selector").change(function () {
                     var selection = $(this).val();

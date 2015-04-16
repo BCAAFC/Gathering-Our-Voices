@@ -4,10 +4,10 @@
     <body>
         <div id="wrap">
             {{> header}}
-            {{#if message}}
-                <div class="alert">{{message}}</div>
-            {{/if}}
             <main class="container">
+                {{#if alert}}
+                    {{> alert}}
+                {{/if}}
                 {{{content}}}
             </main>
             {{> footer}}

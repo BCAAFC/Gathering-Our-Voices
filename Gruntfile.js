@@ -29,10 +29,9 @@ module.exports = function(grunt) {
                     'static/js/admin.min.js': [
                         // Codemirror
                         'bower_components/codemirror/lib/codemirror.js',
-                        'bower_components/codemirror/mode/markdown/markdown.js',
+                        'bower_components/codemirror/addon/mode/simple.js',
+                        'bower_components/codemirror/addon/mode/multiplex.js',
                         'bower_components/codemirror/mode/xml/xml.js',
-                        // Marked
-                        'bower_components/marked/lib/marked.js',
                     ],
                 },
             },

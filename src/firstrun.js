@@ -3,31 +3,73 @@ module.exports = function (env, db) {
         return db.Page.create({
             path: "/register",
             title: "Register",
-            featured: true,
-            content: "<form action='/api/account' method='POST'>" +
-                    "<input name='email'><br>" +
-                    "<input name='password' type='password'><br>" +
-                    "<input name='name'><br>" +
-                    "<input name='affiliation'><br>" +
-                    "<input name='phone'><br>" +
-                    "<input name='fax'><br>" +
-                    "<input name='address'><br>" +
-                    "<input name='city'><br>" +
-                    "<input name='province'><br>" +
-                    "<input name='postalCode'><br>" +
-                    "<input type='submit'><br>" +
-                "</form>",
+            content: "{{> account_form_POST}}",
         });
     }).then(function () {
         return db.Page.create({
             path: "/login",
             title: "Login",
-            featured: true,
-            content: "<form action='/api/account/auth' method='POST'>" +
-                    "<input name='email'><br>" +
-                    "<input name='password' type='password'><br>" +
-                    "<input type='submit'><br>" +
-                "</form>",
+            content: "{{> login_form}}",
+        });
+    }).then(function () {
+        return db.Page.create({
+            path: "/",
+            title: "Home",
+            content: "",
+        });
+    }).then(function () {
+        return db.Page.create({
+            path: "/news",
+            title: "News",
+            content: "",
+        });
+    }).then(function () {
+        return db.Page.create({
+            path: "/about",
+            title: "About",
+            content: "",
+        });
+    }).then(function () {
+        return db.Page.create({
+            path: "/schedule",
+            title: "Schedule",
+            content: "",
+        });
+    }).then(function () {
+        return db.Page.create({
+            path: "/venues",
+            title: "Venues",
+            content: "",
+        });
+    }).then(function () {
+        return db.Page.create({
+            path: "/accommodations",
+            title: "Accommodations",
+            content: "",
+        });
+    }).then(function () {
+        return db.Page.create({
+            path: "/workshops",
+            title: "Workshops",
+            content: "",
+        });
+    }).then(function () {
+        return db.Page.create({
+            path: "/faq",
+            title: "faq",
+            content: "",
+        });
+    }).then(function () {
+        return db.Page.create({
+            path: "/account",
+            title: "Account",
+            content: "",
+        });
+    }).then(function () {
+        return db.Page.create({
+            path: "/admin",
+            title: "Administration",
+            content: "",
         });
     });
 };

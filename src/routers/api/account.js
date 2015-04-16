@@ -1,4 +1,5 @@
-var middleware = require("../../middleware");
+var middleware = require("../../middleware"),
+    alert = require("../../alert");
 
 module.exports = function (db, redis) {
     var router = require("express").Router();
@@ -15,7 +16,10 @@ module.exports = function (db, redis) {
                 'default': function () { res.status(200).json(account); },
             });
         }).catch(function (error) {
-            res.status(401).json({ error: error.message });
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
         });
     });
 
@@ -39,7 +43,10 @@ module.exports = function (db, redis) {
                 'default': function () { res.status(200).json(accounts); },
             });
         }).catch(function (error) {
-            res.status(401).json({ error: error.message });
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
         });
     })
     // Account creation.
@@ -54,7 +61,10 @@ module.exports = function (db, redis) {
                 'default': function () { res.status(200).json(account); },
             });
         }).catch(function (error) {
-            res.status(401).json({ error: error.message });
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
         });
     });
 
@@ -68,7 +78,10 @@ module.exports = function (db, redis) {
                 'default': function () { res.status(200).json(account); },
             });
         }).catch(function (error) {
-            res.status(401).json({ error: error.message });
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
         });
     })
     // Edit an account.
@@ -94,7 +107,10 @@ module.exports = function (db, redis) {
                 'default': function () { res.status(200).json(account); },
             });
         }).catch(function (error) {
-            res.status(401).json({ error: error.message });
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
         });
     })
     // Delete an account.
@@ -103,9 +119,18 @@ module.exports = function (db, redis) {
             if (!account) { throw new Error("Account doesn't exist"); }
             return account.destroy();
         }).then(function () {
-            res.status(200).json({});
+            res.format({
+                'text/html': function () {
+                    req.session.message = error.message;
+                    res.redirect('/account');
+                },
+                'default': function () { res.status(200).json({}); },
+            });
         }).catch(function (error) {
-            res.status(401).json({ error: error.message });
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
         });
     });
 

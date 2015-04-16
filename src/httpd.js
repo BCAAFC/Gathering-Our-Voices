@@ -1,6 +1,7 @@
 "use strict";
 
 var fs = require("fs"),
+    marked = require("marked"),
     express = require("express"),
     morgan = require("morgan");
 
@@ -54,10 +55,11 @@ module.exports = function (env, db, redisClient) {
     }));
 
     // View engine
-    var hbs = require("express-hbs");
-    server.engine("hbs", hbs.express4({
-      partialsDir: "./views/partials",
-    }));
+    var hbs = require("hbs");
+    hbs.registerPartials('./views/partials');
+    hbs.registerPartials('./views/forms');
+    hbs.registerHelper('markdown', function(data) { return marked(data); });
+
     server.set("view engine", "hbs");
     server.set("views", "./views");
 

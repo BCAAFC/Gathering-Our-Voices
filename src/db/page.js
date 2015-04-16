@@ -1,6 +1,7 @@
 "use strict";
 
-var marked = require("marked");
+var hbs = require("hbs");
+hbs.registerPartials('./views/partials');
 
 module.exports = function (sequelize, DataTypes) {
     var Page = sequelize.define("Page", {
@@ -9,17 +10,10 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
             unique: true,
         },
-        // Should be in Navbar.
-        featured: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false,
-        },
         title: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        // Assumed to be Markdown.
         content: {
             type: DataTypes.TEXT,
             allowNull: false,
@@ -31,10 +25,11 @@ module.exports = function (sequelize, DataTypes) {
             }
         },
         instanceMethods: {
-            render: function () {
-                return marked(this.content);
-            }
-        }
+            render: function (res, target, data) {
+                data.content = hbs.compile(this.content)(data);
+                return res.render(target, data);
+            },
+        },
     });
 
     return Page;

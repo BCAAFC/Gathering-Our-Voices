@@ -6,12 +6,11 @@ module.exports = function (db, redis) {
             where: { path: req.url },
         }).then(function (page) {
             if (page) {
-                res.render("default", {
+                page.render(res, "default", {
                     title: page.title,
-                    content: page.render(),
                     account: req.session.account,
                     admin: req.session.isAdmin,
-                    featured: req.featured,
+                    alert: req.alert,
                 });
             } else {
                 console.warn('Path `' + req.originalUrl + '`does not exist.');
