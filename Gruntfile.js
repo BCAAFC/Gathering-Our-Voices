@@ -42,7 +42,7 @@ module.exports = function(grunt) {
                 files: {
                     'static/css/user.min.css': [
                         // Bootstrap
-                        '/bower_components/bootstrap/less/bootstrap.less',
+                        'bower_components/bootstrap/less/bootstrap.less',
                         // Font Awesome
                         'bower_components/font-awesome/less/font-awesome.less',
                         // Tagsinput
@@ -53,7 +53,7 @@ module.exports = function(grunt) {
                         'bower_components/datatables-colvis/css/dataTables.colVis.css',
                         'bower_components/datatables-responsive/css/dataTables.fontAwesome.css',
                         // Custom
-                        'lib/styles.css'
+                        'assets/styles.css',
                     ],
                 },
             },

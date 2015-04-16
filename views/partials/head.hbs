@@ -10,12 +10,16 @@
     <meta property="og:type" content="website">
     <meta property="og:image" content="https://gatheringourvoices.bcaafc.com/img/gov.png">
 
-    <script src="/js/min.js"></script>
+    <script src="/js/user.min.js"></script>
+    {{#if admin}}
+        <script src="/js/admin.min.js"></script>
+        <script src="/css/admin.min.css"></script>
+    {{/if}}
 
     <!--[if IE 8]>
         <script src="/js/html5shiv.min.js"></script>
     <![endif]-->
 
-    <link href="/css/min.css" rel="stylesheet">
+    <link href="/css/user.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="/favicon.ico">
 </head>
