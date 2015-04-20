@@ -1,5 +1,8 @@
 <form action='/api/account' method='POST' class="form-horizontal">
-    <legend>Modify Existing Account</legend>
+    <legend>Update Existing Account</legend>
     <input style="display: none;" name="_method" value="PUT">
     {{> account_form}}
+    <div class="form-group">
+        <input class="btn btn-block btn-primary" type='submit' value="Update">
+    </div>
 </form>
