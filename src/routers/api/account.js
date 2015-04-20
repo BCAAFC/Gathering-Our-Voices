@@ -46,7 +46,7 @@ module.exports = function (db, redis) {
     // Account creation.
     .post(function (req, res) {
         db.Account.create(req.body).then(function (account) {
-            req.session.account = account.id;
+            req.session.account = account;
             if (process.env.ADMINS.indexOf(account.email) !== -1) {
                 req.session.isAdmin = true;
             }
@@ -99,10 +99,7 @@ module.exports = function (db, redis) {
             return account.destroy();
         }).then(function () {
             res.format({
-                'text/html': function () {
-                    req.session.message = error.message;
-                    res.redirect('/account');
-                },
+                'text/html': function () { alert.error(req, error.message); res.redirect('/account'); },
                 'default': function () { res.status(200).json({}); },
             });
         }).catch(function (error) {

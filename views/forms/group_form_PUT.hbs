@@ -1,7 +1,7 @@
-<form action='/api/account/{{account.id}}' method='POST' class="form-horizontal">
+<form action='/api/group/{{account.Group.id}}' method='POST' class="form-horizontal">
     <input style="display: none;" name="_method" value="PUT">
-    <legend>Update Existing Account</legend>
-    {{> account_form}}
+    <legend>Update Group</legend>
+    {{> group_form}}
     <div class="form-group">
         <input class="btn btn-block btn-primary" type='submit' value="Update">
     </div>

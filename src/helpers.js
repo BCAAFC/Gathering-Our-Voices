@@ -1,4 +1,7 @@
 module.exports = function (hbs) {
+    hbs.registerHelper("JSON", function (val) {
+        return JSON.stringify(val, null, 2);
+    });
     hbs.registerHelper("form_input", function (options) {
         var params = options.hash,
             output = [];
@@ -22,7 +25,6 @@ module.exports = function (hbs) {
         var params = options.hash,
             output = [];
         // Defaults
-        if (!params.selected) { params.selected = ""; }
         if (params.required) { params.required = " required"; }
         else { params.required = ""; }
         // Build
@@ -31,8 +33,17 @@ module.exports = function (hbs) {
         if (params.description) {
             output.push("<p>" + params.description + "</p>");
         }
-        output.push("<select class=form-control name=" + params.name + params.required + " selected=\"" + params.selected + "\">");
-        output.push(options.fn(this));
+        output.push("<select class=form-control name=" + params.name + " " + params.required + ">");
+        // Selected Worker
+        var child = options.fn(this);
+        if (params.selected) {
+            child = child.replace(
+                "<option>" + params.selected + "</option>",
+                "<option selected='selected'>" + params.selected + "</option>"
+            );
+        }
+        output.push(child);
+        // Closes
         output.push("</select>");
         output.push("</div>");
         // Return
