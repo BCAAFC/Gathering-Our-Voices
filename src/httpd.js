@@ -58,7 +58,8 @@ module.exports = function (env, db, redisClient) {
     var hbs = require("hbs");
     hbs.registerPartials('./views/partials');
     hbs.registerPartials('./views/forms');
-    hbs.registerHelper('markdown', function(data) { return marked(data); });
+    // Load helpers.
+    require("./helpers")(hbs);
 
     server.set("view engine", "hbs");
     server.set("views", "./views");

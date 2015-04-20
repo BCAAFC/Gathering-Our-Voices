@@ -1,45 +1,29 @@
-<legend>Register New Account</legend>
-<div class="form-group">
-    <label for="email">Email Address</label>
-    <input name="email" type="text" class="form-control">
-</div>
-<div class="form-group">
-    <label for="password">Password</label>
-    <input name="password" type="password" class="form-control">
-</div>
-<div class="form-group">
-    <label for="name">Full Name</label>
-    <input name="name" type="text" class="form-control">
-</div>
-<div class="form-group">
-    <label for="affiliation">Affiliation</label>
-    <p>This is typically your band, organization, or agency.</p>
-    <input name="affiliation" type="text" class="form-control">
-</div>
-<div class="form-group">
-    <label for="phone">Phone Number</label>
-    <input name="phone" type="text" class="form-control">
-</div>
-<div class="form-group">
-    <label for="fax">Fax Number (Optional)</label>
-    <input name="fax" type="text" class="form-control">
-</div>
-<div class="form-group">
-    <label for="address">Address</label>
-    <input name="address" type="text" class="form-control">
-</div>
-<div class="form-group">
-    <label for="city">City</label>
-    <input name="city" type="text" class="form-control">
-</div>
-<div class="form-group">
-    <label for="province">Province</label>
-    <input name="province" type="text" class="form-control">
-</div>
-<div class="form-group">
-    <label for="postalCode">Postal Code</label>
-    <input name="postalCode" type="text" class="form-control">
-</div>
+{{{form_input title="Email Address" name="email" type="text"  value=account.email required=true}}}
+{{{form_input title="Password" name="password" type="password" required=true}}}
+{{{form_input title="Full Name" name="name" type="text" value=account.name required=true}}}
+{{{form_input title="Affiliation" name="affiliation" type="text" required=true value=account.affiliation
+    description="This is typically your band, organization, or agency."}}}
+{{{form_input title="Phone Number" name="phone" type="text" value=account.phone required=true}}}
+{{{form_input title="Fax Number (Optional)" name="fax" type="text" value=account.fax}}}
+{{{form_input title="Address" name="address" type="text" value=account.address required=true}}}
+{{{form_input title="City" name="city" type="text" value=account.city required=true}}}
+{{#form_select title="Province" name="province" type="text" selected=account.province required=true}}
+    <option>British Columbia</option>
+    <option>Alberta</option>
+    <option>Saskatchewan</option>
+    <option>Manitoba</option>
+    <option>Ontario</option>
+    <option>Quebec</option>
+    <option>New Brunswick</option>
+    <option>Nova Scotia</option>
+    <option>Prince Edward Island</option>
+    <option>Newfoundland and Labrador</option>
+    <option>Nunavut</option>
+    <option>Northwest Territories</option>
+    <option>Yukon</option>
+    <option>Other (Outside Canada)</option>
+{{/form_select}}
+{{{form_input title="Postal Code" name="postalCode" type="text" value=account.postalCode required=true}}}
 <div class="form-group">
     <input class="btn btn-block btn-primary" type='submit' value="Register">
 </div>

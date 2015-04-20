@@ -7,7 +7,7 @@ module.exports = function (db, redis) {
     // Authenticate and login.
     router.post("/auth", function (req, res) {
         db.Account.auth(req.body.email, req.body.password).then(function (account) {
-            req.session.account = account.id;
+            req.session.account = account;
             if (process.env.ADMINS.indexOf(account.email) !== -1) {
                 req.session.isAdmin = true;
             }
@@ -38,15 +38,9 @@ module.exports = function (db, redis) {
     .get(middleware.admin, function (req, res) {
         // TODO: Costs?
         db.Account.findAll({}).then(function (accounts) {
-            res.format({
-                'text/html': function () { res.redirect('/'); },
-                'default': function () { res.status(200).json(accounts); },
-            });
+            res.status(200).json(accounts);
         }).catch(function (error) {
-            res.format({
-                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
-                'default': function () { res.status(401).json({ error: error.message }); },
-            });
+            res.status(401).json({ error: error.message });
         });
     })
     // Account creation.
@@ -69,21 +63,6 @@ module.exports = function (db, redis) {
     });
 
     router.route("/:id")
-    // Send a given account.
-    .get(middleware.ownAccount, function (req, res) {
-        db.Account.findOne({ where: { id: req.params.id, }, }).then(function (account) {
-            if (!account) { throw new Error("Account doesn't exist"); }
-            res.format({
-                'text/html': function () { res.redirect('/account'); },
-                'default': function () { res.status(200).json(account); },
-            });
-        }).catch(function (error) {
-            res.format({
-                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
-                'default': function () { res.status(401).json({ error: error.message }); },
-            });
-        });
-    })
     // Edit an account.
     .put(middleware.ownAccount, function (req, res) {
         db.Account.findOne({ where: { id: req.params.id, }, }).then(function (account) {
@@ -103,7 +82,7 @@ module.exports = function (db, redis) {
             return account.save();
         }).then(function (account) {
             res.format({
-                'text/html': function () { res.redirect('/account'); },
+                'text/html': function () { res.redirect('back'); },
                 'default': function () { res.status(200).json(account); },
             });
         }).catch(function (error) {

@@ -16,7 +16,7 @@ module.exports = {
         }
     },
     ownAccount: function (req, res, next) {
-        if (req.session && req.session.account && req.session.account == req.params.id) {
+        if (req.session && req.session.account && req.session.account.id == req.params.id) {
             next();
         } else if (req.session && req.session.isAdmin) {
             // Always allow admins.
