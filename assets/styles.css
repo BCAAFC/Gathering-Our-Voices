@@ -31,7 +31,6 @@ footer {
   border: 0px !important;
 }
 
-
 /* ---- */
 /* GLOBAL STYLES
 -------------------------------------------------- */
@@ -74,6 +73,9 @@ body {
      zoom: 1
 }
 
+.bootstrap-tagsinput{
+    display: block !important;
+}
 
 /* MARKETING CONTENT
 -------------------------------------------------- */

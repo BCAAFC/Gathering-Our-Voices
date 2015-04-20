@@ -92,7 +92,7 @@ module.exports = function (sequelize, DataTypes) {
             auth: function (email, pass) {
                 return Account.findOne({
                     where: { email: email },
-                    include: [{ all: true }],
+                    include: [{ all: true, nested: true }],
                 }).then(function (account) {
                     if (account) {
                         return [account, account.passwordValid(pass)];

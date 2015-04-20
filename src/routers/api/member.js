@@ -1,5 +1,29 @@
 module.exports = function (db, redis) {
     var router = require("express").Router();
 
+    router.route("/")
+    .get(function (req, res) {})
+    .post(function (req, res) {
+        db.Account.findOne({
+            where: { id: req.session.account.id },
+            include: [
+                { model: db.Group, include: [ db.Member, ], },
+            ],
+        }).then(function (account) {
+            if (!req.body.email) { req.body.email = null; }
+            if (!req.body.birthDate) { req.body.birthDate = null; }
+            if (!req.body.gender) { req.body.gender = null; }
+            return account.Group.createMember(req.body);
+        }).then(function (member) {
+            res.format({
+                'text/html': function () { res.redirect('back'); },
+                'default': function () { res.status(200).json(member); },
+            });
+        }).catch(function (error) {
+            console.log(error);
+            res.status(401).json({ error: error.message });
+        });
+    });
+
     return router;
 };

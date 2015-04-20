@@ -5,6 +5,7 @@ module.exports = function (db, redis) {
         db.Page.findOne({
             where: { path: req.url },
         }).then(function (page) {
+            console.log(req.session.account);
             if (page) {
                 page.render(res, "default", {
                     title: page.title,

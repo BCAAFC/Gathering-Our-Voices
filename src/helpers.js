@@ -11,7 +11,9 @@ module.exports = function (hbs) {
         else { params.required = ""; }
         // Build
         output.push("<div class=form-group>");
-        output.push("<label for=" + params.name + ">" + params.title + "</label>");
+        output.push("<label for=" + params.name + ">" + params.title);
+        if (params.required) { output.push("*"); }
+        output.push("</label>");
         if (params.description) {
             output.push("<p>" + params.description + "</p>");
         }
@@ -29,7 +31,9 @@ module.exports = function (hbs) {
         else { params.required = ""; }
         // Build
         output.push("<div class=form-group>");
-        output.push("<label for=" + params.name + ">" + params.title + "</label>");
+        output.push("<label for=" + params.name + ">" + params.title);
+        if (params.required) { output.push("*"); }
+        output.push("</label>");
         if (params.description) {
             output.push("<p>" + params.description + "</p>");
         }
@@ -38,11 +42,34 @@ module.exports = function (hbs) {
         var child = options.fn(this);
         if (params.selected) {
             child = child.replace(
-                "<option>" + params.selected + "</option>",
-                "<option selected='selected'>" + params.selected + "</option>"
+                ">" + params.selected + "</option>",
+                "selected='selected'>" + params.selected + "</option>"
             );
         }
         output.push(child);
+        // Closes
+        output.push("</select>");
+        output.push("</div>");
+        // Return
+        return output.join("");
+    });
+
+    hbs.registerHelper("form_tags", function (options) {
+        var params = options.hash,
+            output = [];
+        // Defaults
+        if (params.required) { params.required = " required"; }
+        else { params.required = ""; }
+        // Build
+        output.push("<div class=form-group>");
+        output.push("<label for=" + params.name + ">" + params.title);
+        if (params.required) { output.push("*"); }
+        output.push("</label>");
+        if (params.description) {
+            output.push("<p>" + params.description + "</p>");
+        }
+        output.push("<select multiple data-role=\"tagsinput\" class=form-control name=" + params.name + " " + params.required + ">");
+        output.push(options.fn(this));
         // Closes
         output.push("</select>");
         output.push("</div>");
