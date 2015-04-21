@@ -12,8 +12,8 @@
     <option value="Female">Female</option>
     <option value="Other">Other</option>
 {{/form_select}}
-<p>TODO: Datetime picker</p>
-{{{form_input title="Birth Date" name="birthDate" type="date" value=birthDate}}}
+{{{form_input title="Birth Date" name="birthDate" type="date" value=(date birthDate)
+    description="Should be <code>mm-dd-yyyy</code>"}}}
 {{{form_input title="Phone Number" name="phone" type="text" value=phone}}}
 {{{form_input title="Email Address" name="email" type="text" value=email}}}
 {{{form_input title="Contact Name" name="contactName" type="text" value=contactName}}}
@@ -29,3 +29,11 @@
         <option>{{this}}</option>
     {{/each}}
 {{/form_tags}}
+<script>
+    $(function () {
+        $("input[type='date']").datepicker({
+            format: "mm-dd-yyyy",
+            startView: 2,
+        });
+    });
+</script>

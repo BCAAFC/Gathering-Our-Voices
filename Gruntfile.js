@@ -21,6 +21,8 @@ module.exports = function(grunt) {
                         'bower_components/datatables/media/js/jquery.dataTables.js',
                         'bower_components/datatables-colvis/js/dataTables.colVis.js',
                         'bower_components/datatables-responsive/js/dataTables.responsive.js',
+                        // Dates
+                        'bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.js',
                     ],
                 },
             },
@@ -54,6 +56,8 @@ module.exports = function(grunt) {
                         'bower_components/datatables/media/css/dataTables.bootstrap.css',
                         'bower_components/datatables-colvis/css/dataTables.colVis.css',
                         'bower_components/datatables-responsive/css/dataTables.fontAwesome.css',
+                        // Dates
+                        'bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.css',
                         // Custom
                         'assets/styles.css',
                     ],

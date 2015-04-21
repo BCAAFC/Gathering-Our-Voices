@@ -1,4 +1,5 @@
-var middleware = require("../../middleware");
+var middleware = require("../../middleware"),
+    moment = require("moment");
 
 module.exports = function (db, redis) {
     var router = require("express").Router();
@@ -13,8 +14,9 @@ module.exports = function (db, redis) {
         }).then(function (account) {
             if (!req.body.email) { req.body.email = null; }
             if (!req.body.birthDate) { req.body.birthDate = null; }
+            else { req.body.birthDate = new Date(req.body.birthDate); }
             if (!req.body.gender) { req.body.gender = null; }
-            return req.session.account.Group.createMember(req.body);
+            return account.Group.createMember(req.body);
         }).then(function (member) {
             res.format({
                 'text/html': function () { res.redirect('back'); },

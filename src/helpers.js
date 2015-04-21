@@ -1,6 +1,12 @@
+var moment = require('moment');
+
 module.exports = function (hbs) {
     hbs.registerHelper("JSON", function (val) {
         return JSON.stringify(val, null, 2);
+    });
+
+    hbs.registerHelper("date", function (val) {
+        return moment(val).format("MM-DD-YYYY");
     });
 
     hbs.registerHelper("form_input", function (options) {
@@ -11,7 +17,9 @@ module.exports = function (hbs) {
             if (params.value === true) {
                 params.value = " checked=\"checked\"";
             } else { params.value = ""; }
-        } else if (params.value) { params.value = " value=" + params.value; }
+        } else if (params.value) { params.value = " value=\"" + params.value + "\"";
+        } else { params.value = ""; }
+
 
         if (params.required) { params.required = " required"; }
         else { params.required = ""; }
