@@ -27,8 +27,16 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="content">Content</label>
-                                    <p>Need help? See <a target="_blank" href="https://guides.github.com/features/mastering-markdown/">this guide</a>. Leave the <code>\{{word}}</code> things alone. <a id="rollback" class="btn btn-xs btn-danger">Rollback</a></p>
+                                    <p>Need help? Ask, don't go it alone! Leave the <code>\{{word}}</code> things alone. <a id="rollback" class="btn btn-xs btn-danger">Rollback</a></p>
                                     <textarea id="content" name="content" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Authentication Level</label>
+                                    <select id="requirements" name="requirements" class="form-control">
+                                        <option>Normal</option>
+                                        <option>Authenticated</option>
+                                        <option>Administrator</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label for="path">Path</label>
@@ -67,6 +75,7 @@
                 $("#method").val("POST");
                 $("#editor").attr("action", "/api/page/");
                 $("#title").val("");
+                $("#requirements").val("Normal");
                 $("#featured").val(false);
                 $("#path").val("");
                 content.setValue("");
@@ -82,6 +91,7 @@
                         $("#method").val("POST");
                         $("#editor").attr("action", "/api/page/");
                         $("#title").val("");
+                        $("#requirements").val("Normal");
                         $("#featured").val(false);
                         $("#path").val("");
                         content.setValue("");
@@ -90,6 +100,7 @@
                             $("#method").val("PUT");
                             $("#editor").attr("action", "/api/page/" + data.id);
                             $("#title").val(data.title);
+                            $("#requirements").val(data.requirements);
                             console.log(data);
                             $("#featured").attr("checked", data.featured);
                             $("#path").val(data.path);

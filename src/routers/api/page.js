@@ -34,6 +34,7 @@ module.exports = function (db, redis) {
             page.path = req.body.path || page.path;
             page.title = req.body.title || page.title;
             page.content = req.body.content || page.content;
+            page.requirements = req.body.requirements || page.requirements;
             page.featured = req.body.featured;
             return page.save();
         }).then(function (page) {
