@@ -42,8 +42,8 @@ module.exports = function (hbs) {
         var child = options.fn(this);
         if (params.selected) {
             child = child.replace(
-                ">" + params.selected + "</option>",
-                "selected='selected'>" + params.selected + "</option>"
+                "value=\"" + params.selected + "\"",
+                "value=\"" + params.selected + "\" selected='selected'"
             );
         }
         output.push(child);

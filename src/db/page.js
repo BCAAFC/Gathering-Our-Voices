@@ -24,6 +24,11 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.TEXT,
             allowNull: true,
         },
+        requirements: {
+            type: DataTypes.ENUM,
+            values: [ "Normal", "Authenticated", "Administrator" ],
+            defaultValue: "Normal",
+        },
     }, {
         classMethods: {
             associate: function(models) {

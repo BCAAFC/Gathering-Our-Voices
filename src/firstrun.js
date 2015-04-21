@@ -64,12 +64,14 @@ module.exports = function (env, db) {
             path: "/account",
             title: "Account",
             content: "",
+            requirements: "Authenticated",
         });
     }).then(function () {
         return db.Page.create({
             path: "/admin",
             title: "Administration",
             content: "",
+            requirements: "Administrator",
         });
     });
 };

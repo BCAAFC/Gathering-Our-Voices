@@ -5,18 +5,35 @@ module.exports = function (db, redis) {
         db.Page.findOne({
             where: { path: req.url },
         }).then(function (page) {
-            console.log(req.session.account);
-            if (page) {
-                page.render(res, "default", {
-                    title: page.title,
-                    account: req.session.account,
-                    admin: req.session.isAdmin,
-                    alert: req.alert,
-                });
+            if (!page) {
+                throw new Error("Path `" + req.originalUrl + "`does not exist.");
+            } else if (page.requirements === "Normal") {
+                return page;
             } else {
-                console.warn('Path `' + req.originalUrl + '`does not exist.');
-                res.status(404).send('Path `' + req.originalUrl + '`does not exist.');
+                if (page.requirements === "Authenticated" && !req.session.account) {
+                    throw new Error("You are not authenticated.");
+                } else if (page.requirements === "Administrator" && !req.session.isAdmin) {
+                    throw new Error("You are not an administrator");
+                }
+                // Refresh account information.
+                return db.Account.findOne({
+                    where: { id: req.session.account.id, },
+                    include: [{ all: true, nested: true, }]
+                }).then(function (account) {
+                    req.session.account = account;
+                    return page;
+                });
             }
+        }).then(function (page) {
+            page.render(res, "default", {
+                title: page.title,
+                account: req.session.account,
+                admin: req.session.isAdmin,
+                alert: req.alert,
+            });
+        }).catch(function (error) {
+            console.warn(error.message);
+            res.status(404).send(error.message);
         });
     });
 

@@ -1,31 +1,31 @@
-{{{form_input title="Full Name" name="name" type="text" value=member.name required=true}}}
-{{#form_select title="Member Type" name="type" selected=member.type required=true}}
+{{{form_input title="Full Name" name="name" type="text" value=name required=true}}}
+{{#form_select title="Member Type" name="type" selected=type required=true}}
     <option value="">Choose...</option>
     <option value="Youth">Youth (14-17)</option>
     <option value="Young Adult">Young Adult (18-24)</option>
     <option value="Young Chaperone">Young Chaperone (21-24)</option>
     <option value="Chaperone">Chaperone (24+)</option>
 {{/form_select}}
-{{#form_select title="Gender" name="gender" selected=member.gender}}
+{{#form_select title="Gender" name="gender" selected=gender}}
     <option value="">Choose...</option>
-    <option>Male</option>
-    <option>Female</option>
-    <option>Other</option>
+    <option value="Male">Male</option>
+    <option value="Female">Female</option>
+    <option value="Other">Other</option>
 {{/form_select}}
 <p>TODO: Datetime picker</p>
-{{{form_input title="Birth Date" name="birthDate" type="date" value=member.birthDate}}}
-{{{form_input title="Phone Number" name="phone" type="text" value=member.phone}}}
-{{{form_input title="Email Address" name="email" type="text" value=member.email}}}
-{{{form_input title="Contact Name" name="contactName" type="text" value=member.contactName}}}
-{{{form_input title="Contact Phone" name="contactPhone" type="text" value=member.contactPhone}}}
-{{{form_input title="Medical Number" name="medicalNumber" type="text" value=member.medicalNumber}}}
+{{{form_input title="Birth Date" name="birthDate" type="date" value=birthDate}}}
+{{{form_input title="Phone Number" name="phone" type="text" value=phone}}}
+{{{form_input title="Email Address" name="email" type="text" value=email}}}
+{{{form_input title="Contact Name" name="contactName" type="text" value=contactName}}}
+{{{form_input title="Contact Phone" name="contactPhone" type="text" value=contactPhone}}}
+{{{form_input title="Medical Number" name="medicalNumber" type="text" value=medicalNumber}}}
 {{#form_tags title="Allergies" name="allergies" type="text"}}
-    {{#each member.allergies}}
+    {{#each allergies}}
         <option>{{this}}</option>
     {{/each}}
 {{/form_tags}}
 {{#form_tags title="Conditions" name="conditions" type="text"}}
-    {{#each member.conditions}}
+    {{#each conditions}}
         <option>{{this}}</option>
     {{/each}}
 {{/form_tags}}
