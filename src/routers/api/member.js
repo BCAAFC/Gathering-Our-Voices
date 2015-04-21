@@ -1,3 +1,5 @@
+var middleware = require("../../middleware");
+
 module.exports = function (db, redis) {
     var router = require("express").Router();
 
@@ -25,7 +27,7 @@ module.exports = function (db, redis) {
     });
 
     router.route("/:id")
-    .put(function (req, res) {
+    .put(middleware.auth, function (req, res) {
         db.Member.findOne({
             where: { id: req.params.id },
         }).then(function (member) {
@@ -33,7 +35,9 @@ module.exports = function (db, redis) {
             if (req.session.account.Group.id === member.Group) {
                 throw new Error("The member specified is not in your group.");
             }
-
+            if (!req.body.email) { req.body.email = null; }
+            if (!req.body.birthDate) { req.body.birthDate = null; }
+            if (!req.body.gender) { req.body.gender = null; }
         });
     });
 

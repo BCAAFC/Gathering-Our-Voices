@@ -1,4 +1,5 @@
-<form action='/api/member/{{member.id}}' method='POST' class="form-horizontal">
+<form action='/api/member/{{id}}' method='POST' class="form-horizontal">
+    <input style="display: none;" name="_method" value="PUT">
     <legend>Update Existing Member</legend>
     {{> member_form}}
     <div class="form-group">
