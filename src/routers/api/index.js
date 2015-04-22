@@ -13,6 +13,8 @@ module.exports = function (db, redis) {
         require("./group")(db, redis));
     router.use("/member",
         require("./member")(db, redis));
+    router.use("/payment",
+        require("./payment")(db, redis));
     router.use("/page",
         require("./page")(db, redis));
 
