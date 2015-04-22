@@ -12,7 +12,10 @@ module.exports = function (db, redis) {
             req.body.featured = true;
         } else { req.body.featured = false; }
         db.Page.create(req.body).then(function (page) {
-            res.status(200).json(page);
+            res.format({
+                'text/html': function () { res.redirect('back'); },
+                'default': function () { res.status(200).json(page); },
+            });
         });
     });
 
@@ -38,7 +41,10 @@ module.exports = function (db, redis) {
             page.featured = req.body.featured;
             return page.save();
         }).then(function (page) {
-            res.status(200).json(page);
+            res.format({
+                'text/html': function () { res.redirect('back'); },
+                'default': function () { res.status(200).json(page); },
+            });
         }).catch(function (error) {
             res.status(500).json({ message: error.message });
         });

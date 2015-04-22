@@ -21,12 +21,12 @@
 {{{form_input title="Medical Number" name="medicalNumber" type="text" value=medicalNumber}}}
 {{#form_tags title="Allergies" name="allergies" type="text"}}
     {{#each allergies}}
-        <option>{{this}}</option>
+        <option value="{{this}}">{{this}}</option>
     {{/each}}
 {{/form_tags}}
 {{#form_tags title="Conditions" name="conditions" type="text"}}
     {{#each conditions}}
-        <option>{{this}}</option>
+        <option value="{{this}}">{{this}}</option>
     {{/each}}
 {{/form_tags}}
 <script>

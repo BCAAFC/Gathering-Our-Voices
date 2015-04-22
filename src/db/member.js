@@ -101,6 +101,15 @@ module.exports = function (sequelize, DataTypes) {
             },
         },
         hooks: {
+            beforeValidate: function (member, options, fn) {
+                if (typeof member.allergies == "string") {
+                    member.allergies = [member.allergies];
+                }
+                if (typeof member.conditions == "string") {
+                    member.conditions = [member.conditions];
+                }
+                fn(null, member);
+            },
             afterValidate: function (member, options, fn) {
                 if (member.name &&
                     member.type &&
