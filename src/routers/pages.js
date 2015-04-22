@@ -3,7 +3,7 @@ module.exports = function (db, redis) {
 
     router.get("/*", function (req, res) {
         db.Page.findOne({
-            where: { path: req.url },
+            where: { path: req.originalUrl },
         }).then(function (page) {
             if (!page) {
                 throw new Error("Path `" + req.originalUrl + "`does not exist.");
