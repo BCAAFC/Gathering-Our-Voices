@@ -15,6 +15,8 @@ module.exports = function (db, redis) {
         require("./member")(db, redis));
     router.use("/payment",
         require("./payment")(db, redis));
+    router.use("/image",
+        require("./image")(db, redis));
     router.use("/page",
         require("./page")(db, redis));
 

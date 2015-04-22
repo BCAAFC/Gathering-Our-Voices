@@ -28,7 +28,7 @@ module.exports = function (env, db, redisClient) {
     server.use(require("body-parser").json());
     server.use(require("body-parser").urlencoded({ extended: true }));
     // Multipart form handling, for image uploads.
-    server.use(require("multer")());
+    server.use(require("multer")({ dest: "/tmp/", }));
     // Allow PUT/DELETE in forms.
     server.use(require("method-override")(function methodOverrider(req, res) {
         // Just include a `_method` input on a form with the method you want.

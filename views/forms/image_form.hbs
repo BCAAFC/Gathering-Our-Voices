@@ -1,0 +1,13 @@
+{{{form_input title="Keyword" name="keyword" type="text" value=keyword required=true
+    description="Specify a keyword for your image. It will be verified for uniqueness. Later you can retrieve the image based on this keyword."}}}
+{{{form_input title="File" name="data" type="file" value=data required=true}}}
+{{{form_input title="Caption" name="caption" type="text" value=caption required=true}}}
+
+{{#form_select title="Resize Image to..." name="size" selected=size
+    description="Choose a size for your image to be resized to <strong>according to largest side, it will not enlarge images</strong>. Consider thoughtfully."}}
+    <option value="">Choose...</option>
+    <option value="300">300px (Small image)</option>
+    <option value="600">600px (Roughly Half page, use often)</option>
+    <option value="1080">1080px (Roughly whole page)</option>
+    <option value="1650">1650px (High-resolution wallpaper, use sparingly)</option>
+{{/form_select}}
