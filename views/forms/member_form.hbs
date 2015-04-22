@@ -13,7 +13,7 @@
     <option value="Other">Other</option>
 {{/form_select}}
 {{{form_input title="Birth Date" name="birthDate" type="date" value=(date birthDate)
-    description="Should be <code>mm-dd-yyyy</code>"}}}
+    description="Should be <code>MM-DD-YYYY</code>."}}}
 {{{form_input title="Phone Number" name="phone" type="text" value=phone}}}
 {{{form_input title="Email Address" name="email" type="text" value=email}}}
 {{{form_input title="Contact Name" name="contactName" type="text" value=contactName}}}
@@ -32,7 +32,7 @@
 <script>
     $(function () {
         $("input[type='date']").datepicker({
-            format: "mm-dd-yyyy",
+            format: "mm/dd/yyyy",
             startView: 2,
         });
     });

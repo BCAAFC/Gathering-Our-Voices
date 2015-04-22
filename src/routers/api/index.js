@@ -5,6 +5,8 @@ module.exports = function (db, redis) {
         require("./account")(db, redis));
     router.use("/workshop",
         require("./workshop")(db, redis));
+    router.use("/session",
+        require("./session")(db, redis));
     router.use("/exhibitor",
         require("./exhibitor")(db, redis));
     router.use("/group",

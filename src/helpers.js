@@ -6,7 +6,11 @@ module.exports = function (hbs) {
     });
 
     hbs.registerHelper("date", function (val) {
-        return moment(val).format("MM-DD-YYYY");
+        return moment(val).format("MM/DD/YYYY");
+    });
+
+    hbs.registerHelper("datetime", function (val) {
+        return moment(val).format("MM/DD/YYYY HH:mm A");
     });
 
     hbs.registerHelper("form_input", function (options) {
