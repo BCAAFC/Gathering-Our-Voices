@@ -77,10 +77,9 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
             values: [ "Cheque", "Money Order", "Credit Card" ],
         },
-        // Status
-        paid: {
+        // Private
+        approved: {
             type: DataTypes.BOOLEAN,
-            allowNull: false,
             defaultValue: false,
         },
     }, {
@@ -92,6 +91,20 @@ module.exports = function (sequelize, DataTypes) {
         getterMethods: {
             cost: function () {
                 return EXHIBITOR_COST;
+            },
+        },
+        hooks: {
+            beforeValidate: function (exhibitor, options, fn) {
+                if (typeof exhibitor.representatives == "string") {
+                    exhibitor.representatives = [exhibitor.representatives];
+                }
+                if (typeof exhibitor.categories == "string") {
+                    exhibitor.categories = [exhibitor.categories];
+                }
+                if (typeof exhibitor.provides == "string") {
+                    exhibitor.provides = [exhibitor.provides];
+                }
+                fn(null, exhibitor);
             },
         },
     });

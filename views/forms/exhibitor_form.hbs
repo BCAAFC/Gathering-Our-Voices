@@ -1,0 +1,39 @@
+{{#form_tags title="Representatives" name="representatives"}}
+    {{#each representatives}}
+        <option value="{{this}}">{{this}}</option>
+    {{/each}}
+{{/form_tags}}
+{{#form_select title="Categories" name="categories" selected=categories required=true multiple=14}}
+    <option value="Post-Secondary">Post-Secondary</option>
+    <option value="Health Organization/Agency">Health Organization/Agency</option>
+    <option value="Federal Agency/Department">Federal Agency/Department</option>
+    <option value="Justice Organization/Agency">Justice Organization/Agency</option>
+    <option value="Community Service Organization/Agency">Community Service Organization/Agency</option>
+    <option value="Arts & Crafts Business">Arts & Crafts Business</option>
+    <option value="Youth Group/Organization">Youth Group/Organization</option>
+    <option value="Trades & Technical Training">Trades & Technical Training</option>
+    <option value="Provincial Agency/Department">Provincial Agency/Department</option>
+    <option value="Industry">Industry</option>
+    <option value="Media/Communications">Media/Communications</option>
+    <option value="Company/Business">Company/Business</option>
+    <option value="Volunteer/Community Raffle">Volunteer/Community Raffle</option>
+    <option value="Other">Other</option>
+{{/form_select}}
+{{#form_select title="Provides" name="provides" selected=provides required=true multiple=6}}
+    <option value="Giveaway items">Giveaway items</option>
+    <option value="Print information">Print information</option>
+    <option value="Membership information">Membership information</option>
+    <option value="Raffled item">Raffled item</option>
+    <option value="Electronic Information">Electronic Information</option>
+    <option value="Other">Other</option>
+{{/form_select}}
+
+{{{form_input title="Electrical" name="electrical" type="checkbox" value=electrical
+    description="Mark this if you require an electrical outlet."}}}
+{{{form_input title="Delegate Bags" name="delegateBags" type="checkbox" value=delegateBags
+    description="Mark this if you have an item for the delegate bags."}}}
+{{#form_select title="Payment Method" name="payment" selected=payment required=true}}
+    <option value="Cheque">Cheque</option>
+    <option value="Money Order">Money Order</option>
+    <option value="Credit Card">Credit Card</option>
+{{/form_select}}

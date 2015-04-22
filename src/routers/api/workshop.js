@@ -10,14 +10,14 @@ module.exports = function (db, redis) {
             ],
         }).then(function (account) {
             if (account.Workshop) { throw new Error("Already workshop associated with this account."); }
+            // Defaults.
             if (req.body.mailing === undefined) { req.body.mailing = false; }
             if (req.body.projector === undefined) { req.body.projector = false; }
             if (req.body.screen === undefined) { req.body.screen = false; }
             if (req.body.player === undefined) { req.body.player = false; }
             if (req.body.meals === undefined) { req.body.meals = false; }
             if (req.body.accomodation === undefined) { req.body.accomodation = false; }
-            if (typeof req.body.audience === "string") { req.body.audience = [req.body.audience]; }
-            if (typeof req.body.type === "string") { req.body.type = [req.body.type]; }
+            // Create
             return account.createWorkshop(req.body);
         }).then(function (workshop) {
             res.format({

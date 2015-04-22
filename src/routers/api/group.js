@@ -4,15 +4,6 @@ module.exports = function (db, redis) {
     var router = require("express").Router();
 
     router.route("/")
-    // Send all groups.
-    .get(middleware.admin, function (req, res) {
-        // TODO: Costs?
-        db.Group.findAll({ include: [ db.Account ] }).then(function (groups) {
-            res.status(200).json(groups);
-        }).catch(function (error) {
-            res.status(401).json({ error: error.message });
-        });
-    })
     // Group creation.
     .post(middleware.auth, function (req, res) {
         db.Account.findOne({
@@ -38,23 +29,6 @@ module.exports = function (db, redis) {
     });
 
     router.route("/:id")
-    // Send a given group. Need to verify is valid in fn.
-    .get(middleware.auth, function (req, res) {
-        db.Group.findOne({
-            where: { id: req.params.id, },
-            include: [ db.Account ],
-        }).then(function (group) {
-            return [group, group.getAccount(), ];
-        }).spread(function (group, account) {
-            if (!group) { throw new Error("Group doesn't exist"); }
-            if (account.id !== req.session.id && !req.session.isAdmin) {
-                throw new Error("Group is not related to this account.");
-            }
-            res.status(200).json(group);
-        }).catch(function (error) {
-            res.status(401).json({ error: error.message });
-        });
-    })
     // Edit an group. Need to verify is valid in fn.
     .put(middleware.ownAccount, function (req, res) {
         db.Group.findOne({

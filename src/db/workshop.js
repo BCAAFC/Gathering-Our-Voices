@@ -156,8 +156,19 @@ module.exports = function (sequelize, DataTypes) {
             },
         },
         instanceMethods: {
-            accepts: function(type) {
+            accepts: function (type) {
                 return this.audience.indexOf(type) !== -1;
+            },
+        },
+        hooks: {
+            beforeValidate: function (workshop, options, fn) {
+                if (typeof workshop.audience == "string") {
+                    workshop.audience = [workshop.audience];
+                }
+                if (typeof workshop.type == "string") {
+                    workshop.type = [workshop.type];
+                }
+                fn(null, workshop);
             },
         },
     });
