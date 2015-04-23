@@ -7,6 +7,11 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        Facilitators: {
+            type: DataTypes.ARRAY(DataTypes.STRING),
+            allowNull: false,
+            comment: "The primary account controller should be included.",
+        },
         length: {
             type: DataTypes.ENUM,
             values: [ "1.5 hour", "3 hour", "Full day" ],
@@ -60,7 +65,7 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
         },
         summary: {
-            type: DataTypes.TEXT,
+            type: DataTypes.STRING(500),
             allowNull: false,
         },
         interactionLevel: {
@@ -78,8 +83,8 @@ module.exports = function (sequelize, DataTypes) {
             comment: "Is a mailing required?"
         },
         flipchart: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
+            type: DataTypes.TEXT,
+            allowNull: true,
         },
         projector: {
             type: DataTypes.BOOLEAN,

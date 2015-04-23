@@ -1,4 +1,10 @@
-{{{form_input title="Title" name="title" type="text"  value=title required=true}}}
+{{{form_input title="Title of Workshop" name="title" type="text"  value=title required=true}}}
+{{#form_tags title="Facilitators" name="facilitators" required=true
+    description="Please include <strong>full, legal names</strong> of all members, including the primary registrant for this account."}}
+    {{#each representatives}}
+        <option value="{{this}}">{{this}}</option>
+    {{/each}}
+{{/form_tags}}
 {{#form_select title="Length of a Session" name="length" selected=length required=true}}
     <option value="">Choose...</option>
     <option value="1.5 hour">1.5 hour</option>
@@ -29,7 +35,7 @@
 {{{form_textarea title="Description of Workshop" name="description" value=description required=true
     description="This will be shown directly to delegates browsing workshops. Make it engaging, exciting, and interesting! It can be as long as you like."}}}
 {{{form_textarea title="Summary of Workshop" name="summary" value=summary required=true
-    description="A simple, one or two sentence description of your workshop that catches the eye."}}}
+    description="A simple, one or two sentence description of your workshop that catches the eye. <strong>Limit of 500 characters.</strong>"}}}
 {{{form_textarea title="Interaction Level" name="interactionLevel" value=interactionLevel required=true
     description="Describe how your workshop interacts with attendees. This is used as part of the selection process, our selection committee favors highly interactive workshops."}}}
 {{{form_input title="Capacity" name="capacity" type="number"  value=capacity required=true
@@ -39,8 +45,8 @@
 
 {{{form_input title="Mailing" name="mailing" type="checkbox" value=mailing
     description="If you require assistance mailing things for the conference mark this."}}}
-{{{form_input title="Flipchart" name="flipchart" type="number" value=flipchart required=true
-    description="Do you require a flipcharts? Enter 0 if not, or the number if you do."}}}
+{{{form_input title="Flipchart" name="flipchart" type="text" value=flipcharts
+    description="Do you require a flipcharts? Leave this blank if you don't, or specify the number of flipcharts <strong>and</strong> markers."}}}
 {{{form_input title="Projector" name="projector" type="checkbox" value=projector
     description="Do you require a projector for your workshop?"}}}
 {{{form_input title="Screen" name="screen" type="checkbox" value=screen
@@ -48,7 +54,7 @@
 {{{form_input title="Media Player" name="player" type="checkbox" value=player
     description="Do you require a DVD/CD player for your workshop?"}}}
 
-{{#form_select title="Room Type" name="room" selected=room required=true}}
+{{#form_select title="Room Setup" name="room" selected=room required=true}}
     <option value="Circle">Circle</option>
     <option value="Semicircle">Semicircle</option>
     <option value="Gym">Gym</option>
@@ -56,7 +62,7 @@
     <option value="Classroom">Classroom</option>
     <option value="Dance">Dance</option>
     <option value="Boardroom">Boardroom</option>
-    <option value="Clear">Clear</option>
+    <option value="Clear">Clear (No chairs, tables)</option>
 {{/form_select}}
 
 {{{form_textarea title="Facilitator Biography" name="biography" value=biography required=true

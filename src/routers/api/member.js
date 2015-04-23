@@ -53,6 +53,7 @@ module.exports = function (db, redis) {
             member.email = req.body.email || member.email;
             member.contactName = req.body.contactName || member.contactName;
             member.contactPhone = req.body.contactPhone || member.contactPhone;
+            member.contactRelation = req.body.contactRelation || member.contactRelation;
             member.medicalNumber = req.body.medicalNumber || member.medicalNumber;
             member.allergies = req.body.allergies || member.allergies;
             member.conditions = req.body.conditions || member.conditions;

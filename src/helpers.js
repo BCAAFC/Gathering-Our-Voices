@@ -24,7 +24,6 @@ module.exports = function (hbs) {
         } else if (params.value) { params.value = " value=\"" + params.value + "\"";
         } else { params.value = ""; }
 
-
         if (params.required) { params.required = " required"; }
         else { params.required = ""; }
         // Build
@@ -34,6 +33,9 @@ module.exports = function (hbs) {
         output.push("</label>");
         if (params.description) {
             output.push("<p>" + params.description + "</p>");
+        }
+        if (params.type === "number") {
+            output.push("<p><small>This input will only accept numeric values.</small></p>");
         }
         output.push("<input class=form-control type=" + params.type + " name=" + params.name + params.required + params.value + ">");
         output.push("</div>");

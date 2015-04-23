@@ -13,18 +13,24 @@
     <option value="Other">Other</option>
 {{/form_select}}
 {{{form_input title="Birth Date" name="birthDate" type="date" value=(date birthDate)
-    description="Should be <code>MM-DD-YYYY</code>."}}}
-{{{form_input title="Phone Number" name="phone" type="text" value=phone}}}
-{{{form_input title="Email Address" name="email" type="text" value=email}}}
+    description="Should be <code>MM/DD/YYYY</code>."}}}
+{{{form_input title="Phone Number" name="phone" type="text" value=phone
+    description="If this member has a cellphone, please specify it here so we can contact you on-site if necessary."}}}
+{{{form_input title="Email Address" name="email" type="text" value=email
+    description="This is <strong>optional</strong>. If this is entered we will email this address when changes occur to workshops the workshops the member is enrolled in."}}}
+
+<h3> Emergency Information</h3>
 {{{form_input title="Contact Name" name="contactName" type="text" value=contactName}}}
 {{{form_input title="Contact Phone" name="contactPhone" type="text" value=contactPhone}}}
+{{{form_input title="Contact Relationship" name="contactRelation" type="text" value=contactRelation
+    description="The contact's relationship with the member."}}}
 {{{form_input title="Medical Number" name="medicalNumber" type="text" value=medicalNumber}}}
 {{#form_tags title="Allergies" name="allergies" type="text"}}
     {{#each allergies}}
         <option value="{{this}}">{{this}}</option>
     {{/each}}
 {{/form_tags}}
-{{#form_tags title="Conditions" name="conditions" type="text"}}
+{{#form_tags title="Medical Conditions" name="conditions" type="text"}}
     {{#each conditions}}
         <option value="{{this}}">{{this}}</option>
     {{/each}}

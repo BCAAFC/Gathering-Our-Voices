@@ -50,6 +50,7 @@ module.exports = function (db, redis) {
             return workshop;
         }).then(function (workshop) {
             workshop.title = req.body.title || workshop.title;
+            exhibitor.facilitators = req.body.facilitators || exhibitor.facilitators;
             workshop.length = req.body.length || workshop.length;
             workshop.category = req.body.category || workshop.category;
             workshop.categoryReason = req.body.categoryReason || workshop.categoryReason;

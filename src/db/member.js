@@ -115,7 +115,6 @@ module.exports = function (sequelize, DataTypes) {
                     member.type &&
                     member.gender &&
                     member.birthDate &&
-                    member.phone &&
                     member.contactName &&
                     member.contactRelation &&
                     member.contactPhone &&
