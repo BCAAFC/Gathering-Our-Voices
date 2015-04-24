@@ -2,7 +2,7 @@
     description="Should be <code>MM-DD-YYYY</code>."}}}
 {{{form_input title="Amount" name="amount" type="number"  value=amount required=true
     description="The amount (in CAD) of the payment."}}}
-{{{form_input title="Number" name="number" type="text"  value=number required=true
+{{{form_input title="Number" name="number" type="text"  value=number
     description="An optional cheque or invoice number. <strong>Not a credit card number etc.</strong>"}}}
 {{#form_select title="Type" name="type" selected=type required=true}}
     <option value="">Choose...</option>
@@ -14,7 +14,7 @@
     <option value="Waived">Waived</option>
 {{/form_select}}
 {{{form_textarea title="Description" name="description" type="text" value=description
-    description="<strong>Do not put credit card numbers etc in here.</strong>"}}}
+    description="<strong>Do not put credit card numbers etc in here.</strong> This is shown to the account holder."}}}
 <script>
     $(function () {
         $("input[type='date']").datepicker({

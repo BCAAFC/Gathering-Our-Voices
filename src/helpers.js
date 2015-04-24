@@ -183,4 +183,22 @@ module.exports = function (hbs) {
 
         return output.join("");
     });
+
+    hbs.registerHelper("balance", function (account, options) {
+        var total = 0;
+        if (account.Group && account.Group.Members) {
+            total += account.Group.Members.reduce(function (acc, item) {
+                return acc + item.cost;
+            }, 0);
+        }
+        if (account.Exhibitor) {
+            total += account.Exhibitor.cost;
+        }
+        if (account.Payments) {
+            total -= account.Payments.reduce(function (acc, item) {
+                return acc + item.amount;
+            }, 0);
+        }
+        return total;
+    });
 };

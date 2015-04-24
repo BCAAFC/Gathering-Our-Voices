@@ -15,6 +15,7 @@ module.exports = function (db, redis) {
             if (req.body.electrical === "No") { req.body.electrical = false; }
             if (req.body.delegateBags === "Yes") { req.body.delegateBags = true; } else
             if (req.body.delegateBags === "No") { req.body.delegateBags = false; }
+            req.body.cost = 400;
             return account.createExhibitor(req.body);
         }).then(function (workshop) {
             res.format({

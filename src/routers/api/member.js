@@ -2,6 +2,9 @@ var middleware = require("../../middleware"),
     moment = require("moment"),
     alert = require("../../alert");
 
+// TODO: Make this ENV.
+var EARLYBIRD_DEADLINE = new Date("February 6 2016"); // It's actually the 5th.
+
 module.exports = function (db, redis) {
     var router = require("express").Router();
 
@@ -24,6 +27,15 @@ module.exports = function (db, redis) {
             // Transform the form
             if (req.body.notifications === "Yes") { req.body.notifications = true; } else
             if (req.body.notifications === "No") { req.body.notifications = false; }
+            // Determine cost
+            if (new Date() < EARLYBIRD_DEADLINE) {
+                // Earlybird.
+                req.body.cost = 125;
+            } else {
+                // Regular
+                req.body.cost = 175;
+            }
+
             return account.Group.createMember(req.body);
         }).then(function (member) {
             res.format({
@@ -70,6 +82,9 @@ module.exports = function (db, redis) {
             member.medicalNumber = req.body.medicalNumber;
             member.allergies = req.body.allergies;
             member.conditions = req.body.conditions;
+            if (req.session.isAdmin) {
+                member.cost = req.body.cost;
+            }
             // Save
             return member.save();
         }).then(function (member) {

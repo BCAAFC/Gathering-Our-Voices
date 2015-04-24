@@ -82,10 +82,9 @@ module.exports = function (sequelize, DataTypes) {
             defaultValue: false,
             allowNull: false,
         },
-        ticketType: {
-            type: DataTypes.ENUM,
-            values: [ "Early", "Regular", ],
-            defaultValue: "Regular",
+        cost: {
+            type: DataTypes.INTEGER,
+            defaultValue: 175,
             allowNull: false,
         },
     }, {
@@ -93,15 +92,6 @@ module.exports = function (sequelize, DataTypes) {
             associate: function (models) {
                 Member.belongsTo(models.Group);
                 Member.belongsToMany(models.Session, { through: "MemberSession" });
-            },
-        },
-        instanceMethods: {
-            cost: function () {
-                if (this.ticketType === "Early") {
-                    return 125;
-                } else {
-                    return 175;
-                }
             },
         },
         hooks: {

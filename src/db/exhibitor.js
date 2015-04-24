@@ -72,6 +72,11 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
             comment: "Item for the delegate bags",
         },
+        cost: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            defautValue: EXHIBITOR_COST,
+        },
         payment: {
             type: DataTypes.ENUM,
             allowNull: false,
@@ -86,11 +91,6 @@ module.exports = function (sequelize, DataTypes) {
         classMethods: {
             associate: function (models) {
                 Exhibitor.belongsTo(models.Account);
-            },
-        },
-        getterMethods: {
-            cost: function () {
-                return EXHIBITOR_COST;
             },
         },
         hooks: {
