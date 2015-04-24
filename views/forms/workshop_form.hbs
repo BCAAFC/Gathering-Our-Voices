@@ -41,20 +41,21 @@
 {{{form_input title="Capacity" name="capacity" type="number"  value=capacity required=true
     description="Indicate the number of attendees you are comfortable hosting. This is used to scheduling as well as the selection process. Please <strong>only</strong> specify a number."}}}
 
-<h3>Resources</h3>
-
-{{{form_boolean title="Mailing" name="mailing" value=mailing
-    description="If you require assistance mailing things for the conference mark this."}}}
-{{{form_input title="Flipchart" name="flipchart" type="text" value=flipcharts
-    description="Do you require a flipcharts? Leave this blank if you don't, or specify the number of flipcharts <strong>and</strong> markers."}}}
-{{{form_boolean title="Projector" name="projector" value=projector
-    description="Do you require a projector for your workshop?"}}}
-{{{form_boolean title="Screen" name="screen" value=screen
-    description="Do you require a screen for your workshop?"}}}
-{{{form_boolean title="Media Player" name="player" value=player
-    description="Do you require a DVD/CD player for your workshop?"}}}
-{{{form_boolean title="Microphone & Speakers" name="microphone" value=microphone
-    description="Do you require a microphone and speakers for your workshop?"}}}
+<fieldset>
+    <legend>Resources</legend>
+    {{{form_boolean title="Mailing" name="mailing" value=mailing
+        description="If you require assistance mailing things for the conference mark this."}}}
+    {{{form_input title="Flipchart" name="flipchart" type="text" value=flipcharts
+        description="Do you require a flipcharts? Leave this blank if you don't, or specify the number of flipcharts <strong>and</strong> markers."}}}
+    {{{form_boolean title="Projector" name="projector" value=projector
+        description="Do you require a projector for your workshop?"}}}
+    {{{form_boolean title="Screen" name="screen" value=screen
+        description="Do you require a screen for your workshop?"}}}
+    {{{form_boolean title="Media Player" name="player" value=player
+        description="Do you require a DVD/CD player for your workshop?"}}}
+    {{{form_boolean title="Microphone & Speakers" name="microphone" value=microphone
+        description="Do you require a microphone and speakers for your workshop?"}}}
+</fieldset>
 
 {{#form_select title="Room Setup" name="room" selected=room required=true}}
     <option value="Circle">Circle</option>
@@ -70,15 +71,17 @@
 {{{form_textarea title="Facilitator Biography" name="biography" value=biography required=true
     description="Tell us a bit about yourself! What other workshops have you facilitated?"}}}
 
-<h3>Compensation</h3>
-{{{form_boolean title="Meal" name="meals" value=meals
-    description="If you request meal compensation we will provide you with a per-diem."}}}
-{{{form_boolean title="Accomodation" name="accomodation" value=accomodation
-    description="If you request accomodation compensation we will provide you with a hotel room near the conference."}}}
-{{{form_textarea title="Honorarium" name="honorarium" value=honorarium
-    description="If you request an honorarium please specify the amount and some details regarding how you determined that amount.
-                 <em>Make sure to specify if the amount is per workshop or for all services.</em>"}}}
-{{{form_input title="Travel" name="travel" value=travel
-    description="If you request travel we will provide you with travel arrangements to the conference. <strong>Please let us know where you are coming from.</strong>"}}}
-{{{form_textarea title="Notes" name="notes" value=notes
-    description="Feel encouraged to place any notes you wish to include for the selection committee or the coordinators regarding you or your workshop."}}}
+<fieldset>
+    <legend>Compensation</legend>
+    {{{form_boolean title="Meal" name="meals" value=meals
+        description="If you request meal compensation we will provide you with a per-diem."}}}
+    {{{form_boolean title="Accomodation" name="accomodation" value=accomodation
+        description="If you request accomodation compensation we will provide you with a hotel room near the conference."}}}
+    {{{form_textarea title="Honorarium" name="honorarium" value=honorarium
+        description="If you request an honorarium please specify the amount and some details regarding how you determined that amount.
+                     <em>Make sure to specify if the amount is per workshop or for all services.</em>"}}}
+    {{{form_input title="Travel" name="travel" value=travel
+        description="If you request travel we will provide you with travel arrangements to the conference. <strong>Please let us know where you are coming from.</strong>"}}}
+    {{{form_textarea title="Notes" name="notes" value=notes
+        description="Feel encouraged to place any notes you wish to include for the selection committee or the coordinators regarding you or your workshop."}}}
+</fieldset>
