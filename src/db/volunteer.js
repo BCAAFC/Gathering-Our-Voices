@@ -6,7 +6,6 @@ module.exports = function (sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-                Volunteer.hasMany(models.Member);
                 Volunteer.belongsTo(models.Account);
             }
         }

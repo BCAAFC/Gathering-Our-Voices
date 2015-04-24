@@ -72,6 +72,7 @@ module.exports = function (db, redis) {
             member.name = req.body.name;
             member.type = req.body.type;
             member.gender = req.body.gender;
+            member.background = req.body.background;
             member.birthDate = req.body.birthDate;
             member.phone = req.body.phone;
             member.notifications = member.notifications;

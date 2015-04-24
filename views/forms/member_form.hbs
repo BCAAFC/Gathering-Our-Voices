@@ -14,6 +14,18 @@
 {{/form_select}}
 {{{form_input title="Birth Date" name="birthDate" type="date" value=(date birthDate)
     description="Should be <code>MM/DD/YYYY</code>."}}}
+{{#form_select title="Background" name="background" selected=background
+    description="<strong>Optional.</strong> If this is provided we will use it for statistics and reporting."}}
+    <option value="">Choose...</option>
+    <option value="Status First Nations">Status First Nations</option>
+    <option value="Non-status First Nations">Non-status First Nations</option>
+    <option value="Inuit">Inuit</option>
+    <option value="Registered Métis">Registered Métis</option>
+    <option value="Non-registered Métis">Non-registered Métis</option>
+    <option value="Other Indigenous">Other Indigenous</option>
+    <option value="Non-Aboriginal">Non-Aboriginal</option>
+{{/form_select}}
+
 {{{form_input title="Phone Number" name="phone" type="text" value=phone
     description="<strong>Optional</strong>. If this member has a cellphone, please specify it here so we can contact them on-site if necessary."}}}
 {{{form_boolean title="Text Notifications" name="notifications" value=notifications

@@ -36,6 +36,19 @@ module.exports = function (sequelize, DataTypes) {
                 },
             },
         },
+        background: {
+            type: DataTypes.ENUM,
+            values: [
+                "Status First Nations",
+                "Non-status First Nations",
+                "Inuit",
+                "Registered Métis",
+                "Non-registered Métis",
+                "Other Indigenous",
+                "Non-Aboriginal",
+            ],
+            allowNull: true,
+        },
         phone: {
             type: DataTypes.STRING,
             allowNull: true
