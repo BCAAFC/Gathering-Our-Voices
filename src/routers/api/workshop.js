@@ -11,12 +11,19 @@ module.exports = function (db, redis) {
         }).then(function (account) {
             if (account.Workshop) { throw new Error("Already workshop associated with this account."); }
             // Defaults.
-            if (req.body.mailing === undefined) { req.body.mailing = false; }
-            if (req.body.projector === undefined) { req.body.projector = false; }
-            if (req.body.screen === undefined) { req.body.screen = false; }
-            if (req.body.player === undefined) { req.body.player = false; }
-            if (req.body.meals === undefined) { req.body.meals = false; }
-            if (req.body.accomodation === undefined) { req.body.accomodation = false; }
+            // Transform HTML form.
+            if (req.body.mailing === "Yes") { req.body.mailing = true; } else
+            if (req.body.mailing === "No") { req.body.mailing = false; }
+            if (req.body.projector === "Yes") { req.body.projector = true; } else
+            if (req.body.projector === "No") { req.body.projector = false; }
+            if (req.body.player === "Yes") { req.body.player = true; } else
+            if (req.body.player === "No") { req.body.player = false; }
+            if (req.body.meals === "Yes") { req.body.meals = true; } else
+            if (req.body.meals === "No") { req.body.meals = false; }
+            if (req.body.accomodation === "Yes") { req.body.accomodation = true; } else
+            if (req.body.accomodation === "No") { req.body.accomodation = false; }
+            if (req.body.microphone === "Yes") { req.body.microphone = true; } else
+            if (req.body.microphone === "No") { req.body.microphone = false; }
             // Create
             return account.createWorkshop(req.body);
         }).then(function (workshop) {
@@ -39,12 +46,20 @@ module.exports = function (db, redis) {
             if (workshop.id !== req.session.account.Workshop.id) {
                 throw new Error("That workshop is not associated with this account.");
             }
-            if (req.body.mailing === undefined) { req.body.mailing = false; }
-            if (req.body.projector === undefined) { req.body.projector = false; }
-            if (req.body.screen === undefined) { req.body.screen = false; }
-            if (req.body.player === undefined) { req.body.player = false; }
-            if (req.body.meals === undefined) { req.body.meals = false; }
-            if (req.body.accomodation === undefined) { req.body.accomodation = false; }
+            // Transform HTML form.
+            if (req.body.mailing === "Yes") { req.body.mailing = true; } else
+            if (req.body.mailing === "No") { req.body.mailing = false; }
+            if (req.body.projector === "Yes") { req.body.projector = true; } else
+            if (req.body.projector === "No") { req.body.projector = false; }
+            if (req.body.player === "Yes") { req.body.player = true; } else
+            if (req.body.player === "No") { req.body.player = false; }
+            if (req.body.meals === "Yes") { req.body.meals = true; } else
+            if (req.body.meals === "No") { req.body.meals = false; }
+            if (req.body.accomodation === "Yes") { req.body.accomodation = true; } else
+            if (req.body.accomodation === "No") { req.body.accomodation = false; }
+            if (req.body.microphone === "Yes") { req.body.microphone = true; } else
+            if (req.body.microphone === "No") { req.body.microphone = false; }
+
             if (typeof req.body.audience === "string") { req.body.audience = [req.body.audience]; }
             if (typeof req.body.type === "string") { req.body.type = [req.body.type]; }
             return workshop;

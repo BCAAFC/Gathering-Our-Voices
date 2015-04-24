@@ -28,9 +28,9 @@
     <option value="Other">Other</option>
 {{/form_select}}
 
-{{{form_input title="Electrical" name="electrical" type="checkbox" value=electrical
+{{{form_boolean title="Electrical" name="electrical" value=electrical required=true
     description="Mark this if you require an electrical outlet."}}}
-{{{form_input title="Delegate Bags" name="delegateBags" type="checkbox" value=delegateBags
+{{{form_boolean title="Delegate Bags" name="delegateBags" value=delegateBags required=true
     description="Mark this if you have an item for the delegate bags.
                  <strong>Note you will be required to provide 1200 of the item(s), mailing address will be provided in mid-February</strong>."}}}
 {{#form_select title="Payment Method" name="payment" selected=payment required=true

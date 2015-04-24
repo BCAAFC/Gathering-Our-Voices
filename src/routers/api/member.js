@@ -13,10 +13,17 @@ module.exports = function (db, redis) {
                 { model: db.Group, include: [ db.Member, ], },
             ],
         }).then(function (account) {
+            // Verify
+            if (!account.Group) {
+                throw new Error("This account does not have a group declared.");
+            }
             if (!req.body.email) { req.body.email = null; }
             if (!req.body.birthDate) { req.body.birthDate = null; }
             else { req.body.birthDate = new Date(req.body.birthDate); }
             if (!req.body.gender) { req.body.gender = null; }
+            // Transform the form
+            if (req.body.notifications === "Yes") { req.body.notifications = true; } else
+            if (req.body.notifications === "No") { req.body.notifications = false; }
             return account.Group.createMember(req.body);
         }).then(function (member) {
             res.format({
@@ -33,6 +40,7 @@ module.exports = function (db, redis) {
 
     router.route("/:id")
     .put(middleware.auth, function (req, res) {
+        console.log(req.body);
         db.Member.findOne({
             where: { id: req.params.id },
         }).then(function (member) {
@@ -40,23 +48,28 @@ module.exports = function (db, redis) {
             if (req.session.account.Group.id === member.Group) {
                 throw new Error("The member specified is not in your group.");
             }
+            // Transform the form
+            if (req.body.notifications === "Yes") { req.body.notifications = true; } else
+            if (req.body.notifications === "No") { req.body.notifications = false; }
+            //
             if (!req.body.email) { req.body.email = null; }
             if (!req.body.birthDate) { req.body.birthDate = null; }
             else { req.body.birthDate = new Date(req.body.birthDate); }
             if (!req.body.gender) { req.body.gender = null; }
             // Update details.
-            member.name = req.body.name || member.name;
-            member.type = req.body.type || member.type;
-            member.gender = req.body.gender || member.gender;
-            member.birthDate = req.body.birthDate || member.birthDate;
-            member.phone = req.body.phone || member.phone;
-            member.email = req.body.email || member.email;
-            member.contactName = req.body.contactName || member.contactName;
-            member.contactPhone = req.body.contactPhone || member.contactPhone;
-            member.contactRelation = req.body.contactRelation || member.contactRelation;
-            member.medicalNumber = req.body.medicalNumber || member.medicalNumber;
-            member.allergies = req.body.allergies || member.allergies;
-            member.conditions = req.body.conditions || member.conditions;
+            member.name = req.body.name;
+            member.type = req.body.type;
+            member.gender = req.body.gender;
+            member.birthDate = req.body.birthDate;
+            member.phone = req.body.phone;
+            member.notifications = member.notifications;
+            member.email = req.body.email;
+            member.contactName = req.body.contactName;
+            member.contactPhone = req.body.contactPhone;
+            member.contactRelation = req.body.contactRelation;
+            member.medicalNumber = req.body.medicalNumber;
+            member.allergies = req.body.allergies;
+            member.conditions = req.body.conditions;
             // Save
             return member.save();
         }).then(function (member) {

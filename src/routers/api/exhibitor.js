@@ -10,7 +10,11 @@ module.exports = function (db, redis) {
             ],
         }).then(function (account) {
             if (account.Exhibitor) { throw new Error("Already exhibitor associated with this account."); }
-
+            // Transform HTML form.
+            if (req.body.electrical === "Yes") { req.body.electrical = true; } else
+            if (req.body.electrical === "No") { req.body.electrical = false; }
+            if (req.body.delegateBags === "Yes") { req.body.delegateBags = true; } else
+            if (req.body.delegateBags === "No") { req.body.delegateBags = false; }
             return account.createExhibitor(req.body);
         }).then(function (workshop) {
             res.format({
@@ -32,8 +36,11 @@ module.exports = function (db, redis) {
             if (exhibitor.id !== req.session.account.Exhibitor.id) {
                 throw new Error("That exhibitor is not associated with this account.");
             }
-            if (req.body.electrical === undefined) { req.body.electrical = false; }
-            if (req.body.delegateBags === undefined) { req.body.delegateBags = false; }
+            // Transform HTML form.
+            if (req.body.electrical === "Yes") { req.body.electrical = true; } else
+            if (req.body.electrical === "No") { req.body.electrical = false; }
+            if (req.body.delegateBags === "Yes") { req.body.delegateBags = true; } else
+            if (req.body.delegateBags === "No") { req.body.delegateBags = false; }
             return exhibitor;
         }).then(function (exhibitor) {
             exhibitor.representatives = req.body.representatives || exhibitor.representatives;

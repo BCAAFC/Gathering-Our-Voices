@@ -8,9 +8,6 @@ module.exports = function (db, redis) {
         });
     })
     .post(function (req, res) {
-        if (req.body.featured === "true" || req.body.featured === true) {
-            req.body.featured = true;
-        } else { req.body.featured = false; }
         db.Page.create(req.body).then(function (page) {
             res.format({
                 'text/html': function () { res.redirect('back'); },
@@ -29,9 +26,6 @@ module.exports = function (db, redis) {
         });
     })
     .put(function (req, res) {
-        if (req.body.featured === "true" || req.body.featured === true) {
-            req.body.featured = true;
-        } else { req.body.featured = false; }
         db.Page.findOne({ where: { id: req.params.id } }).then(function (page) {
             if (!page) { throw new Error("Page not found."); }
             page.path = req.body.path || page.path;

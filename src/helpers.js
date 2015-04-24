@@ -6,11 +6,13 @@ module.exports = function (hbs) {
     });
 
     hbs.registerHelper("date", function (val) {
-        return moment(val).format("MM/DD/YYYY");
+        if (!val) { return ""; }
+        else { return moment(val).format("MM/DD/YYYY"); }
     });
 
     hbs.registerHelper("datetime", function (val) {
-        return moment(val).format("MM/DD/YYYY HH:mm A");
+        if (!val) { return ""; }
+        else { return moment(val).format("MM/DD/YYYY HH:mm A"); }
     });
 
     hbs.registerHelper("form_input", function (options) {
@@ -131,6 +133,54 @@ module.exports = function (hbs) {
         output.push("</select>");
         output.push("</div>");
         // Return
+        return output.join("");
+    });
+
+    hbs.registerHelper("form_boolean", function (options) {
+        var params = options.hash,
+            output = [];
+        // Defaults
+        if (params.required) { params.required = " required"; }
+        else { params.required = ""; }
+        // Build
+        output.push("<div class=form-group>");
+        output.push("<label for=" + params.name + ">" + params.title);
+        if (params.required) { output.push("*"); }
+        output.push("</label>");
+        if (params.description) {
+            output.push("<p>" + params.description + "</p>");
+        }
+        // Radios
+        if (params.value === true) {
+            output.push("<div class=\"radio-inline\"><label>" +
+                        "<input type=\"radio\" name=\"" + params.name + "\" value=\"Yes\" checked=\"checked\"" + params.required + ">" +
+                        "Yes" +
+                        "</label></div>");
+            output.push("<div class=\"radio-inline\"><label>" +
+                        "<input type=\"radio\" name=\"" + params.name + "\" value=\"No\"" + params.required + ">" +
+                        "No" +
+                        "</label></div>");
+        } else if (params.value === false) {
+            output.push("<div class=\"radio-inline\"><label>" +
+                        "<input type=\"radio\" name=\"" + params.name + "\" value=\"Yes\"" + params.required + ">" +
+                        "Yes" +
+                        "</label></div>");
+            output.push("<div class=\"radio-inline\"><label>" +
+                        "<input type=\"radio\" name=\"" + params.name + "\" value=\"No\" checked=\"checked\"" + params.required + ">" +
+                        "No" +
+                        "</label></div>");
+        } else {
+            output.push("<div class=\"radio-inline\"><label>" +
+                        "<input type=\"radio\" name=\"" + params.name + "\" value=\"Yes\"" + params.required + ">" +
+                        "Yes" +
+                        "</label></div>");
+            output.push("<div class=\"radio-inline\"><label>" +
+                        "<input type=\"radio\" name=\"" + params.name + "\" value=\"No\"" + params.required + ">" +
+                        "No" +
+                        "</label></div>");
+        }
+        output.push("</div>");
+
         return output.join("");
     });
 };

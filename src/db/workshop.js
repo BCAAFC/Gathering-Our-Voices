@@ -98,6 +98,10 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.BOOLEAN,
             allowNull: false,
         },
+        microphone: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+        },
         room: {
             type: DataTypes.ENUM,
             values: [

@@ -40,6 +40,10 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: true
         },
+        notifications: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+        },
         email: {
             type: DataTypes.STRING,
             allowNull: true,
@@ -121,6 +125,8 @@ module.exports = function (sequelize, DataTypes) {
                     member.medicalNumber)
                 {
                     member.complete = true;
+                } else {
+                    member.complete = false;
                 }
                 fn(null, member);
             },
