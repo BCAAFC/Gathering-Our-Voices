@@ -19,6 +19,7 @@ module.exports = function(grunt) {
                         'bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.js',
                         // DataTables
                         'bower_components/datatables/media/js/jquery.dataTables.js',
+                        'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.js',
                         'bower_components/datatables-colvis/js/dataTables.colVis.js',
                         'bower_components/datatables-responsive/js/dataTables.responsive.js',
                         // Dates
@@ -53,7 +54,8 @@ module.exports = function(grunt) {
                         'bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.less',
                         // Datatables
                         'bower_components/datatables/media/jquery.dataTables.css',
-                        'bower_components/datatables/media/css/dataTables.bootstrap.css',
+                        'bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css',
+                        'bower_components/datatables-plugins/integration/font-awesome/dataTables.fontAwesome.css',
                         'bower_components/datatables-colvis/css/dataTables.colVis.css',
                         'bower_components/datatables-responsive/css/dataTables.fontAwesome.css',
                         // Dates

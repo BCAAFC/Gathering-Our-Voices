@@ -1,8 +1,8 @@
 var moment = require('moment');
 
 module.exports = function (hbs) {
-    hbs.registerHelper("JSON", function (val) {
-        return JSON.stringify(val, null, 2);
+    hbs.registerHelper("JSON", function (val, indent) {
+        return JSON.stringify(val, null, indent);
     });
 
     hbs.registerHelper("date", function (val) {

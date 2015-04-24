@@ -24,6 +24,7 @@
     "datatables-responsive": "~1.0.5",
     "font-awesome": "~4.3.0",
     "marked": "~0.3.3",
-    "bootstrap-datepicker": "~1.4.0"
+    "bootstrap-datepicker": "~1.4.0",
+    "datatables-plugins": "~1.10.6"
   }
 }

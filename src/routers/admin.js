@@ -7,14 +7,27 @@ module.exports = function (db, redis) {
         console.log(req.originalUrl);
         Promise.join(
             db.Page.findOne({ where: { path: req.originalUrl }, }),
-            db.Account.findAll(),
+            db.Account.findAll({ include: [{all: true, attributes: ['id'] }]}),
             function (page, accounts) {
+                var columns = Object.keys(db.Account.attributes)
+                    .filter(function (v) { return v !== "password"; })
+                    .map(function (v) {
+                        var val = v[0].toUpperCase() + v.slice(1);
+                        return { title: val, data: v };
+                    });
+                columns.push({ title: "Group", data: "Group"});
+                columns.push({ title: "Exhibitor", data: "Exhibitor"});
+                columns.push({ title: "Workshop", data: "Workshop"});
+                columns.push({ title: "Volunteer", data: "Volunteer"});
+                console.log(JSON.stringify(accounts, null, 2));
                 page.render(res, "default", {
                     title: page.title,
                     account: req.session.account,
                     admin: req.session.isAdmin,
                     alert: req.alert,
-                    accounts: accounts,
+                    // Admin Table
+                    data: accounts,
+                    columns: columns,
                 });
             }
         ).catch(function (error) {
