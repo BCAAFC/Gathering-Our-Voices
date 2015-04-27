@@ -1,9 +1,9 @@
 <div id="options"></div>
-<table id="group_table" class="table table-hover"></table>
+<table id="member_table" class="table table-hover"></table>
 <script>
     $(function () {
         var columns = {{{JSON columns 0}}};
-        var table = $("#group_table").dataTable({
+        var table = $("#member_table").dataTable({
             stateSave: true,
             stateDuration: 60*60*24*5, // 5 days.
             scrollX: true,
@@ -42,7 +42,7 @@
                 self = this;
             console.log("ADD " + item + " to " + id);
             $.ajax({
-                url: "/api/group/"+id+"/tags",
+                url: "/api/member/"+id+"/tags",
                 method: "PUT",
                 data: { add: item, },
             }).done(function (data) {
@@ -57,7 +57,7 @@
                 self = this;
             console.log("REMOVE " + item + " from " + id);
             $.ajax({
-                url: "/api/group/"+id+"/tags",
+                url: "/api/member/"+id+"/tags",
                 method: "DELETE",
                 data: { remove: item, },
             }).done(function (data) {

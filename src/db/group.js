@@ -29,7 +29,6 @@ module.exports = function (sequelize, DataTypes) {
         // Admin only.
         tags: {
             type: DataTypes.ARRAY(DataTypes.STRING(80)),
-            allowNull: false,
             defaultValue: [],
             comment: "Short tags about the group.",
         }
