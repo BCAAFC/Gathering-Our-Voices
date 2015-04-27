@@ -1,7 +1,7 @@
 {{{form_input title="Title of Workshop" name="title" type="text"  value=title required=true}}}
 {{#form_tags title="Facilitators" name="facilitators" required=true
     description="Please include <strong>full, legal names</strong> of all members, including the primary registrant for this account."}}
-    {{#each representatives}}
+    {{#each facilitators}}
         <option value="{{this}}">{{this}}</option>
     {{/each}}
 {{/form_tags}}

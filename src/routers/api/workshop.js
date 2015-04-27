@@ -1,3 +1,5 @@
+var middleware = require("../../middleware");
+
 module.exports = function (db, redis) {
     var router = require("express").Router();
 
@@ -31,6 +33,7 @@ module.exports = function (db, redis) {
                 delete req.body.tags;
             }
             // Create
+            console.log(req.body);
             return account.createWorkshop(req.body);
         }).then(function (workshop) {
             res.format({
@@ -109,6 +112,41 @@ module.exports = function (db, redis) {
         }).catch(function (error) {
             console.log(error);
             res.status(401).json({ error: error.message });
+        });
+    });
+
+    router.route("/:id/tags")
+    .put(middleware.admin, function (req, res) {
+        db.Workshop.findOne({
+            where: { id: req.params.id, },
+        }).then(function (workshop) {
+            if (workshop.tags.indexOf(req.body.add) !== -1) {
+                throw new Error("Tag already exists.");
+            } else {
+                workshop.tags.push(req.body.add);
+                return workshop.save({fields: ['tags']});
+            }
+        }).then(function (workshop) {
+            res.status(200).json(workshop.tags);
+        }).catch(function (error) {
+            res.status(500).json({ error: error.message });
+        });
+    })
+    .delete(middleware.admin, function (req, res) {
+        db.Workshop.findOne({
+            where: { id: req.params.id, },
+        }).then(function (workshop) {
+            var idx = workshop.tags.indexOf(req.body.add);
+            if (idx === -1) {
+                workshop.tags.splice(idx, 1);
+                return workshop.save({fields: ['tags']});
+            } else {
+                throw new Error("Tag does not exist.");
+            }
+        }).then(function (workshop) {
+            res.status(200).json(workshop.tags);
+        }).catch(function (error) {
+            res.status(500).json({ error: error.message });
         });
     });
 

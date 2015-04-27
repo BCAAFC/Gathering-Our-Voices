@@ -89,16 +89,28 @@ module.exports = function (db, redis) {
     });
 
     router.get("/workshops", function (req, res) {
+        var query;
+        if (req.query.approved === "false") {
+            query = { approved: false, };
+        } else {
+            query = { approved: true, };
+        }
         Promise.join(
-            db.Page.findOne({ where: { path: req.originalUrl }, }),
-            db.Workshop.findAll(),
+            db.Page.findOne({ where: { path: req.originalUrl.split("?")[0] }, }),
+            db.Workshop.findAll({ where: query }),
             function (page, workshops) {
+                var columns = Object.keys(db.Workshop.attributes)
+                    .map(function (v) {
+                        var val = v[0].toUpperCase() + v.slice(1);
+                        return { title: val, data: v, className: v };
+                    });
                 page.render(res, "default", {
                     title: page.title,
                     account: req.session.account,
                     admin: req.session.isAdmin,
                     alert: req.alert,
-                    workshops: workshops,
+                    data: workshops,
+                    columns: columns,
                 });
             }
         ).catch(function (error) {

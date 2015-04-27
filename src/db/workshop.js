@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        Facilitators: {
+        facilitators: {
             type: DataTypes.ARRAY(DataTypes.STRING),
             allowNull: false,
             comment: "The primary account controller should be included.",
