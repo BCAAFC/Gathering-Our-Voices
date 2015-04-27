@@ -146,12 +146,24 @@ module.exports = function (sequelize, DataTypes) {
             comment: "Applicant written notes.",
         },
         // Stateful Meaning
+        verified: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+            comment: "If the workshop has been checked by the team.",
+        },
         approved: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false,
             comment: "If the workshop has been approved by the team.",
         },
+        tags: {
+            type: DataTypes.ARRAY(DataTypes.STRING(80)),
+            allowNull: false,
+            defaultValue: [],
+            comment: "Short tags about the workshop.",
+        }
     }, {
         classMethods: {
             associate: function (models) {
@@ -176,6 +188,9 @@ module.exports = function (sequelize, DataTypes) {
                 }
                 if (typeof workshop.type == "string") {
                     workshop.type = [workshop.type];
+                }
+                if (typeof workshop.tags == "string") {
+                    workshop.tags = [workshop.tags];
                 }
                 fn(null, workshop);
             },

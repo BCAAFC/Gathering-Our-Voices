@@ -27,15 +27,12 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
         },
         // Admin only.
-        notes: {
-            type: DataTypes.TEXT,
-            allowNull: true,
-            defaultValue: "",
-        },
         tags: {
-            type: DataTypes.ARRAY(DataTypes.STRING),
+            type: DataTypes.ARRAY(DataTypes.STRING(80)),
+            allowNull: false,
             defaultValue: [],
-        },
+            comment: "Short tags about the group.",
+        }
     }, {
         classMethods: {
             associate: function (models) {
@@ -50,6 +47,14 @@ module.exports = function (sequelize, DataTypes) {
                         return total + member.cost();
                     }, 0);
                 });
+            },
+        },
+        hooks: {
+            beforeValidate: function (group, options, fn) {
+                if (typeof group.tags == "string") {
+                    group.tags = [group.tags];
+                }
+                fn(null, group);
             },
         },
     });

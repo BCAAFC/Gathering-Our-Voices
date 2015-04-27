@@ -24,6 +24,12 @@ module.exports = function (db, redis) {
             if (req.body.accomodation === "No") { req.body.accomodation = false; }
             if (req.body.microphone === "Yes") { req.body.microphone = true; } else
             if (req.body.microphone === "No") { req.body.microphone = false; }
+            // Strip
+            if (!req.session.isAdmin) {
+                delete req.body.verified;
+                delete req.body.approved;
+                delete req.body.tags;
+            }
             // Create
             return account.createWorkshop(req.body);
         }).then(function (workshop) {
@@ -87,6 +93,13 @@ module.exports = function (db, redis) {
             workshop.travel = req.body.travel || workshop.travel;
             workshop.honorarium = req.body.honorarium || workshop.honorarium;
             workshop.notes = req.body.notes || workshop.notes;
+            // Admin
+            if (req.session.isAdmin) {
+                workshop.verified = req.body.verified;
+                workshop.approved = req.body.approved;
+                workshop.tags = req.body.tags;
+            }
+
             return workshop.save();
         }).then(function (workshop) {
             res.format({

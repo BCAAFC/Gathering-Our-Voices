@@ -35,7 +35,12 @@ module.exports = function (db, redis) {
                 // Regular
                 req.body.cost = 175;
             }
-
+            // Strip
+            if (req.session.isAdmin) {
+                delete req.body.cost;
+                delete req.body.tags;
+            }
+            // Create
             return account.Group.createMember(req.body);
         }).then(function (member) {
             res.format({
@@ -83,8 +88,10 @@ module.exports = function (db, redis) {
             member.medicalNumber = req.body.medicalNumber;
             member.allergies = req.body.allergies;
             member.conditions = req.body.conditions;
+            // Admin
             if (req.session.isAdmin) {
                 member.cost = req.body.cost;
+                member.tags = req.body.tags;
             }
             // Save
             return member.save();

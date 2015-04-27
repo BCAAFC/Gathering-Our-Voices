@@ -16,6 +16,13 @@ module.exports = function (db, redis) {
             if (req.body.delegateBags === "Yes") { req.body.delegateBags = true; } else
             if (req.body.delegateBags === "No") { req.body.delegateBags = false; }
             req.body.cost = 400;
+            // Strip
+            if (!req.session.isAdmin) {
+                delete req.body.verified;
+                delete req.body.approved;
+                delete req.body.tags;
+            }
+
             return account.createExhibitor(req.body);
         }).then(function (workshop) {
             res.format({
@@ -42,6 +49,13 @@ module.exports = function (db, redis) {
             if (req.body.electrical === "No") { req.body.electrical = false; }
             if (req.body.delegateBags === "Yes") { req.body.delegateBags = true; } else
             if (req.body.delegateBags === "No") { req.body.delegateBags = false; }
+            // Strip
+            if (!req.session.isAdmin) {
+                delete req.body.verified;
+                delete req.body.approved;
+                delete req.body.tags;
+            }
+
             return exhibitor;
         }).then(function (exhibitor) {
             exhibitor.representatives = req.body.representatives || exhibitor.representatives;
@@ -50,6 +64,13 @@ module.exports = function (db, redis) {
             exhibitor.electrical = req.body.electrical; // Can't do || exhibitor.electrical;
             exhibitor.delegateBags = req.body.delegateBags; // Can't do || exhibitor.representatives;
             exhibitor.payment = req.body.payment || exhibitor.payment;
+
+            if (req.session.isAdmin) {
+                exhibitor.verified = req.body.verified;
+                exhibitor.approved = req.body.approved;
+                exhibitor.tags = req.body.tags;
+            }
+
             return exhibitor.save();
         }).then(function (exhibitor) {
             res.format({

@@ -100,6 +100,12 @@ module.exports = function (sequelize, DataTypes) {
             defaultValue: 175,
             allowNull: false,
         },
+        tags: {
+            type: DataTypes.ARRAY(DataTypes.STRING(80)),
+            allowNull: false,
+            defaultValue: [],
+            comment: "Short tags about the member.",
+        }
     }, {
         classMethods: {
             associate: function (models) {
@@ -114,6 +120,9 @@ module.exports = function (sequelize, DataTypes) {
                 }
                 if (typeof member.conditions == "string") {
                     member.conditions = [member.conditions];
+                }
+                if (typeof member.tags == "string") {
+                    member.tags = [member.tags];
                 }
                 fn(null, member);
             },

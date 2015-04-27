@@ -80,6 +80,11 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        notes: {
+            type: DataTypes.TEXT,
+            allowNull: true,
+            defaultValue: "",
+        },
     }, {
         classMethods: {
             associate: function (models) {

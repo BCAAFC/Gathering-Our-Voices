@@ -6,6 +6,10 @@ module.exports = function (db, redis) {
     router.route("/")
     // Group creation.
     .post(middleware.auth, function (req, res) {
+        // Strip
+        if (!req.session.isAdmin) {
+            delete req.body.tags;
+        }
         db.Account.findOne({
             where: { id: req.session.account.id },
             include: [ db.Group ],
@@ -46,9 +50,9 @@ module.exports = function (db, redis) {
             group.affiliationType = req.body.affiliationType || group.affiliationType;
             group.youthInCare = req.body.youthInCare || group.youthInCare;
             group.youthInCareSupport = req.body.youthInCareSupport || group.youthInCareSupport;
+            // Admin
             if (req.session.isAdmin) {
-                group.notes = req.body.notes || group.notes;
-                group.tags = req.body.tags || group.tags;
+                group.tags = req.body.tags;
             }
             // Save.
             return group.save();

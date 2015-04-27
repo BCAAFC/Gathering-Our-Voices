@@ -13,12 +13,12 @@ module.exports = function (db, redis) {
                     .filter(function (v) { return v !== "password"; })
                     .map(function (v) {
                         var val = v[0].toUpperCase() + v.slice(1);
-                        return { title: val, data: v };
+                        return { title: val, data: v, className: v };
                     });
-                columns.push({ title: "Group", data: "Group"});
-                columns.push({ title: "Exhibitor", data: "Exhibitor"});
-                columns.push({ title: "Workshop", data: "Workshop"});
-                columns.push({ title: "Volunteer", data: "Volunteer"});
+                columns.push({ title: "Group", data: "Group", className: "Group", });
+                columns.push({ title: "Exhibitor", data: "Exhibitor", className: "Exhibitor", });
+                columns.push({ title: "Workshop", data: "Workshop", className: "Workshop", });
+                columns.push({ title: "Volunteer", data: "Volunteer", className: "Volunteer", });
                 console.log(JSON.stringify(accounts, null, 2));
                 page.render(res, "default", {
                     title: page.title,

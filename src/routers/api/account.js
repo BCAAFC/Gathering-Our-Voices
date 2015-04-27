@@ -45,6 +45,11 @@ module.exports = function (db, redis) {
     })
     // Account creation.
     .post(function (req, res) {
+        // Strip
+        if (!req.session.isAdmin) {
+            delete req.body.notes;
+        }
+        // Create
         db.Account.create(req.body).then(function (account) {
             req.session.account = account;
             if (process.env.ADMINS.indexOf(account.email) !== -1) {
@@ -78,6 +83,10 @@ module.exports = function (db, redis) {
             account.city = req.body.city || account.city;
             account.province = req.body.province || account.province;
             account.postalCode = req.body.postalCode || account.postalCode;
+            // Admin stuff.
+            if (req.session.isAdmin) {
+                account.notes = req.body.notes;
+            }
             // Save.
             return account.save();
         }).then(function (account) {
@@ -106,6 +115,20 @@ module.exports = function (db, redis) {
             res.format({
                 'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
                 'default': function () { res.status(401).json({ error: error.message }); },
+            });
+        });
+    });
+
+    router.route("/:id/notes")
+    .put(middleware.admin, function (req, res) {
+        db.Account.findOne({ where: { id: req.params.id, }, }).then(function (account) {
+            if (!account) { throw new Error("Account doesn't exist!"); }
+            account.notes = req.body.notes;
+            return account.save();
+        }).then(function () {
+            res.format({
+                'text/html': function () { res.redirect("back"); },
+                'default': function () { res.status(200).json(account); },
             });
         });
     });

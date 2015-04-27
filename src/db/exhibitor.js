@@ -85,8 +85,22 @@ module.exports = function (sequelize, DataTypes) {
         // Private
         approved: {
             type: DataTypes.BOOLEAN,
+            allowNull: false,
             defaultValue: false,
+            comment: "If the workshop has been approved by the team.",
         },
+        verified: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+            comment: "If the exhibitor has been checked by the team.",
+        },
+        tags: {
+            type: DataTypes.ARRAY(DataTypes.STRING(80)),
+            allowNull: false,
+            defaultValue: [],
+            comment: "Short tags about the exhibitor.",
+        }
     }, {
         classMethods: {
             associate: function (models) {
@@ -103,6 +117,9 @@ module.exports = function (sequelize, DataTypes) {
                 }
                 if (typeof exhibitor.provides == "string") {
                     exhibitor.provides = [exhibitor.provides];
+                }
+                if (typeof exhibitor.tags == "string") {
+                    exhibitor.tags = [exhibitor.tags];
                 }
                 fn(null, exhibitor);
             },
