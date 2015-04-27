@@ -3,6 +3,11 @@
 <script>
     $(function () {
         var columns = {{{JSON columns 0}}};
+        columns.unshift({
+            "orderable":      false,
+            "data":           null,
+            "defaultContent": ''
+        });
         var table = $("#account_table").dataTable({
             stateSave: true,
             stateDuration: 60*60*24*5, // 5 days.
@@ -12,14 +17,10 @@
             columns: columns,
             columnDefs: [
                 {
-                    targets: -7,
+                    targets: 0, // Account ID --> Manage
                     render: function (data, type, row) {
-                        if (row.notes) {
-                            return "<i class=\"btn btn-info fa fa-plus\"></i>";
-                        } else {
-                            return "<i class=\"btn btn-default fa fa-plus\"></i>";
-                        }
-                    }
+                        return "<a href=\"/api/admin/manage/"+row.id+"\" class=\"btn btn-info\"><i class=\"fa fa-user\"></i></a>";
+                    },
                 },
                 {
                     targets: [ -1, -2, -3, -4 ], // Ids
@@ -30,6 +31,22 @@
                             return "<a class=\"btn btn-default\" disabled>N/A</a>";
                         }
                     },
+                },
+                {
+                    targets: [ -5, -6 ], // Created and Updated at
+                    render: function (data, type, row) {
+                        return new Date(data).toLocaleString();
+                    },
+                },
+                {
+                    targets: -7, // Notes
+                    render: function (data, type, row) {
+                        if (row.notes) {
+                            return "<i class=\"btn btn-info fa fa-plus\"></i>";
+                        } else {
+                            return "<i class=\"btn btn-default fa fa-plus\"></i>";
+                        }
+                    }
                 },
             ],
         });

@@ -84,5 +84,40 @@ module.exports = function (db, redis) {
         });
     });
 
+    router.route("/:id/tags")
+    .put(middleware.admin, function (req, res) {
+        db.Group.findOne({
+            where: { id: req.params.id, },
+        }).then(function (group) {
+            if (group.tags.indexOf(req.body.add) !== -1) {
+                throw new Error("Tag already exists.");
+            } else {
+                group.tags.push(req.body.add);
+                return group.save({fields: ['tags']});
+            }
+        }).then(function (group) {
+            res.status(200).json(group.tags);
+        }).catch(function (error) {
+            res.status(500).json({ error: error.message });
+        });
+    })
+    .delete(middleware.admin, function (req, res) {
+        db.Group.findOne({
+            where: { id: req.params.id, },
+        }).then(function (group) {
+            var idx = group.tags.indexOf(req.body.add);
+            if (idx === -1) {
+                group.tags.splice(idx, 1);
+                return group.save({fields: ['tags']});
+            } else {
+                throw new Error("Tag does not exist.");
+            }
+        }).then(function (group) {
+            res.status(200).json(group.tags);
+        }).catch(function (error) {
+            res.status(500).json({ error: error.message });
+        });
+    });
+
     return router;
 };

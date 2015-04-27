@@ -1,0 +1,88 @@
+<div id="options"></div>
+<table id="group_table" class="table table-hover"></table>
+<script>
+    $(function () {
+        var columns = {{{JSON columns 0}}};
+        var table = $("#group_table").dataTable({
+            stateSave: true,
+            stateDuration: 60*60*24*5, // 5 days.
+            scrollX: true,
+            // Datas
+            data: {{{JSON data 0}}},
+            columns: columns,
+            columnDefs: [
+                {
+                    targets: -1,
+                    render: function (data, type, row) {
+                        return "<a class=\"btn btn-primary\">"+data+"</a>";
+                    },
+                },
+                {
+                    targets: [ -2, -3 ], // Created and Updated at
+                    render: function (data, type, row) {
+                        return new Date(data).toLocaleString();
+                    },
+                },
+                {
+                    targets: -4, // Tags
+                    render: function (data, type, row) {
+                        return  "<input class=\"tags\" data-id=\""+row.id+"\" data-role=\"tagsinput\" value=\""+data+"\">";
+                    },
+                }
+            ],
+        });
+        // Visible Toggles
+        var colvis = new $.fn.dataTable.ColVis(table);
+        $("#options").append(colvis.button());
+        // Expandos
+        $("#group_table tbody").on("click", "td.notes", function () {
+            var tr = $(this).closest("tr");
+            var row = table.api().row(tr);
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                $(this).children("i").removeClass("fa-minus");
+                $(this).children("i").addClass("fa-plus");
+                row.child.hide();
+                tr.removeClass("shown");
+            } else {
+                // Open this row
+                $(this).children("i").removeClass("fa-plus");
+                $(this).children("i").addClass("fa-minus");
+                row.child(formatChild(row.data())).show();
+                tr.addClass("shown");
+            }
+        });
+        // Scan for tagsinputs.
+        var inputs = $("input[data-role=\"tagsinput\"]").tagsinput()
+        $("input[data-role=\"tagsinput\"]").on("itemAdded", function (e) {
+            var item = e.item,
+                id = $(this).data("id"),
+                self = this;
+            console.log("ADD " + item + " to " + id);
+            $.ajax({
+                url: "/api/group/"+id+"/tags",
+                method: "PUT",
+                data: { add: item, },
+            }).done(function (data) {
+                return;
+            }).fail(function (data) {
+                alert("Failed, please reload the page.");
+            });
+        })
+        $("input[data-role=\"tagsinput\"]").on("itemRemoved", function (e) {
+            var item = e.item,
+                id = $(this).data("id"),
+                self = this;
+            console.log("REMOVE " + item + " from " + id);
+            $.ajax({
+                url: "/api/group/"+id+"/tags",
+                method: "DELETE",
+                data: { remove: item, },
+            }).done(function (data) {
+                return;
+            }).fail(function (data) {
+                alert("Failed, please reload the page.");
+            });
+        });
+    });
+</script>

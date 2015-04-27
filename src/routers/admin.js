@@ -1,10 +1,11 @@
 var Promise = require("bluebird");
 
+// These all look the same, but expect them to differ later.
+
 module.exports = function (db, redis) {
     var router = require("express").Router();
 
     router.get("/accounts", function (req, res) {
-        console.log(req.originalUrl);
         Promise.join(
             db.Page.findOne({ where: { path: req.originalUrl }, }),
             db.Account.findAll({ include: [{all: true, attributes: ['id'] }]}),
@@ -19,7 +20,6 @@ module.exports = function (db, redis) {
                 columns.push({ title: "Exhibitor", data: "Exhibitor", className: "Exhibitor", });
                 columns.push({ title: "Workshop", data: "Workshop", className: "Workshop", });
                 columns.push({ title: "Volunteer", data: "Volunteer", className: "Volunteer", });
-                console.log(JSON.stringify(accounts, null, 2));
                 page.render(res, "default", {
                     title: page.title,
                     account: req.session.account,
@@ -28,6 +28,32 @@ module.exports = function (db, redis) {
                     // Admin Table
                     data: accounts,
                     columns: columns,
+                });
+            }
+        ).catch(function (error) {
+            console.warn(error.message);
+            res.status(404).send(error.message);
+        });
+    });
+
+    router.get("/groups", function (req, res) {
+        Promise.join(
+            db.Page.findOne({ where: { path: req.originalUrl }, }),
+            db.Group.findAll(),
+            function (page, groups) {
+                var columns = Object.keys(db.Group.attributes)
+                    .map(function (v) {
+                        var val = v[0].toUpperCase() + v.slice(1);
+                        return { title: val, data: v, className: v };
+                    });
+                page.render(res, "default", {
+                    title: page.title,
+                    account: req.session.account,
+                    admin: req.session.isAdmin,
+                    alert: req.alert,
+                    // Admin Table
+                    data: groups,
+                    columns: columns
                 });
             }
         ).catch(function (error) {
@@ -46,7 +72,9 @@ module.exports = function (db, redis) {
                     account: req.session.account,
                     admin: req.session.isAdmin,
                     alert: req.alert,
-                    members: members,
+                    // Admin Table
+                    data: members,
+                    columns: columns
                 });
             }
         ).catch(function (error) {
