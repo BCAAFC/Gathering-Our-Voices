@@ -58,6 +58,14 @@
                             return "<a class=\"verification btn btn-xs btn-danger\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-times\"></i></a>";
                         }
                     }
+                },
+                {
+                    targets: [ 1, 2, 3, ], // Arrays
+                    render: function (data, type, row) {
+                        return data.map(function (item) {
+                            return "<span class=\"label label-default\">"+item+"</span>"
+                        }).join(" ");
+                    }
                 }
             ],
         });
