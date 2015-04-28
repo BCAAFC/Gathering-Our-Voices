@@ -70,8 +70,38 @@ module.exports = function (env, db) {
         return db.Page.create({
             path: "/admin",
             title: "Administration",
-            content: "",
+            content: "<meta http-equiv=refresh content=0;url=/admin/accounts>",
             requirements: "Administrator",
         });
+    }).then(function () {
+        return db.Page.create({
+            path: "/admin/accounts",
+            title: "Administration - Accounts",
+            content: "{{> admin_bar}}\n{{> admin_account_table}}",
+            requirements: "Administrator",
+        });
+    }).then(function () {
+        return db.Page.create({
+            path: "/admin/groups",
+            title: "Administration - Groups",
+            content: "{{> admin_bar}}\n{{> admin_group_table}}",
+            requirements: "Administrator",
+        });
+    }).then(function () {
+        return db.Page.create({
+            path: "/admin/workshops",
+            title: "Administration - Workshops",
+            content: "{{> admin_bar}}\n{{> admin_workshop_table}}",
+            requirements: "Administrator",
+        });
+    }).then(function () {
+        return db.Page.create({
+            path: "/admin/exhibitors",
+            title: "Administration - exhibitors",
+            content: "{{> admin_bar}}\n{{> admin_exhibitor_table}}",
+            requirements: "Administrator",
+        });
+    }).then(function () {
+        return console.log("Done $FIRSTRUN.");
     });
 };
