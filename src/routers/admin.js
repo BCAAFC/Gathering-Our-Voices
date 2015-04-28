@@ -89,15 +89,9 @@ module.exports = function (db, redis) {
     });
 
     router.get("/workshops", function (req, res) {
-        var query;
-        if (req.query.approved === "false") {
-            query = { approved: false, };
-        } else {
-            query = { approved: true, };
-        }
         Promise.join(
             db.Page.findOne({ where: { path: req.originalUrl.split("?")[0] }, }),
-            db.Workshop.findAll({ where: query }),
+            db.Workshop.findAll(),
             function (page, workshops) {
                 var columns = Object.keys(db.Workshop.attributes)
                     .map(function (v) {
@@ -120,15 +114,9 @@ module.exports = function (db, redis) {
     });
 
     router.get("/exhibitors", function (req, res) {
-        var query;
-        if (req.query.approved === "false") {
-            query = { approved: false, };
-        } else {
-            query = { approved: true, };
-        }
         Promise.join(
             db.Page.findOne({ where: { path: req.originalUrl.split("?")[0] }, }),
-            db.Exhibitor.findAll({ where: query }),
+            db.Exhibitor.findAll(),
             function (page, exhibitors) {
                 var columns = Object.keys(db.Exhibitor.attributes)
                     .map(function (v) {

@@ -1,4 +1,13 @@
-<div id="options"></div>
+<div id="options">
+    <a id="verified_button" class="btn btn-xs btn-success" data-state="true">
+        <i class="fa fa-check"></i>
+        Verified
+    </a>
+    <a id="approved_button" class="btn btn-xs btn-success" data-state="true">
+        <i class="fa fa-check"></i>
+        Approved
+    </a>
+</div>
 <table id="workshop_table" class="table table-hover"></table>
 <script>
     $(function () {
@@ -147,5 +156,57 @@
                 alert("Failed, please reload the page, then try again.");
             });
         });
+        // Toggle Buttons for Approved/Verified
+        $("#approved_button, #verified_button").on("click", function (e) {
+            var oldState = $(this).data("state"),
+                newState;
+            if (oldState === true) {
+                console.log("Old state was true");
+                newState = false;
+                $(this)
+                    .removeClass("btn-success")
+                    .addClass("btn-danger")
+                    .children("i")
+                        .removeClass("fa-check")
+                        .addClass("fa-times");
+            } else {
+                console.log("Old state was false");
+                newState = true;
+                $(this)
+                    .removeClass("btn-danger")
+                    .addClass("btn-success")
+                    .children("i")
+                        .removeClass("fa-times")
+                        .addClass("fa-check");
+            }
+            $(this).data("state", newState);
+            $("#workshop_table").dataTable().fnDraw();
+        });
+        // Filter for tables.
+        $.fn.dataTable.ext.search.push(function(settings, _, dataIndex) {
+            var node = $(settings.aoData[dataIndex].nTr).find("a.approval");
+            if ($("#approved_button").data("state") === true) {
+                // Toggled on.
+                if (node.data("state") === true) { return true; }
+                else { return false; }
+            } else {
+                // Toggled off.
+                if (node.data("state") === true) { return false; }
+                else { return true; }
+            }
+        });
+        $.fn.dataTable.ext.search.push(function(settings, _, dataIndex) {
+            var node = $(settings.aoData[dataIndex].nTr).find("a.verification");
+            if ($("#verified_button").data("state") === true) {
+                // Toggled on.
+                if (node.data("state") === true) { return true; }
+                else { return false; }
+            } else {
+                // Toggled off.
+                if (node.data("state") === true) { return false; }
+                else { return true; }
+            }
+        });
+        $("#workshop_table").dataTable().fnDraw();
     });
 </script>
