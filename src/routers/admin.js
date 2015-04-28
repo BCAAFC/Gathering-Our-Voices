@@ -120,16 +120,28 @@ module.exports = function (db, redis) {
     });
 
     router.get("/exhibitors", function (req, res) {
+        var query;
+        if (req.query.approved === "false") {
+            query = { approved: false, };
+        } else {
+            query = { approved: true, };
+        }
         Promise.join(
-            db.Page.findOne({ where: { path: req.originalUrl }, }),
-            db.Exhibitor.findAll(),
+            db.Page.findOne({ where: { path: req.originalUrl.split("?")[0] }, }),
+            db.Exhibitor.findAll({ where: query }),
             function (page, exhibitors) {
+                var columns = Object.keys(db.Exhibitor.attributes)
+                    .map(function (v) {
+                        var val = v[0].toUpperCase() + v.slice(1);
+                        return { title: val, data: v, className: v };
+                    });
                 page.render(res, "default", {
                     title: page.title,
                     account: req.session.account,
                     admin: req.session.isAdmin,
                     alert: req.alert,
-                    exhibitors: exhibitors,
+                    data: exhibitors,
+                    columns: columns,
                 });
             }
         ).catch(function (error) {

@@ -1,3 +1,5 @@
+var middleware = require("../../middleware");
+
 module.exports = function (db, redis) {
     var router = require("express").Router();
 
@@ -80,6 +82,71 @@ module.exports = function (db, redis) {
         }).catch(function (error) {
             console.log(error);
             res.status(401).json({ error: error.message });
+        });
+    });
+
+    router.route("/:id/tags")
+    .put(middleware.admin, function (req, res) {
+        db.Exhibitor.findOne({
+            where: { id: req.params.id, },
+        }).then(function (exhibitor) {
+            if (exhibitor.tags.indexOf(req.body.add) !== -1) {
+                throw new Error("Tag already exists.");
+            } else {
+                exhibitor.tags.push(req.body.add);
+                return exhibitor.save({fields: ['tags']});
+            }
+        }).then(function (exhibitor) {
+            res.status(200).json(exhibitor.tags);
+        }).catch(function (error) {
+            res.status(500).json({ error: error.message });
+        });
+    })
+    .delete(middleware.admin, function (req, res) {
+        db.Exhibitor.findOne({
+            where: { id: req.params.id, },
+        }).then(function (exhibitor) {
+            var idx = exhibitor.tags.indexOf(req.body.add);
+            if (idx === -1) {
+                exhibitor.tags.splice(idx, 1);
+                return exhibitor.save({fields: ['tags']});
+            } else {
+                throw new Error("Tag does not exist.");
+            }
+        }).then(function (exhibitor) {
+            res.status(200).json(exhibitor.tags);
+        }).catch(function (error) {
+            res.status(500).json({ error: error.message });
+        });
+    });
+
+    router.route("/:id/approval")
+    .put(middleware.admin, function (req, res) {
+        db.Exhibitor.findOne({
+            where: { id: req.params.id, },
+        }).then(function (exhibitor) {
+            if (!exhibitor) { throw new Error("Exhibitor does not exist."); }
+            exhibitor.approved = req.body.approved;
+            return exhibitor.save();
+        }).then(function (exhibitor) {
+            res.status(200).json({ state: exhibitor.approved, });
+        }).catch(function (error) {
+            res.status(500).json({ error: error.message });
+        });
+    });
+
+    router.route("/:id/verification")
+    .put(middleware.admin, function (req, res) {
+        db.Exhibitor.findOne({
+            where: { id: req.params.id, },
+        }).then(function (exhibitor) {
+            if (!exhibitor) { throw new Error("Exhibitor does not exist."); }
+            exhibitor.verified = req.body.verified;
+            return exhibitor.save();
+        }).then(function (exhibitor) {
+            res.status(200).json({ state: exhibitor.verified, });
+        }).catch(function (error) {
+            res.status(500).json({ error: error.message });
         });
     });
 

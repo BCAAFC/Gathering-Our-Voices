@@ -83,17 +83,17 @@ module.exports = function (sequelize, DataTypes) {
             values: [ "Cheque", "Money Order", "Credit Card" ],
         },
         // Private
-        approved: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false,
-            defaultValue: false,
-            comment: "If the workshop has been approved by the team.",
-        },
         verified: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false,
             comment: "If the exhibitor has been checked by the team.",
+        },
+        approved: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+            comment: "If the workshop has been approved by the team.",
         },
         tags: {
             type: DataTypes.ARRAY(DataTypes.STRING(80)),
