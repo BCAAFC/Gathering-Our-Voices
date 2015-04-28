@@ -33,19 +33,19 @@
                     targets: -5, // Approved
                     render: function (data, type, row) {
                         if (data === true) {
-                            return "<a href=\"\" class=\"btn btn-xs btn-success\"><i class=\"fa fa-check\"></i></a>";
+                            return "<a class=\"approval btn btn-xs btn-success\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-check\"></i></a>";
                         } else {
-                            return "<a href=\"\" class=\"btn btn-xs btn-danger\"><i class=\"fa fa-times\"></i></a>";
+                            return "<a class=\"approval btn btn-xs btn-danger\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-times\"></i></a>";
                         }
                     }
                 },
                 {
-                    targets: -6, // Approved
+                    targets: -6, // Verified
                     render: function (data, type, row) {
                         if (data === true) {
-                            return "<a href=\"\" class=\"btn btn-xs btn-success\"><i class=\"fa fa-check\"></i></a>";
+                            return "<a class=\"verification btn btn-xs btn-success\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-check\"></i></a>";
                         } else {
-                            return "<a href=\"\" class=\"btn btn-xs btn-danger\"><i class=\"fa fa-times\"></i></a>";
+                            return "<a class=\"verification btn btn-xs btn-danger\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-times\"></i></a>";
                         }
                     }
                 }
@@ -68,7 +68,7 @@
             }).done(function (data) {
                 return;
             }).fail(function (data) {
-                alert("Failed, please reload the page.");
+                alert("Failed, please reload the page, then try again.");
             });
         })
         $("input[data-role=\"tagsinput\"]").on("itemRemoved", function (e) {
@@ -83,7 +83,68 @@
             }).done(function (data) {
                 return;
             }).fail(function (data) {
-                alert("Failed, please reload the page.");
+                alert("Failed, please reload the page, then try again.");
+            });
+        });
+        // Approved and Verified.
+        $("a.approval").on("click", function (e) {
+            var self = this,
+                id = $(this).data("id"),
+                state = $(this).data("state");
+            $.ajax({
+                url: "/api/workshop/"+id+"/approval",
+                method: "PUT",
+                data: { approved: !state, },
+            }).done(function (data) {
+                $(self).data("state", data.state);
+                if (data.state === true) {
+                    $(self)
+                        .removeClass("btn-danger")
+                        .addClass("btn-success")
+                        .children("i")
+                            .removeClass("fa-times")
+                            .addClass("fa-check");
+                } else {
+                    $(self)
+                        .removeClass("btn-success")
+                        .addClass("btn-danger")
+                        .children("i")
+                            .removeClass("fa-check")
+                            .addClass("fa-times");
+                }
+                return;
+            }).fail(function (data) {
+                alert("Failed, please reload the page, then try again.");
+            });
+        });
+        $("a.verification").on("click", function (e) {
+            var self = this,
+                id = $(this).data("id"),
+                state = $(this).data("state");
+            $.ajax({
+                url: "/api/workshop/"+id+"/verification",
+                method: "PUT",
+                data: { verified: !state, },
+            }).done(function (data) {
+                $(self).data("state", data.state);
+                if (data.state === true) {
+                    $(self)
+                        .removeClass("btn-danger")
+                        .addClass("btn-success")
+                        .children("i")
+                            .removeClass("fa-times")
+                            .addClass("fa-check");
+                } else {
+                    $(self)
+                        .removeClass("btn-success")
+                        .addClass("btn-danger")
+                        .children("i")
+                            .removeClass("fa-check")
+                            .addClass("fa-times");
+                }
+                return;
+            }).fail(function (data) {
+                alert("Failed, please reload the page, then try again.");
             });
         });
     });

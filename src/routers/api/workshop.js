@@ -150,5 +150,35 @@ module.exports = function (db, redis) {
         });
     });
 
+    router.route("/:id/approval")
+    .put(middleware.admin, function (req, res) {
+        db.Workshop.findOne({
+            where: { id: req.params.id, },
+        }).then(function (workshop) {
+            if (!workshop) { throw new Error("Workshop does not exist."); }
+            workshop.approved = req.body.approved;
+            return workshop.save();
+        }).then(function (workshop) {
+            res.status(200).json({ state: workshop.approved, });
+        }).catch(function (error) {
+            res.status(500).json({ error: error.message });
+        });
+    });
+
+    router.route("/:id/verification")
+    .put(middleware.admin, function (req, res) {
+        db.Workshop.findOne({
+            where: { id: req.params.id, },
+        }).then(function (workshop) {
+            if (!workshop) { throw new Error("Workshop does not exist."); }
+            workshop.verified = req.body.verified;
+            return workshop.save();
+        }).then(function (workshop) {
+            res.status(200).json({ state: workshop.verified, });
+        }).catch(function (error) {
+            res.status(500).json({ error: error.message });
+        });
+    });
+
     return router;
 };
