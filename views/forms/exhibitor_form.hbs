@@ -1,42 +1,62 @@
-{{#form_tags title="Representatives" name="representatives"
-    description="Please include <strong>all</strong> representatives to be on site."}}
-    {{#each representatives}}
-        <option value="{{this}}">{{this}}</option>
-    {{/each}}
-{{/form_tags}}
-{{#form_select title="Categories" name="categories" selected=categories required=true multiple=14}}
-    <option value="Post-Secondary">Post-Secondary</option>
-    <option value="Health Organization/Agency">Health Organization/Agency</option>
-    <option value="Federal Agency/Department">Federal Agency/Department</option>
-    <option value="Justice Organization/Agency">Justice Organization/Agency</option>
-    <option value="Community Service Organization/Agency">Community Service Organization/Agency</option>
-    <option value="Arts & Crafts Business">Arts & Crafts Business</option>
-    <option value="Youth Group/Organization">Youth Group/Organization</option>
-    <option value="Trades & Technical Training">Trades & Technical Training</option>
-    <option value="Provincial Agency/Department">Provincial Agency/Department</option>
-    <option value="Industry">Industry</option>
-    <option value="Media/Communications">Media/Communications</option>
-    <option value="Company/Business">Company/Business</option>
-    <option value="Volunteer/Community Raffle">Volunteer/Community Raffle</option>
-    <option value="Other">Other</option>
-{{/form_select}}
-{{#form_select title="Provides" name="provides" selected=provides required=true multiple=6}}
-    <option value="Giveaway items">Giveaway items</option>
-    <option value="Print information">Print information</option>
-    <option value="Membership information">Membership information</option>
-    <option value="Raffled item">Raffled item</option>
-    <option value="Electronic Information">Electronic Information</option>
-    <option value="Other">Other</option>
-{{/form_select}}
+<form action='/api/exhibitor/{{id}}' method='POST' class="form-horizontal">
+    {{#if this}}
+        <input style="display: none;" name="_method" value="PUT">
+        <legend>Update Exhibitor Information</legend>
+    {{else}}
+        <legend>Apply to be an Exhibitor</legend>
+    {{/if}}
 
-{{{form_boolean title="Electrical" name="electrical" value=electrical required=true
-    description="Mark this if you require an electrical outlet."}}}
-{{{form_boolean title="Delegate Bags" name="delegateBags" value=delegateBags required=true
-    description="Mark this if you have an item for the delegate bags.
-                 <strong>Note you will be required to provide 1200 of the item(s), mailing address will be provided in mid-February</strong>."}}}
-{{#form_select title="Payment Method" name="payment" selected=payment required=true
-    description="There is a $400 fee for a 2-day booth. If you are paying by credit card you can contact us at 1 800 990-2432."}}
-    <option value="Cheque">Cheque</option>
-    <option value="Money Order">Money Order</option>
-    <option value="Credit Card">Credit Card</option>
-{{/form_select}}
+    {{#form_tags title="Representatives" name="representatives"
+        description="Please include <strong>all</strong> representatives to be on site."}}
+        {{#each representatives}}
+            <option value="{{this}}">{{this}}</option>
+        {{/each}}
+    {{/form_tags}}
+    {{#form_select title="Categories" name="categories" selected=categories required=true multiple=14}}
+        <option value="Post-Secondary">Post-Secondary</option>
+        <option value="Health Organization/Agency">Health Organization/Agency</option>
+        <option value="Federal Agency/Department">Federal Agency/Department</option>
+        <option value="Justice Organization/Agency">Justice Organization/Agency</option>
+        <option value="Community Service Organization/Agency">Community Service Organization/Agency</option>
+        <option value="Arts & Crafts Business">Arts & Crafts Business</option>
+        <option value="Youth Group/Organization">Youth Group/Organization</option>
+        <option value="Trades & Technical Training">Trades & Technical Training</option>
+        <option value="Provincial Agency/Department">Provincial Agency/Department</option>
+        <option value="Industry">Industry</option>
+        <option value="Media/Communications">Media/Communications</option>
+        <option value="Company/Business">Company/Business</option>
+        <option value="Volunteer/Community Raffle">Volunteer/Community Raffle</option>
+        <option value="Other">Other</option>
+    {{/form_select}}
+    {{#form_select title="Provides" name="provides" selected=provides required=true multiple=6}}
+        <option value="Giveaway items">Giveaway items</option>
+        <option value="Print information">Print information</option>
+        <option value="Membership information">Membership information</option>
+        <option value="Raffled item">Raffled item</option>
+        <option value="Electronic Information">Electronic Information</option>
+        <option value="Other">Other</option>
+    {{/form_select}}
+
+    {{{form_boolean title="Electrical" name="electrical" value=electrical required=true
+        description="Mark this if you require an electrical outlet."}}}
+    {{{form_boolean title="Delegate Bags" name="delegateBags" value=delegateBags required=true
+        description="Mark this if you have an item for the delegate bags.
+                     <strong>Note you will be required to provide 1200 of the item(s), mailing address will be provided in mid-February</strong>."}}}
+    {{#form_select title="Payment Method" name="payment" selected=payment required=true
+        description="There is a $400 fee for a 2-day booth. If you are paying by credit card you can contact us at 1 800 990-2432."}}
+        <option value="Cheque">Cheque</option>
+        <option value="Money Order">Money Order</option>
+        <option value="Credit Card">Credit Card</option>
+    {{/form_select}}
+
+
+    {{#if this}}
+        <div class="form-group">
+            <input class="btn btn-block btn-primary" type='submit' value="Update">
+        </div>
+    {{else}}
+        <div class="form-group">
+            <input class="btn btn-block btn-primary" type='submit' value="Apply to Exhibit">
+        </div>
+    {{/if}}
+</form>

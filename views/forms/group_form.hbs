@@ -1,16 +1,37 @@
-{{#form_select title="Affiliation Type" name="affiliationType" selected=affiliationType required=true}}
-    <option value="">Choose...</option>
-    <option value="Friendship Centre">Friendship Centre</option>
-    <option value="Off-reserve">Off-reserve</option>
-    <option value="On-reserve">On-reserve</option>
-    <option value="MCFD or Delegated Agency">MCFD or Delegated Agency</option>
-    <option value="Other">Other</option>
-{{/form_select}}
-{{{form_input title="Youth In Care" name="youthInCare" type="number" value=youthInCare
-    description="Each year the conference hosts a feast to honour Youth In Care. If some of this groups
-                 delegates are or have been a youth in the care of the Ministry of Children and Family
-                 Development or an Aboriginal Delegated Agency and would like to attend the feast, please
-                 indicate below how many of your group will attend."}}}
-{{{form_input title="Youth In Care Support" name="youthInCareSupport" type="number" value=youthInCareSupport
-    description="If any of the youth wish to bring a support person please indicate the number of
-                 support persons here."}}}
+<form action='/api/group/{{id}}' method='POST' class="form-horizontal">
+    {{#if this}}
+        <input style="display: none;" name="_method" value="PUT">
+        <legend>Update Group</legend>
+    {{else}}
+        <legend>Declare Group</legend>
+    {{/if}}
+
+
+    {{#form_select title="Affiliation Type" name="affiliationType" selected=affiliationType required=true}}
+        <option value="">Choose...</option>
+        <option value="Friendship Centre">Friendship Centre</option>
+        <option value="Off-reserve">Off-reserve</option>
+        <option value="On-reserve">On-reserve</option>
+        <option value="MCFD or Delegated Agency">MCFD or Delegated Agency</option>
+        <option value="Other">Other</option>
+    {{/form_select}}
+    {{{form_input title="Youth In Care" name="youthInCare" type="number" value=youthInCare
+        description="Each year the conference hosts a feast to honour Youth In Care. If some of this groups
+                     delegates are or have been a youth in the care of the Ministry of Children and Family
+                     Development or an Aboriginal Delegated Agency and would like to attend the feast, please
+                     indicate below how many of your group will attend."}}}
+    {{{form_input title="Youth In Care Support" name="youthInCareSupport" type="number" value=youthInCareSupport
+        description="If any of the youth wish to bring a support person please indicate the number of
+                     support persons here."}}}
+
+
+    {{#if this}}
+        <div class="form-group">
+            <input class="btn btn-block btn-primary" type='submit' value="Update">
+        </div>
+    {{else}}
+        <div class="form-group">
+            <input class="btn btn-block btn-primary" type='submit' value="Declare">
+        </div>
+    {{/if}}
+</form>

@@ -1,26 +1,45 @@
-{{{form_input title="Email Address" name="email" type="email"  value=email required=true}}}
-{{{form_input title="Password" name="password" type="password" required=true}}}
-{{{form_input title="Full Name" name="name" type="text" value=name required=true}}}
-{{{form_input title="Affiliation" name="affiliation" type="text" required=true value=affiliation
-    description="This is typically your band, organization, or agency."}}}
-{{{form_input title="Phone Number" name="phone" type="text" value=phone required=true}}}
-{{{form_input title="Fax Number (Optional)" name="fax" type="text" value=fax}}}
-{{{form_input title="Address" name="address" type="text" value=address required=true}}}
-{{{form_input title="City" name="city" type="text" value=city required=true}}}
-{{#form_select title="Province" name="province" type="text" selected=province required=true}}
-    <option value="British Columbia">British Columbia</option>
-    <option value="Alberta">Alberta</option>
-    <option value="Saskatchewan">Saskatchewan</option>
-    <option value="Manitoba">Manitoba</option>
-    <option value="Ontario">Ontario</option>
-    <option value="Quebec">Quebec</option>
-    <option value="New Brunswick">New Brunswick</option>
-    <option value="Nova Scotia">Nova Scotia</option>
-    <option value="Prince Edward Island">Prince Edward Island</option>
-    <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
-    <option value="Nunavut">Nunavut</option>
-    <option value="Northwest Territories">Northwest Territories</option>
-    <option value="Yukon">Yukon</option>
-    <option value="Other (Outside Canada)">Other (Outside Canada)</option>
-{{/form_select}}
-{{{form_input title="Postal Code" name="postalCode" type="text" value=postalCode required=true}}}
+<form action='/api/account/{{id}}' method='POST' class="form-horizontal">
+    {{#if this}}
+        <input style="display: none;" name="_method" value="PUT">
+        <legend>Update Existing Account</legend>
+    {{else}}
+        <legend>Register New Account</legend>
+    {{/if}}
+
+    {{{form_input title="Email Address" name="email" type="email"  value=email required=true}}}
+    {{{form_input title="Password" name="password" type="password" required=true}}}
+    {{{form_input title="Full Name" name="name" type="text" value=name required=true}}}
+    {{{form_input title="Affiliation" name="affiliation" type="text" required=true value=affiliation
+        description="This is typically your band, organization, or agency."}}}
+    {{{form_input title="Phone Number" name="phone" type="text" value=phone required=true}}}
+    {{{form_input title="Fax Number (Optional)" name="fax" type="text" value=fax}}}
+    {{{form_input title="Address" name="address" type="text" value=address required=true}}}
+    {{{form_input title="City" name="city" type="text" value=city required=true}}}
+    {{#form_select title="Province" name="province" type="text" selected=province required=true}}
+        <option value="British Columbia">British Columbia</option>
+        <option value="Alberta">Alberta</option>
+        <option value="Saskatchewan">Saskatchewan</option>
+        <option value="Manitoba">Manitoba</option>
+        <option value="Ontario">Ontario</option>
+        <option value="Quebec">Quebec</option>
+        <option value="New Brunswick">New Brunswick</option>
+        <option value="Nova Scotia">Nova Scotia</option>
+        <option value="Prince Edward Island">Prince Edward Island</option>
+        <option value="Newfoundland and Labrador">Newfoundland and Labrador</option>
+        <option value="Nunavut">Nunavut</option>
+        <option value="Northwest Territories">Northwest Territories</option>
+        <option value="Yukon">Yukon</option>
+        <option value="Other (Outside Canada)">Other (Outside Canada)</option>
+    {{/form_select}}
+    {{{form_input title="Postal Code" name="postalCode" type="text" value=postalCode required=true}}}
+
+    {{#if this}}
+        <div class="form-group">
+            <input class="btn btn-block btn-primary" type='submit' value="Update">
+        </div>
+    {{else}}
+        <div class="form-group">
+            <input class="btn btn-block btn-primary" type='submit' value="Register">
+        </div>
+    {{/if}}
+</form>

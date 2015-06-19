@@ -3,7 +3,7 @@ module.exports = function (env, db) {
         return db.Page.create({
             path: "/register",
             title: "Register",
-            content: "{{> account_form_POST}}",
+            content: "{{> account_form null}}",
         });
     }).then(function () {
         return db.Page.create({

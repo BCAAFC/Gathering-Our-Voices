@@ -6,4 +6,11 @@ module.exports = {
         };
         return;
     },
+    success: function success(req, message) {
+        req.session.alert = {
+            type: "success",
+            message: message,
+        };
+        return;
+    },
 };
