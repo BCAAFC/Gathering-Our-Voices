@@ -201,4 +201,8 @@ module.exports = function (hbs) {
         }
         return total;
     });
+
+    hbs.registerHelper("img", function (keyword, options) {
+        return "<img src=\"/api/image/" + keyword + ".jpg\">";
+    });
 };

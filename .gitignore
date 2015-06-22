@@ -5,3 +5,4 @@ ssl/
 newrelic_agent.log
 npm-debug.log
 backupdb.sh
+uploads/

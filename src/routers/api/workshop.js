@@ -33,7 +33,6 @@ module.exports = function (db, redis) {
                 delete req.body.tags;
             }
             // Create
-            console.log(req.body);
             return account.createWorkshop(req.body);
         }).then(function (workshop) {
             res.format({
