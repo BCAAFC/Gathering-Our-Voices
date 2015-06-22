@@ -10,24 +10,55 @@
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="CollapseNav">
             <ul class="nav navbar-nav">
-                <li><a href="/">Home</a></li>
-                <li><a href="/news">News</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/schedule">Schedule</a></li>
-                <li><a href="/venues">Venues</a></li>
-                <li><a href="/accommodations">Accommodations</a></li>
-                <li><a href="/workshops">Workshops</a></li>
-                <li><a href="/faq">FAQs</a></li>
+                <li><a href="/">
+                    <i class="fa fa-fw fa-home"></i>
+                    Home
+                </a></li>
+                <li><a href="/news">
+                    <i class="fa fa-fw fa-newspaper-o"></i>
+                    News
+                </a></li>
+                <li><a href="/about">
+                    <i class="fa fa-fw fa-info"></i>
+                    About
+                </a></li>
+                <li><a href="/schedule">
+                    <i class="fa fa-fw fa-calendar"></i>
+                    Schedule
+                </a></li>
+                <li><a href="/venues">
+                    <i class="fa fa-fw fa-map-marker"></i>
+                    Venues
+                </a></li>
+                <li><a href="/workshops">
+                    <i class="fa fa-fw fa-briefcase"></i>
+                    Workshops
+                </a></li>
                 <!-- Special cases -->
                 {{#if account}}
-                    <li><a href="/account">Account</a></li>
-                    <li><a href="/api/account/logout">Log out</a></li>
+                    <li><a href="/account">
+                        <i class="fa fa-fw fa-user"></i>
+                        Account
+                    </a></li>
+                    <li><a href="/api/account/logout">
+                        <i class="fa fa-fw fa-sign-out"></i>
+                        Log out
+                    </a></li>
                 {{else}}
-                    <li><a href="/login">Login</a></li>
-                    <li><a href="/register">Register</a></li>
+                    <li><a href="/login">
+                        <i class="fa fa-fw fa-sign-in"></i>
+                        Login
+                    </a></li>
+                    <li><a href="/register">
+                        <i class="fa fa-fw fa-user-plus"></i>
+                        Register
+                    </a></li>
                 {{/if}}
                 {{#if admin}}
-                    <li><a href="/admin">Admin</a></li>
+                    <li><a href="/admin">
+                        <i class="fa fa-fw fa-steam"></i>
+                        Admin
+                    </a></li>
                 {{/if}}
             </ul>
         </div>

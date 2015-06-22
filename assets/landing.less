@@ -1,0 +1,47 @@
+#landing {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+
+    background-color: black;
+    background-image: url("/api/image/landing-page.jpg");
+    background-size: cover;
+    text-align:center; /* Align center inline elements */
+
+    display: table;
+    vertical-align: middle;
+
+    .content {
+        opacity: 1.0;
+        vertical-align: middle;
+        display: table-cell;
+        color: white;
+        font-size: 100%;
+        width: 100%;
+        height: 100%;
+        z-index: 3;
+
+        * {
+            display: inline-block;
+        }
+    }
+
+    .slug {
+        font-size: 48pt;
+    }
+    .year {
+        font-size: 56pt;
+    }
+    .points {
+        font-size: 36pt;
+    }
+
+
+}

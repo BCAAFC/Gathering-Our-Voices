@@ -43,12 +43,6 @@ module.exports = function (env, db) {
         });
     }).then(function () {
         return db.Page.create({
-            path: "/accommodations",
-            title: "Accommodations",
-            content: "",
-        });
-    }).then(function () {
-        return db.Page.create({
             path: "/workshops",
             title: "Workshops",
             content: "",

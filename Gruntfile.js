@@ -61,7 +61,7 @@ module.exports = function(grunt) {
                         // Dates
                         'bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.css',
                         // Custom
-                        'assets/styles.css',
+                        'assets/index.less',
                     ],
                 },
             },
