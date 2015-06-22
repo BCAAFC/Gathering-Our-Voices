@@ -9573,6 +9573,9 @@ footer {
   line-height: 1;
   letter-spacing: -1px;
 }
+.featurette > * > img {
+  width: 100%;
+}
 @media (min-width: 768px) {
   /* Remove the edge padding needed for mobile */
   .marketing {
