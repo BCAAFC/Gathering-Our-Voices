@@ -30,6 +30,9 @@ var getters = {
     get REDIS_URL () {
         return process.env.REDIS_URL;
     },
+    get UPLOAD_DIR () {
+        return process.env.UPLOAD_DIR;
+    },
     get MANDRILL_APIKEY () {
         return process.env.MANDRILL_APIKEY;
     },
@@ -60,6 +63,7 @@ module.exports = function () {
     check("SECRET", "I'm insecure!");
     check("ADMINS", ["andrew@hoverbear.org"]);
     check("MAX_YOUTH", 2000);
+    check("UPLOAD_DIR", "./uploads/");
     check("POSTGRES_URL", process.env.HEROKU_POSTGRESQL_NAVY_URL || "postgres://localhost/test");
     check("REDIS_URL", process.env.REDISCLOUD_URL || "localhost");
     check("MANDRILL_APIKEY", undefined);

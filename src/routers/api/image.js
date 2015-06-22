@@ -4,7 +4,6 @@ var gm = require("gm"),
     fs = require("fs"),
     middleware = require("../../middleware");
 
-const UPLOAD_DIR = "./uploads/"
 var unlink = Promise.promisify(fs.unlink);
 
 module.exports = function (db, redis) {
@@ -31,7 +30,7 @@ module.exports = function (db, redis) {
         .autoOrient()
         .resize(req.body.size, req.body.size, ">")
         .noProfile()
-        .write(UPLOAD_DIR + req.body.keyword + ".jpg", function (err, data) {
+        .write(process.env.UPLOAD_DIR + "images/" + req.body.keyword + ".jpg", function (err, data) {
             if (err) {
                 console.log(err);
                 res.status(401).json({ error: err.message });
@@ -46,7 +45,7 @@ module.exports = function (db, redis) {
 
     router.route("/:keyword.jpg")
     .get(function (req, res) {
-        res.sendFile(UPLOAD_DIR + req.params.keyword + ".jpg", {
+        res.sendFile(process.env.UPLOAD_DIR + "images/" + req.params.keyword + ".jpg", {
             root: ".",
         });
     });
