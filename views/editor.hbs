@@ -66,6 +66,7 @@
                     mode:  "text/html",
                     lineNumbers: true,
                     smartIndent: true,
+                    indentUnit: 4,
                 });
                 content.on("changes", function (instance) {
                     $("#preview").html(instance.getValue());
