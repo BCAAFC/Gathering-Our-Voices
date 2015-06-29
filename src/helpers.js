@@ -218,13 +218,13 @@ module.exports = function (hbs) {
 
     hbs.registerHelper("count", function (set, field, value, options) {
         if (!set || !field || !value) { return ""; }
-        return set.reduce(function (acc, item) {
+        return String(set.reduce(function (acc, item) {
             if (item[field] === value) {
                 return acc+1;
             } else {
                 return acc;
             }
-        }, 0);
+        }, 0));
     });
 
 
