@@ -6,6 +6,7 @@ module.exports = function (httpd, db, redis) {
             title: "Landing Page",
         });
     });
+
     httpd.use("/api",
         require("./api")(db, redis));
 
@@ -17,9 +18,14 @@ module.exports = function (httpd, db, redis) {
         }
         return next();
     });
+
     // Admin routes.
     httpd.use("/admin", middleware.admin,
         require("./admin")(db, redis));
+
+    // Handles special routes.
+    httpd.use(require("special")(db, redis));
+
     // It's quite important that this is last.
     httpd.use("/",
         require("./pages")(db, redis));
