@@ -1,14 +1,11 @@
 var middleware = require("../middleware");
 
 module.exports = function (httpd, db, redis) {
-    // This is for DB stored images! Not statics!
     httpd.get("/", function (req, res) {
         res.render("special/landing", {
             title: "Landing Page",
         });
     });
-    httpd.use("/images",
-        require("./images")(db, redis));
     httpd.use("/api",
         require("./api")(db, redis));
 
