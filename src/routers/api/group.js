@@ -23,12 +23,24 @@ module.exports = function (db, redis) {
         }).then(function (account) {
             req.session.account = account;
             res.format({
-                'text/html': function () { res.redirect('back'); },
+                'text/html': function () {
+                    alert.success(req, "Group Declared.");
+                    res.redirect('/account');
+                },
                 'default': function () { res.status(200).json(account); },
             });
         }).catch(function (error) {
             console.log(error);
-            res.status(401).json({ error: error.message });
+            req.session.account = account;
+            res.format({
+                'text/html': function () {
+                    alert.error(req, error.message);
+                    res.redirect('/account');
+                },
+                'default': function () {
+                    res.status(401).json({ error: error.message });
+                },
+            });
         });
     });
 
@@ -59,9 +71,25 @@ module.exports = function (db, redis) {
         }).then(function (group) {
             return group.getAccount({ include: [ db.Group ]});
         }).then(function (account) {
-            res.status(200).json(account);
+            req.session.account = account;
+            res.format({
+                'text/html': function () {
+                    alert.success(req, "Group Updated.");
+                    res.redirect('/account');
+                },
+                'default': function () { res.status(200).json(account); },
+            });
         }).catch(function (error) {
-            res.status(401).json({ error: error.message });
+            req.session.account = account;
+            res.format({
+                'text/html': function () {
+                    alert.error(req, error.message);
+                    res.redirect('/account');
+                },
+                'default': function () {
+                    res.status(401).json({ error: error.message });
+                },
+            });
         });
     })
     // Delete a group.
