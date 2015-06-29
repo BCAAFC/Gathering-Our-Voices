@@ -16,7 +16,7 @@ module.exports = function (db, redis) {
             // Transform HTML form.
             if (req.body.facilitators && req.body.facilitators.length === 1) {
                 req.body.facilitators = [req.body.facilitators[0]];
-            };
+            }
             if (req.body.mailing === "Yes") { req.body.mailing = true; } else
             if (req.body.mailing === "No") { req.body.mailing = false; }
             if (req.body.projector === "Yes") { req.body.projector = true; } else
@@ -56,6 +56,9 @@ module.exports = function (db, redis) {
             // Validations.
             if (workshop.id !== req.session.account.Workshop.id) {
                 throw new Error("That workshop is not associated with this account.");
+            }
+            if (req.body.facilitators && req.body.facilitators.length === 1) {
+                req.body.facilitators = [req.body.facilitators[0]];
             }
             // Transform HTML form.
             if (req.body.mailing === "Yes") { req.body.mailing = true; } else
