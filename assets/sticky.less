@@ -13,9 +13,7 @@ body {
     position:relative;
 }
 
-main {
-    padding-bottom: 300px;   /* Height of the footer */
-}
+
 
 header {
     padding-top: 50px;
@@ -31,10 +29,20 @@ footer {
 }
 
 @media (min-width: 768px) {
-    height: 300px;
+    main {
+        padding-bottom: 300px;   /* Height of the footer */
+    }
+    footer {
+        height: 300px;
+    }
 }
 @media (max-width: 768px) {
-    height: 600px;
+    main {
+        padding-bottom: 600px;   /* Height of the footer */
+    }
+    footer {
+        height: 600px;
+    }
 }
 
 .panel {
