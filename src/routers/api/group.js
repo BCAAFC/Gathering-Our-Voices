@@ -1,4 +1,5 @@
-var middleware = require("../../middleware");
+var middleware = require("../../middleware"),
+    alert = require("../../alert");
 
 module.exports = function (db, redis) {
     var router = require("express").Router();
