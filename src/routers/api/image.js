@@ -45,7 +45,7 @@ module.exports = function (db, redis) {
 
     router.route("/:keyword").delete(middleware.admin, function (req, res) {
         unlink(process.env.UPLOAD_DIR + "images/" + req.body.keyword + ".jpg")
-        .try(function () {
+        .then(function () {
             alert.success(req, "Deleted!");
             res.redirect('back');
             return;
