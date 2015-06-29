@@ -43,6 +43,19 @@ module.exports = function (db, redis) {
         });
     });
 
+    router.route("/:keyword").delete(middleware.admin, function (req, res) {
+        unlink(process.env.UPLOAD_DIR + "images/" + req.body.keyword + ".jpg")
+        .try(function () {
+            alert.success(req, "Deleted!");
+            res.redirect('back');
+            return;
+        })
+        .catch(function () {
+            alert.error(req, "Something went wrong.");
+            res.redirect("back");
+        });
+    });
+
     router.route("/:keyword.jpg")
     .get(function (req, res) {
         res.sendFile(process.env.UPLOAD_DIR + "images/" + req.params.keyword + ".jpg", {
