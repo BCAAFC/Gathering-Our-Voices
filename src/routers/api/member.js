@@ -45,7 +45,10 @@ module.exports = function (db, redis) {
             return account.Group.createMember(req.body);
         }).then(function (member) {
             res.format({
-                'text/html': function () { res.redirect('/account'); },
+                'text/html': function () {
+                    alert.success(req, "Member added.");
+                    res.redirect('/account/group');
+                },
                 'default': function () { res.status(200).json(account); },
             });
         }).catch(function (error) {
@@ -98,7 +101,10 @@ module.exports = function (db, redis) {
             return member.save();
         }).then(function (member) {
             res.format({
-                'text/html': function () { res.redirect('/account'); },
+                'text/html': function () {
+                    alert.success(req, "Member updated.");
+                    res.redirect('/account/group');
+                },
                 'default': function () { res.status(200).json(account); },
             });
         }).catch(function (error) {
