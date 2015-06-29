@@ -50,7 +50,8 @@ module.exports = function (db, redis) {
             res.redirect('back');
             return;
         })
-        .catch(function () {
+        .catch(function (err) {
+            console.log(err);
             alert.error(req, "Something went wrong.");
             res.redirect("back");
         });
