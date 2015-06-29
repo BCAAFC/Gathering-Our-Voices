@@ -1,5 +1,5 @@
-<form action='/api/workshop/{{id}}' method='POST' class="form-horizontal">
-    {{#if this}}
+<form action='/api/workshop/{{workshop.id}}' method='POST' class="form-horizontal">
+    {{#if workshop}}
         <input style="display: none;" name="_method" value="PUT">
         <legend>Update Facilitation Application</legend>
     {{else}}
@@ -7,66 +7,66 @@
     {{/if}}
 
 
-    {{{form_input title="Title of Workshop" name="title" type="text"  value=title required=true}}}
+    {{{form_input title="Title of Workshop" name="title" type="text"  value=workshop.title required=true}}}
     {{#form_tags title="Facilitators" name="facilitators" required=true
         description="Please include <strong>full, legal names</strong> of all members, including the primary registrant for this account."}}
-        {{#each facilitators}}
+        {{#each workshop.facilitators}}
             <option value="{{this}}">{{this}}</option>
         {{/each}}
     {{/form_tags}}
-    {{#form_select title="Length of a Session" name="length" selected=length required=true}}
+    {{#form_select title="Length of a Session" name="length" selected=workshop.length required=true}}
         <option value="">Choose...</option>
         <option value="1.5 hour">1.5 hour</option>
         <option value="3 hour">3 hour</option>
         <option value="Full day">Full day (Please call us to confirm first.)</option>
     {{/form_select}}
-    {{#form_select title="Category" name="category" selected=category required=true}}
+    {{#form_select title="Category" name="category" selected=workshop.category required=true}}
         <option value="">Choose...</option>
         <option value="Cultural">Cultural</option>
         <option value="Physical">Physical</option>
         <option value="Emotional">Emotional</option>
         <option value="Mental">Mental</option>
     {{/form_select}}
-    {{{form_textarea title="Reason for Category" name="categoryReason" type="text"  value=categoryReason required=true}}}
-    {{#form_select title="Audience" name="audience" selected=audience required=true multiple=4}}
+    {{{form_textarea title="Reason for Category" name="categoryReason" type="text"  value=workshop.categoryReason required=true}}}
+    {{#form_select title="Audience" name="audience" selected=workshop.audience required=true multiple=4}}
         <option value="Youth">Youth (14-17)</option>
         <option value="Young Adult">Young Adult (18-24)</option>
         <option value="Young Chaperone">Young Chaperone (21-24)</option>
         <option value="Chaperone">Chaperone (24+)</option>
     {{/form_select}}
-    {{#form_select title="Type of Workshop" name="type" selected=type required=true multiple=5}}
+    {{#form_select title="Type of Workshop" name="type" selected=workshop.type required=true multiple=5}}
         <option value="Presentation">Presentation</option>
         <option value="Exercise">Exercise</option>
         <option value="Roleplay">Roleplay</option>
         <option value="Q/A">Q/A</option>
         <option value="Other">Other</option>
     {{/form_select}}
-    {{{form_textarea title="Description of Workshop" name="description" value=description required=true
+    {{{form_textarea title="Description of Workshop" name="description" value=workshop.description required=true
         description="This will be shown directly to delegates browsing workshops. Make it engaging, exciting, and interesting! It can be as long as you like."}}}
-    {{{form_textarea title="Summary of Workshop" name="summary" value=summary required=true
+    {{{form_textarea title="Summary of Workshop" name="summary" value=workshop.summary required=true
         description="A simple, one or two sentence description of your workshop that catches the eye. <strong>Limit of 500 characters.</strong>"}}}
-    {{{form_textarea title="Interaction Level" name="interactionLevel" value=interactionLevel required=true
+    {{{form_textarea title="Interaction Level" name="interactionLevel" value=workshop.interactionLevel required=true
         description="Describe how your workshop interacts with attendees. This is used as part of the selection process, our selection committee favors highly interactive workshops."}}}
-    {{{form_input title="Capacity" name="capacity" type="number"  value=capacity required=true
+    {{{form_input title="Capacity" name="capacity" type="number"  value=workshop.capacity required=true
         description="Indicate the number of attendees you are comfortable hosting. This is used to scheduling as well as the selection process. Please <strong>only</strong> specify a number."}}}
 
     <fieldset>
         <legend>Resources</legend>
-        {{{form_boolean title="Mailing" name="mailing" value=mailing
+        {{{form_boolean title="Mailing" name="mailing" value=workshop.mailing
             description="If you require assistance mailing things for the conference mark this."}}}
-        {{{form_input title="Flipchart" name="flipchart" type="text" value=flipcharts
+        {{{form_input title="Flipchart" name="flipchart" type="text" value=workshop.flipcharts
             description="Do you require a flipcharts? Leave this blank if you don't, or specify the number of flipcharts <strong>and</strong> markers."}}}
-        {{{form_boolean title="Projector" name="projector" value=projector
+        {{{form_boolean title="Projector" name="projector" value=workshop.projector
             description="Do you require a projector for your workshop?"}}}
-        {{{form_boolean title="Screen" name="screen" value=screen
+        {{{form_boolean title="Screen" name="screen" value=workshop.screen
             description="Do you require a screen for your workshop?"}}}
-        {{{form_boolean title="Media Player" name="player" value=player
+        {{{form_boolean title="Media Player" name="player" value=workshop.player
             description="Do you require a DVD/CD player for your workshop?"}}}
-        {{{form_boolean title="Microphone & Speakers" name="microphone" value=microphone
+        {{{form_boolean title="Microphone & Speakers" name="microphone" value=workshop.microphone
             description="Do you require a microphone and speakers for your workshop?"}}}
     </fieldset>
 
-    {{#form_select title="Room Setup" name="room" selected=room required=true}}
+    {{#form_select title="Room Setup" name="room" selected=workshop.room required=true}}
         <option value="Circle">Circle</option>
         <option value="Semicircle">Semicircle</option>
         <option value="Gym">Gym</option>
@@ -82,21 +82,21 @@
 
     <fieldset>
         <legend>Compensation</legend>
-        {{{form_boolean title="Meal" name="meals" value=meals
+        {{{form_boolean title="Meal" name="meals" value=workshop.meals
             description="If you request meal compensation we will provide you with a per-diem."}}}
-        {{{form_boolean title="Accomodation" name="accomodation" value=accomodation
+        {{{form_boolean title="Accomodation" name="accomodation" value=workshop.accomodation
             description="If you request accomodation compensation we will provide you with a hotel room near the conference."}}}
-        {{{form_textarea title="Honorarium" name="honorarium" value=honorarium
+        {{{form_textarea title="Honorarium" name="honorarium" value=workshop.honorarium
             description="If you request an honorarium please specify the amount and some details regarding how you determined that amount.
                          <em>Make sure to specify if the amount is per workshop or for all services.</em>"}}}
-        {{{form_input title="Travel" name="travel" value=travel
+        {{{form_input title="Travel" name="travel" value=workshop.travel
             description="If you request travel we will provide you with travel arrangements to the conference. <strong>Please let us know where you are coming from.</strong>"}}}
-        {{{form_textarea title="Notes" name="notes" value=notes
+        {{{form_textarea title="Notes" name="notes" value=workshop.notes
             description="Feel encouraged to place any notes you wish to include for the selection committee or the coordinators regarding you or your workshop."}}}
     </fieldset>
 
 
-    {{#if this}}
+    {{#if workshop}}
         <div class="form-group">
             <input class="btn btn-block btn-primary" type='submit' value="Update">
         </div>

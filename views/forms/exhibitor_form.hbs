@@ -1,5 +1,5 @@
-<form action='/api/exhibitor/{{id}}' method='POST' class="form-horizontal">
-    {{#if this}}
+<form action='/api/exhibitor/{{exhibitor.id}}' method='POST' class="form-horizontal">
+    {{#if exhibitor}}
         <input style="display: none;" name="_method" value="PUT">
         <legend>Update Exhibitor Information</legend>
     {{else}}
@@ -8,11 +8,11 @@
 
     {{#form_tags title="Representatives" name="representatives"
         description="Please include <strong>all</strong> representatives to be on site."}}
-        {{#each representatives}}
+        {{#each exhibitor.representatives}}
             <option value="{{this}}">{{this}}</option>
         {{/each}}
     {{/form_tags}}
-    {{#form_select title="Categories" name="categories" selected=categories required=true multiple=14}}
+    {{#form_select title="Categories" name="categories" selected=exhibitor.categories required=true multiple=14}}
         <option value="Post-Secondary">Post-Secondary</option>
         <option value="Health Organization/Agency">Health Organization/Agency</option>
         <option value="Federal Agency/Department">Federal Agency/Department</option>
@@ -28,7 +28,7 @@
         <option value="Volunteer/Community Raffle">Volunteer/Community Raffle</option>
         <option value="Other">Other</option>
     {{/form_select}}
-    {{#form_select title="Provides" name="provides" selected=provides required=true multiple=6}}
+    {{#form_select title="Provides" name="provides" selected=exhibitor.provides required=true multiple=6}}
         <option value="Giveaway items">Giveaway items</option>
         <option value="Print information">Print information</option>
         <option value="Membership information">Membership information</option>
@@ -37,12 +37,12 @@
         <option value="Other">Other</option>
     {{/form_select}}
 
-    {{{form_boolean title="Electrical" name="electrical" value=electrical required=true
+    {{{form_boolean title="Electrical" name="electrical" value=exhibitor.electrical required=true
         description="Mark this if you require an electrical outlet."}}}
-    {{{form_boolean title="Delegate Bags" name="delegateBags" value=delegateBags required=true
+    {{{form_boolean title="Delegate Bags" name="delegateBags" value=exhibitor.delegateBags required=true
         description="Mark this if you have an item for the delegate bags.
                      <strong>Note you will be required to provide 1200 of the item(s), mailing address will be provided in mid-February</strong>."}}}
-    {{#form_select title="Payment Method" name="payment" selected=payment required=true
+    {{#form_select title="Payment Method" name="payment" selected=exhibitor.payment required=true
         description="There is a $400 fee for a 2-day booth. If you are paying by credit card you can contact us at 1 800 990-2432."}}
         <option value="Cheque">Cheque</option>
         <option value="Money Order">Money Order</option>
@@ -50,7 +50,7 @@
     {{/form_select}}
 
 
-    {{#if this}}
+    {{#if exhibitor}}
         <div class="form-group">
             <input class="btn btn-block btn-primary" type='submit' value="Update">
         </div>

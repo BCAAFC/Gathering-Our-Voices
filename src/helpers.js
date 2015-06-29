@@ -205,4 +205,15 @@ module.exports = function (hbs) {
     hbs.registerHelper("img", function (classes, keyword, options) {
         return "<img class=\"" + classes + "\" src=\"/api/image/" + keyword + ".jpg\">";
     });
+
+    hbs.registerHelper("flag", function (flag, flags, options) {
+        if (flags[flag] === null || flags[flag] === undefined) {
+            return "<a class=\"btn btn-default\" href=\"/admin/flag/" + flag + "/true\">Create: " + flag + "</a>";
+        } else if (flags[flag] === true) {
+            return "<a class=\"btn btn-success\" href=\"/admin/flag/" + flag + "/" + !flags[flag] + "\">Unset:" + flag + "</a>";
+        } else {
+            return "<a class=\"btn btn-danger\" href=\"/admin/flag/" + flag + "/" + !flags[flag] + "\">Set:" + flag + "</a>";
+        }
+    });
+
 };

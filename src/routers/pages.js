@@ -28,6 +28,7 @@ module.exports = function (db, redis) {
             page.render(res, "default", {
                 title: page.title,
                 account: req.session.account,
+                flags: db.Flag.cache(),
                 admin: req.session.isAdmin,
                 alert: req.alert,
             });

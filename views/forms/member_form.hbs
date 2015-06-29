@@ -1,5 +1,5 @@
-<form action='/api/member/{{id}}' method='POST' class="form-horizontal">
-    {{#if this}}
+<form action='/api/member/{{member.id}}' method='POST' class="form-horizontal">
+    {{#if member}}
         <input style="display: none;" name="_method" value="PUT">
         <legend>Update Existing Member</legend>
     {{else}}
@@ -7,23 +7,23 @@
     {{/if}}
 
 
-    {{{form_input title="Full Name" name="name" type="text" value=name required=true}}}
-    {{#form_select title="Member Type" name="type" selected=type required=true}}
+    {{{form_input title="Full Name" name="name" type="text" value=member.name required=true}}}
+    {{#form_select title="Member Type" name="type" selected=member.type required=true}}
         <option value="">Choose...</option>
         <option value="Youth">Youth (14-17)</option>
         <option value="Young Adult">Young Adult (18-24)</option>
         <option value="Young Chaperone">Young Chaperone (21-24)</option>
         <option value="Chaperone">Chaperone (24+)</option>
     {{/form_select}}
-    {{#form_select title="Gender" name="gender" selected=gender}}
+    {{#form_select title="Gender" name="gender" selected=member.gender}}
         <option value="">Choose...</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
         <option value="Other">Other</option>
     {{/form_select}}
-    {{{form_input title="Birth Date" name="birthDate" type="date" value=(date birthDate)
+    {{{form_input title="Birth Date" name="birthDate" type="date" value=(date member.birthDate)
         description="Should be <code>MM/DD/YYYY</code>."}}}
-    {{#form_select title="Background" name="background" selected=background
+    {{#form_select title="Background" name="background" selected=member.background
         description="<strong>Optional.</strong> If this is provided we will use it for statistics and reporting."}}
         <option value="">Choose...</option>
         <option value="Status First Nations">Status First Nations</option>
@@ -35,7 +35,7 @@
         <option value="Non-Aboriginal">Non-Aboriginal</option>
     {{/form_select}}
 
-    {{{form_input title="Phone Number" name="phone" type="text" value=phone
+    {{{form_input title="Phone Number" name="phone" type="text" value=member.phone
         description="<strong>Optional</strong>. If this member has a cellphone, please specify it here so we can contact them on-site if necessary."}}}
     {{{form_boolean title="Text Notifications" name="notifications" value=notifications
         description="<strong>Optional</strong>. If the above number is a cellphone we can notify the member during the event of their workshops and locations. <em>This service will be used sparingly and is provided for convience only.</em>"}}}
@@ -44,25 +44,25 @@
 
     <fieldset>
         <legend>Emergency Information</legend>
-        {{{form_input title="Contact Name" name="contactName" type="text" value=contactName}}}
-        {{{form_input title="Contact Phone" name="contactPhone" type="text" value=contactPhone}}}
-        {{{form_input title="Contact Relationship" name="contactRelation" type="text" value=contactRelation
+        {{{form_input title="Contact Name" name="contactName" type="text" value=member.contactName}}}
+        {{{form_input title="Contact Phone" name="contactPhone" type="text" value=member.contactPhone}}}
+        {{{form_input title="Contact Relationship" name="contactRelation" type="text" value=member.contactRelation
             description="The contact's relationship with the member."}}}
-        {{{form_input title="Medical Number" name="medicalNumber" type="text" value=medicalNumber}}}
+        {{{form_input title="Medical Number" name="medicalNumber" type="text" value=member.medicalNumber}}}
         {{#form_tags title="Allergies" name="allergies" type="text" description="<strong>You may leave this blank if not applicable.</strong>"}}
-            {{#each allergies}}
+            {{#each member.allergies}}
                 <option value="{{this}}">{{this}}</option>
             {{/each}}
         {{/form_tags}}
         {{#form_tags title="Medical Conditions" name="conditions" type="text" description="<strong>You may leave this blank if not applicable.</strong>"}}
-            {{#each conditions}}
+            {{#each member.conditions}}
                 <option value="{{this}}">{{this}}</option>
             {{/each}}
         {{/form_tags}}
     </fieldset>
 
 
-    {{#if this}}
+    {{#if member}}
         <div class="form-group">
             <input class="btn btn-block btn-primary" type='submit' value="Update">
         </div>

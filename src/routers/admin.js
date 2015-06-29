@@ -25,6 +25,7 @@ module.exports = function (db, redis) {
                     account: req.session.account,
                     admin: req.session.isAdmin,
                     alert: req.alert,
+                    flags: db.Flag.cache(),
                     // Admin Table
                     data: accounts,
                     columns: columns,
@@ -51,6 +52,7 @@ module.exports = function (db, redis) {
                     account: req.session.account,
                     admin: req.session.isAdmin,
                     alert: req.alert,
+                    flags: db.Flag.cache(),
                     // Admin Table
                     data: groups,
                     columns: columns
@@ -77,6 +79,7 @@ module.exports = function (db, redis) {
                     account: req.session.account,
                     admin: req.session.isAdmin,
                     alert: req.alert,
+                    flags: db.Flag.cache(),
                     // Admin Table
                     data: members,
                     columns: columns
@@ -103,6 +106,7 @@ module.exports = function (db, redis) {
                     account: req.session.account,
                     admin: req.session.isAdmin,
                     alert: req.alert,
+                    flags: db.Flag.cache(),
                     data: workshops,
                     columns: columns,
                 });
@@ -128,6 +132,7 @@ module.exports = function (db, redis) {
                     account: req.session.account,
                     admin: req.session.isAdmin,
                     alert: req.alert,
+                    flags: db.Flag.cache(),
                     data: exhibitors,
                     columns: columns,
                 });
@@ -147,6 +152,7 @@ module.exports = function (db, redis) {
                     title: page.title,
                     account: req.session.account,
                     admin: req.session.isAdmin,
+                    flags: db.Flag.cache(),
                     alert: req.alert,
                     sessions: sessions,
                 });
@@ -166,6 +172,7 @@ module.exports = function (db, redis) {
                     title: page.title,
                     account: req.session.account,
                     admin: req.session.isAdmin,
+                    flags: db.Flag.cache(),
                     alert: req.alert,
                     payments: payments,
                 });
@@ -186,6 +193,7 @@ module.exports = function (db, redis) {
                     account: req.session.account,
                     admin: req.session.isAdmin,
                     alert: req.alert,
+                    flags: db.Flag.cache(),
                     volunteers: volunteers,
                 });
             }
@@ -201,6 +209,7 @@ module.exports = function (db, redis) {
             res.render("editor", {
                 pages: pages,
                 admin: req.session.isAdmin,
+                flags: db.Flag.cache(),
             });
         });
     });
@@ -212,6 +221,28 @@ module.exports = function (db, redis) {
             if (!account) { throw new Error("Account does not exist."); }
             req.session.account = account;
             res.redirect("/account");
+        }).catch(function (error) {
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
+        });
+    });
+
+    router.get("/flag/:keyword/:value", function (req, res) {
+        db.Flag.findOrCreate({ where: { keyword: req.params.keyword, }
+        }).spread(function (flag, created) {
+            if (req.params.value === "true") {
+                flag.value = true;
+            } else {
+                flag.value = false;
+            }
+            return flag.save();
+        }).then(function () {
+            res.format({
+                'text/html': function () { alert.success(req, "Flag set."); res.redirect('back'); },
+                'default': function () { res.status(200).json({ message: "Flag set." }); },
+            });
         }).catch(function (error) {
             res.format({
                 'text/html': function () { alert.error(req, error.message); res.redirect('back'); },

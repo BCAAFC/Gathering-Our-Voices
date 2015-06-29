@@ -1,21 +1,21 @@
-<form action='/api/account/{{id}}' method='POST' class="form-horizontal">
-    {{#if this}}
+<form action='/api/account/{{account.id}}' method='POST' class="form-horizontal">
+    {{#if account}}
         <input style="display: none;" name="_method" value="PUT">
         <legend>Update Existing Account</legend>
     {{else}}
         <legend>Register New Account</legend>
     {{/if}}
 
-    {{{form_input title="Email Address" name="email" type="email"  value=email required=true}}}
+    {{{form_input title="Email Address" name="email" type="email"  value=account.email required=true}}}
     {{{form_input title="Password" name="password" type="password" required=true}}}
-    {{{form_input title="Full Name" name="name" type="text" value=name required=true}}}
-    {{{form_input title="Affiliation" name="affiliation" type="text" required=true value=affiliation
+    {{{form_input title="Full Name" name="name" type="text" value=account.name required=true}}}
+    {{{form_input title="Affiliation" name="affiliation" type="text" required=true value=account.affiliation
         description="This is typically your band, organization, or agency."}}}
-    {{{form_input title="Phone Number" name="phone" type="text" value=phone required=true}}}
-    {{{form_input title="Fax Number (Optional)" name="fax" type="text" value=fax}}}
-    {{{form_input title="Address" name="address" type="text" value=address required=true}}}
-    {{{form_input title="City" name="city" type="text" value=city required=true}}}
-    {{#form_select title="Province" name="province" type="text" selected=province required=true}}
+    {{{form_input title="Phone Number" name="phone" type="text" value=account.phone required=true}}}
+    {{{form_input title="Fax Number (Optional)" name="fax" type="text" value=account.fax}}}
+    {{{form_input title="Address" name="address" type="text" value=account.address required=true}}}
+    {{{form_input title="City" name="city" type="text" value=account.city required=true}}}
+    {{#form_select title="Province" name="province" type="text" selected=account.province required=true}}
         <option value="British Columbia">British Columbia</option>
         <option value="Alberta">Alberta</option>
         <option value="Saskatchewan">Saskatchewan</option>
@@ -31,9 +31,9 @@
         <option value="Yukon">Yukon</option>
         <option value="Other (Outside Canada)">Other (Outside Canada)</option>
     {{/form_select}}
-    {{{form_input title="Postal Code" name="postalCode" type="text" value=postalCode required=true}}}
+    {{{form_input title="Postal Code" name="postalCode" type="text" value=account.postalCode required=true}}}
 
-    {{#if this}}
+    {{#if account}}
         <div class="form-group">
             <input class="btn btn-block btn-primary" type='submit' value="Update">
         </div>
