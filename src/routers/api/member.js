@@ -77,6 +77,7 @@ module.exports = function (db, redis) {
             if (!req.body.birthDate) { req.body.birthDate = null; }
             else { req.body.birthDate = new Date(req.body.birthDate); }
             if (!req.body.gender) { req.body.gender = null; }
+            if (!req.body.background) { req.body.background = null; }
             // Update details.
             member.name = req.body.name;
             member.type = req.body.type;
