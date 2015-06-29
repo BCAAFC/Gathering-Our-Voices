@@ -14,6 +14,9 @@ module.exports = function (db, redis) {
             if (account.Workshop) { throw new Error("Already workshop associated with this account."); }
             // Defaults.
             // Transform HTML form.
+            if (req.body.representatives && req.body.representatives.length === 1) {
+                req.body.representatives = [req.body.representatives[0]];
+            };
             if (req.body.mailing === "Yes") { req.body.mailing = true; } else
             if (req.body.mailing === "No") { req.body.mailing = false; }
             if (req.body.projector === "Yes") { req.body.projector = true; } else

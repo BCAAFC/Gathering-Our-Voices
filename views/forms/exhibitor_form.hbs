@@ -7,7 +7,7 @@
     {{/if}}
 
     {{#form_tags title="Representatives" name="representatives"
-        description="Please include <strong>all</strong> representatives to be on site."}}
+        description="Please include <strong>all</strong> representatives to be on site. Please comma seperate."}}
         {{#each exhibitor.representatives}}
             <option value="{{this}}">{{this}}</option>
         {{/each}}
