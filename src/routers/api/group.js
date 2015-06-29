@@ -31,7 +31,6 @@ module.exports = function (db, redis) {
             });
         }).catch(function (error) {
             console.log(error);
-            req.session.account = account;
             res.format({
                 'text/html': function () {
                     alert.error(req, error.message);
@@ -80,7 +79,6 @@ module.exports = function (db, redis) {
                 'default': function () { res.status(200).json(account); },
             });
         }).catch(function (error) {
-            req.session.account = account;
             res.format({
                 'text/html': function () {
                     alert.error(req, error.message);
