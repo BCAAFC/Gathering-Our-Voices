@@ -94,8 +94,8 @@ module.exports = function (db, redis) {
             member.conditions = req.body.conditions;
             // Admin
             if (req.session.isAdmin) {
-                member.cost = req.body.cost;
-                member.tags = req.body.tags;
+                member.cost = req.body.cost || member.cost;
+                member.tags = req.body.tags || member.tags;
             }
             // Save
             return member.save();
