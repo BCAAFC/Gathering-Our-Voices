@@ -14,9 +14,7 @@ module.exports = function (db, redis) {
             if (account.Workshop) { throw new Error("Already workshop associated with this account."); }
             // Defaults.
             // Transform HTML form.
-            if (req.body.facilitators && req.body.facilitators.length === 1) {
-                req.body.facilitators = [req.body.facilitators[0]];
-            }
+            if (typeof req.body.facilitators === "string") { req.body.facilitators = [req.body.facilitators]; }
             if (req.body.mailing === "Yes") { req.body.mailing = true; } else
             if (req.body.mailing === "No") { req.body.mailing = false; }
             if (req.body.projector === "Yes") { req.body.projector = true; } else
@@ -57,9 +55,7 @@ module.exports = function (db, redis) {
             if (workshop.id !== req.session.account.Workshop.id) {
                 throw new Error("That workshop is not associated with this account.");
             }
-            if (req.body.facilitators && req.body.facilitators.length === 1) {
-                req.body.facilitators = [req.body.facilitators[0]];
-            }
+            if (typeof req.body.facilitators === "string") { req.body.facilitators = [req.body.facilitators]; }
             // Transform HTML form.
             if (req.body.mailing === "Yes") { req.body.mailing = true; } else
             if (req.body.mailing === "No") { req.body.mailing = false; }
@@ -79,7 +75,7 @@ module.exports = function (db, redis) {
             return workshop;
         }).then(function (workshop) {
             workshop.title = req.body.title || workshop.title;
-            exhibitor.facilitators = req.body.facilitators || exhibitor.facilitators;
+            exhibitor.facilitators = req.body.facilitators || workshop.facilitators;
             workshop.length = req.body.length || workshop.length;
             workshop.category = req.body.category || workshop.category;
             workshop.categoryReason = req.body.categoryReason || workshop.categoryReason;
