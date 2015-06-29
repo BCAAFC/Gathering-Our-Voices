@@ -24,7 +24,7 @@ module.exports = function (httpd, db, redis) {
         require("./admin")(db, redis));
 
     // Handles special routes.
-    httpd.use(require("special")(db, redis));
+    httpd.use(require("./special")(db, redis));
 
     // It's quite important that this is last.
     httpd.use("/",
