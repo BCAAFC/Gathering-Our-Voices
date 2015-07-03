@@ -216,10 +216,11 @@ module.exports = function (hbs) {
         }
     });
 
-    hbs.registerHelper("count", function (set, field, value, options) {
-        if (!set || !field || !value) { return "Malform params."; }
-        return String(set.reduce(function (acc, item) {
-            if (item[field] === value) {
+    hbs.registerHelper("count", function (options) {
+        var params = options.hash;
+        if (!params.set || !params.field || !params.value) { return "Malform params."; }
+        return String(params.set.reduce(function (acc, item) {
+            if (item[params.field] === params.value) {
                 return acc+1;
             } else {
                 return acc;
