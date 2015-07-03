@@ -16,8 +16,47 @@ module.exports = function (db, redis) {
                     admin: req.session.isAdmin,
                     alert: req.alert,
                     flags: db.Flag.cache(),
-                    // Admin Table
                     member: member,
+                });
+            }
+        ).catch(function (error) {
+            console.warn(error.message);
+            res.status(404).send(error.message);
+        });
+    });
+
+    router.get("/workshops", function (req, res) {
+        Promise.join(
+            db.Page.findOne({ where: { path: "/workshops" }, }),
+            db.Workshop.findAll({ where: { approved: true, verified: true, }}),
+            function (page, workshops) {
+                page.render(res, "default", {
+                    title: page.title,
+                    account: req.session.account,
+                    admin: req.session.isAdmin,
+                    alert: req.alert,
+                    flags: db.Flag.cache(),
+                    workshops: workshops,
+                });
+            }
+        ).catch(function (error) {
+            console.warn(error.message);
+            res.status(404).send(error.message);
+        });
+    });
+
+    router.get("/workshops/:id", function (req, res) {
+        Promise.join(
+            db.Page.findOne({ where: { path: "/workshops/:id" }, }),
+            db.Workshop.findOne({ where: { id: req.params.id, }}),
+            function (page, workshop) {
+                page.render(res, "default", {
+                    title: page.title,
+                    account: req.session.account,
+                    admin: req.session.isAdmin,
+                    alert: req.alert,
+                    flags: db.Flag.cache(),
+                    workshop: workshop,
                 });
             }
         ).catch(function (error) {
