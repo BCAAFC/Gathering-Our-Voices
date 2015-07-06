@@ -19,16 +19,16 @@
                 {
                     targets: 0, // Account ID --> Manage
                     render: function (data, type, row) {
-                        return "<a href=\"/admin/manage/"+row.id+"\" class=\"btn btn-info\"><i class=\"fa fa-user\"></i></a>";
+                        return "<a href=\"/admin/manage/"+row.id+"\" class=\"btn btn-xs btn-info\"><i class=\"fa fa-user\"></i></a>";
                     },
                 },
                 {
                     targets: [ -1, -2, -3, -4 ], // Ids
                     render: function (data, type, row) {
                         if (data) {
-                            return "<a class=\"btn btn-info\">" + data.id + "</a>";
+                            return "<a class=\"btn btn-xs btn-info\">" + data.id + "</a>";
                         } else {
-                            return "<a class=\"btn btn-default\" disabled>N/A</a>";
+                            return "<a class=\"btn btn-xs btn-default\" disabled>N/A</a>";
                         }
                     },
                 },
@@ -42,9 +42,9 @@
                     targets: -7, // Notes
                     render: function (data, type, row) {
                         if (row.notes) {
-                            return "<i class=\"btn btn-info fa fa-plus\"></i>";
+                            return "<i class=\"btn btn-xs btn-info fa fa-plus\"></i>";
                         } else {
-                            return "<i class=\"btn btn-default fa fa-plus\"></i>";
+                            return "<i class=\"btn btn-xs btn-default fa fa-plus\"></i>";
                         }
                     }
                 },

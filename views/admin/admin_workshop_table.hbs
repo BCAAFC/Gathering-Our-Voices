@@ -21,6 +21,12 @@
             columns: columns,
             columnDefs: [
                 {
+                    targets: 1,
+                    render: function (data, type, row) {
+                        return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.AccountId+"/workshop\"><i class=\"fa fa-fw fa-user\"></i></span>";
+                    },
+                },
+                {
                     targets: -1,
                     render: function (data, type, row) {
                         return "<a class=\"btn btn-xs btn-primary\" href=\"/admin/manage/"+row.AccountId+"\">"+row.AccountId+"</span>";
