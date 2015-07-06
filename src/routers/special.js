@@ -28,15 +28,29 @@ module.exports = function (db, redis) {
     router.get("/workshops", function (req, res) {
         Promise.join(
             db.Page.findOne({ where: { path: "/workshops" }, }),
-            db.Workshop.findAll({ where: { approved: true, verified: true, }}),
+            db.Workshop.findAll({
+                where: { approved: true, verified: true, },
+                attributes: ['id', 'title', 'facilitators', 'length', 'category', 'audience'],
+                include: [db.Session],
+            }),
             function (page, workshops) {
+                var columns = [
+                    { title: "View", data: null, className: "view", },
+                    { title: 'Title', data: 'title', className: 'title' },
+                    { title: 'Facilitators', data: 'facilitators', className: 'facilitators' },
+                    { title: 'Length', data: 'length', className: 'length' },
+                    { title: 'Category', data: 'category', className: 'category' },
+                    { title: 'Audience', data: 'audience', className: 'audience' },
+                    { title: 'Sessions', data: 'Sessions', className: 'sessions' },
+                ];
                 page.render(res, "default", {
                     title: page.title,
                     account: req.session.account,
                     admin: req.session.isAdmin,
                     alert: req.alert,
                     flags: db.Flag.cache(),
-                    workshops: workshops,
+                    data: workshops,
+                    columns: columns,
                 });
             }
         ).catch(function (error) {
@@ -48,7 +62,10 @@ module.exports = function (db, redis) {
     router.get("/workshops/:id", function (req, res) {
         Promise.join(
             db.Page.findOne({ where: { path: "/workshops/:id" }, }),
-            db.Workshop.findOne({ where: { id: req.params.id, }}),
+            db.Workshop.findOne({
+                where: { id: req.params.id, },
+                include: [db.Session],
+            }),
             function (page, workshop) {
                 page.render(res, "default", {
                     title: page.title,

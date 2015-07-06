@@ -95,13 +95,16 @@ module.exports = function (db, redis) {
     router.get("/workshops", function (req, res) {
         Promise.join(
             db.Page.findOne({ where: { path: req.originalUrl.split("?")[0] }, }),
-            db.Workshop.findAll(),
+            db.Workshop.findAll({
+                include: [db.Session],
+            }),
             function (page, workshops) {
                 var columns = Object.keys(db.Workshop.attributes)
                     .map(function (v) {
                         var val = v[0].toUpperCase() + v.slice(1);
                         return { title: val, data: v, className: v };
                     });
+                columns.unshift({ title: "Sessions", data: "Sessions", className: "Sessions", });
                 page.render(res, "default", {
                     title: page.title,
                     account: req.session.account,

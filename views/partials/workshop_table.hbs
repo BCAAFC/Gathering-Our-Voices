@@ -1,0 +1,36 @@
+<div id="options"></div>
+<table id="workshop_table" class="table table-hover"></table>
+<script>
+    $(function () {
+        var columns = {{{JSON columns 0}}};
+        var table = $("#workshop_table").dataTable({
+            stateSave: true,
+            stateDuration: 60*60*24*5, // 5 days.
+            scrollX: true,
+            // Datas
+            data: {{{JSON data 0}}},
+            columns: columns,
+            columnDefs: [
+                {
+                    targets: [ 0 ], // View Button
+                    render: function (data, type, row) {
+                        return "<a class=\"btn btn-primary btn-xs\" href=\"/workshops/"+row.id+"\"><i class=\"fa fa-fw fa-eye\"></i>View</a>"
+                    }
+                },
+                {
+                    targets: [ -1, -2 ], // Arrays
+                    render: function (data, type, row) {
+                        return data.map(function (item) {
+                            return "<span class=\"label label-default\">"+item+"</span>"
+                        }).join(" ");
+                    }
+                },
+            ],
+        });
+        // Visible Toggles
+        var colvis = new $.fn.dataTable.ColVis(table);
+        $("#options").append(colvis.button());
+
+        $("#workshop_table").dataTable().fnDraw();
+    });
+</script>
