@@ -1,8 +1,11 @@
+var middleware = require("../../middleare"),
+    alert = require("../../alert");
+
 module.exports = function (db, redis) {
     var router = require("express").Router();
 
     router.route("/")
-    .post(function (req, res) {
+    .post(middleware.admin, function (req, res) {
         db.Account.findOne({
             where: { id: req.session.account.id },
             include: [
@@ -26,7 +29,7 @@ module.exports = function (db, redis) {
     });
 
     router.route("/:id")
-    .put(function (req, res) {
+    .put(middleware.admin, function (req, res) {
         db.Session.findOne({
             where: { id: req.params.id },
         }).then(function (session) {
