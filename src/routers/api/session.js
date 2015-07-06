@@ -59,5 +59,25 @@ module.exports = function (db, redis) {
         });
     });
 
+    router.route("/delete/:id")
+    .get(middleware.admin, function (req, res) {
+        db.Session.findOne({
+            where: { id: req.params.id },
+        }).then(function (session) {
+            return session.destroy();
+        }).then(function (session) {
+            res.format({
+                'text/html': function () {
+                    alert.success(req, "Deleted session.");
+                    res.redirect('/account/workshop');
+                },
+                'default': function () { res.status(200).json(session); },
+            });
+        }).catch(function (error) {
+            console.log(error);
+            res.status(401).json({ error: error.message });
+        });
+    });
+
     return router;
 };
