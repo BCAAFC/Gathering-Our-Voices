@@ -1,4 +1,5 @@
 var Promise = require("bluebird"),
+    middleware = require("../middleware"),
     fs = require("fs");
 
 
@@ -17,6 +18,26 @@ module.exports = function (db, redis) {
                     alert: req.alert,
                     flags: db.Flag.cache(),
                     member: member,
+                });
+            }
+        ).catch(function (error) {
+            console.warn(error.message);
+            res.status(404).send(error.message);
+        });
+    });
+
+    router.get("/account/workshop/session/:id", middleware.admin, function (req, res) {
+        Promise.join(
+            db.Page.findOne({ where: { path: "/account/workshop/session" }, }),
+            db.Session.findOne({ where: { id: req.params.id, }}),
+            function (page, session) {
+                page.render(res, "default", {
+                    title: page.title,
+                    account: req.session.account,
+                    admin: req.session.isAdmin,
+                    alert: req.alert,
+                    flags: db.Flag.cache(),
+                    session: session,
                 });
             }
         ).catch(function (error) {
@@ -73,7 +94,7 @@ module.exports = function (db, redis) {
                     return resolve(db.Account.findOne({
                         where: { id: req.session.account.id, },
                         // TODO: Only members.
-                        include: [{ all: true, nested: true, }],
+                        include: [{ model: "Group", nested: true, }],
                     }).then(function (account) {
                         req.session.account = account;
                         return account;

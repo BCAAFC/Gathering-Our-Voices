@@ -13,7 +13,10 @@ module.exports = function (db, redis) {
             return account.Workshop.createSession(req.body);
         }).then(function (workshop) {
             res.format({
-                'text/html': function () { res.redirect('back'); },
+                'text/html': function () {
+                    alert.success(req, "Updated workshop session");
+                    res.redirect('/account/workshop');
+                },
                 'default': function () { res.status(200).json(session); },
             });
         }).catch(function (error) {
@@ -41,7 +44,10 @@ module.exports = function (db, redis) {
             return session.save();
         }).then(function (session) {
             res.format({
-                'text/html': function () { res.redirect('back'); },
+                'text/html': function () {
+                    alert.success(req, "Updated workshop session");
+                    res.redirect('/account/workshop');
+                },
                 'default': function () { res.status(200).json(session); },
             });
         }).catch(function (error) {

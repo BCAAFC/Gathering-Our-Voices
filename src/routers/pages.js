@@ -18,7 +18,14 @@ module.exports = function (db, redis) {
                 // Refresh account information.
                 return db.Account.findOne({
                     where: { id: req.session.account.id, },
-                    include: [{ all: true, nested: true, }]
+                    include: [
+                        // { all: true, nested: true, }
+                        { model: db.Group, nested: true, },
+                        { model: db.Exhibitor },
+                        { model: db.Workshop, include: [db.Session] },
+                        { model: db.Payment },
+                        { model: db.Volunteer },
+                    ],
                 }).then(function (account) {
                     req.session.account = account;
                     return page;

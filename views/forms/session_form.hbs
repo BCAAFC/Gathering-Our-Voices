@@ -1,6 +1,10 @@
 <form action='/api/session/{{session.id}}' method='POST' class="form-horizontal">
-    <input style="display: none;" name="_method" value="PUT">
-    <legend>Update a Session</legend>
+    {{#if session}}
+        <input style="display: none;" name="_method" value="PUT">
+        <legend>Update a Session</legend>
+    {{else}}
+        <legend>Create a Session</legend>
+    {{/if}}
 
 
     {{{form_input title="Start Time" name="start" type="datetime" value=(datetime session.start)
