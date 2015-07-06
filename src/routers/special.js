@@ -66,10 +66,25 @@ module.exports = function (db, redis) {
                 where: { id: req.params.id, },
                 include: [db.Session],
             }),
-            function (page, workshop) {
+            new Promise(function (resolve, reject) {
+                if (req.session.account) {
+                    // Refresh account information.
+                    return resolve(db.Account.findOne({
+                        where: { id: req.session.account.id, },
+                        // TODO: Only members.
+                        include: [{ all: true, nested: true, }],
+                    }).then(function (account) {
+                        req.session.account = account;
+                        return account;
+                    }));
+                } else {
+                    return resolve(null);
+                }
+            }),
+            function (page, workshop, account) {
                 page.render(res, "default", {
                     title: page.title,
-                    account: req.session.account,
+                    account: account,
                     admin: req.session.isAdmin,
                     alert: req.alert,
                     flags: db.Flag.cache(),
