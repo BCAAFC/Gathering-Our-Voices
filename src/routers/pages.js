@@ -1,6 +1,7 @@
 module.exports = function (db, redis) {
     var router = require("express").Router();
 
+
     router.get("/*", function (req, res) {
         db.Page.findOne({
             where: { path: req.originalUrl },
@@ -22,7 +23,7 @@ module.exports = function (db, redis) {
                         // { all: true, nested: true, }
                         { model: db.Group, nested: true, },
                         { model: db.Exhibitor },
-                        { model: db.Workshop, include: [db.Session] },
+                        { model: db.Workshop, include: [db.Session]},
                         { model: db.Payment },
                         { model: db.Volunteer },
                     ],

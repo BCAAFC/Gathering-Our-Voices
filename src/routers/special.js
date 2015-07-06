@@ -29,7 +29,10 @@ module.exports = function (db, redis) {
     router.get("/account/workshop/session/:id", middleware.admin, function (req, res) {
         Promise.join(
             db.Page.findOne({ where: { path: "/account/workshop/session" }, }),
-            db.Session.findOne({ where: { id: req.params.id, }}),
+            db.Session.findOne({
+                where: { id: req.params.id, },
+                include: [db.Member],
+            }),
             function (page, session) {
                 page.render(res, "default", {
                     title: page.title,

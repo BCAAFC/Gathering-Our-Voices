@@ -39,8 +39,8 @@ module.exports = function (db, redis) {
             }
             return session;
         }).then(function (session) {
-            session.start = req.body.start || session.start;
-            session.end = req.body.end || session.end;
+            session.start = Date(req.body.start) || session.start;
+            session.end = Date(req.body.end) || session.end;
             session.room = req.body.room || session.room;
             session.venue = req.body.venue || session.venue;
             session.capacity = req.body.capacity || session.capacity;
