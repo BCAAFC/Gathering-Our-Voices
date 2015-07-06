@@ -30,7 +30,7 @@ module.exports = function (db, redis) {
             db.Page.findOne({ where: { path: "/workshops" }, }),
             db.Workshop.findAll({
                 where: { approved: true, verified: true, },
-                attributes: ['id', 'title', 'facilitators', 'length', 'category', 'audience'],
+                attributes: ['id', 'title', 'facilitators', 'length', 'category', 'audience', 'summary'],
                 include: [db.Session],
             }),
             function (page, workshops) {
@@ -42,6 +42,7 @@ module.exports = function (db, redis) {
                     { title: 'Category', data: 'category', className: 'category' },
                     { title: 'Audience', data: 'audience', className: 'audience' },
                     { title: 'Sessions', data: 'Sessions', className: 'sessions' },
+                    { title: 'Summary', data: 'summary', className: 'summary' },
                 ];
                 page.render(res, "default", {
                     title: page.title,

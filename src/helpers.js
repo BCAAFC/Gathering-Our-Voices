@@ -228,5 +228,10 @@ module.exports = function (hbs) {
         }, 0));
     });
 
+    hbs.registerHelper("label-list", function (list) {
+        return list.map(function (item) {
+            return "<span class=\"label label-default\">"+item+"</span>";
+        }).join(' ');
+    });
 
 };
