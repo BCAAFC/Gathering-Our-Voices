@@ -96,7 +96,11 @@ module.exports = function (db, redis) {
                 return member;
             }),
             function (session, member) {
-                return session.addMember(member);
+                if (session.Members.length < session.capacity) {
+                    return session.addMember(member);
+                } else {
+                    throw new Error("Session full.");
+                }
             }
         ).then(function (session) {
             res.format({

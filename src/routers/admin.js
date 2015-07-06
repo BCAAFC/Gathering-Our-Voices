@@ -281,6 +281,21 @@ module.exports = function (db, redis) {
         });
     });
 
+    router.get("/manage/:id/:target", function (req, res) {
+        db.Account.findOne({
+            where: { id: req.params.id, },
+        }).then(function (account) {
+            if (!account) { throw new Error("Account does not exist."); }
+            req.session.account = account;
+            res.redirect("/account/" + req.params.target);
+        }).catch(function (error) {
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
+        });
+    });
+
     router.get("/flag/:keyword/:value", function (req, res) {
         db.Flag.findOrCreate({ where: { keyword: req.params.keyword, }
         }).spread(function (flag, created) {
