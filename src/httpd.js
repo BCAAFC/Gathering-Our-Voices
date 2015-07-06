@@ -63,8 +63,8 @@ module.exports = function (env, db, redisClient) {
     // View engine
     var hbs = require("hbs");
     hbs.registerPartials('./views/partials');
-    hbs.registerPartials('./views/forms');
-    hbs.registerPartials('./views/admin');
+    // hbs.registerPartials('./views/forms');
+    // hbs.registerPartials('./views/admin');
     // Load helpers.
     require("./helpers")(hbs);
 

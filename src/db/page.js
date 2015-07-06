@@ -1,9 +1,6 @@
 "use strict";
 
 var hbs = require("hbs");
-hbs.registerPartials('./views/partials');
-
-
 
 module.exports = function (sequelize, DataTypes) {
     var Page = sequelize.define("Page", {
@@ -37,7 +34,9 @@ module.exports = function (sequelize, DataTypes) {
         },
         instanceMethods: {
             render: function (res, target, data) {
-                data.content = hbs.compile(this.content)(data);
+                // Don't use a layout on the pre-render.
+                data.layout = null;
+                data.body = hbs.compile(this.content)(data);
                 return res.render(target, data);
             },
         },

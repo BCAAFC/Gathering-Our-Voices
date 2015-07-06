@@ -2,8 +2,9 @@ var middleware = require("../middleware");
 
 module.exports = function (httpd, db, redis) {
     httpd.get("/", function (req, res) {
-        res.render("special/landing", {
+        res.render("index", {
             title: "Landing Page",
+            layout: null,
         });
     });
 
@@ -19,12 +20,17 @@ module.exports = function (httpd, db, redis) {
         return next();
     });
 
+    // Workshop routes
+    httpd.use("/workshops", middleware.admin,
+        require("./workshops")(db, redis));
+
+    // Account routes.
+    httpd.use("/account", middleware.admin,
+        require("./account")(db, redis));
+
     // Admin routes.
     httpd.use("/admin", middleware.admin,
         require("./admin")(db, redis));
-
-    // Handles special routes.
-    httpd.use(require("./special")(db, redis));
 
     // It's quite important that this is last.
     httpd.use("/",

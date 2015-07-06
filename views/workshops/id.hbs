@@ -1,0 +1,18 @@
+{{#with workshop}}
+    <h1>{{title}}</h1>
+    <p class="lead">Hosted by: {{facilitators}}</p>
+    <p>Category: {{category}}</p>
+    <p>Allows: {{{label-list audience}}}</p>
+    <p>Type: {{{label-list type}}}</p>
+    <p>{{description}}</p>
+
+	{{#each Sessions}}
+        <pre>{{JSON this 2}}</pre>
+    {{/each}}
+
+{{else}}
+	<div class="alert alert-warning">Workshop not found.</div>
+{{/with}}
+
+
+<pre>{{JSON workshop 2}}</pre>

@@ -1,39 +1,13 @@
+var hbs = require("hbs");
+
 module.exports = function (db, redis) {
     var router = require("express").Router();
-
 
     router.get("/*", function (req, res) {
         db.Page.findOne({
             where: { path: req.originalUrl },
         }).then(function (page) {
-            if (!page) {
-                throw new Error("Path `" + req.originalUrl + "`does not exist.");
-            } else if (page.requirements === "Normal") {
-                return page;
-            } else {
-                if (page.requirements === "Authenticated" && !req.session.account) {
-                    throw new Error("You are not authenticated.");
-                } else if (page.requirements === "Administrator" && !req.session.isAdmin) {
-                    throw new Error("You are not an administrator");
-                }
-                // Refresh account information.
-                return db.Account.findOne({
-                    where: { id: req.session.account.id, },
-                    include: [
-                        // { all: true, nested: true, }
-                        { model: db.Group, include: [db.Member], },
-                        { model: db.Exhibitor },
-                        { model: db.Workshop, include: [db.Session]},
-                        { model: db.Payment },
-                        { model: db.Volunteer },
-                    ],
-                }).then(function (account) {
-                    req.session.account = account;
-                    return page;
-                });
-            }
-        }).then(function (page) {
-            page.render(res, "default", {
+            page.render(res, "layout", {
                 title: page.title,
                 account: req.session.account,
                 flags: db.Flag.cache(),

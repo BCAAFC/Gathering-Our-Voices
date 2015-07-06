@@ -1,0 +1,53 @@
+<div class="text-center">
+    <h1>Account Management</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div id="group" class="col-sm-3 col-xs-6 text-center">
+            {{{img "img-rounded img-fill" "acc-group"}}}
+            {{#if account.Group}}
+                <a class="btn btn-block btn-primary" href="/account/group">Manage your Group</a>
+            {{else}}
+                <a class="btn btn-block btn-default" href="/account/group">Declare your Group</a>
+            {{/if}}
+            <p>As a group, register your youth (and young at heart) for the main events and their choice of curated workshops.</p>
+            <p><strong>Deadline:</strong> March 21st.</p>
+        </div>
+        <div id="facilitate" class="col-sm-3 col-xs-6 text-center">
+            {{{img "img-rounded img-fill" "acc-facilitate"}}}
+            {{#if account.Workshop}}
+                <a class="btn btn-block btn-primary" href="/account/workshop">Modify Facilitation Application</a>
+            {{else}}
+                <a class="btn btn-block btn-default" href="/account/workshop">Apply to Facilitate</a>
+            {{/if}}
+            <p>As a facilitator, you'll hold the floor in one of our many rooms and have your opportunity to inspire and uplift our youth.</p>
+            <p><strong>Deadline:</strong> March 21st.</p>
+        </div>
+        <div id="exhibit" class="col-sm-3 col-xs-6 text-center">
+            {{{img "img-rounded img-fill" "acc-exhibit"}}}
+            {{#if account.Exhibitor}}
+                <a class="btn btn-block btn-primary" href="/account/exhibitor">Modify Exhibitor Application</a>
+            {{else}}
+                <a class="btn btn-block btn-default" href="/account/exhibitor">Apply to Exhibit</a>
+            {{/if}}
+            <p>As an exhibitor, you'll have space in our Career & Education Fair and meet hundreds of interested delegates.</p>
+            <p><strong>Deadline:</strong> March 21st.</p>
+        </div>
+        <div id="volunteer" class="col-sm-3 col-xs-6 text-center">
+            {{{img "img-rounded img-fill" "acc-volunteer"}}}
+            {{#if account.Volunteer}}
+                <a class="btn btn-block btn-primary" href="/account/volunteer">Modify Volunteer Application</a>
+            {{else}}
+                <a class="btn btn-block btn-default" href="/account/volunteer">Apply to Volunteer</a>
+            {{/if}}
+            <p>As a volunteer, you'll be <strong>our hero</strong> and be a key part of the event in every way!</p>
+            <p><strong>Deadline:</strong> March 21st.</p>
+        </div>
+    </div>
+    <div class="row text-center">
+        <div class="btn-group btn-block">
+            <a href="/account/details" class="btn btn-success" style="width: 50%">Modify Account Details</a>
+            <a href="/account/payments" class="btn btn-success" style="width: 50%">Pay Fees</a>
+        </div>
+    </div>
+</div>

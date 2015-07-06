@@ -1,0 +1,75 @@
+
+{{#if account.Workshop.approved}}
+    <div class="alert alert-success">
+        Your workshop has been approved by our staff! Congratulations!
+        <br>
+        You may see the sessions you are assigned below, or visit your workshop
+        page <a href="#">here</a> to see what potential attendees see.
+        <br>
+        At this time you are no longer able to modify your workshop details.
+        If you require any changes please contact us. A staff member can
+        change them for you.
+    </div>
+
+    <h3>Sessions</h3>
+    <table class="table">
+        <thead>
+            <tr><th>Start</th><th>End</th><th>Room</th><th>Venue</th><th>Capacity</th></tr>
+        </thead>
+        <tbody>
+            {{#each account.Workshop.Sessions}}
+                <tr>
+                    <td>{{datetime start}}</td>
+                    <td>{{datetime end}}</td>
+                    <td>{{room}}</td>
+                    <td>{{venue}}</td>
+                    <td>{{capacity}}</td>
+                    {{#if ../admin}}
+                        <td>
+                            <div class="btn-group">
+                                <a class="btn btn-xs btn-primary" href="/account/workshop/session/{{id}}">
+                                    <i class="fa fa-fw fa-edit"></i>
+                                    Edit
+                                </a>
+                                <a class="btn btn-xs btn-danger" href="/api/session/delete/{{id}}" onclick="return confirm('Are you sure?')">
+                                    <i class="fa fa-fw fa-times"></i>
+                                    Delete
+                                </a>
+                            </div>
+                        </td>
+                    {{/if}}
+                </tr>
+            {{/each}}
+        </tbody>
+        <tfoot>
+            {{#if admin}}
+                <tr>
+                    <td colspan=6>
+                        <a href="/account/workshop/session" class="btn btn-block btn-success">
+                            <i class="fa fa-fw fa-plus"></i>
+                            Create Session
+                        </a>
+                    </td>
+                </tr>
+            {{/if}}
+        </tfoot>
+    </table>
+
+    {{#if admin}}
+        {{> forms/workshop workshop=account.Workshop flags=flags}}
+    {{/if}}
+{{else if account.Workshop.verified}}
+    <div class="alert alert-warning">
+        Your workshop has been verified by our staff and is now to selection!
+        You will be notified if you are approved.
+        <br>
+        At this time you are no longer able to modify your workshop details.
+        If you require any changes please contact us. A staff member can
+        change them for you.
+    </div>
+    {{#if admin}}
+        {{> forms/workshop workshop=account.Workshop flags=flags}}
+    {{/if}}
+{{else}}
+    {{> forms/workshop workshop=account.Workshop flags=flags}}
+{{/if}}

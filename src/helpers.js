@@ -1,6 +1,14 @@
 var moment = require('moment');
 
 module.exports = function (hbs) {
+    hbs.registerHelper("eq", function (val, check, options) {
+        if (val === check) {
+            return options.fn(this);
+        } else {
+            return;
+        }
+    });
+
     hbs.registerHelper("JSON", function (val, indent) {
         return JSON.stringify(val, null, indent);
     });

@@ -6,208 +6,169 @@ var Promise = require("bluebird"),
 module.exports = function (db, redis) {
     var router = require("express").Router();
 
-    router.get("/accounts", function (req, res) {
-        Promise.join(
-            db.Page.findOne({ where: { path: req.originalUrl }, }),
-            db.Account.findAll({ include: [{all: true, attributes: ['id'] }]}),
-            function (page, accounts) {
-                var columns = Object.keys(db.Account.attributes)
-                    .filter(function (v) { return v !== "password"; })
-                    .map(function (v) {
-                        var val = v[0].toUpperCase() + v.slice(1);
-                        return { title: val, data: v, className: v };
-                    });
-                columns.push({ title: "Group", data: "Group", className: "Group", });
-                columns.push({ title: "Exhibitor", data: "Exhibitor", className: "Exhibitor", });
-                columns.push({ title: "Workshop", data: "Workshop", className: "Workshop", });
-                columns.push({ title: "Volunteer", data: "Volunteer", className: "Volunteer", });
-                page.render(res, "default", {
-                    title: page.title,
-                    account: req.session.account,
-                    admin: req.session.isAdmin,
-                    alert: req.alert,
-                    flags: db.Flag.cache(),
-                    // Admin Table
-                    data: accounts,
-                    columns: columns,
+    router.route("/").get(function (req, res) { res.redirect("/admin/accounts"); });
+
+    router.route("/accounts")
+    .get(function (req, res) {
+        db.Account.findAll({ include: [{all: true, attributes: ['id'] }]})
+        .then(function (accounts) {
+            var columns = Object.keys(db.Account.attributes)
+                .filter(function (v) { return v !== "password"; })
+                .map(function (v) {
+                    var val = v[0].toUpperCase() + v.slice(1);
+                    return { title: val, data: v, className: v };
                 });
-            }
-        ).catch(function (error) {
+            columns.push({ title: "Group", data: "Group", className: "Group", });
+            columns.push({ title: "Exhibitor", data: "Exhibitor", className: "Exhibitor", });
+            columns.push({ title: "Workshop", data: "Workshop", className: "Workshop", });
+            columns.push({ title: "Volunteer", data: "Volunteer", className: "Volunteer", });
+            res.render("admin/accounts", {
+                title: "Administration - Accounts",
+                account: req.session.account,
+                admin: req.session.isAdmin,
+                alert: req.alert,
+                flags: db.Flag.cache(),
+                // Admin Table
+                data: accounts,
+                columns: columns,
+            });
+        }).catch(function (error) {
             console.warn(error.message);
             res.status(404).send(error.message);
         });
     });
 
-    router.get("/groups", function (req, res) {
-        Promise.join(
-            db.Page.findOne({ where: { path: req.originalUrl }, }),
-            db.Group.findAll(),
-            function (page, groups) {
-                var columns = Object.keys(db.Group.attributes)
-                    .map(function (v) {
-                        var val = v[0].toUpperCase() + v.slice(1);
-                        return { title: val, data: v, className: v };
-                    });
-                page.render(res, "default", {
-                    title: page.title,
-                    account: req.session.account,
-                    admin: req.session.isAdmin,
-                    alert: req.alert,
-                    flags: db.Flag.cache(),
-                    // Admin Table
-                    data: groups,
-                    columns: columns
+    router.route("/groups")
+    .get(function (req, res) {
+        db.Group.findAll().then(function (groups) {
+            var columns = Object.keys(db.Group.attributes)
+                .map(function (v) {
+                    var val = v[0].toUpperCase() + v.slice(1);
+                    return { title: val, data: v, className: v };
                 });
-            }
-        ).catch(function (error) {
+            res.render("admin/groups", {
+                title: "Administration - Groups",
+                account: req.session.account,
+                admin: req.session.isAdmin,
+                alert: req.alert,
+                flags: db.Flag.cache(),
+                // Admin Table
+                data: groups,
+                columns: columns
+            });
+        }).catch(function (error) {
             console.warn(error.message);
             res.status(404).send(error.message);
         });
     });
 
-    router.get("/members", function (req, res) {
-        Promise.join(
-            db.Page.findOne({ where: { path: req.originalUrl }, }),
-            db.Member.findAll(),
-            function (page, members) {
-                var columns = Object.keys(db.Member.attributes)
-                    .map(function (v) {
-                        var val = v[0].toUpperCase() + v.slice(1);
-                        return { title: val, data: v, className: v };
-                    });
-                page.render(res, "default", {
-                    title: page.title,
-                    account: req.session.account,
-                    admin: req.session.isAdmin,
-                    alert: req.alert,
-                    flags: db.Flag.cache(),
-                    // Admin Table
-                    data: members,
-                    columns: columns
+    router.route("/members")
+    .get(function (req, res) {
+        db.Member.findAll().then(function (members) {
+            var columns = Object.keys(db.Member.attributes)
+                .map(function (v) {
+                    var val = v[0].toUpperCase() + v.slice(1);
+                    return { title: val, data: v, className: v };
                 });
-            }
-        ).catch(function (error) {
+            res.render("admin/members", {
+                title: "Administration - Members",
+                account: req.session.account,
+                admin: req.session.isAdmin,
+                alert: req.alert,
+                flags: db.Flag.cache(),
+                // Admin Table
+                data: members,
+                columns: columns
+            });
+        }).catch(function (error) {
             console.warn(error.message);
             res.status(404).send(error.message);
         });
     });
 
-    router.get("/workshops", function (req, res) {
-        Promise.join(
-            db.Page.findOne({ where: { path: req.originalUrl.split("?")[0] }, }),
-            db.Workshop.findAll({
-                include: [db.Session],
-            }),
-            function (page, workshops) {
-                var columns = Object.keys(db.Workshop.attributes)
-                    .map(function (v) {
-                        var val = v[0].toUpperCase() + v.slice(1);
-                        return { title: val, data: v, className: v };
-                    });
-                columns.unshift({ title: "Sessions", data: "Sessions", className: "Sessions", });
-                page.render(res, "default", {
-                    title: page.title,
-                    account: req.session.account,
-                    admin: req.session.isAdmin,
-                    alert: req.alert,
-                    flags: db.Flag.cache(),
-                    data: workshops,
-                    columns: columns,
+    router.route("/workshops")
+    .get(function (req, res) {
+        db.Workshop.findAll({ include: [db.Session,] }).then(function (workshops) {
+            var columns = Object.keys(db.Workshop.attributes)
+                .map(function (v) {
+                    var val = v[0].toUpperCase() + v.slice(1);
+                    return { title: val, data: v, className: v };
                 });
-            }
-        ).catch(function (error) {
+            columns.unshift({ title:"Sessions", data: "Sessions", className: "sessions" })
+            res.render("admin/workshops", {
+                title: "Administration - Workshops",
+                account: req.session.account,
+                admin: req.session.isAdmin,
+                alert: req.alert,
+                flags: db.Flag.cache(),
+                data: workshops,
+                columns: columns,
+            });
+        }).catch(function (error) {
             console.warn(error.message);
             res.status(404).send(error.message);
         });
     });
 
-    router.get("/exhibitors", function (req, res) {
-        Promise.join(
-            db.Page.findOne({ where: { path: req.originalUrl.split("?")[0] }, }),
-            db.Exhibitor.findAll(),
-            function (page, exhibitors) {
-                var columns = Object.keys(db.Exhibitor.attributes)
-                    .map(function (v) {
-                        var val = v[0].toUpperCase() + v.slice(1);
-                        return { title: val, data: v, className: v };
-                    });
-                page.render(res, "default", {
-                    title: page.title,
-                    account: req.session.account,
-                    admin: req.session.isAdmin,
-                    alert: req.alert,
-                    flags: db.Flag.cache(),
-                    data: exhibitors,
-                    columns: columns,
+    router.route("/exhibitors")
+    .get(function (req, res) {
+        db.Exhibitor.findAll().then(function (exhibitors) {
+            var columns = Object.keys(db.Exhibitor.attributes)
+                .map(function (v) {
+                    var val = v[0].toUpperCase() + v.slice(1);
+                    return { title: val, data: v, className: v };
                 });
-            }
-        ).catch(function (error) {
+            res.render("admin/exhibitors", {
+                title: "Administration - Exhibitors",
+                account: req.session.account,
+                admin: req.session.isAdmin,
+                alert: req.alert,
+                flags: db.Flag.cache(),
+                data: exhibitors,
+                columns: columns,
+            });
+        }).catch(function (error) {
             console.warn(error.message);
             res.status(404).send(error.message);
         });
     });
 
-    router.get("/sessions", function (req, res) {
-        Promise.join(
-            db.Page.findOne({ where: { path: req.originalUrl }, }),
-            db.Session.findAll(),
-            function (page, sessions) {
-                page.render(res, "default", {
-                    title: page.title,
-                    account: req.session.account,
-                    admin: req.session.isAdmin,
-                    flags: db.Flag.cache(),
-                    alert: req.alert,
-                    sessions: sessions,
-                });
-            }
-        ).catch(function (error) {
+    router.route("/payments")
+    .get(function (req, res) {
+        db.Payment.findAll().then(function (payments) {
+            res.render("admin/payments", {
+                title: "Administration - Payments",
+                account: req.session.account,
+                admin: req.session.isAdmin,
+                flags: db.Flag.cache(),
+                alert: req.alert,
+                payments: payments,
+            });
+        }).catch(function (error) {
             console.warn(error.message);
             res.status(404).send(error.message);
         });
     });
 
-    router.get("/payments", function (req, res) {
-        Promise.join(
-            db.Page.findOne({ where: { path: req.originalUrl }, }),
-            db.Payment.findAll(),
-            function (page, payments) {
-                page.render(res, "default", {
-                    title: page.title,
-                    account: req.session.account,
-                    admin: req.session.isAdmin,
-                    flags: db.Flag.cache(),
-                    alert: req.alert,
-                    payments: payments,
-                });
-            }
-        ).catch(function (error) {
+    router.route("/volunteers")
+    .get(function (req, res) {
+        db.Volunteer.findAll().then(function (volunteers) {
+            res.render("admin/volunteers", {
+                title: "Administration - Volunteers",
+                account: req.session.account,
+                admin: req.session.isAdmin,
+                alert: req.alert,
+                flags: db.Flag.cache(),
+                volunteers: volunteers,
+            });
+        }).catch(function (error) {
             console.warn(error.message);
             res.status(404).send(error.message);
         });
     });
 
-    router.get("/volunteers", function (req, res) {
-        Promise.join(
-            db.Page.findOne({ where: { path: req.originalUrl }, }),
-            db.Volunteer.findAll(),
-            function (page, volunteers) {
-                page.render(res, "default", {
-                    title: page.title,
-                    account: req.session.account,
-                    admin: req.session.isAdmin,
-                    alert: req.alert,
-                    flags: db.Flag.cache(),
-                    volunteers: volunteers,
-                });
-            }
-        ).catch(function (error) {
-            console.warn(error.message);
-            res.status(404).send(error.message);
-        });
-    });
-
-    router.get("/images", function (req, res) {
+    router.route("/images")
+    .get(function (req, res) {
         fs.readdir(process.env.UPLOAD_DIR + "images/", function (err, files) {
             if (err) {
                 alert.error(req, err.message);
@@ -217,48 +178,22 @@ module.exports = function (db, redis) {
             files = files
                 .filter(function (val) { return val[0] !== '.'; })
                 .map(function (val) { return val.split(".").shift(); });
-            db.Page.findOne({
-                where: { path: "/admin/images", },
-            // I don't like this but I don't really see a nice way of collapsing this into a reusable.
-            }).then(function (page) {
-                if (!page) {
-                    throw new Error("Path `" + req.originalUrl + "`does not exist.");
-                } else if (page.requirements === "Normal") {
-                    return page;
-                } else {
-                    if (page.requirements === "Authenticated" && !req.session.account) {
-                        throw new Error("You are not authenticated.");
-                    } else if (page.requirements === "Administrator" && !req.session.isAdmin) {
-                        throw new Error("You are not an administrator");
-                    }
-                    // Refresh account information.
-                    return db.Account.findOne({
-                        where: { id: req.session.account.id, },
-                        include: [{ all: true, nested: true, }]
-                    }).then(function (account) {
-                        req.session.account = account;
-                        return page;
-                    });
-                }
-            }).then(function (page) {
-                page.render(res, "default", {
-                    title: page.title,
-                    account: req.session.account,
-                    admin: req.session.isAdmin,
-                    flags: db.Flag.cache(),
-                    alert: req.alert,
-                    files: files,
-                });
-            }).catch(function (error) {
-                console.warn(error.message);
-                res.status(404).send(error.message);
+            res.render("admin/images", {
+                title: "Administration - Images",
+                account: req.session.account,
+                admin: req.session.isAdmin,
+                flags: db.Flag.cache(),
+                alert: req.alert,
+                files: files,
             });
         });
     });
 
-    router.get("/editor", function (req, res) {
+    router.route("/editor")
+    .get(function (req, res) {
         db.Page.findAll({}).then(function (pages) {
             res.render("editor", {
+                layout: null,
                 pages: pages,
                 admin: req.session.isAdmin,
                 flags: db.Flag.cache(),
@@ -266,8 +201,8 @@ module.exports = function (db, redis) {
         });
     });
 
-    router.get("/manage/:id/*?", function (req, res) {
-        console.log(req.params);
+    router.route("/manage/:id/*?")
+    .get(function (req, res) {
         db.Account.findOne({
             where: { id: req.params.id, },
         }).then(function (account) {
@@ -286,7 +221,19 @@ module.exports = function (db, redis) {
         });
     });
 
-    router.get("/flag/:keyword/:value", function (req, res) {
+    router.route("/flags")
+    .get(function (req, res) {
+        res.render("admin/flags", {
+            title: "Administration - Flags",
+            account: req.session.account,
+            admin: req.session.isAdmin,
+            alert: req.alert,
+            flags: db.Flag.cache(),
+        });
+    });
+
+    router.route("/flag/:keyword/:value")
+    .get(function (req, res) {
         db.Flag.findOrCreate({ where: { keyword: req.params.keyword, }
         }).spread(function (flag, created) {
             if (req.params.value === "true") {
