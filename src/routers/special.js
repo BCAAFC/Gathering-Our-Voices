@@ -89,7 +89,10 @@ module.exports = function (db, redis) {
             db.Page.findOne({ where: { path: "/workshops/:id" }, }),
             db.Workshop.findOne({
                 where: { id: req.params.id, },
-                include: [db.Session],
+                include: [{
+                    model: db.Session,
+                    include: [db.Member],
+                }],
             }),
             new Promise(function (resolve, reject) {
                 if (req.session.account) {
@@ -97,7 +100,7 @@ module.exports = function (db, redis) {
                     return resolve(db.Account.findOne({
                         where: { id: req.session.account.id, },
                         // TODO: Only members.
-                        include: [{ model: "Group", nested: true, }],
+                        include: [{ model: db.Group, nested: true, }],
                     }).then(function (account) {
                         req.session.account = account;
                         return account;

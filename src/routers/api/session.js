@@ -1,5 +1,6 @@
 var middleware = require("../../middleware"),
-    alert = require("../../alert");
+    alert = require("../../alert"),
+    Promise = require('bluebird');
 
 module.exports = function (db, redis) {
     var router = require("express").Router();
@@ -70,6 +71,38 @@ module.exports = function (db, redis) {
                 'text/html': function () {
                     alert.success(req, "Deleted session.");
                     res.redirect('/account/workshop');
+                },
+                'default': function () { res.status(200).json(session); },
+            });
+        }).catch(function (error) {
+            console.log(error);
+            res.status(401).json({ error: error.message });
+        });
+    });
+
+    router.route("/:id/add/:member")
+    .get(middleware.admin, function (req, res) {
+        Promise.join(
+            db.Session.findOne({
+                where: { id: req.params.id },
+            }).then(function (session) {
+                if (!session) { throw new Error("Session not found."); }
+                return session;
+            }),
+            db.Member.findOne({
+                where: { id: req.params.member },
+            }).then(function (member) {
+                if (!member) { throw new Error("Member not found."); }
+                return member;
+            }),
+            function (session, member) {
+                return session.addMember(member);
+            }
+        ).then(function (session) {
+            res.format({
+                'text/html': function () {
+                    alert.success(req, "Added member to session.");
+                    res.redirect('back');
                 },
                 'default': function () { res.status(200).json(session); },
             });

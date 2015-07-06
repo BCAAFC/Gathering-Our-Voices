@@ -21,7 +21,7 @@ module.exports = function (db, redis) {
                     where: { id: req.session.account.id, },
                     include: [
                         // { all: true, nested: true, }
-                        { model: db.Group, nested: true, },
+                        { model: db.Group, include: [db.Member], },
                         { model: db.Exhibitor },
                         { model: db.Workshop, include: [db.Session]},
                         { model: db.Payment },
