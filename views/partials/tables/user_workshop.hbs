@@ -18,10 +18,20 @@
                     }
                 },
                 {
-                    targets: [ -2, -3 ], // Arrays
+                    targets: [ -3 ], // Arrays
                     render: function (data, type, row) {
                         return data.map(function (item) {
                             return "<span class=\"label label-default\">"+item+"</span>"
+                        }).join(" ");
+                    }
+                },
+                {
+                    targets: [ -2 ], // Arrays
+                    render: function (data, type, row) {
+                        return data.map(function (item) {
+                            var start = moment(item.start).format("MM/DD/YYYY HH:mm A");
+                            var end = moment(item.end).format("HH:mm A");
+                            return "<span class=\"label label-default\">" + start + "-" + end + " @ " + item.venue + "</span>";
                         }).join(" ");
                     }
                 },

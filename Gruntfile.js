@@ -13,6 +13,8 @@ module.exports = function(grunt) {
                     'static/js/user.min.js': [
                         // Jquery
                         'bower_components/jquery/dist/jquery.js',
+                        // Moment
+                        'bower_components/moment/moment.js',
                         // Bootstrap
                         'bower_components/bootstrap/dist/js/bootstrap.js',
                         // Tagsinput
