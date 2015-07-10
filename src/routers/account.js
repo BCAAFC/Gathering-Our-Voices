@@ -64,6 +64,32 @@ module.exports = function (db, redis) {
         });
     });
 
+    router.route("/group/member/:id")
+    .get(function (req, res) {
+        Promise.join(
+            db.Account.findOne({
+                where: { id: req.session.account.id, },
+                include: [{ model: db.Group, include: [db.Member] },]
+            }),
+            db.Member.findOne({
+                where: { id: req.params.id, },
+            }),
+            function (account, member) {
+                req.session.account = account;
+                res.render("account/member", {
+                    title: "Account - Member",
+                    account: req.session.account,
+                    admin: req.session.isAdmin,
+                    flags: db.Flag.cache(),
+                    alert: req.alert,
+                    member: member,
+                });
+        }).catch(function (error) {
+            alert.error(req, error.message);
+            res.redirect("/login");
+        });
+    });
+
     router.route("/workshop")
     .get(function (req, res) {
         db.Account.findOne({

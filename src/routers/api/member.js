@@ -137,6 +137,7 @@ module.exports = function (db, redis) {
         db.Member.findOne({
             where: { id: req.params.id, },
         }).then(function (member) {
+            if (!member) { throw new Error("Member not found."); }
             var idx = member.tags.indexOf(req.body.add);
             if (idx === -1) {
                 member.tags.splice(idx, 1);
@@ -148,6 +149,35 @@ module.exports = function (db, redis) {
             res.status(200).json(member.tags);
         }).catch(function (error) {
             res.status(500).json({ error: error.message });
+        });
+    });
+
+    // We use an `a` elem to do this can it can't be a DELETE
+    router.route("/delete/:id")
+    .get(middleware.auth, function (req, res) {
+        db.Member.findOne({
+            where: { id: req.params.id, },
+        }).then(function (member) {
+            // Error checking.
+            if (!member) { throw new Error("Member not found."); }
+            if (!req.session.account.Group || member.GroupId !== req.session.account.Group.id) {
+                throw new Error("Member is not in your group.");
+            }
+            // TODO: Verify relationships are destroyed too?
+            return member.destroy();
+        }).then(function (member) {
+            res.format({
+                'text/html': function () {
+                    alert.success(req, "Member deleted.");
+                    res.redirect('/account/group');
+                },
+                'default': function () { res.status(200).json(account); },
+            });
+        }).catch(function (error) {
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
         });
     });
 

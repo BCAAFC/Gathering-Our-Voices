@@ -7,6 +7,7 @@ module.exports = function (db, redis) {
         db.Page.findOne({
             where: { path: req.originalUrl },
         }).then(function (page) {
+            if (!page) { throw new Error(req.originalUrl + " was not found."); }
             page.render(res, "layout", {
                 title: page.title,
                 account: req.session.account,

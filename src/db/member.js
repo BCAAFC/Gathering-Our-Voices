@@ -136,9 +136,11 @@ module.exports = function (sequelize, DataTypes) {
                     member.contactPhone &&
                     member.medicalNumber)
                 {
-                    member.complete = true;
+                    console.log("Complete");
+                    member.set('complete', true);
                 } else {
-                    member.complete = false;
+                    console.log("Incomplete");
+                    member.set('complete', false);
                 }
                 fn(null, member);
             },
