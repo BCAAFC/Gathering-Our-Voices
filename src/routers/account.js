@@ -130,6 +130,43 @@ module.exports = function (db, redis) {
         });
     });
 
+    router.route("/workshop/session/:id?")
+    .get(function (req, res) {
+        Promise.join(
+            db.Account.findOne({
+                where: { id: req.session.account.id, },
+                include: [{ model: db.Workshop, }]
+            }),
+            new Promise(function (resolve, reject) {
+                if (req.params.id) {
+                    // Refresh account information.
+                    return resolve(db.Session.findOne({
+                        where: { id: req.params.id, },
+                        include: [db.Member],
+                    }).then(function (session) {
+                        return session;
+                    }));
+                } else {
+                    return resolve(null);
+                }
+            }),
+            function (account, session) {
+                req.session.account = account;
+                res.render("account/session", {
+                    title: "Account - Session",
+                    account: account,
+                    admin: req.session.isAdmin,
+                    flags: db.Flag.cache(),
+                    alert: req.alert,
+                    session: session,
+                });
+            }
+        ).catch(function (error) {
+            alert.error(req, error.message);
+            res.redirect("/account");
+        });
+    });
+
     router.route("/exhibitor")
     .get(function (req, res) {
         db.Account.findOne({
