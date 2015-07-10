@@ -1,5 +1,6 @@
 var Promise = require("bluebird"),
-    fs = require("fs");
+    fs = require("fs"),
+    alert = require("../alert");
 
 // These all look the same, but expect them to differ later.
 
