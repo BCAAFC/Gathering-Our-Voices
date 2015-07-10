@@ -17,7 +17,11 @@
                     <div><strong>Room:</strong> {{room}}</div>
                     <div><strong>Venue:</strong> {{venue}}</div>
                     <div><strong>Capacity:</strong> {{Members.length}}/{{capacity}}</div>
-                    <pre>{{JSON this 2}}</pre>
+                    <select>
+                        {{#each ../../account.Group.Members}}
+                            <option>{{this.name}} - {{this.type}}</option>
+                        {{/each}}
+                    </select>
                 </div>
             </div>
         </div>
