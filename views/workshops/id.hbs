@@ -1,18 +1,37 @@
 {{#with workshop}}
-    <h1>{{title}}</h1>
-    <p class="lead">Hosted by: {{facilitators}}</p>
-    <p>Category: {{category}}</p>
-    <p>Allows: {{{label-list audience}}}</p>
-    <p>Type: {{{label-list type}}}</p>
-    <p>{{description}}</p>
+    <div class="row">
+        <h1>{{title}}</h1>
+        <p class="lead">Hosted by: {{facilitators}}</p>
+        <p>Category: {{category}}</p>
+        <p>Allows: {{{label-list audience}}}</p>
+        <p>Type: {{{label-list type}}}</p>
+        <p>{{description}}</p>
 
-	{{#each Sessions}}
-        <pre>{{JSON this 2}}</pre>
-    {{/each}}
-
+        {{#each Sessions}}
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{datetime start}}-{{time end}} @ {{venue}}</span>
+                </div>
+                <div class="panel-body">
+                    <div><strong>Room:</strong> {{room}}</div>
+                    <div><strong>Venue:</strong> {{venue}}</div>
+                    <div><strong>Capacity:</strong> {{Members.length}}/{{capacity}}</div>
+                    <pre>{{JSON this 2}}</pre>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
 {{else}}
 	<div class="alert alert-warning">Workshop not found.</div>
 {{/with}}
 
-
-<pre>{{JSON workshop 2}}</pre>
+{{#if admin}}
+<div class="row">
+    <a class="btn btn-sm btn-info" href="/admin/manage/{{account.id}}/workshop">
+        <i class="fa fa-fw fa-steam"></i>
+        Manage
+    </a>
+</div>
+{{/if}}
