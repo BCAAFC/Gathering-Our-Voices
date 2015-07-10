@@ -1,28 +1,57 @@
-<div class="well">
-    <p>Payments aren't done yet! Sorry!
+<div class="row">
+    <h3>Logged Payments</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Number</th>
+                <th>Type</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each account.Payments}}
+                <tr>
+                    <td>{{date}}</td>
+                    <td>{{amount}}</td>
+                    <td>{{number}}</td>
+                    <td>{{type}}</td>
+                    <td>{{description}}</td>
+                </tr>
+            {{else}}
+                <tr colspan=5>
+                    <td>No payments yet!</td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
 </div>
 
 <div class="row">
-    <p>Ready to pay? Preferred Payment by cheque or money order payable to <strong>BCAAFC</strong>.</p>
-    <p><strong>Mail to:</strong> BCAAFC: 551 Chatham Street, Victoria, BC V8T 1E1</p>
-    <p><strong>by Phone:</strong> call Della Preston at 1-800-990-2432 to make payment by VISA or MasterCard</p>
-    <p>or pay below with PayPal</p>
-    {{!-- <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-        <input type="hidden" name="cmd" value="_xclick">
-        <input type="hidden" name="business" value="accounting@bcaafc.com">
-        <input type="hidden" name="currency_code" value="CAD">
-        <input type="hidden" name="undefined_quantity" value="1">
-        <input type="hidden" name="cn" value="You can leave us a note here...">
-        <input type="hidden" name="no_note" value="0">
-        <input type="hidden" name="custom" value="Org: {{account.organization}} -- Id: {{account.id}}">
-        <input type="hidden" name="no_shipping" value="1">
-        <input type="hidden" name="return" value="https://funding-conference.bcaafc.com/">
-        <input type="hidden" name="cancel_return" value="https://funding-conference.bcaafc.com/">
-        <input type="hidden" name="item_name" value="Funders Conference Delegate Payment">
-        <input type="hidden" name="amount" value="500">
-        <input type="hidden" name="quantity" value="{{account.representatives.length}}">
-        <input type="submit" class="btn btn-success btn-block" value="Pay with Paypal">
-    </form> --}}
+    <p>Ready to pay? We offer several payment methods:</p>
+    <ul>
+        <li><strong>Preferred: </strong>Cheque or money order payable to <strong>BCAAFC</strong>, 551 Chatham Street, Victoria, BC V8T 1E1</li>
+        <li><strong>Phone:</strong> Call Della Preston at 1-800-990-2432 to make payment by VISA or MasterCard</li>
+        <li><strong>PayPal:</strong> <div class="alert alert-danger">(Not done yet!)</div>
+        {{!-- <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+            <input type="hidden" name="cmd" value="_xclick">
+            <input type="hidden" name="business" value="accounting@bcaafc.com">
+            <input type="hidden" name="currency_code" value="CAD">
+            <input type="hidden" name="undefined_quantity" value="1">
+            <input type="hidden" name="cn" value="You can leave us a note here...">
+            <input type="hidden" name="no_note" value="0">
+            <input type="hidden" name="custom" value="Org: {{account.organization}} -- Id: {{account.id}}">
+            <input type="hidden" name="no_shipping" value="1">
+            <input type="hidden" name="return" value="https://gatheringourvoices.bcaafc.com/">
+            <input type="hidden" name="cancel_return" value="https://gatheringourvoices.bcaafc.com/">
+            <input type="hidden" name="item_name" value="Gathering Our Voices Delegate Payment">
+            <input type="hidden" name="amount" value="500">
+            <input type="hidden" name="quantity" value="{{account.representatives.length}}">
+            <input type="submit" class="btn btn-success btn-block" value="Pay with Paypal">
+        </form> --}}
+        </li>
+    </ul>
     <em>Note payments with Paypal may take a few days to process.</em>
 </div>
 

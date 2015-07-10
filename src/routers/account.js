@@ -44,6 +44,26 @@ module.exports = function (db, redis) {
         });
     });
 
+    router.route("/payments")
+    .get(function (req, res) {
+        db.Account.findOne({
+            where: { id: req.session.account.id, },
+            include: [db.Payment],
+        }).then(function (account) {
+            req.session.account = account;
+            res.render("account/payments", {
+                title: "Account - Payments",
+                account: account,
+                admin: req.session.isAdmin,
+                flags: db.Flag.cache(),
+                alert: req.alert,
+            });
+        }).catch(function (error) {
+            alert.error(req, error.message);
+            res.redirect("/login");
+        });
+    });
+
     router.route("/group")
     .get(function (req, res) {
         db.Account.findOne({
