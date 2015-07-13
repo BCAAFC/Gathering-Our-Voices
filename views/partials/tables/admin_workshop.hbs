@@ -21,6 +21,16 @@
             columns: columns,
             columnDefs: [
                 {
+                    targets: [ 0, ], // Sessions
+                    render: function (data, type, row) {
+                        return data.map(function (item) {
+                            var start = moment(item.start).format("MM/DD/YYYY HH:mm A");
+                            var end = moment(item.end).format("HH:mm A");
+                            return "<span class=\"label label-default\">"+start+"-"+end+"</span>"
+                        }).join("<br>");
+                    }
+                },
+                {
                     targets: 1,
                     render: function (data, type, row) {
                         return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.AccountId+"/workshop\"><i class=\"fa fa-fw fa-user\"></i></span>";
@@ -66,14 +76,6 @@
                 },
                 {
                     targets: [ 3, 7, 8, ], // Arrays
-                    render: function (data, type, row) {
-                        return data.map(function (item) {
-                            return "<span class=\"label label-default\">"+item+"</span>"
-                        }).join(" ");
-                    }
-                },
-                {
-                    targets: [ 0, ], // Sessions
                     render: function (data, type, row) {
                         return data.map(function (item) {
                             return "<span class=\"label label-default\">"+item+"</span>"
