@@ -94,6 +94,7 @@ module.exports = function (db, redis) {
             }),
             db.Member.findOne({
                 where: { id: req.params.id, },
+                include: [db.Session, ],
             }),
             function (account, member) {
                 req.session.account = account;

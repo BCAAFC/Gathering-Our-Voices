@@ -28,13 +28,20 @@
                     <div><strong>Room:</strong> {{room}}</div>
                     <div><strong>Venue:</strong> {{venue}}</div>
                     <div><strong>Capacity:</strong> {{Members.length}}/{{capacity}}</div>
-                    <select>
-                        {{#each ../../account.Group.Members}}
-                            {{{member-option member=this workshop=../../../workshop session=../this}}}
-                        {{else}}
-                            <option disabled=true>Your group has no members!</option>
-                        {{/each}}
-                    </select>
+                    <div>
+                        <form action="/api/workshop/{{../../workshop.id}}/{{id}}/members" method="POST">
+                            <select name="member">
+                                {{#each ../../account.Group.Members}}
+                                    {{{member-option member=this workshop=../../../workshop session=../this}}}
+                                {{else}}
+                                    <option disabled=true>Your group has no members!</option>
+                                {{/each}}
+                            </select>
+                            <button class="btn btn-xs btn-success">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
