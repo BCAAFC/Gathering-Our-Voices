@@ -72,6 +72,9 @@ module.exports = function (db, redis) {
     .put(middleware.ownAccount, function (req, res) {
         db.Account.findOne({ where: { id: req.params.id, }, }).then(function (account) {
             if (!account) { throw new Error("Account doesn't exist"); }
+            if (req.body.password === "") {
+                req.body.password = null;
+            }
             // Edit details in a batch.
             account.email = req.body.email || account.email;
             account.password = req.body.password || account.password;

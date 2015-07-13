@@ -31,6 +31,7 @@ module.exports = function (db, redis) {
             where: { id: req.session.account.id, },
         }).then(function (account) {
             req.session.account = account;
+            account.password = null;
             res.render("account/account", {
                 title: "Account - Details",
                 account: account,

@@ -95,7 +95,7 @@ module.exports = function (db, redis) {
                     var val = v[0].toUpperCase() + v.slice(1);
                     return { title: val, data: v, className: v };
                 });
-            columns.unshift({ title:"Sessions", data: "Sessions", className: "sessions" })
+            columns.unshift({ title:"Sessions", data: "Sessions", className: "sessions" });
             res.render("admin/workshops", {
                 title: "Administration - Workshops",
                 account: req.session.account,

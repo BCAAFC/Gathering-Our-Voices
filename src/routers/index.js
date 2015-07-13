@@ -5,6 +5,8 @@ module.exports = function (httpd, db, redis) {
         res.render("index", {
             title: "Landing Page",
             layout: null,
+            account: req.session.account,
+            admin: req.session.isAdmin,
         });
     });
 
@@ -21,11 +23,11 @@ module.exports = function (httpd, db, redis) {
     });
 
     // Workshop routes
-    httpd.use("/workshops", middleware.admin,
+    httpd.use("/workshops",
         require("./workshops")(db, redis));
 
     // Account routes.
-    httpd.use("/account", middleware.admin,
+    httpd.use("/account",
         require("./account")(db, redis));
 
     // Admin routes.

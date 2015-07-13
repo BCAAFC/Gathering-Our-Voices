@@ -42,7 +42,10 @@ module.exports = function (db, redis) {
             });
         }).catch(function (error) {
             console.log(error);
-            res.status(401).json({ error: error.message });
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
         });
     });
 
@@ -55,6 +58,10 @@ module.exports = function (db, redis) {
             if (workshop.id !== req.session.account.Workshop.id) {
                 throw new Error("That workshop is not associated with this account.");
             }
+            if ((workshop.approved || workshop.verified) && !req.session.isAdmin) {
+                throw new Error("You may not modify an approved or verified workshop if not an admin.");
+            }
+
             if (typeof req.body.facilitators === "string") { req.body.facilitators = [req.body.facilitators]; }
             // Transform HTML form.
             if (req.body.mailing === "Yes") { req.body.mailing = true; } else
@@ -112,7 +119,10 @@ module.exports = function (db, redis) {
             });
         }).catch(function (error) {
             console.log(error);
-            res.status(401).json({ error: error.message });
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
         });
     });
 

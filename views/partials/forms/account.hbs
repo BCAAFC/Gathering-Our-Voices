@@ -7,7 +7,13 @@
     {{/if}}
 
     {{{form_input title="Email Address" name="email" type="email"  value=account.email required=true}}}
-    {{{form_input title="Password" name="password" type="password" required=true}}}
+    {{#if account}}
+        {{{form_input title="Password" name="password" type="password" value=""
+            description="Please <strong>only</strong> fill this in if you actually intend to change your passowrd."}}}
+    {{else}}
+        {{{form_input title="Password" name="password" type="password" required=true value=""}}}
+    {{/if}}
+
     {{{form_input title="Full Name" name="name" type="text" value=account.name required=true}}}
     {{{form_input title="Affiliation" name="affiliation" type="text" required=true value=account.affiliation
         description="This is typically your band, organization, or agency."}}}
@@ -42,4 +48,7 @@
             <input class="btn btn-block btn-primary" type='submit' value="Register">
         </div>
     {{/if}}
+    <script>$(document).ready(function () {
+        $('input[type="password"]').val("");
+    });</script>
 </form>
