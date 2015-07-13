@@ -1,4 +1,15 @@
 {{#with workshop}}
+    {{#unless approved}}
+        <div class="alert alert-warning">
+            The workshop you are viewing is not currently approved for the final GOV'2016 schedule.
+            <br>
+            You were likely linked here by the potential facilitator, or are the potential facilitator.
+            <br>
+            If you were not, it may be currently being edited, moved, changed,
+            or this may simply be a mistake on our end. So if you're seeing this
+            and didn't expect to, please let us know!
+        </div>
+    {{/unless}}
     <div class="row">
         <h1>{{title}}</h1>
         <p class="lead">Hosted by: {{facilitators}}</p>

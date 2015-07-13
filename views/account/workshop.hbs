@@ -66,6 +66,9 @@
         At this time you are no longer able to modify your workshop details.
         If you require any changes please contact us. A staff member can
         change them for you.
+        <br>
+        Your workshop page may be seen <a href="/workshops/{{account.Workshop.id}}">here</a>,
+        but it cannot be interacted with and it not listed, since it is not approved.
     </div>
     {{#if admin}}
         {{> forms/workshop workshop=account.Workshop flags=flags}}
