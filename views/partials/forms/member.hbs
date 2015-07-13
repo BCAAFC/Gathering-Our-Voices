@@ -74,12 +74,52 @@
 </form>
 
 <script>
+    var YOUTH_MIN_BIRTH = "2001-03-19";
+    var YOUTH_MAX_BIRTH = "1997-03-19";
+
+    var YOUNG_ADULT_MIN_BIRTH = "1997-03-19";
+    var YOUNG_ADULT_MAX_BIRTH = "1991-03-19";
+
+    var YOUNG_CHAPERONE_MIN_BIRTH = "1995-03-19";
+    var YOUNG_CHAPERONE_MAX_BIRTH = "1991-03-19";
+
+    var CHAPERONE_MIN_BIRTH = "1991-03-19";
+    var CHAPERONE_MAX_BIRTH = "1891-03-19";
+
+
     $(function () {
-        $("input[name='birthDate']").datepicker({
+        var birthDate = $("input[name='birthDate']");
+        var type = $("select[name='type']");
+        birthDate.datepicker({
             format: "mm/dd/yyyy",
             startView: 2,
             todayHightlight: true,
-            endDate: new Date("03/18/2001"),
+            endDate: new Date(YOUTH_MIN_BIRTH),
+            startDate: new Date(CHAPERONE_MAX_BIRTH),
         });
+        
+        type.change(function () {
+            var newType = type.val();
+            var end, start;
+
+            if (newType === "Youth") {
+                end = YOUTH_MIN_BIRTH;
+                start = YOUTH_MAX_BIRTH;
+            } else if (newType === "Young Adult") {
+                end = YOUNG_ADULT_MIN_BIRTH;
+                start = YOUNG_ADULT_MAX_BIRTH;
+            } else if (newType === "Young Chaperone") {
+                end = YOUNG_CHAPERONE_MIN_BIRTH;
+                start = YOUNG_CHAPERONE_MAX_BIRTH;
+            } else if (newType === "Chaperone") {
+                end = CHAPERONE_MIN_BIRTH;
+                start = CHAPERONE_MAX_BIRTH;
+            }
+
+            $(birthDate).datepicker('setStartDate', new Date(start));
+            $(birthDate).datepicker('setEndDate', new Date(end));
+            $(birthDate).datepicker('update');
+        });
+        type.change();
     });
 </script>

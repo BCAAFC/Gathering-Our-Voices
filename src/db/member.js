@@ -1,6 +1,68 @@
 "use strict";
-
+var Promise = require("bluebird");
 var moment = require("moment");
+
+var YOUTH_MIN_BIRTH = "2001-03-19";
+var YOUTH_MAX_BIRTH = "1997-03-17";
+
+var YOUNG_ADULT_MIN_BIRTH = "1997-03-19";
+var YOUNG_ADULT_MAX_BIRTH = "1991-03-17";
+
+var YOUNG_CHAPERONE_MIN_BIRTH = "1995-03-19";
+var YOUNG_CHAPERONE_MAX_BIRTH = "1991-03-17";
+
+var CHAPERONE_MIN_BIRTH = "1991-03-19";
+var CHAPERONE_MAX_BIRTH = "1891-03-17";
+
+function beforeHook(member, options) {
+    return new Promise(function (resolve, reject) {
+        // Should really be lists...
+        if (typeof member.allergies == "string") {
+            member.allergies = [member.allergies];
+        }
+        if (typeof member.conditions == "string") {
+            member.conditions = [member.conditions];
+        }
+        if (typeof member.tags == "string") {
+            member.tags = [member.tags];
+        }
+        // Age
+        if (member.type && member.birthDate) {
+            var start, end;
+            if (member.type === "Youth") {
+                end = YOUTH_MIN_BIRTH;
+                start = YOUTH_MAX_BIRTH;
+            } else if (member.type === "Young Adult") {
+                end = YOUNG_ADULT_MIN_BIRTH;
+                start = YOUNG_ADULT_MAX_BIRTH;
+            } else if (member.type === "Young Chaperone") {
+                end = YOUNG_CHAPERONE_MIN_BIRTH;
+                start = YOUNG_CHAPERONE_MAX_BIRTH;
+            } else if (member.type === "Chaperone") {
+                end = CHAPERONE_MIN_BIRTH;
+                start = CHAPERONE_MAX_BIRTH;
+            }
+            if (!moment(member.birthDate).isBetween(start, end)) {
+                throw new Error(member.type + " must be born between "+ start +" and " + end);
+            }
+        }
+        // Complete?
+        if (member.name &&
+            member.type &&
+            member.gender &&
+            member.birthDate &&
+            member.contactName &&
+            member.contactRelation &&
+            member.contactPhone &&
+            member.medicalNumber)
+        {
+            member.complete = true;
+        } else {
+            member.complete = false;
+        }
+        return resolve(member);
+    });
+}
 
 module.exports = function (sequelize, DataTypes) {
     var Member = sequelize.define("Member", {
@@ -30,7 +92,7 @@ module.exports = function (sequelize, DataTypes) {
             validate: {
                 // TODO: More age validation.
                 tooYoung: function (val) {
-                    if (moment(val).isAfter("2001-03-18")) {
+                    if (moment(val).isAfter(YOUTH_MIN_BIRTH)) {
                         throw new Error("Member too young to attend the conference.");
                     }
                 },
@@ -114,36 +176,8 @@ module.exports = function (sequelize, DataTypes) {
             },
         },
         hooks: {
-            beforeValidate: function (member, options, fn) {
-                if (typeof member.allergies == "string") {
-                    member.allergies = [member.allergies];
-                }
-                if (typeof member.conditions == "string") {
-                    member.conditions = [member.conditions];
-                }
-                if (typeof member.tags == "string") {
-                    member.tags = [member.tags];
-                }
-                fn(null, member);
-            },
-            afterValidate: function (member, options, fn) {
-                if (member.name &&
-                    member.type &&
-                    member.gender &&
-                    member.birthDate &&
-                    member.contactName &&
-                    member.contactRelation &&
-                    member.contactPhone &&
-                    member.medicalNumber)
-                {
-                    console.log("Complete");
-                    member.set('complete', true);
-                } else {
-                    console.log("Incomplete");
-                    member.set('complete', false);
-                }
-                fn(null, member);
-            },
+            beforeCreate: beforeHook,
+            beforeUpdate: beforeHook,
         },
     });
 
