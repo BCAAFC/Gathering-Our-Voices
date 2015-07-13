@@ -21,7 +21,7 @@
         <option value="Female">Female</option>
         <option value="Other">Other</option>
     {{/form_select}}
-    {{{form_input title="Birth Date" name="birthDate" type="date" value=(date member.birthDate)
+    {{{form_input title="Birth Date" name="birthDate" value=(date member.birthDate)
         description="Should be <code>MM/DD/YYYY</code>."}}}
     {{#form_select title="Background" name="background" selected=member.background
         description="<strong>Optional.</strong> If this is provided we will use it for statistics and reporting."}}
@@ -75,9 +75,11 @@
 
 <script>
     $(function () {
-        $("input[type='date']").datepicker({
+        $("input[name='birthDate']").datepicker({
             format: "mm/dd/yyyy",
             startView: 2,
+            todayHightlight: true,
+            endDate: new Date("03/18/2001"),
         });
     });
 </script>
