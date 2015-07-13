@@ -52,7 +52,11 @@ module.exports = function (db, redis) {
                     return resolve(db.Account.findOne({
                         where: { id: req.session.account.id, },
                         // TODO: Only members.
-                        include: [{ model: db.Group, include: [db.Member], }],
+                        include: [{
+                            model: db.Group, include: [{
+                                model: db.Member, include: [db.Session],
+                            }],
+                        }],
                     }).then(function (account) {
                         req.session.account = account;
                         return account;

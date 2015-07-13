@@ -30,7 +30,9 @@
                     <div><strong>Capacity:</strong> {{Members.length}}/{{capacity}}</div>
                     <select>
                         {{#each ../../account.Group.Members}}
-                            <option>{{this.name}} - {{this.type}}</option>
+                            {{{member-option member=this workshop=../../../workshop session=../this}}}
+                        {{else}}
+                            <option disabled=true>Your group has no members!</option>
                         {{/each}}
                     </select>
                 </div>

@@ -85,7 +85,7 @@ module.exports = function (db, redis) {
         });
     });
 
-    router.route("/group/member/:id")
+    router.route("/group/member/:id?")
     .get(function (req, res) {
         Promise.join(
             db.Account.findOne({

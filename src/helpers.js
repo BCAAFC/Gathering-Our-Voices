@@ -246,4 +246,35 @@ module.exports = function (hbs) {
         }).join(' ');
     });
 
+    hbs.registerHelper("member-option", function (options) {
+        var member = options.hash.member,
+            session = options.hash.session,
+            workshop = options.hash.workshop,
+            note = "",
+            disabled = false;
+        if (workshop.audience.indexOf(member.type) === -1) {
+            disabled = true;
+            note = "(Ineligible)";
+        } else if (member.complete === false) {
+            disabled = true;
+            note = "(Incomplete)";
+        } else {
+            // Might have a conflict.
+            disabled = member.Sessions.some(function (val) {
+                if (session.start < val.start && session.end < val.start) {
+                    // Starts before, ends before.
+                    return false;
+                } else if (session.start > val.end && session.end > val.end) {
+                    // Starts after, ends after.
+                    return false;
+                } else {
+                    note = "(Conflict)";
+                    return true;
+                }
+            });
+        }
+        if (disabled) { disabled = "disabled"; }
+        return "<option "+disabled+" value="+member.id+">"+member.name+" "+note+"</option>";
+    });
+
 };
