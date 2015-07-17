@@ -261,7 +261,10 @@ module.exports = function (hbs) {
         } else {
             // Might have a conflict.
             disabled = member.Sessions.some(function (val) {
-                if (session.start < val.start && session.end < val.start) {
+                if (session.id === val.id) {
+                    note = "(Already attending)"
+                    return true;
+                } else if (session.start < val.start && session.end < val.start) {
                     // Starts before, ends before.
                     return false;
                 } else if (session.start > val.end && session.end > val.end) {
@@ -274,7 +277,15 @@ module.exports = function (hbs) {
             });
         }
         if (disabled) { disabled = "disabled"; }
-        return "<option "+disabled+" value="+member.id+">"+member.name+" "+note+"</option>";
+        return "<option "+disabled+" name=member value="+member.id+">"+member.name+" "+note+"</option>";
+    });
+
+    hbs.registerHelper("if-in-session", function (options) {
+        var member = options.hash.member,
+            session = options.hash.session;
+        if (member.Sessions.some(function (v) { return v.id === session.id; })) {
+            return options.fn(this);
+        }
     });
 
 };

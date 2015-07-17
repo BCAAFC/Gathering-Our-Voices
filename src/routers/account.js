@@ -69,7 +69,12 @@ module.exports = function (db, redis) {
     .get(function (req, res) {
         db.Account.findOne({
             where: { id: req.session.account.id, },
-            include: [{ model: db.Group, include: [db.Member] },]
+            include: [
+                { model: db.Group,
+                    include: [db.Member,],
+                },
+            ],
+            order: [ [ db.Group, db.Member, "name", ], ],
         }).then(function (account) {
             req.session.account = account;
             res.render("account/group", {
@@ -90,7 +95,7 @@ module.exports = function (db, redis) {
         Promise.join(
             db.Account.findOne({
                 where: { id: req.session.account.id, },
-                include: [{ model: db.Group, include: [db.Member] },]
+                include: [{ model: db.Group, include: [db.Member] },],
             }),
             db.Member.findOne({
                 where: { id: req.params.id, },

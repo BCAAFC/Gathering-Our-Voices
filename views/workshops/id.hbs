@@ -24,23 +24,46 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">{{datetime start}}-{{time end}} @ {{venue}}</span>
                 </div>
-                <div class="panel-body">
-                    <div><strong>Room:</strong> {{room}}</div>
-                    <div><strong>Venue:</strong> {{venue}}</div>
-                    <div><strong>Capacity:</strong> {{Members.length}}/{{capacity}}</div>
-                    <div>
-                        <form action="/api/workshop/{{../../workshop.id}}/{{id}}/members" method="POST">
-                            <select name="member">
+                <div class="panel-body row">
+                    <div class="col-xs-6">
+                        <div><strong>Room:</strong> {{room}}</div>
+                        <div><strong>Venue:</strong> {{venue}}</div>
+                        <div><strong>Capacity:</strong> {{Members.length}}/{{capacity}}</div>
+                        <div>
+                            <form action="/api/session/{{id}}/add" method="POST">
+                                <select name="member">
+                                    {{#each ../../account.Group.Members}}
+                                        {{{member-option member=this workshop=../../../workshop session=../this}}}
+                                    {{else}}
+                                        <option disabled=true>Your group has no members!</option>
+                                    {{/each}}
+                                </select>
+                                <button class="btn btn-xs btn-success">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <table>
+                            <thead>
+                                <tr><th>Attending</th><th></th></thead>
+                            </thead>
+                            <tbody>
                                 {{#each ../../account.Group.Members}}
-                                    {{{member-option member=this workshop=../../../workshop session=../this}}}
+                                    {{#if-in-session member=this session=../this}}
+                                        <tr>
+                                            <td>{{name}}</td>
+                                            <td><a class="btn btn-xs btn-danger" href="/api/session/{{../../id}}/remove/{{id}}" onclick="return confirm('Are you sure?')">
+                                                <i class="fa fa-fw fa-trash"></i>
+                                            </a></td>
+                                        </tr>
+                                    {{/if-in-session}}
                                 {{else}}
-                                    <option disabled=true>Your group has no members!</option>
+                                    <tr colspan=2><emph>No members attending yet</emph></tr>
                                 {{/each}}
-                            </select>
-                            <button class="btn btn-xs btn-success">
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </form>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

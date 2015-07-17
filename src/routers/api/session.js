@@ -40,8 +40,8 @@ module.exports = function (db, redis) {
             }
             return session;
         }).then(function (session) {
-            session.start = Date(req.body.start) || session.start;
-            session.end = Date(req.body.end) || session.end;
+            session.start = new Date(req.body.start) || session.start;
+            session.end = new Date(req.body.end) || session.end;
             session.room = req.body.room || session.room;
             session.venue = req.body.venue || session.venue;
             session.capacity = req.body.capacity || session.capacity;
@@ -80,22 +80,29 @@ module.exports = function (db, redis) {
         });
     });
 
-    router.route("/:id/add/:member")
-    .get(middleware.admin, function (req, res) {
+    router.route("/:id/add")
+    .post(function (req, res) {
         Promise.join(
             db.Session.findOne({
                 where: { id: req.params.id },
+                include: [db.Member],
             }).then(function (session) {
                 if (!session) { throw new Error("Session not found."); }
                 return session;
             }),
-            db.Member.findOne({
-                where: { id: req.params.member },
-            }).then(function (member) {
-                if (!member) { throw new Error("Member not found."); }
-                return member;
+            // Need to ensure member is in group.
+            db.Account.findOne({
+                where: { id: req.session.account.id },
+                include: [ db.Group ],
+            }).then(function (acc) {
+                if (!acc) { throw new Error("Account not found."); }
+                return acc.Group.getMembers({
+                    where: { id: req.body.member, },
+                });
             }),
-            function (session, member) {
+            function (session, members) {
+                if (members === []) { throw new Error("Member not found."); }
+                var member = members[0];
                 if (session.Members.length < session.capacity) {
                     return session.addMember(member);
                 } else {
@@ -106,6 +113,46 @@ module.exports = function (db, redis) {
             res.format({
                 'text/html': function () {
                     alert.success(req, "Added member to session.");
+                    res.redirect('back');
+                },
+                'default': function () { res.status(200).json(session); },
+            });
+        }).catch(function (error) {
+            console.log(error);
+            res.status(401).json({ error: error.message });
+        });
+    });
+
+    router.route("/:id/remove/:member")
+    .get(function (req, res) {
+        Promise.join(
+            db.Session.findOne({
+                where: { id: req.params.id },
+            }).then(function (session) {
+                if (!session) { throw new Error("Session not found."); }
+                return session;
+            }),
+            // Need to ensure member is in group.
+            db.Account.findOne({
+                where: { id: req.session.account.id },
+                include: [ db.Group ],
+            }).then(function (acc) {
+                if (!acc) { throw new Error("Account not found."); }
+                return acc.Group.getMembers({
+                    where: { id: req.params.member, },
+                });
+            }),
+            function (session, members) {
+                if (members === []) { throw new Error("Member not found."); }
+                var member = members[0];
+                console.log("MEMBER: ", member);
+                console.log("SESSION: ", session);
+                return session.removeMember(member);
+            }
+        ).then(function (session) {
+            res.format({
+                'text/html': function () {
+                    alert.success(req, "Removed member from session.");
                     res.redirect('back');
                 },
                 'default': function () { res.status(200).json(session); },

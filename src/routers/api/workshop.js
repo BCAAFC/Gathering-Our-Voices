@@ -193,50 +193,5 @@ module.exports = function (db, redis) {
         });
     });
 
-    router.route("/:workshop/:session/members")
-    .post(function (req, res) {
-        Promise.join(
-            db.Workshop.findOne({
-                where: { id: req.params.workshop, },
-            }).then(function (wrk) {
-                return wrk.getSessions({
-                    where: { id: req.params.session, },
-                });
-            }),
-            db.Account.findOne({
-                where: { id: req.session.account.id },
-                include: [ db.Group ],
-            }).then(function (acc) {
-                return acc.Group.getMembers({
-                    where: { id: req.body.member, },
-                });
-            }),
-            function (sessions, members) {
-                var session = sessions[0], member = members[0];
-                if (!session || !member) {
-                    throw new Error("Invalid data was passed, this is an error.");
-                }
-                return session.addMember(member);
-            }
-        ).then(function (workshop) {
-            res.format({
-                'text/html': function () {
-                    alert.success(req, "Member added.");
-                    res.redirect('back');
-                },
-                'default': function () { res.status(200).json(workshop); },
-            });
-        }).catch(function (error) {
-            console.log(error);
-            res.format({
-                'text/html': function () {
-                    alert.error(req, error.message);
-                    res.redirect('back');
-                },
-                'default': function () { res.status(401).json({ error: error.message }); },
-            });
-        });
-    });
-
     return router;
 };

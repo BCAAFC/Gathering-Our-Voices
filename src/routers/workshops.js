@@ -10,6 +10,7 @@ module.exports = function (db, redis) {
             where: { approved: true, verified: true, },
             attributes: ['id', 'title', 'facilitators', 'length', 'category', 'audience', 'summary'],
             include: [db.Session],
+            order: [ "title", ],
         }).then(function (workshops) {
             var columns = [
                 { title: "View", data: null, className: "view", },
@@ -45,6 +46,7 @@ module.exports = function (db, redis) {
                     model: db.Session,
                     include: [db.Member],
                 }],
+                order: [ [ db.Session, "start", ], ],
             }),
             new Promise(function (resolve, reject) {
                 if (req.session.account) {
