@@ -11,8 +11,10 @@ module.exports = function (db, redis) {
 
     router.route("/accounts")
     .get(function (req, res) {
-        db.Account.findAll({ include: [{all: true, attributes: ['id'] }]})
-        .then(function (accounts) {
+        db.Account.findAll({
+            include: [{all: true, attributes: ['id'] }],
+            order: [ "affiliation", ],
+        }).then(function (accounts) {
             var columns = Object.keys(db.Account.attributes)
                 .filter(function (v) { return v !== "password"; })
                 .map(function (v) {
@@ -41,7 +43,9 @@ module.exports = function (db, redis) {
 
     router.route("/groups")
     .get(function (req, res) {
-        db.Group.findAll().then(function (groups) {
+        db.Group.findAll({
+            order: [ "AccountId", ],
+        }).then(function (groups) {
             var columns = Object.keys(db.Group.attributes)
                 .map(function (v) {
                     var val = v[0].toUpperCase() + v.slice(1);
@@ -65,7 +69,9 @@ module.exports = function (db, redis) {
 
     router.route("/members")
     .get(function (req, res) {
-        db.Member.findAll().then(function (members) {
+        db.Member.findAll({
+            order: [ "name", ],
+        }).then(function (members) {
             var columns = Object.keys(db.Member.attributes)
                 .map(function (v) {
                     var val = v[0].toUpperCase() + v.slice(1);
@@ -89,7 +95,10 @@ module.exports = function (db, redis) {
 
     router.route("/workshops")
     .get(function (req, res) {
-        db.Workshop.findAll({ include: [db.Session,] }).then(function (workshops) {
+        db.Workshop.findAll({
+            include: [db.Session,],
+            order: [ "title", ],
+        }).then(function (workshops) {
             var columns = Object.keys(db.Workshop.attributes)
                 .map(function (v) {
                     var val = v[0].toUpperCase() + v.slice(1);
@@ -113,7 +122,9 @@ module.exports = function (db, redis) {
 
     router.route("/exhibitors")
     .get(function (req, res) {
-        db.Exhibitor.findAll().then(function (exhibitors) {
+        db.Exhibitor.findAll({
+            order: [ "AccountId", ],
+        }).then(function (exhibitors) {
             var columns = Object.keys(db.Exhibitor.attributes)
                 .map(function (v) {
                     var val = v[0].toUpperCase() + v.slice(1);
