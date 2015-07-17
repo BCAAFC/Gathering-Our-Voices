@@ -33,8 +33,8 @@
                             {{#if ../../account}}
                                 <form action="/api/session/{{id}}/add" method="POST">
                                     <select name="member">
-                                        {{#each ../../account.Group.Members}}
-                                            {{{member-option member=this workshop=../../../workshop session=../this}}}
+                                        {{#each ../../../account.Group.Members}}
+                                            {{{member-option member=this workshop=../../../../workshop session=../../this}}}
                                         {{else}}
                                             <option disabled=true>Your group has no members!</option>
                                         {{/each}}
@@ -53,11 +53,11 @@
                                     <tr><th>Attending</th><th></th></thead>
                                 </thead>
                                 <tbody>
-                                    {{#each ../../account.Group.Members}}
+                                    {{#each ../../../account.Group.Members}}
                                         {{#if-in-session member=this session=../this}}
                                             <tr>
                                                 <td>{{name}}</td>
-                                                <td><a class="btn btn-xs btn-danger" href="/api/session/{{../../id}}/remove/{{id}}" onclick="return confirm('Are you sure?')">
+                                                <td><a class="btn btn-xs btn-danger" href="/api/session/{{../../../id}}/remove/{{id}}" onclick="return confirm('Are you sure?')">
                                                     <i class="fa fa-fw fa-trash"></i>
                                                 </a></td>
                                             </tr>

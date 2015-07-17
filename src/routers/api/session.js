@@ -145,8 +145,6 @@ module.exports = function (db, redis) {
             function (session, members) {
                 if (members === []) { throw new Error("Member not found."); }
                 var member = members[0];
-                console.log("MEMBER: ", member);
-                console.log("SESSION: ", session);
                 return session.removeMember(member);
             }
         ).then(function (session) {
