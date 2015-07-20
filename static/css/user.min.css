@@ -9689,6 +9689,10 @@ body {
 .bootstrap-tagsinput {
   display: block !important;
 }
+.invalid {
+  border-color: red;
+  outline-color: red;
+}
 /* Display the logo nice like */
 #gov-logo-center {
   bottom: 0px;

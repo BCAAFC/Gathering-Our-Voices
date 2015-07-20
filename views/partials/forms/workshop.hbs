@@ -106,3 +106,18 @@
         </div>
     {{/if}}
 </form>
+
+<script>
+$(document).ready(function () {
+    var summary = $("textarea[name='summary']");
+    summary.change(function () {
+        var val = summary.val();
+        if (val.length >= 500) {
+            summary.addClass("invalid");
+            alert("Your summary is "+val.length+", but the limit is 500.");
+        } else {
+            summary.removeClass("invalid");
+        }
+    });
+});
+</script>
