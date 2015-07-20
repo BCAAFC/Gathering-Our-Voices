@@ -16,6 +16,7 @@ module.exports = function (db, redis) {
                 'default': function () { res.status(200).json(account); },
             });
         }).catch(function (error) {
+            console.log(error);
             res.format({
                 'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
                 'default': function () { res.status(401).json({ error: error.message }); },
@@ -60,10 +61,23 @@ module.exports = function (db, redis) {
                 'default': function () { res.status(200).json(account); },
             });
         }).catch(function (error) {
-            res.format({
-                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
-                'default': function () { res.status(401).json({ error: error.message }); },
-            });
+            if (error.name == 'SequelizeUniqueConstraintError') {
+                res.format({
+                    'text/html': function () {
+                        alert.error(req, "That email already exists in our system. Did you forget your password?");
+                        res.redirect('back');
+                    },
+                    'default': function () { res.status(401).json({ error: error.message }); },
+                });
+            } else {
+                res.format({
+                    'text/html': function () {
+                        alert.error(req, error.message);
+                        res.redirect('back');
+                    },
+                    'default': function () { res.status(401).json({ error: error.message }); },
+                });
+            }
         });
     });
 

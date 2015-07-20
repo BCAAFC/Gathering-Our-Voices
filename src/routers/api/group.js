@@ -18,6 +18,8 @@ module.exports = function (db, redis) {
             return [account, account.getGroup()];
         }).spread(function (account, group) {
             if (group) { throw new Error("Already has a group associated"); }
+            req.body.youthInCare = Number(req.body.youthInCare);
+            req.body.youthInCareSupport = Number(req.body.youthInCareSupport);
             return account.createGroup(req.body);
         }).then(function (group) {
             return group.getAccount({ include: [ db.Group ]});
@@ -46,16 +48,12 @@ module.exports = function (db, redis) {
 
     router.route("/:id")
     // Edit an group. Need to verify is valid in fn.
-    .put(middleware.ownAccount, function (req, res) {
+    .put(function (req, res) {
         db.Group.findOne({
             where: { id: req.params.id, },
-            include: [ db.Account ],
         }).then(function (group) {
-            return [group, group.getAccount(), ];
-        }).spread(function (group, account) {
-            console.log(req.body);
             if (!group) { throw new Error("Group doesn't exist"); }
-            if (account.id !== req.session.id && !req.session.isAdmin) {
+            if (group.AccountId !== req.session.account.id && !req.session.isAdmin) {
                 throw new Error("Group is not related to this account.");
             }
             // Edit details in a batch.
