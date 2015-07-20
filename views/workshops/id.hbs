@@ -32,23 +32,28 @@
                         <div>
                             {{#if ../../account}}
                                 <form action="/api/session/{{id}}/add" method="POST">
-                                    <select name="member">
-                                        {{#each ../../../account.Group.Members}}
-                                            {{{member-option member=this workshop=../../../../workshop session=../../this}}}
-                                        {{else}}
-                                            <option disabled=true>Your group has no members!</option>
-                                        {{/each}}
-                                    </select>
-                                    <button class="btn btn-xs btn-success">
-                                        <i class="fa fa-plus"></i>
-                                    </button>
+                                    <div class="input-group">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-success">
+                                                <i class="fa fa-plus"></i>
+                                            </button>
+                                        </span>
+                                        <select name="member" class="form-control">
+                                            <option value="">Select a member...</option>
+                                            {{#each ../../../account.Group.Members}}
+                                                {{{member-option member=this workshop=../../../../workshop session=../../this}}}
+                                            {{else}}
+                                                <option disabled=true>Your group has no members!</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
                                 </form>
                             {{/if}}
                         </div>
                     </div>
                     <div class="col-xs-6">
                         {{#if ../../account}}
-                            <table>
+                            <table class="table">
                                 <thead>
                                     <tr><th>Attending</th><th></th></thead>
                                 </thead>
