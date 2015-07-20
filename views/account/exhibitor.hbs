@@ -1,1 +1,22 @@
-{{> forms/exhibitor exhibitor=account.Exhibitor flags=flags}}
+
+{{#if account.Exhibitor.approved}}
+    <div class="alert alert-success">
+        Your exhibitor table has been approved by our staff! Congratulations!
+        <br>
+        At this time you are no longer able to modify your exhibitor details.
+        If you require any changes please contact us. A staff member can
+        change them for you.
+    </div>
+{{else if account.Exhibitor.verified}}
+    <div class="alert alert-warning">
+        Your exhibitor table has been verified by our staff! This means that
+        your information is confirmed and we've placed you into our selection
+        process.
+        <br>
+        At this time you are no longer able to modify your exhibitor details.
+        If you require any changes please contact us. A staff member can
+        change them for you.
+    </div>
+{{else}}
+    {{> forms/exhibitor exhibitor=account.Exhibitor flags=flags}}
+{{/if}}
