@@ -68,6 +68,7 @@ module.exports = function (db, redis) {
             }
 
             if (typeof req.body.facilitators === "string") { req.body.facilitators = [req.body.facilitators]; }
+            console.log("Recieved: ", req.body.facilitators);
             // Transform HTML form.
             if (req.body.mailing === "Yes") { req.body.mailing = true; } else
             if (req.body.mailing === "No") { req.body.mailing = false; }
@@ -88,6 +89,9 @@ module.exports = function (db, redis) {
         }).then(function (workshop) {
             workshop.title = req.body.title || workshop.title;
             workshop.facilitators = req.body.facilitators || workshop.facilitators;
+
+            console.log("Set to: ", workshop.facilitators);
+
             workshop.length = req.body.length || workshop.length;
             workshop.category = req.body.category || workshop.category;
             workshop.categoryReason = req.body.categoryReason || workshop.categoryReason;
@@ -109,7 +113,7 @@ module.exports = function (db, redis) {
             workshop.travel = req.body.travel || workshop.travel;
             workshop.honorarium = req.body.honorarium || workshop.honorarium;
             workshop.notes = req.body.notes || workshop.notes;
-            
+
             return workshop.save();
         }).then(function (workshop) {
             res.format({

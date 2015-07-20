@@ -37,6 +37,16 @@
                     }
                 },
                 {
+                    targets: [6, 9, 10, 11, 20, 25 ], // CategoryReason, Description, Summary, InteractionLevel, Biography, Notes
+                    render: function (data, type, row) {
+                        if (row.notes) {
+                            return "<i class=\"btn btn-xs btn-info fa fa-plus\"></i>";
+                        } else {
+                            return "<i class=\"btn btn-xs btn-default fa fa-plus\"></i>";
+                        }
+                    }
+                },
+                {
                     targets: -1,
                     render: function (data, type, row) {
                         return "<a class=\"btn btn-xs btn-primary\" href=\"/admin/manage/"+row.AccountId+"\">"+row.AccountId+"</span>";
@@ -84,9 +94,41 @@
                 },
             ],
         });
+
+        // Expandos
+        function expando(key) {
+            $("td."+key).on("click", function () {
+                var tr = $(this).closest("tr");
+                var row = table.api().row(tr);
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    $(this).children("i").removeClass("fa-minus");
+                    $(this).children("i").addClass("fa-plus");
+                    row.child.hide();
+                    tr.removeClass("shown");
+                } else {
+                    // Open this row
+                    $(this).children("i").removeClass("fa-plus");
+                    $(this).children("i").addClass("fa-minus");
+                    var offset = $(".dataTables_scrollBody").scrollLeft();
+                    row.child("<p class='expando' style='margin-left: "+offset+"px;'>"+row.data()[key]+"</p>").show();
+                    tr.addClass("shown");
+                }
+            });
+        }
+        expando("categoryReason");
+        expando("description");
+        expando("summary");
+        expando("interactionLevel");
+        expando("biography");
+        expando("notes");
+
+
+
         // Visible Toggles
         var colvis = new $.fn.dataTable.ColVis(table);
         $("#options").append(colvis.button());
+
         // Scan for tagsinputs.
         var inputs = $("input[data-role=\"tagsinput\"]").tagsinput()
         $("input[data-role=\"tagsinput\"]").on("itemAdded", function (e) {
@@ -119,6 +161,7 @@
                 alert("Failed, please reload the page, then try again.");
             });
         });
+
         // Approved and Verified.
         $("a.approval").on("click", function (e) {
             var self = this,
@@ -180,6 +223,7 @@
                 alert("Failed, please reload the page, then try again.");
             });
         });
+
         // Toggle Buttons for Approved/Verified
         $("#approved_button, #verified_button").on("click", function (e) {
             var oldState = $(this).data("state"),
@@ -206,6 +250,7 @@
             $(this).data("state", newState);
             $("#workshop_table").dataTable().fnDraw();
         });
+
         // Filter for tables.
         $.fn.dataTable.ext.search.push(function(settings, _, dataIndex) {
             var node = $(settings.aoData[dataIndex].nTr).find("a.approval");
