@@ -105,7 +105,9 @@ module.exports = function (db, redis) {
                 }],
             }),
             function (account, member) {
-                if (account.Group.id !== member.GroupId)
+                if (member && (account.Group.id !== member.GroupId)) {
+                    throw new Error("Member is not in that group");
+                }
                 req.session.account = account;
                 res.render("account/member", {
                     title: "Account - Member",
