@@ -109,6 +109,7 @@ module.exports = function (db, redis) {
             workshop.travel = req.body.travel || workshop.travel;
             workshop.honorarium = req.body.honorarium || workshop.honorarium;
             workshop.notes = req.body.notes || workshop.notes;
+            
             return workshop.save();
         }).then(function (workshop) {
             res.format({
