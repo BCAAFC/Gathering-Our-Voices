@@ -16,8 +16,8 @@
                     <td>{{this.type}}</td>
                     <td>
                         <div class="btn-group">
-                            <a href="/account/group/member/{{this.id}}" class="btn btn-xs btn-default"><i class="fa fa-fw fa-edit"></i>Edit</a>
-                            <a href="/account/group/member/{{this.id}}" class="btn btn-xs btn-default"><i class="fa fa-fw fa-th-list"></i>Workshops</a>
+                            <a href="/account/group/member/{{this.id}}" class="btn btn-xs btn-default"><i class="fa fa-fw fa-edit"></i>Edit & Workshops</a>
+                            {{!-- <a href="/account/group/member/{{this.id}}" class="btn btn-xs btn-default"><i class="fa fa-fw fa-th-list"></i>Workshops</a> --}}
                             <a href="/api/member/delete/{{this.id}}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-fw fa-trash"></i>Delete</a>
                         </div>
                      </td>
@@ -41,7 +41,6 @@
             </tr>
         </tfoot>
     </table>
-    <pre>{{JSON account.Group 2}}</pre>
 {{/if}}
 
 {{> forms/group group=account.Group flags=flags}}

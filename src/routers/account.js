@@ -95,13 +95,17 @@ module.exports = function (db, redis) {
         Promise.join(
             db.Account.findOne({
                 where: { id: req.session.account.id, },
-                include: [{ model: db.Group, include: [db.Member] },],
+                include: [db.Group],
             }),
             db.Member.findOne({
                 where: { id: req.params.id, },
-                include: [db.Session, ],
+                include: [{
+                    model: db.Session,
+                    include: [db.Workshop],
+                }],
             }),
             function (account, member) {
+                if (account.Group.id !== member.GroupId)
                 req.session.account = account;
                 res.render("account/member", {
                     title: "Account - Member",
