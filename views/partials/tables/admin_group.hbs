@@ -20,7 +20,24 @@
                 {
                     targets: 2, // Members
                     render: function (data, type, row) {
-                        return data.length;
+                        var set = data.reduce(function (acc, val) {
+                            acc[val.type] += 1;
+                            return acc;
+                        }, {
+                            "Youth": 0,
+                            "Young Adult": 0,
+                            "Young Chaperone": 0,
+                            "Chaperone": 0,
+                        });
+                        var chaps = set["Young Chaperone"] + set["Chaperone"],
+                            warn = "";
+                        if (chaps * 5 < set["Youth"]) {
+                            warn = "<div class='label label-danger'>!</div>"
+                        }
+                        return warn + "Y: "+ set["Youth"] +
+                            "<br>YA: " + set["Young Adult"] +
+                            "<br> YC: " + set["Young Chaperone"] +
+                            "<br> C :" + set["Chaperone"];
                     },
                 },
                 {

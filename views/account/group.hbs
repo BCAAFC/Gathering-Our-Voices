@@ -1,5 +1,13 @@
 {{#if account.Group}}
     <h3>Manage Group Members</h3>
+
+    {{#if notEnoughChaperones}}
+        <div class="alert alert-warning">
+            Your group is unbalanced! For every 5 "Youth" (14-17yrs) in your
+            group you must have at least one "Chaperone" or "Young Chaperone."
+        </div>
+    {{/if}}
+
     <table class="table">
         <thead>
             <tr><th>Complete</th><th>Name</th><th>Type</th><th></th></tr>
