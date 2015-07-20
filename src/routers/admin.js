@@ -104,7 +104,7 @@ module.exports = function (db, redis) {
                     var val = v[0].toUpperCase() + v.slice(1);
                     return { title: val, data: v, className: v };
                 });
-            columns.unshift({ title:"Sessions", data: "Sessions", className: "sessions" });
+            columns.splice(1, 0, { title:"Sessions", data: "Sessions", className: "sessions" });
             res.render("admin/workshops", {
                 title: "Administration - Workshops",
                 account: req.session.account,
@@ -124,12 +124,17 @@ module.exports = function (db, redis) {
     .get(function (req, res) {
         db.Exhibitor.findAll({
             order: [ "AccountId", ],
+            include: [{
+                model: db.Account,
+                select: "affiliation",
+            }],
         }).then(function (exhibitors) {
             var columns = Object.keys(db.Exhibitor.attributes)
                 .map(function (v) {
                     var val = v[0].toUpperCase() + v.slice(1);
                     return { title: val, data: v, className: v };
                 });
+            columns.splice(1, 0, { title:"Affiliation", data: "Account.affiliation", className: "affiliation" });
             res.render("admin/exhibitors", {
                 title: "Administration - Exhibitors",
                 account: req.session.account,
