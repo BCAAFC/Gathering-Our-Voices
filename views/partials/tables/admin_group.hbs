@@ -18,6 +18,12 @@
                     },
                 },
                 {
+                    targets: 2, // Members
+                    render: function (data, type, row) {
+                        return data.length;
+                    },
+                },
+                {
                     targets: -1,
                     render: function (data, type, row) {
                         return "<a class=\"btn btn-primary\">"+data+"</a>";

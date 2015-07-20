@@ -44,13 +44,15 @@ module.exports = function (db, redis) {
     router.route("/groups")
     .get(function (req, res) {
         db.Group.findAll({
-            order: [ "AccountId", ],
+            include: [ db.Member, ],
+            order: [ "Group.AccountId", ],
         }).then(function (groups) {
             var columns = Object.keys(db.Group.attributes)
                 .map(function (v) {
                     var val = v[0].toUpperCase() + v.slice(1);
                     return { title: val, data: v, className: v };
                 });
+            columns.splice(2, 0, { title: "Members", data: "Members", className: "members" });
             res.render("admin/groups", {
                 title: "Administration - Groups",
                 account: req.session.account,
