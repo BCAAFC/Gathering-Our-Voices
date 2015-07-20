@@ -37,10 +37,13 @@ module.exports = function (db, redis) {
             }
             // Create
             return account.createWorkshop(req.body);
-        }).then(function (workshop) {
+        }).then(function (account) {
             res.format({
-                'text/html': function () { res.redirect('back'); },
-                'default': function () { res.status(200).json(workshop); },
+                'text/html': function () {
+                    alert.sucess(req, "Facilitator application created.");
+                    res.redirect('back');
+                },
+                'default': function () { res.status(200).json(account); },
             });
         }).catch(function (error) {
             console.log(error);
@@ -84,7 +87,7 @@ module.exports = function (db, redis) {
             return workshop;
         }).then(function (workshop) {
             workshop.title = req.body.title || workshop.title;
-            exhibitor.facilitators = req.body.facilitators || workshop.facilitators;
+            workshop.facilitators = req.body.facilitators || workshop.facilitators;
             workshop.length = req.body.length || workshop.length;
             workshop.category = req.body.category || workshop.category;
             workshop.categoryReason = req.body.categoryReason || workshop.categoryReason;
@@ -106,23 +109,22 @@ module.exports = function (db, redis) {
             workshop.travel = req.body.travel || workshop.travel;
             workshop.honorarium = req.body.honorarium || workshop.honorarium;
             workshop.notes = req.body.notes || workshop.notes;
-            // Admin
-            if (req.session.isAdmin) {
-                workshop.verified = req.body.verified;
-                workshop.approved = req.body.approved;
-                workshop.tags = req.body.tags;
-            }
-
             return workshop.save();
         }).then(function (workshop) {
             res.format({
-                'text/html': function () { res.redirect('back'); },
+                'text/html': function () {
+                    alert.success(req, "Facilitator application updated.");
+                    res.redirect('back');
+                },
                 'default': function () { res.status(200).json(workshop); },
             });
         }).catch(function (error) {
             console.log(error);
             res.format({
-                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'text/html': function () {
+                    alert.error(req, error.message);
+                    res.redirect('back');
+                },
                 'default': function () { res.status(401).json({ error: error.message }); },
             });
         });

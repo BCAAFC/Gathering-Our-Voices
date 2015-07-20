@@ -24,16 +24,20 @@ module.exports = function (db, redis) {
                 delete req.body.approved;
                 delete req.body.tags;
             }
-
             return account.createExhibitor(req.body);
-        }).then(function (workshop) {
+        }).then(function (account) {
             res.format({
-                'text/html': function () { res.redirect('back'); },
-                'default': function () { res.status(200).json(workshop); },
+                'text/html': function () {
+                    alert.sucess(req, "Exhibitor application created.");
+                    res.redirect('back');
+                },
+                'default': function () { res.status(200).json(account); },
             });
         }).catch(function (error) {
-            console.log(error);
-            res.status(401).json({ error: error.message });
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
         });
     });
 
@@ -74,14 +78,19 @@ module.exports = function (db, redis) {
             }
 
             return exhibitor.save();
-        }).then(function (exhibitor) {
+        }).then(function (account) {
             res.format({
-                'text/html': function () { res.redirect('back'); },
-                'default': function () { res.status(200).json(exhibitor); },
+                'text/html': function () {
+                    alert.sucess(req, "Exhibitor application updated.");
+                    res.redirect('back');
+                },
+                'default': function () { res.status(200).json(account); },
             });
         }).catch(function (error) {
-            console.log(error);
-            res.status(401).json({ error: error.message });
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
         });
     });
 
