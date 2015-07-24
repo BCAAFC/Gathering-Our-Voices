@@ -5,8 +5,30 @@
     {{{form_input title="Email Address" name="email" type="text" required=true}}}
     {{{form_input title="Password" name="password" type="password" required=true}}}
 
-    
+
     <div class="form-group">
         <input class="btn btn-block btn-primary" type="submit" value="Login">
     </div>
+
+    <p>Can't remember your password? Fill in your email above and click
+        <a id="forgot" href="#">here</a> and we'll send you an email 
+        with a magic link to restore your access.
+    </p>
 </form>
+
+<script>
+$(document).ready(function () {
+    $("#forgot").click(function () {
+        var email = $("input[name='email']").val();
+        $.ajax({
+            url: "/api/account/recovery",
+            method: "POST",
+            data: { email: email, },
+        }).done(function (e) {
+            window.location.reload(true);
+        }).fail(function (e) {
+            window.location.reload(true);
+        });
+    });
+});
+</script>

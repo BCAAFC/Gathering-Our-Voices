@@ -136,6 +136,41 @@ module.exports = function (db, redis) {
         });
     });
 
+    router.route("/recovery")
+    .get(function (req, res) {
+        // Finish recovery
+        db.Account.findOne({
+            where: { email: req.query.email, },
+        }).then(function (account) {
+            if (account === null) { throw new Error("Account does not exist"); }
+            return account.recoveryFinish(req.query.key);
+        }).then(function (account) {
+            req.session.account = account;
+            alert.success(req, "Success! Please remember to change your password.");
+            res.redirect("/account/details");
+        }).catch(function (error) {
+            console.log(error);
+            alert.error(req, error.message);
+            res.redirect("/login");
+        });
+    })
+    .post(function (req, res) {
+        // Start recovery
+        db.Account.findOne({
+            where: { email: req.body.email, },
+        }).then(function (account) {
+            if (account === null) { throw new Error("Account does not exist"); }
+            return account.recoveryStart().then(function () {
+                alert.success(req, "Recovery email sent. Please check your mailbox.");
+                res.send();
+            });
+        }).catch(function (err) {
+            console.log(err);
+            alert.error(req, "Unable to send recovery email. Please contact us.");
+            res.send();
+        });
+    });
+
     router.route("/:id/notes")
     .put(middleware.admin, function (req, res) {
         db.Account.findOne({ where: { id: req.params.id, }, }).then(function (account) {

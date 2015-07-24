@@ -1,6 +1,7 @@
 "use strict";
 var bcrypt = require("bcrypt"),
-    Promise = require("bluebird");
+    Promise = require("bluebird"),
+    mail = require("../mail").mail;
 
 var compare = Promise.promisify(bcrypt.compare);
 
@@ -85,6 +86,11 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: true,
             defaultValue: "",
         },
+        misc: {
+            type: DataTypes.JSON,
+            allowNull: false,
+            defaultValue: {},
+        },
     }, {
         classMethods: {
             associate: function (models) {
@@ -142,10 +148,45 @@ module.exports = function (sequelize, DataTypes) {
             passwordValid: function (attempt) {
                 return compare(attempt, this.password);
             },
+            recoveryStart: function () {
+                var self = this;
+                self.misc.recovery = Math.random().toString(36).slice(2);
+                return mail(
+                    [{ email: self.email, name: self.organization, }],
+                    [],
+                    "Account Recovery",
+                    "recovery",
+                    [
+                        { name: "email", content: encodeURIComponent(self.email), },
+                        { name: "key", content: encodeURIComponent(self.misc.recovery), },
+                    ]
+                ).then(function () {
+                   return self.save({fields: ['misc']});
+                });
+           },
+           recoveryFinish: function (key) {
+               if (this.misc.recovery === key) {
+                   return this;
+               } else {
+                   throw new Error("Invalid recovery key.");
+               }
+           },
         },
         hooks: {
             beforeCreate: hashPasswordHook,
             beforeUpdate: hashPasswordHook,
+            afterCreate: function (account) {
+                return mail(
+                    [{ email: account.email, name: account.affiliation, }], // To
+                    [{ email: "dpreston@bcaafc.com", name: "Della Preston", }], // CC
+                    "Registration Confirmation",
+                    "registration",
+                    [
+                        { name: "name", content: account.name, },
+                        { name: "affilation", content: account.affilation, },
+                    ]
+                );
+            },
         }
     });
 
