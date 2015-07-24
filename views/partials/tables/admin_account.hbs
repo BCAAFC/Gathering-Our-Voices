@@ -23,10 +23,40 @@
                     },
                 },
                 {
-                    targets: [ -1, -2, -3, -4 ], // Ids
+                    targets: [ -1, ], // Volunteers
                     render: function (data, type, row) {
                         if (data) {
-                            return "<a class=\"btn btn-xs btn-info\">" + data.id + "</a>";
+                            return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/volunteer\">" + row.Volunteer.id + "</a>";
+                        } else {
+                            return "<a class=\"btn btn-xs btn-default\" disabled>N/A</a>";
+                        }
+                    },
+                },
+                {
+                    targets: [ -2, ], // Workshop
+                    render: function (data, type, row) {
+                        if (data) {
+                            return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/workshop\">" + row.Workshop.id + "</a>";
+                        } else {
+                            return "<a class=\"btn btn-xs btn-default\" disabled>N/A</a>";
+                        }
+                    },
+                },
+                {
+                    targets: [ -3, ], // Exhibitor
+                    render: function (data, type, row) {
+                        if (data) {
+                            return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/exhibitor\">" + row.Exhibitor.id + "</a>";
+                        } else {
+                            return "<a class=\"btn btn-xs btn-default\" disabled>N/A</a>";
+                        }
+                    },
+                },
+                {
+                    targets: [ -4, ], // Group
+                    render: function (data, type, row) {
+                        if (data) {
+                            return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/group\">" + row.Group.id + "</a>";
                         } else {
                             return "<a class=\"btn btn-xs btn-default\" disabled>N/A</a>";
                         }
