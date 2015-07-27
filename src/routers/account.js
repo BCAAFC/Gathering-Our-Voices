@@ -40,6 +40,7 @@ module.exports = function (db, redis) {
                 alert: req.alert,
             });
         }).catch(function (error) {
+            console.log(error);
             alert.error(req, error.message);
             res.redirect("/login");
         });
@@ -60,6 +61,7 @@ module.exports = function (db, redis) {
                 alert: req.alert,
             });
         }).catch(function (error) {
+            console.log(error);
             alert.error(req, error.message);
             res.redirect("/login");
         });
@@ -76,17 +78,20 @@ module.exports = function (db, redis) {
             ],
             order: [ [ db.Group, db.Member, "name", ], ],
         }).then(function (account) {
-            var counts = account.Group.Members.reduce(function (acc, val) {
-                acc[val.type] += 1;
-                return acc;
-            }, {
-                "Youth": 0,
-                "Young Adult": 0,
-                "Chaperone": 0,
-                "Young Chaperone": 0,
-            });
-            var chaps = counts["Young Chaperone"] + counts["Chaperone"];
-            var notEnoughChaperones = chaps * 5 < counts["Youth"];
+            var notEnoughChaperones = false;
+            if (account.Group) {
+                var counts = account.Group.Members.reduce(function (acc, val) {
+                    acc[val.type] += 1;
+                    return acc;
+                }, {
+                    "Youth": 0,
+                    "Young Adult": 0,
+                    "Chaperone": 0,
+                    "Young Chaperone": 0,
+                });
+                var chaps = counts["Young Chaperone"] + counts["Chaperone"];
+                notEnoughChaperones = chaps * 5 < counts["Youth"];
+            }
             req.session.account = account;
             res.render("account/group", {
                 title: "Account - Group",
@@ -97,6 +102,7 @@ module.exports = function (db, redis) {
                 notEnoughChaperones: notEnoughChaperones,
             });
         }).catch(function (error) {
+            console.log(error);
             alert.error(req, error.message);
             res.redirect("/login");
         });
@@ -130,6 +136,7 @@ module.exports = function (db, redis) {
                     member: member,
                 });
         }).catch(function (error) {
+            console.log(error);
             alert.error(req, error.message);
             res.redirect("/login");
         });

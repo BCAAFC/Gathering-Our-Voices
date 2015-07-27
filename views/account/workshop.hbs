@@ -73,6 +73,10 @@
     {{#if admin}}
         {{> forms/workshop workshop=account.Workshop flags=flags}}
     {{/if}}
+{{else unless flags.facilitatorRegistration}}
+    <div class="alert alert-danger">
+        Unfortunately facilitator registration is closed. Perhaps next year?
+    </div>
 {{else}}
     {{> forms/workshop workshop=account.Workshop flags=flags}}
 {{/if}}

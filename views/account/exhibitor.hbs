@@ -17,6 +17,10 @@
         If you require any changes please contact us. A staff member can
         change them for you.
     </div>
+{{else unless flags.exhibitorRegistration}}
+    <div class="alert alert-danger">
+        Unfortunately exhibitor registration is closed. Perhaps next year?
+    </div>
 {{else}}
     {{> forms/exhibitor exhibitor=account.Exhibitor flags=flags}}
 {{/if}}

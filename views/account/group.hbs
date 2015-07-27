@@ -41,14 +41,27 @@
             </tr>
             <tr>
                 <td colspan=4>
-                    <a href="/account/group/member/" class="btn btn-success btn btn-block">
-                        <i class="fa fa-fw fa-plus"></i>
-                        Add Member
-                   	</a>
+                    {{#if flags.memberRegistration}}
+                        <a href="/account/group/member/" class="btn btn-success btn btn-block">
+                            <i class="fa fa-fw fa-plus"></i>
+                            Add Member
+                       	</a>
+                    {{else}}
+                        <div class="alert alert-danger">
+                            Unfortunately member registration is closed. Perhaps next year?
+                        </div>
+                    {{/if}}
                 </td>
             </tr>
         </tfoot>
     </table>
+    {{> forms/group group=account.Group flags=flags}}
 {{/if}}
 
-{{> forms/group group=account.Group flags=flags}}
+{{#unless flags.groupRegistration}}
+    <div class="alert alert-danger">
+        Unfortunately group registration is closed. Perhaps next year?
+    </div>
+{{else unless account.Group}}
+    {{> forms/group group=account.Group flags=flags}}
+{{/unless}}

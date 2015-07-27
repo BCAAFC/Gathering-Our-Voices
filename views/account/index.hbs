@@ -7,6 +7,8 @@
             {{{img "img-rounded img-fill" "acc-group"}}}
             {{#if account.Group}}
                 <a class="btn btn-block btn-primary" href="/account/group">Manage your Group</a>
+            {{else unless flags.groupRegistration}}
+                <a class="btn btn-block btn-default" disabled>Applications closed.</a>
             {{else}}
                 <a class="btn btn-block btn-default" href="/account/group">Declare your Group</a>
             {{/if}}
@@ -17,6 +19,8 @@
             {{{img "img-rounded img-fill" "acc-facilitate"}}}
             {{#if account.Workshop}}
                 <a class="btn btn-block btn-primary" href="/account/workshop">Modify Facilitation Application</a>
+            {{else unless flags.facilitatorRegistration}}
+                <a class="btn btn-block btn-default" disabled>Applications closed.</a>
             {{else}}
                 <a class="btn btn-block btn-default" href="/account/workshop">Apply to Facilitate</a>
             {{/if}}
@@ -27,6 +31,8 @@
             {{{img "img-rounded img-fill" "acc-exhibit"}}}
             {{#if account.Exhibitor}}
                 <a class="btn btn-block btn-primary" href="/account/exhibitor">Modify Exhibitor Application</a>
+            {{else unless flags.exhibitorRegistration}}
+                <a class="btn btn-block btn-default" disabled>Applications closed.</a>
             {{else}}
                 <a class="btn btn-block btn-default" href="/account/exhibitor">Apply to Exhibit</a>
             {{/if}}
@@ -37,6 +43,8 @@
             {{{img "img-rounded img-fill" "acc-volunteer"}}}
             {{#if account.Volunteer}}
                 <a class="btn btn-block btn-primary" href="/account/volunteer">Modify Volunteer Application</a>
+            {{else unless flags.volunteerRegistration}}
+                <a class="btn btn-block btn-default" disabled>Applications closed.</a>
             {{else}}
                 <a class="btn btn-block btn-default" href="/account/volunteer">Apply to Volunteer</a>
             {{/if}}
