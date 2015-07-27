@@ -9747,7 +9747,7 @@ footer {
 }
 @media (min-width: 768px) {
   main {
-    padding-bottom: 300px;
+    padding-bottom: 330px;
     /* Height of the footer */
   }
   footer {
@@ -9756,7 +9756,7 @@ footer {
 }
 @media (max-width: 768px) {
   main {
-    padding-bottom: 600px;
+    padding-bottom: 630px;
     /* Height of the footer */
   }
   footer {
@@ -9820,7 +9820,7 @@ footer {
   }
 }
 #landing {
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
   bottom: 0;

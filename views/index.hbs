@@ -3,16 +3,172 @@
     {{> head}}
     <body>
         {{> navbar}}
-        <main id="landing">
+        <section id="landing">
             <div class="content">
                 <div>
                     <h1 class="slug">Gathering Our Voices</h1><br>
                     <h1 class="year">2016</h1><br>
                     <span class="points">
-                        Explore - Discover - Share
+                        <a class="btn btn-lg btn-primary" onclick="$('html, body').animate({scrollTop: $('#wrap').offset().top - 40}, 'slow');">
+                            <i class="fa fa-chevron-right"></i>
+                            Explore
+                        </a>
                     </span>
                 </div>
             </div>
-        </main>
+        </section>
+        <div id="wrap">
+            <main>
+                <section class="container marketing">
+                    <div class="text-center row">
+                        <div id="timer">
+                            <p class="lead" style="padding-top: 30px;">
+                                Gathering Our Voices 2016 begins in <strong>Victoria</strong> in <span id="countdown"></span>!
+                            </p>
+                            <script>
+                                var timer = countdown(
+                                    new Date("March 17, 2016 17:00"),
+                                    function (ts) {
+                                        document.getElementById("countdown").innerHTML = ts.toHTML("strong");
+                                    },
+                                    countdown.DAYS | countdown.HOURS | countdown.MINUTES | countdown.SECONDS
+                                )
+                            </script>
+                        </div>
+                        <p>Interact with us via:</p>
+                        <div class="btn-group">
+                            <a class="btn btn-info" style="background-color: #56ADEE" target="_blank" href="https://twitter.com/GOV_Conference">
+                                <i class="fa fa-twitter"></i>
+                                Twitter
+                            </a>
+                            <a class="btn btn-info" style="background-color: #3A5795"  target="_blank" href="https://www.facebook.com/gatheringourvoices">
+                                <i class="fa fa-facebook"></i>
+                                Facebook
+                            </a>
+                            <a class="btn btn-info"  style="background-color: #DA4A38" target="_blank" href="https://www.facebook.com/gatheringourvoices">
+                                <i class="fa fa-envelope"></i>
+                                Mailing List
+                            </a>
+                        </div>
+                    </div>
+                    <hr class="featurette-divider">
+                    <div class="row featurette">
+                        <div class="col-sm-7">
+                            <h2 class="featurette-heading">Participate in the action</h2>
+                            <p>
+                                Get involved in interactive workshops and exciting shows
+                                with others from the community. You will have the opportunity
+                                to engage with your colleagues, mentors, and Elders in a
+                                meaningful way.
+                            </p>
+
+                            <p>
+                                Looking to get more from GOV? You can take part in our talent
+                                showcase and prove your salt, or nominate an Aboriginal Youth
+                                Champion who has made a difference in your community.
+                            </p>
+                            <div class="text-center">
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" target="_blank" href="/documents/honour-a-youth.pdf">
+                                        Honour A Youth
+                                    </a>
+                                    <a class="btn btn-primary" target="_blank" href="/documents/talent.pdf">
+                                        Talent Showcase
+                                    </a>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="text-center">
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" href="/social-enterprise">
+                                        Social Enterprise Event
+                                    </a>
+                                    <a class="btn btn-primary" href="/beyondbannock">
+                                        Beyond Bannock Challenge
+                                    </a>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="col-sm-5 text-center">
+                            {{{img "img-rounded" "index-participate"}}}
+                        </div>
+                    </div>
+                    <hr class="featurette-divider">
+                    <div class="row featurette">
+                        <div class="col-sm-5 text-center">
+                            {{{img "img-rounded" "index-learn"}}}
+                        </div>
+                        <div class="col-sm-7">
+                            <h2 class="featurette-heading">Learn from valuable mentors</h2>
+                            <p>
+                                More than 60 different workshops will be offered in 4 different
+                                areas: Cultural and Spiritual, Physical, Mental, and Emotional.
+                                Workshops will be grounded in cultural teachings and each delegate
+                                will have a chance to select from workshops in each area. Our goal
+                                is to provide youth with a unique experience and a chance to
+                                positively engage with each other.
+                            </p>
+                            <p>
+                                Workshop submissions are collected and reviewed by a panel of youth
+                                and selected to represent each of the four different areas. The panel
+                                considers: level of interaction, how the workshop is culturally based,
+                                and relevance to Aboriginal youth. Full workshop descriptions will be
+                                released in early February. Youth will be able to select from a wide
+                                array of workshops for a diverse, learning experience.
+                            </p>
+                            <a class="btn btn-block btn-default" href="/workshops">Explore Workshops</a>
+                        </div>
+                     </div>
+                    <hr class="featurette-divider">
+                    <div class="row featurette">
+                        <div class="col-sm-7">
+                            <h2 class="featurette-heading">Listen to inspiring leaders and peers</h2>
+                            <p>
+                                We are currently seeking the best and brightest Emcees, Entertainment
+                                and Keynote speakers to motivate, uplift and inspire Aboriginal youth
+                                to make a better tomorrow.  If you are interested in being an Emcee,
+                                Entertainment or Keynote at this year’s conference, please see the
+                                application link below.
+                            </p>
+                            <p>
+                                In past years we hosted the likes of J.R. LaRose, Dr. Evan Adams, Grand Chief
+                                Ed John, Grand Chief Stewart Phillip, Chief Jody Wilson-Raybould, Adrian Duke,
+                                Justin Rain, Dakota Brant, Waneek Horn-Miller, Deidri Jack, Mathew Strongeagle,
+                                Richard Peters, Theresa Point, Ta’Kaiya Blaney.
+                            </p>
+                            <p class="text-center">
+                                <a class="btn btn-default btn-block" target="_blank" href="/documents/gov2015-emcee-entertainment-keynote.docx">
+                                    Presenter Application
+                                </a>
+                            </p>
+                        </div>
+                        <div class="col-sm-5 text-center">
+                            {{{img "img-rounded" "index-listen"}}}
+                        </div>
+                    </div>
+                    <hr class="featurette-divider">
+                    <div class="row featurette">
+                        <div class="col-sm-5 text-center">
+                            {{{img "img-rounded" "index-connect"}}}
+                        </div>
+                        <div class="col-sm-7">
+                            <h2 class="featurette-heading">Connect and prepare for the future</h2>
+                            <p>
+                                A gathering of this size means an incredible opportunity to find new peers,
+                                employers, educators, teachers, Elders, and most of all, friends. A bustling
+                                career and education fair, an Elders lounge, and more will be ready for you
+                                to explore.
+                            </p>
+                            <p>
+                                Then, return to your community with newfound skills, a broader world view, and
+                                new friends to keep in touch with.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+            {{> footer}}
+        </div>
     </body>
 </html>

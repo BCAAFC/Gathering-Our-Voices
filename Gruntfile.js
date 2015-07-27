@@ -13,6 +13,8 @@ module.exports = function(grunt) {
                     'static/js/user.min.js': [
                         // Jquery
                         'bower_components/jquery/dist/jquery.js',
+                        // Countdown
+                        'bower_components/countdownjs/countdown.min.js',
                         // Moment
                         'bower_components/moment/moment.js',
                         // Bootstrap
