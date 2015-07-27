@@ -61,7 +61,6 @@ module.exports = function (db, redis) {
 
     router.route("/:id")
     .put(middleware.auth, function (req, res) {
-        console.log(req.body);
         db.Member.findOne({
             where: { id: req.params.id },
         }).then(function (member) {

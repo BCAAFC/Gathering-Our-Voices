@@ -104,7 +104,9 @@ module.exports = function (db, redis) {
                 if (members === []) { throw new Error("Member not found."); }
                 var member = members[0];
                 if (session.Members.length < session.capacity) {
-                    return session.addMember(member);
+                    return member.checkConflicts(session).then(function () {
+                        return session.addMember(member);
+                    });
                 } else {
                     throw new Error("Session full.");
                 }

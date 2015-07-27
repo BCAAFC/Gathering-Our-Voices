@@ -175,6 +175,25 @@ module.exports = function (sequelize, DataTypes) {
                 Member.belongsToMany(models.Session, { through: "MemberSession" });
             },
         },
+        instanceMethods: {
+            checkConflicts: function (target) {
+                return this.getSessions().then(function (sessions) {
+                    return sessions.some(function (val) {
+                        if (target.id === val.id) {
+                            throw new Error("Member already in this workshop.");
+                        } else if (target.start < val.start && target.end < val.start) {
+                            // Starts before, ends before.
+                            return false;
+                        } else if (target.start > val.end && target.end > val.end) {
+                            // Starts after, ends after.
+                            return false;
+                        } else {
+                            throw new Error("Member in conflicting workshop.");
+                        }
+                    });
+                });
+            },
+        },
         hooks: {
             beforeCreate: beforeHook,
             beforeUpdate: beforeHook,

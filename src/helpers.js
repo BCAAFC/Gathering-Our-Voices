@@ -251,7 +251,8 @@ module.exports = function (hbs) {
             session = options.hash.session,
             workshop = options.hash.workshop,
             note = "",
-            disabled = false;
+            disabled = false,
+            conflict = null;
         if (workshop.audience.indexOf(member.type) === -1) {
             disabled = true;
             note = "(Ineligible)";
@@ -272,12 +273,16 @@ module.exports = function (hbs) {
                     return false;
                 } else {
                     note = "(Conflict)";
-                    return true;
+                    conflict = val.WorkshopId;
+                    return false;
                 }
             });
         }
         if (disabled) { disabled = "disabled"; }
-        return "<option "+disabled+" name=member value="+member.id+">"+member.name+" "+note+"</option>";
+        if (conflict !== null) {
+            conflict = "conflict=\"" + conflict + "\"";
+        } else { conflict = ""; }
+        return "<option "+disabled+" "+conflict+" name=member value="+member.id+">"+member.name+" "+note+"</option>";
     });
 
     hbs.registerHelper("if-in-session", function (options) {
