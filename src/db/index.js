@@ -12,7 +12,7 @@ module.exports = function (env) {
             logging: (process.env.PG_LOG === "true") ? console.log : false, // Switch to `console.log` for output.
         }),
         db        = {};
-    
+
     // Read in schemas.
     fs.readdirSync(__dirname)
         .filter(function (file) {
@@ -26,13 +26,13 @@ module.exports = function (env) {
     // Associate.
     Object.keys(db).forEach(function (modelName) {
         if ("associate" in db[modelName]) {
+            console.log("Associating " + modelName);
             db[modelName].associate(db);
         }
     });
-    
+
     // Auxilary.
     db.sequelize = sequelize;
-    db.Sequelize = Sequelize;
 
     return db;
 };

@@ -1,0 +1,132 @@
+<form action='/api/volunteer/{{volunteer.id}}' method='POST' class="form-horizontal">
+    {{#if volunteer}}
+        <input style="display: none;" name="_method" value="PUT">
+        <legend>Update Existing Volunteer Registration</legend>
+    {{else}}
+        <legend>Register as a Volunteer</legend>
+    {{/if}}
+
+    {{{form_input title="Emergency Contact" name="emergencyName" type="text" value=volunteer.emergencyName required=true}}}
+    {{{form_input title="Emergency Phone Number" name="emergencyPhone" type="text" value=volunteer.emergencyPhone required=true}}}
+
+    <h3>Your Availability & Schedule</h3>
+    {{#unless flags.volunteerRegistration}}
+        <div class="alert alert-warning">Modifying your availability is now locked, please contact the volunteer coordinator to change your schedule.</div>
+    {{/unless}}
+    {{#if volunteer}}
+        <div id="availability" class="row">
+            {{#each volunteer.schedule}}
+                <div id="{{day}}" class="form-group col-sm-4">
+                    <table class="table">
+                        <thead>
+                            <tr><th colspan=3>{{day}}</th></tr>
+                            <tr><th>Avail?</th><th>Time</th><th>Scheduled</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" name="{{day}}-morning-available" {{#if this.morning.available}} checked="checked" {{/if}} {{#unless ../admin}}{{#unless ../flags.volunteerRegistration}} disabled {{/unless}}{{/unless}}></td>
+                                <td>Morning</td>
+                                {{#if ../admin}}
+                                    <td><input type=text name="{{day}}-morning-scheduled" value="{{morning.scheduled}}"></td>
+                                {{else}}
+                                    <td><pre>{{morning.scheduled}}</pre></td>
+                                {{/if}}
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="{{day}}-afternoon-available" {{#if this.afternoon.available}} checked="checked" {{/if}} {{#unless ../admin}}{{#unless ../flags.volunteerRegistration}} disabled {{/unless}}{{/unless}}></td>
+                                <td>Afternoon</td>
+                                {{#if ../admin}}
+                                    <td><input type=text name="{{day}}-afternoon-scheduled" value="{{afternoon.scheduled}}"></td>
+                                {{else}}
+                                    <td><pre>{{afternoon.scheduled}}</pre></td>
+                                {{/if}}
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="{{day}}-evening-available" {{#if this.evening.available}} checked="checked" {{/if}} {{#unless ../admin}}{{#unless ../flags.volunteerRegistration}} disabled {{/unless}}{{/unless}}></td>
+                                <td>Evening</td>
+                                {{#if ../admin}}
+                                    <td><input type=text name="{{day}}-evening-scheduled" value="{{evening.scheduled}}"></td>
+                                {{else}}
+                                    <td><pre>{{evening.scheduled}}</pre></td>
+                                {{/if}}
+                            </tr>
+                        </tbody>
+                    </table></td>
+                </div>
+            {{/each}}
+        </div>
+    {{else}}
+        <div id="availability" class="row">
+            {{#each schedule}}
+                <div id="{{day}}" class="form-group col-sm-4">
+                    <table class="table">
+                        <thead>
+                            <tr><th colspan=3>{{day}}</th></tr>
+                            <tr><th>Avail?</th><th>Time</th><th>Scheduled</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="checkbox" name="{{day}}-morning-available" {{#if this.morning.available}} checked="checked" {{/if}}></td>
+                                <td>Morning</td>
+                                <td><small>Pending Availability</small></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="{{day}}-afternoon-available" {{#if this.afternoon.available}} checked="checked" {{/if}}></td>
+                                <td>Afternoon</td>
+                                <td><small>Pending Availability</small></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="{{day}}-evening-available" {{#if this.evening.available}} checked="checked" {{/if}}></td>
+                                <td>Evening</td>
+                                <td><small>Pending Availability</small></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            {{/each}}
+        </div>
+    {{/if}}
+
+    <div class="form-group">
+        <p class="lead">Shirt Size</p>
+        <label>
+            Extra Small
+            <input type="radio" name="tshirt" value="Extra Small" required=true {{#eq volunteer.tshirt "Extra Small"}} checked=true {{/eq}}>
+        </label>
+        <label>
+            Small
+            <input type="radio" name="tshirt" value="Small" required=true {{#eq volunteer.tshirt "Small"}} checked=true {{/eq}}>
+        </label>
+        <label>
+            Medium
+            <input type="radio" name="tshirt" value="Medium" required=true {{#eq volunteer.tshirt "Medium"}} checked=true {{/eq}}>
+        </label>
+        <label>
+            Large
+            <input type="radio" name="tshirt" value="Large" required=true {{#eq volunteer.tshirt "Large"}} checked=true {{/eq}}>
+        </label>
+        <label>
+            Extra Large
+            <input type="radio" name="tshirt" value="Extra Large" required=true {{#eq volunteer.tshirt "Extra Large"}} checked=true {{/eq}}>
+        </label>
+    </div>
+
+    {{{form_textarea title="Previous Volunteer Experience" name="previousExperience" value=volunteer.previousExperience required=true}}}
+
+    {{{form_textarea title="Areas of Interest" name="interests" value=volunteer.interests required=true}}}
+
+    {{{form_textarea title="Other Notes" name="notes" value=volunteer.notes required=true}}}
+
+    {{{form_input title="Criminal Record Check Applied for" name="applied" type="checkbox" value=volunteer.applied
+        description="You will be required to fulfill a Criminal Record Check using <a target='blank' href='https://justice.gov.bc.ca/eCRC/'>this link</a> and access code <code>2LMZZ4EHQ6</code>. Please tick this when you are done so we know you have applied."}}}
+
+    {{#if volunteer}}
+        <div class="form-group">
+            <input class="btn btn-block btn-primary" type="submit" value="Update">
+        </div>
+    {{else}}
+        <div class="form-group">
+            <input class="btn btn-block btn-primary" type="submit" value="Apply">
+        </div>
+    {{/if}}
+</form>

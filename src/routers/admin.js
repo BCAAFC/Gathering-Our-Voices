@@ -155,13 +155,20 @@ module.exports = function (db, redis) {
     router.route("/payments")
     .get(function (req, res) {
         db.Payment.findAll().then(function (payments) {
+            var columns = Object.keys(db.Payment.attributes)
+                .map(function (v) {
+                    var val = v[0].toUpperCase() + v.slice(1);
+                    return { title: val, data: v, className: v };
+                });
+
             res.render("admin/payments", {
                 title: "Administration - Payments",
                 account: req.session.account,
                 admin: req.session.isAdmin,
                 flags: db.Flag.cache(),
                 alert: req.alert,
-                payments: payments,
+                data: payments,
+                columns: columns,
             });
         }).catch(function (error) {
             console.warn(error.message);
@@ -171,14 +178,24 @@ module.exports = function (db, redis) {
 
     router.route("/volunteers")
     .get(function (req, res) {
-        db.Volunteer.findAll().then(function (volunteers) {
+        db.Volunteer.findAll({
+            include: [db.Account, ],
+        }).then(function (volunteers) {
+            var columns = Object.keys(db.Volunteer.attributes)
+                .map(function (v) {
+                    var val = v[0].toUpperCase() + v.slice(1);
+                    return { title: val, data: v, className: v };
+                });
+            columns.splice(1, 0, { title: "Name", data: "Account.name", className: "name", });
+            columns.splice(2, 0, { title: "Affiliation", data: "Account.affiliation", className: "affiliation", });
             res.render("admin/volunteers", {
                 title: "Administration - Volunteers",
                 account: req.session.account,
                 admin: req.session.isAdmin,
                 alert: req.alert,
                 flags: db.Flag.cache(),
-                volunteers: volunteers,
+                data: volunteers,
+                columns: columns,
             });
         }).catch(function (error) {
             console.warn(error.message);

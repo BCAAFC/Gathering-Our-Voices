@@ -39,7 +39,7 @@
                 {
                     targets: [6, 9, 10, 11, 20, 25 ], // CategoryReason, Description, Summary, InteractionLevel, Biography, Notes
                     render: function (data, type, row) {
-                        if (row.notes) {
+                        if (data) {
                             return "<i class=\"btn btn-xs btn-info fa fa-plus\"></i>";
                         } else {
                             return "<i class=\"btn btn-xs btn-default fa fa-plus\"></i>";

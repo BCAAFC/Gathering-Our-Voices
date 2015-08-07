@@ -181,6 +181,7 @@ module.exports = function (db, redis) {
         }).then(function (workshop) {
             res.status(200).json({ state: workshop.approved, });
         }).catch(function (error) {
+            console.log(error);
             res.status(500).json({ error: error.message });
         });
     });
@@ -196,6 +197,7 @@ module.exports = function (db, redis) {
         }).then(function (workshop) {
             res.status(200).json({ state: workshop.verified, });
         }).catch(function (error) {
+            console.log(error);
             res.status(500).json({ error: error.message });
         });
     });

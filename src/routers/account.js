@@ -9,7 +9,7 @@ module.exports = function (db, redis) {
     .get(function (req, res) {
         db.Account.findOne({
             where: { id: req.session.account.id, },
-            include: [db.Workshop, db.Exhibitor, db.Group],
+            include: [db.Workshop, db.Exhibitor, db.Group, db.Volunteer],
         }).then(function (account) {
             req.session.account = account;
             res.render("account/index", {
@@ -226,12 +226,17 @@ module.exports = function (db, redis) {
             include: [db.Volunteer]
         }).then(function (account) {
             req.session.account = account;
+            var schedule;
+            if (!account.Volunteer) {
+                schedule = db.Volunteer.build({ }).schedule;
+            }
             res.render("account/volunteer", {
                 title: "Account - Volunteer",
                 account: account,
                 admin: req.session.isAdmin,
                 flags: db.Flag.cache(),
                 alert: req.alert,
+                schedule: schedule, // Used on empty volunteer.
             });
         }).catch(function (error) {
             alert.error(req, error.message);
