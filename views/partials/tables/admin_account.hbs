@@ -23,7 +23,13 @@
                     },
                 },
                 {
-                    targets: [ -1, ], // Volunteers
+                    targets: [ -1, ], // Delete
+                    render: function (data, type, row) {
+                        return "<a href='/api/account/delete/" + row.id + "' class='btn btn-xs btn-danger' onclick='return confirm(\'Are you sure?\')'><i class='fa fa-fw fa-trash'></i></a>";
+                    }
+                },
+                {
+                    targets: [ -2, ], // Volunteers
                     render: function (data, type, row) {
                         if (data) {
                             return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/volunteer\">" + row.Volunteer.id + "</a>";
@@ -33,7 +39,7 @@
                     },
                 },
                 {
-                    targets: [ -2, ], // Workshop
+                    targets: [ -3, ], // Workshop
                     render: function (data, type, row) {
                         if (data) {
                             return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/workshop\">" + row.Workshop.id + "</a>";
@@ -43,7 +49,7 @@
                     },
                 },
                 {
-                    targets: [ -3, ], // Exhibitor
+                    targets: [ -4, ], // Exhibitor
                     render: function (data, type, row) {
                         if (data) {
                             return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/exhibitor\">" + row.Exhibitor.id + "</a>";
@@ -53,7 +59,7 @@
                     },
                 },
                 {
-                    targets: [ -4, ], // Group
+                    targets: [ -5, ], // Group
                     render: function (data, type, row) {
                         if (data) {
                             return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/group\">" + row.Group.id + "</a>";
@@ -63,13 +69,13 @@
                     },
                 },
                 {
-                    targets: [ -6, -7 ], // Created and Updated at
+                    targets: [ -7, -8 ], // Created and Updated at
                     render: function (data, type, row) {
                         return new Date(data).toLocaleString();
                     },
                 },
                 {
-                    targets: [-7, -8], // Notes
+                    targets: [-9, -10], // Notes
                     render: function (data, type, row) {
                         if (data) {
                             return "<i class=\"btn btn-xs btn-info fa fa-plus\"></i>";

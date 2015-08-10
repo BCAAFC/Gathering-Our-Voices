@@ -32,6 +32,7 @@ module.exports = function (db, redis) {
             columns.push({ title: "Exhibitor", data: "Exhibitor", className: "Exhibitor", });
             columns.push({ title: "Workshop", data: "Workshop", className: "Workshop", });
             columns.push({ title: "Volunteer", data: "Volunteer", className: "Volunteer", });
+            columns.push({ title: "Delete", data: null, className: "Delete", });
 
             res.render("admin/accounts", {
                 title: "Administration - Accounts",
@@ -61,6 +62,8 @@ module.exports = function (db, redis) {
                     return { title: val, data: v, className: v };
                 });
             columns.splice(2, 0, { title: "Members", data: "Members", className: "members" });
+            columns.push({ title: "Delete", data: null, className: "Delete", });
+
             res.render("admin/groups", {
                 title: "Administration - Groups",
                 account: req.session.account,
@@ -87,6 +90,8 @@ module.exports = function (db, redis) {
                     var val = v[0].toUpperCase() + v.slice(1);
                     return { title: val, data: v, className: v };
                 });
+            columns.push({ title: "Delete", data: null, className: "Delete", });
+
             res.render("admin/members", {
                 title: "Administration - Members",
                 account: req.session.account,
@@ -115,6 +120,8 @@ module.exports = function (db, redis) {
                     return { title: val, data: v, className: v };
                 });
             columns.splice(1, 0, { title:"Sessions", data: "Sessions", className: "sessions" });
+            columns.push({ title: "Delete", data: null, className: "Delete", });
+
             res.render("admin/workshops", {
                 title: "Administration - Workshops",
                 account: req.session.account,
@@ -145,6 +152,8 @@ module.exports = function (db, redis) {
                     return { title: val, data: v, className: v };
                 });
             columns.splice(1, 0, { title:"Affiliation", data: "Account.affiliation", className: "affiliation" });
+            columns.push({ title: "Delete", data: null, className: "Delete", });
+
             res.render("admin/exhibitors", {
                 title: "Administration - Exhibitors",
                 account: req.session.account,
@@ -168,6 +177,7 @@ module.exports = function (db, redis) {
                     var val = v[0].toUpperCase() + v.slice(1);
                     return { title: val, data: v, className: v };
                 });
+            columns.push({ title: "Delete", data: null, className: "Delete", });
 
             res.render("admin/payments", {
                 title: "Administration - Payments",
@@ -196,6 +206,8 @@ module.exports = function (db, redis) {
                 });
             columns.splice(1, 0, { title: "Name", data: "Account.name", className: "name", });
             columns.splice(2, 0, { title: "Affiliation", data: "Account.affiliation", className: "affiliation", });
+            columns.push({ title: "Delete", data: null, className: "Delete", });
+            
             res.render("admin/volunteers", {
                 title: "Administration - Volunteers",
                 account: req.session.account,

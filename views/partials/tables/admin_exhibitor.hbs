@@ -28,25 +28,31 @@
                     },
                 },
                 {
-                    targets: -1,
+                    targets: [ -1, ], // Delete
+                    render: function (data, type, row) {
+                        return "<a href='/api/exhibitor/delete/" + row.id + "' class='btn btn-xs btn-danger' onclick='return confirm(\'Are you sure?\')'><i class='fa fa-fw fa-trash'></i></a>";
+                    }
+                },
+                {
+                    targets: -2,
                     render: function (data, type, row) {
                         return "<a class=\"btn btn-primary\" href=\"/admin/manage/"+row.AccountId+"\">"+data+"</a>";
                     },
                 },
                 {
-                    targets: [ -2, -3 ], // Created and Updated at
+                    targets: [ -3, -4 ], // Created and Updated at
                     render: function (data, type, row) {
                         return new Date(data).toLocaleString();
                     },
                 },
                 {
-                    targets: -4, // Tags
+                    targets: -5, // Tags
                     render: function (data, type, row) {
                         return  "<input class=\"tags\" data-id=\""+row.id+"\" data-role=\"tagsinput\" value=\""+data+"\">";
                     },
                 },
                 {
-                    targets: -5, // Approved
+                    targets: -6, // Approved
                     render: function (data, type, row) {
                         if (data === true) {
                             return "<a class=\"approval btn btn-xs btn-success\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-check\"></i></a>";
@@ -56,7 +62,7 @@
                     }
                 },
                 {
-                    targets: -6, // Verified
+                    targets: -7, // Verified
                     render: function (data, type, row) {
                         if (data === true) {
                             return "<a class=\"verification btn btn-xs btn-success\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-check\"></i></a>";
