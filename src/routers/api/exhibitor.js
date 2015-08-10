@@ -1,4 +1,5 @@
-var middleware = require("../../middleware");
+var middleware = require("../../middleware"),
+    alert = require("../../alert");
 
 module.exports = function (db, redis) {
     var router = require("express").Router();
@@ -55,12 +56,6 @@ module.exports = function (db, redis) {
             if (req.body.electrical === "No") { req.body.electrical = false; }
             if (req.body.delegateBags === "Yes") { req.body.delegateBags = true; } else
             if (req.body.delegateBags === "No") { req.body.delegateBags = false; }
-            // Strip
-            if (!req.session.isAdmin) {
-                delete req.body.verified;
-                delete req.body.approved;
-                delete req.body.tags;
-            }
 
             return exhibitor;
         }).then(function (exhibitor) {
@@ -72,19 +67,41 @@ module.exports = function (db, redis) {
             exhibitor.payment = req.body.payment || exhibitor.payment;
 
             if (req.session.isAdmin) {
-                exhibitor.verified = req.body.verified;
-                exhibitor.approved = req.body.approved;
-                exhibitor.tags = req.body.tags;
+                exhibitor.verified = req.body.verified || exhibitor.verified;
+                exhibitor.approved = req.body.approved || exhibitor.approved;
+                exhibitor.tags = req.body.tags || exhibitor.tags;
             }
 
             return exhibitor.save();
         }).then(function (account) {
             res.format({
                 'text/html': function () {
-                    alert.sucess(req, "Exhibitor application updated.");
+                    alert.success(req, "Exhibitor application updated.");
                     res.redirect('back');
                 },
                 'default': function () { res.status(200).json(account); },
+            });
+        }).catch(function (error) {
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
+        });
+    });
+
+    router.route("/delete/:id")
+    .get(middleware.admin, function (req, res) {
+        db.Exhibitor.findOne({
+            where: { id: req.params.id, },
+        }).then(function (exhibitor) {
+            return exhibitor.destroy();
+        }).then(function () {
+            res.format({
+                'text/html': function () {
+                    alert.sucess(req, "Exhibitor deleted.");
+                    res.redirect('back');
+                },
+                'default': function () { res.status(200).json({}); },
             });
         }).catch(function (error) {
             res.format({

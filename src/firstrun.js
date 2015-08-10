@@ -1,99 +1,47 @@
+var fs = require("fs");
+
 module.exports = function (env, db) {
     db.sequelize.sync().then(function () {
         return db.Page.create({
             path: "/register",
             title: "Register",
-            content: "{{> account_form null}}",
+            content: fs.readFileSync("views/firstrun/register.hbs", { encoding: "utf8", }),
         });
     }).then(function () {
         return db.Page.create({
             path: "/login",
             title: "Login",
-            content: "{{> login_form}}",
-        });
-    }).then(function () {
-        return db.Page.create({
-            path: "/",
-            title: "Home",
-            content: "",
+            content: fs.readFileSync("views/firstrun/login.hbs", { encoding: "utf8", }),
         });
     }).then(function () {
         return db.Page.create({
             path: "/news",
             title: "News",
-            content: "",
+            content: fs.readFileSync("views/firstrun/news.hbs", { encoding: "utf8", }),
         });
     }).then(function () {
         return db.Page.create({
             path: "/about",
             title: "About",
-            content: "",
+            content: fs.readFileSync("views/firstrun/about.hbs", { encoding: "utf8", }),
         });
     }).then(function () {
         return db.Page.create({
             path: "/schedule",
             title: "Schedule",
-            content: "",
+            content: fs.readFileSync("views/firstrun/schedule.hbs", { encoding: "utf8", }),
         });
     }).then(function () {
         return db.Page.create({
             path: "/venues",
             title: "Venues",
-            content: "",
-        });
-    }).then(function () {
-        return db.Page.create({
-            path: "/workshops",
-            title: "Workshops",
-            content: "",
+            content: fs.readFileSync("views/firstrun/venues.hbs", { encoding: "utf8", }),
         });
     }).then(function () {
         return db.Page.create({
             path: "/faq",
             title: "faq",
-            content: "",
-        });
-    }).then(function () {
-        return db.Page.create({
-            path: "/account",
-            title: "Account",
-            content: "",
-            requirements: "Authenticated",
-        });
-    }).then(function () {
-        return db.Page.create({
-            path: "/admin",
-            title: "Administration",
-            content: "<meta http-equiv=refresh content=0;url=/admin/accounts>",
-            requirements: "Administrator",
-        });
-    }).then(function () {
-        return db.Page.create({
-            path: "/admin/accounts",
-            title: "Administration - Accounts",
-            content: "{{> admin_bar}}\n{{> admin_account_table}}",
-            requirements: "Administrator",
-        });
-    }).then(function () {
-        return db.Page.create({
-            path: "/admin/groups",
-            title: "Administration - Groups",
-            content: "{{> admin_bar}}\n{{> admin_group_table}}",
-            requirements: "Administrator",
-        });
-    }).then(function () {
-        return db.Page.create({
-            path: "/admin/workshops",
-            title: "Administration - Workshops",
-            content: "{{> admin_bar}}\n{{> admin_workshop_table}}",
-            requirements: "Administrator",
-        });
-    }).then(function () {
-        return db.Page.create({
-            path: "/admin/exhibitors",
-            title: "Administration - exhibitors",
-            content: "{{> admin_bar}}\n{{> admin_exhibitor_table}}",
-            requirements: "Administrator",
+            content: fs.readFileSync("views/firstrun/faq.hbs", { encoding: "utf8", }),
         });
     }).then(function () {
         return console.log("Done $FIRSTRUN.");

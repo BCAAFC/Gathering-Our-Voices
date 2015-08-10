@@ -105,7 +105,7 @@ module.exports = function (sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-                Volunteer.belongsTo(models.Account);
+                Volunteer.belongsTo(models.Account, { onDelete: 'CASCADE', });
             },
         },
         hooks: {

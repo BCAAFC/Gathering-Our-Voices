@@ -32,7 +32,7 @@ module.exports = function (db, redis) {
             columns.push({ title: "Exhibitor", data: "Exhibitor", className: "Exhibitor", });
             columns.push({ title: "Workshop", data: "Workshop", className: "Workshop", });
             columns.push({ title: "Volunteer", data: "Volunteer", className: "Volunteer", });
-            columns.push({ title: "Delete", data: null, className: "Delete", });
+            // columns.push({ title: "Delete", data: null, className: "Delete", });
 
             res.render("admin/accounts", {
                 title: "Administration - Accounts",
@@ -53,7 +53,13 @@ module.exports = function (db, redis) {
     router.route("/groups")
     .get(function (req, res) {
         db.Group.findAll({
-            include: [ db.Member, ],
+            include: [{
+                model: db.Member,
+                attributes: ['type', ],
+            }, {
+                model: db.Account,
+                attributes: ['affiliation', ],
+            }],
             order: [ "Group.AccountId", ],
         }).then(function (groups) {
             var columns = Object.keys(db.Group.attributes)
@@ -61,7 +67,8 @@ module.exports = function (db, redis) {
                     var val = v[0].toUpperCase() + v.slice(1);
                     return { title: val, data: v, className: v };
                 });
-            columns.splice(2, 0, { title: "Members", data: "Members", className: "members" });
+            columns.splice(1, 0, { title: "Affiliation", data: "Account.affiliation", className: "Affiliation" });
+            columns.splice(2, 0, { title: "Members", data: "Members", className: "Members" });
             columns.push({ title: "Delete", data: null, className: "Delete", });
 
             res.render("admin/groups", {
@@ -207,7 +214,7 @@ module.exports = function (db, redis) {
             columns.splice(1, 0, { title: "Name", data: "Account.name", className: "name", });
             columns.splice(2, 0, { title: "Affiliation", data: "Account.affiliation", className: "affiliation", });
             columns.push({ title: "Delete", data: null, className: "Delete", });
-            
+
             res.render("admin/volunteers", {
                 title: "Administration - Volunteers",
                 account: req.session.account,

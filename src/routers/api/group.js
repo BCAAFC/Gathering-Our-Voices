@@ -28,7 +28,7 @@ module.exports = function (db, redis) {
             res.format({
                 'text/html': function () {
                     alert.success(req, "Group Declared.");
-                    res.redirect('/account');
+                    res.redirect('/account/group');
                 },
                 'default': function () { res.status(200).json(account); },
             });
@@ -89,8 +89,10 @@ module.exports = function (db, redis) {
             });
         });
     })
+
     // Delete a group.
-    .delete(middleware.admin, function (req, res) {
+    router.route("/delete/:id")
+    .get(middleware.admin, function (req, res) {
         db.Group.findOne({
             where: { id: req.params.id, },
             include: [ db.Account ],
@@ -103,9 +105,18 @@ module.exports = function (db, redis) {
             }
             return group.destroy();
         }).then(function () {
-            res.status(200).json({});
+            res.format({
+                'text/html': function () {
+                    alert.success(req, "Group deleted.");
+                    res.redirect('/admin/groups');
+                },
+                'default': function () { res.status(200).json(account); },
+            });
         }).catch(function (error) {
-            res.status(401).json({ error: error.message });
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
         });
     });
 

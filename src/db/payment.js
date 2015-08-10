@@ -34,7 +34,7 @@ module.exports = function (sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function(models) {
-                Payment.belongsTo(models.Account);
+                Payment.belongsTo(models.Account, { onDelete: 'CASCADE', });
             }
         }
     });

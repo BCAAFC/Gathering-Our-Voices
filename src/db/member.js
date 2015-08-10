@@ -176,8 +176,8 @@ module.exports = function (sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function (models) {
-                Member.belongsTo(models.Group);
-                Member.belongsToMany(models.Session, { through: "MemberSession" });
+                Member.belongsTo(models.Group, { onDelete: 'CASCADE', });
+                Member.belongsToMany(models.Session, { through: "MemberSession", onDelete: 'CASCADE', });
             },
         },
         instanceMethods: {

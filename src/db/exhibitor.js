@@ -104,7 +104,7 @@ module.exports = function (sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function (models) {
-                Exhibitor.belongsTo(models.Account);
+                Exhibitor.belongsTo(models.Account, { onDelete: 'CASCADE', });
             },
         },
         hooks: {

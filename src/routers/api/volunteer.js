@@ -172,34 +172,27 @@ module.exports = function (db, redis) {
         });
     });
 
-    // We use an `a` elem to do this can it can't be a DELETE
-    // router.route("/delete/:id")
-    // .get(middleware.auth, function (req, res) {
-    //     db.Member.findOne({
-    //         where: { id: req.params.id, },
-    //     }).then(function (member) {
-    //         // Error checking.
-    //         if (!member) { throw new Error("Member not found."); }
-    //         if (!req.session.account.Group || member.GroupId !== req.session.account.Group.id) {
-    //             throw new Error("Member is not in your group.");
-    //         }
-    //         // TODO: Verify relationships are destroyed too?
-    //         return member.destroy();
-    //     }).then(function (member) {
-    //         res.format({
-    //             'text/html': function () {
-    //                 alert.success(req, "Member deleted.");
-    //                 res.redirect('/account/group');
-    //             },
-    //             'default': function () { res.status(200).json(account); },
-    //         });
-    //     }).catch(function (error) {
-    //         res.format({
-    //             'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
-    //             'default': function () { res.status(401).json({ error: error.message }); },
-    //         });
-    //     });
-    // });
+    router.route("/delete/:id")
+    .get(middleware.admin, function (req, res) {
+        db.Volunteer.findOne({
+            where: { id: req.params.id, },
+        }).then(function (volunteer) {
+            return volunteer.destroy();
+        }).then(function () {
+            res.format({
+                'text/html': function () {
+                    alert.sucess(req, "Volunteer deleted.");
+                    res.redirect('back');
+                },
+                'default': function () { res.status(200).json({}); },
+            });
+        }).catch(function (error) {
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
+        });
+    });
 
     router.route("/:id/approval")
     .put(middleware.admin, function (req, res) {

@@ -83,7 +83,7 @@
         $(document).ready(function () {
             $("select[name='member']").change(function () {
                 var conflict = $(this).find(":selected").attr("conflict");
-                if (confirm("Would you like to browse to the conflicting workshop?")) {
+                if (conflict && confirm("Would you like to browse to the conflicting workshop?")) {
                     window.location = "/workshops/" + conflict;
                 }
             });

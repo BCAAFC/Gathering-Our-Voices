@@ -94,11 +94,12 @@ module.exports = function (sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function (models) {
-                Account.hasOne(models.Group);
-                Account.hasOne(models.Exhibitor);
-                Account.hasOne(models.Volunteer);
-                Account.hasOne(models.Workshop);
-                Account.hasMany(models.Payment);
+                // All things associated with an account should delete when it is.
+                Account.hasOne(models.Group, {onDelete: 'CASCADE'});
+                Account.hasOne(models.Exhibitor, {onDelete: 'CASCADE'});
+                Account.hasOne(models.Volunteer, {onDelete: 'CASCADE'});
+                Account.hasOne(models.Workshop, {onDelete: 'CASCADE'});
+                Account.hasMany(models.Payment, {onDelete: 'CASCADE'});
             },
             auth: function (email, pass) {
                 return Account.findOne({

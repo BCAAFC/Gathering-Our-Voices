@@ -167,8 +167,8 @@ module.exports = function (sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function (models) {
-                Workshop.hasMany(models.Session);
-                Workshop.belongsTo(models.Account);
+                Workshop.hasMany(models.Session, {onDelete: 'CASCADE'});
+                Workshop.belongsTo(models.Account, { onDelete: 'CASCADE', });
             },
             approved: function () {
                 return this.findAll({

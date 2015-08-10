@@ -119,22 +119,22 @@ module.exports = function (db, redis) {
         });
     })
     // Delete an account.
-    .delete(middleware.admin, function (req, res) {
-        db.Account.findOne({ where: { id: req.params.id, }, }).then(function (account) {
-            if (!account) { throw new Error("Account doesn't exist"); }
-            return account.destroy();
-        }).then(function () {
-            res.format({
-                'text/html': function () { alert.error(req, error.message); res.redirect('/account'); },
-                'default': function () { res.status(200).json({}); },
-            });
-        }).catch(function (error) {
-            res.format({
-                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
-                'default': function () { res.status(401).json({ error: error.message }); },
-            });
-        });
-    });
+    // .delete(middleware.admin, function (req, res) {
+    //     db.Account.findOne({ where: { id: req.params.id, }, }).then(function (account) {
+    //         if (!account) { throw new Error("Account doesn't exist"); }
+    //         return account.destroy();
+    //     }).then(function () {
+    //         res.format({
+    //             'text/html': function () { alert.error(req, error.message); res.redirect('/account'); },
+    //             'default': function () { res.status(200).json({}); },
+    //         });
+    //     }).catch(function (error) {
+    //         res.format({
+    //             'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+    //             'default': function () { res.status(401).json({ error: error.message }); },
+    //         });
+    //     });
+    // });
 
     router.route("/recovery")
     .get(function (req, res) {

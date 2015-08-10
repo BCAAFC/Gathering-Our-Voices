@@ -35,7 +35,7 @@ module.exports = function (sequelize, DataTypes) {
     }, {
         classMethods: {
             associate: function (models) {
-                Group.hasMany(models.Member);
+                Group.hasMany(models.Member, {onDelete: 'CASCADE'});
                 Group.belongsTo(models.Account);
             }
         },

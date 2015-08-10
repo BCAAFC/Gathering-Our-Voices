@@ -158,7 +158,7 @@ module.exports = function (db, redis) {
         }).then(function (member) {
             // Error checking.
             if (!member) { throw new Error("Member not found."); }
-            if (!req.session.account.Group || member.GroupId !== req.session.account.Group.id) {
+            if ((!req.session.account.Group || member.GroupId !== req.session.account.Group.id) && !req.session.isAdmin) {
                 throw new Error("Member is not in your group.");
             }
             // TODO: Verify relationships are destroyed too?

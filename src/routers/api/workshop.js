@@ -40,11 +40,12 @@ module.exports = function (db, redis) {
         }).then(function (account) {
             res.format({
                 'text/html': function () {
-                    alert.sucess(req, "Facilitator application created.");
+                    alert.success(req, "Facilitator application created.");
                     res.redirect('back');
                 },
                 'default': function () { res.status(200).json(account); },
             });
+            console.log("post-respond");
         }).catch(function (error) {
             console.log(error);
             res.format({
@@ -119,6 +120,32 @@ module.exports = function (db, redis) {
             res.format({
                 'text/html': function () {
                     alert.success(req, "Facilitator application updated.");
+                    res.redirect('back');
+                },
+                'default': function () { res.status(200).json(workshop); },
+            });
+        }).catch(function (error) {
+            console.log(error);
+            res.format({
+                'text/html': function () {
+                    alert.error(req, error.message);
+                    res.redirect('back');
+                },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
+        });
+    });
+
+    router.route("/delete/:id")
+    .get(middleware.admin, function (req, res) {
+        db.Workshop.findOne({
+            where: { id: req.params.id, },
+        }).then(function (workshop) {
+            return workshop.destroy();
+        }).then(function (workshop) {
+            res.format({
+                'text/html': function () {
+                    alert.success(req, "Workshop destroyed.");
                     res.redirect('back');
                 },
                 'default': function () { res.status(200).json(workshop); },
