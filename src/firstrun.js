@@ -40,8 +40,14 @@ module.exports = function (env, db) {
     }).then(function () {
         return db.Page.create({
             path: "/faq",
-            title: "faq",
+            title: "F.A.Q.s",
             content: fs.readFileSync("views/firstrun/faq.hbs", { encoding: "utf8", }),
+        });
+    }).then(function () {
+        return db.Page.create({
+            path: "/privacy",
+            title: "Privacy Policy",
+            content: fs.readFileSync("views/firstrun/privacy.hbs", { encoding: "utf8", }),
         });
     }).then(function () {
         return console.log("Done $FIRSTRUN.");
