@@ -284,6 +284,51 @@ module.exports = function (db, redis) {
         });
     });
 
+    router.route("/emails")
+    .get(function (req, res) {
+        Promise.join(
+            // All accounts
+            db.Account.findAll({
+                attributes: ['name', 'email', ],
+            }),
+            // All groups
+            db.Group.findAll({
+                attributes: [],
+                include: [{ model: db.Account, attributes: [ 'name', 'email', ], }],
+            }),
+            db.Exhibitor.findAll({
+                where: { approved: true, },
+                attributes: [],
+                include: [{ model: db.Account, attributes: [ 'name', 'email', ], }],
+            }),
+            db.Workshop.findAll({
+                where: { approved: true, },
+                attributes: [],
+                include: [{ model: db.Account, attributes: [ 'name', 'email', ], }],
+            }),
+            db.Volunteer.findAll({
+                where: { approved: true, },
+                attributes: [],
+                include: [{ model: db.Account, attributes: [ 'name', 'email', ], }],
+            }),
+            function (accounts, groups, appExhibitors, appFacilitators, appVolunteers) {
+                res.render("admin/emails", {
+                    title: "Administration - Emails",
+                    account: req.session.account,
+                    admin: req.session.isAdmin,
+                    alert: req.alert,
+                    flags: db.Flag.cache(),
+                    // Page specific
+                    accounts: accounts,
+                    groups: groups,
+                    appExhibitors: appExhibitors,
+                    appFacilitators: appFacilitators,
+                    appVolunteers: appVolunteers,
+                })
+            }
+        );
+    });
+
     router.route("/flags")
     .get(function (req, res) {
         res.render("admin/flags", {

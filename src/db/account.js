@@ -1,7 +1,7 @@
 "use strict";
 var bcrypt = require("bcrypt"),
     Promise = require("bluebird"),
-    mail = require("../mail").mail;
+    mail = require("../communication").mail;
 
 var compare = Promise.promisify(bcrypt.compare);
 
@@ -154,6 +154,7 @@ module.exports = function (sequelize, DataTypes) {
                 self.misc.recovery = Math.random().toString(36).slice(2);
                 return mail(
                     [{ email: self.email, name: self.organization, }],
+                    { email: "dpreston@bcaafc.com", name: "Della Preston", },
                     [],
                     "Account Recovery",
                     "recovery",
@@ -177,18 +178,19 @@ module.exports = function (sequelize, DataTypes) {
             beforeCreate: hashPasswordHook,
             beforeUpdate: hashPasswordHook,
             afterCreate: function (account) {
-                return mail(
-                    [{ email: account.email, name: account.affiliation, }], // To
-                    [{ email: "dpreston@bcaafc.com", name: "Della Preston", }], // CC
-                    "Registration Confirmation",
-                    "registration",
-                    [
+                return mail({
+                    to: [{ email: account.email, name: account.affiliation, }], // To
+                    from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
+                    cc: [],
+                    title: "Registration Confirmation",
+                    file: "registration",
+                    variables: [
                         { name: "name", content: account.name, },
                         { name: "affilation", content: account.affilation, },
-                    ]
-                );
+                    ],
+                });
             },
-        }
+        },
     });
 
     return Account;

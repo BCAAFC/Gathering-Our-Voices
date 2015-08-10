@@ -9,15 +9,15 @@ var fs = require("fs"),
 var readFile = Promise.promisify(fs.readFile);
 
 module.exports = {
-    mail: function mail(to, cc, title, file, variables) {
+    mail: function mail(to, from, cc, title, file, variables) {
         return readFile("mails/" + file + ".hbs", "UTF-8").then(function (contents) {
             return new Promise(function (resolve, reject) {
                 mandrill_client.messages.send({
                     message: {
                         subject: "[GOV2016] " + title,
                         html: contents,
-                        from_email: "dpreston@bcaafc.com",
-                        from_name: "Della Preston",
+                        from_email: from.email,
+                        from_name: from.name,
                         // [{ email: $EMAIL, name: $NAME, }]
                         to: to,
                         cc: cc,
