@@ -14,6 +14,12 @@ module.exports = function (db, redis) {
         db.Account.findAll({
             include: [{all: true, attributes: ['id'] }],
             order: [ "affiliation", ],
+        }).map(function (account) {
+            return account.balance().then(function (balance) {
+                var acc = account.get({plain: true});
+                acc.balance = balance;
+                return acc;
+            });
         }).then(function (accounts) {
             var columns = Object.keys(db.Account.attributes)
                 .filter(function (v) { return v !== "password"; })
@@ -21,10 +27,12 @@ module.exports = function (db, redis) {
                     var val = v[0].toUpperCase() + v.slice(1);
                     return { title: val, data: v, className: v };
                 });
+            columns.push({ title: "Balance", data: "balance", className: "Balance", });
             columns.push({ title: "Group", data: "Group", className: "Group", });
             columns.push({ title: "Exhibitor", data: "Exhibitor", className: "Exhibitor", });
             columns.push({ title: "Workshop", data: "Workshop", className: "Workshop", });
             columns.push({ title: "Volunteer", data: "Volunteer", className: "Volunteer", });
+
             res.render("admin/accounts", {
                 title: "Administration - Accounts",
                 account: req.session.account,

@@ -50,8 +50,19 @@ module.exports = function (db, redis) {
     .get(function (req, res) {
         db.Account.findOne({
             where: { id: req.session.account.id, },
-            include: [db.Payment],
+            include: [
+                db.Payment,
+                {
+                    model: db.Group,
+                    include: [
+                        { model: db.Member, attributes: ['name', 'cost',], },
+                    ],
+                },
+                { model: db.Exhibitor, attributes: ['cost'], }
+            ],
         }).then(function (account) {
+            return [account, account.cost(), account.paid(), (account.Group? account.Group.breakdown() : null)];
+        }).spread(function (account, cost, paid, breakdown) {
             req.session.account = account;
             res.render("account/payments", {
                 title: "Account - Payments",
@@ -59,6 +70,9 @@ module.exports = function (db, redis) {
                 admin: req.session.isAdmin,
                 flags: db.Flag.cache(),
                 alert: req.alert,
+                cost: cost,
+                paid: paid,
+                breakdown: breakdown,
             });
         }).catch(function (error) {
             console.log(error);

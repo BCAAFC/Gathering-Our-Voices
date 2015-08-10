@@ -123,10 +123,10 @@ module.exports = function (sequelize, DataTypes) {
             cost: function () {
                 return Promise.join(
                     this.getGroup().then(function (group) {
-                        return group? group.cost() : 0;
+                        return group ? group.cost() : 0;
                     }),
-                    this.getExhibitor().then(function (exhibitor) {
-                        return exhibitor? exhibitor.cost : 0;
+                    this.getExhibitor({ attributes: ['cost'], }).then(function (exhibitor) {
+                        return exhibitor ? exhibitor.cost : 0;
                     }),
                     function done(group, exhibitor) {
                         return group + exhibitor;

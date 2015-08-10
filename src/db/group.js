@@ -41,10 +41,56 @@ module.exports = function (sequelize, DataTypes) {
         },
         instanceMethods: {
             cost: function () {
-                return this.getMembers().then(function (members) {
-                    return members.reduce(function (total, member) {
-                        return total + member.cost();
-                    }, 0);
+                return this.getMembers({attributes: ['cost'], }).then(function (members) {
+                    // Get counts of each price.
+                    var counts = members.reduce(function (total, member, idx) {
+                        total[member.cost] +=1;
+                        return total;
+                    }, {175: 0, 125: 0});
+                    // Find number of free.
+                    var free = Math.floor((counts[175] + counts[125]) / 6);
+                    // Drop some regulars till we have no more frees, or no more regs.
+                    while (free > 0 && counts[175] > 0) {
+                        free -= 1;
+                        counts[175] -= 1;
+                    }
+                    // Same for early
+                    while (free > 0 && counts[125] > 0) {
+                        free -= 1;
+                        counts[125] -= 1;
+                    }
+
+                    return (counts[125]*125) + (counts[175]*175);
+                });
+            },
+            breakdown: function () {
+                return this.getMembers({
+                    attributes: ['name', 'type', 'cost'],
+                    raw: true,
+                }).then(function (members) {
+                    // Get counts of each price.
+                    var counts = members.reduce(function (total, member, idx) {
+                        total[member.cost].push(member);
+                        return total;
+                    }, {175: [], 125: []});
+                    // Find number of free.
+                    var free = Math.floor((counts[175].length + counts[125].length) / 6);
+                    // Drop some regulars till we have no more frees, or no more regs.
+                    var idx = 0;
+                    while (free > 0 && counts[175].length > idx) {
+                        free -= 1;
+                        counts[175][idx].cost = 0;
+                        idx += 1;
+                    }
+                    // Same for early
+                    idx = 0;
+                    while (free > 0 && counts[125].length > idx) {
+                        free -= 1;
+                        counts[125][idx].cost = 0;
+                        idx += 1;
+                    }
+
+                    return counts[175].concat(counts[125]);
                 });
             },
         },

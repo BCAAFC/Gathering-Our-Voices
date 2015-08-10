@@ -1,8 +1,11 @@
+var middleware = require("../../middleware"),
+    alert = require("../../alert");
+
 module.exports = function (db, redis) {
     var router = require("express").Router();
 
     router.route("/")
-    .post(function (req, res) {
+    .post(middleware.admin, function (req, res) {
         db.Account.findOne({
             where: { id: req.session.account.id },
             include: [
@@ -21,8 +24,34 @@ module.exports = function (db, redis) {
         });
     });
 
+    router.route("/delete/:id")
+    .get(middleware.admin, function (req, res) {
+        db.Payment.findOne({
+            where: {
+                id: req.params.id,
+                AccountId: req.session.account.id,
+            },
+        }).then(function (payment) {
+            if (!payment) { throw new Error("Payment not found."); }
+            return payment.destroy();
+        }).then(function (member) {
+            res.format({
+                'text/html': function () {
+                    alert.success(req, "Payment deleted.");
+                    res.redirect('/account/payments');
+                },
+                'default': function () { res.status(200).json(account); },
+            });
+        }).catch(function (error) {
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
+        });
+    });
+
     router.route("/:id")
-    .put(function (req, res) {
+    .put(middleware.admin, function (req, res) {
         db.Payment.findOne({
             where: { id: req.params.id },
         }).then(function (payment) {

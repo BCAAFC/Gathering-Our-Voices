@@ -61,6 +61,12 @@
         {{/form_tags}}
     </fieldset>
 
+    {{#if admin}}
+        {{#form_select title="Cost" name="cost" type="number" selected=member.cost description="Admin-only field." required=true}}
+            <option value=175>$175 - Regular</option>
+            <option value=125>$125 - Earlybird</option>
+        {{/form_select}}
+    {{/if}}
 
     {{#if member}}
         <div class="form-group">
@@ -97,7 +103,7 @@
             endDate: new Date(YOUTH_MIN_BIRTH),
             startDate: new Date(CHAPERONE_MAX_BIRTH),
         });
-        
+
         type.change(function () {
             var newType = type.val();
             var end, start;

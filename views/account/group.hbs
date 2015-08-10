@@ -10,7 +10,7 @@
 
     <table class="table">
         <thead>
-            <tr><th>Complete</th><th>Name</th><th>Type</th><th></th></tr>
+            <tr><th>Complete</th><th>Name</th><th>Type</th><th>Cost</th><th></th></tr>
         </thead>
         <tbody>
             {{#each account.Group.Members}}
@@ -22,6 +22,7 @@
                     {{/if}}
                     <td>{{this.name}}</td>
                     <td>{{this.type}}</td>
+                    <td>${{this.cost}}</td>
                     <td>
                         <div class="btn-group">
                             <a href="/account/group/member/{{this.id}}" class="btn btn-xs btn-default"><i class="fa fa-fw fa-edit"></i>Edit & Workshops</a>
@@ -36,11 +37,11 @@
             <tr>
                 <td><strong>Youths:</strong> {{{count set=account.Group.Members field="type" value="Youth"}}}</td>
                 <td><strong>Young Adults:</strong> {{{count set=account.Group.Members field="type" value="Young Adult"}}}</td>
-                <td><strong>Young Chaperones:</strong> {{{count set=account.Group.Members field="type" value="Young Chaperone"}}}</td>
+                <td colspan=2><strong>Young Chaperones:</strong> {{{count set=account.Group.Members field="type" value="Young Chaperone"}}}</td>
                 <td><strong>Chaperones:</strong> {{{count set=account.Group.Members field="type" value="Chaperone"}}}</td>
             </tr>
             <tr>
-                <td colspan=4>
+                <td colspan=5>
                     {{#if flags.memberRegistration}}
                         <a href="/account/group/member/" class="btn btn-success btn btn-block">
                             <i class="fa fa-fw fa-plus"></i>

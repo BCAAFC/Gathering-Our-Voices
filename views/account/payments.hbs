@@ -1,13 +1,45 @@
 <div class="row">
+    <h3>Current Costs</h3>
+    <p>As a reminder, for every 5 tickets a 6th ticket is free of charge for members.
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Amount</th>
+                <th>Reason</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each breakdown}}
+                <tr>
+                    <td>${{cost}}</td>
+                    <td>Member cost for {{type}} <strong>{{name}}</strong>.</td>
+                </tr>
+            {{/each}}
+            {{#with account.Exhibitor}}
+                <tr>
+                    <td>${{cost}}</td>
+                    <td>Exhibitor table cost.</td>
+                </tr>
+            {{/with}}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan=2>Total: <strong>${{cost}}</strong></td>
+            </tr>
+    </table>
+
     <h3>Logged Payments</h3>
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
                 <th>Amount</th>
+                <th>Date</th>
                 <th>Number</th>
                 <th>Type</th>
                 <th>Description</th>
+                {{#if admin}}
+                    <th>Del</th>
+                {{/if}}
             </tr>
         </thead>
         <tbody>
@@ -18,6 +50,14 @@
                     <td>{{number}}</td>
                     <td>{{type}}</td>
                     <td>{{description}}</td>
+                    {{#if ../admin}}
+                        <td>
+                            <a href="/api/payment/delete/{{id}}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')">
+                                <i class="fa fa-fw fa-trash"></i>
+                                Delete
+                            </a>
+                        </td>
+                    {{/if}}
                 </tr>
             {{else}}
                 <tr colspan=5>
@@ -25,6 +65,9 @@
                 </tr>
             {{/each}}
         </tbody>
+        <tfoot>
+            <td colspan=2>Total: <strong>${{paid}}</strong></td>
+        </tfoot>
     </table>
 </div>
 

@@ -161,6 +161,11 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.INTEGER,
             defaultValue: 175,
             allowNull: false,
+            set: function (v) {
+                if (v === 125 || v === 175) {
+                    return this.setDataValue('cost', v);
+                } else { throw new Error("Invalid cost"); }
+            },
         },
         tags: {
             type: DataTypes.ARRAY(DataTypes.STRING(80)),

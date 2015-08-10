@@ -63,15 +63,15 @@
                     },
                 },
                 {
-                    targets: [ -5, -6 ], // Created and Updated at
+                    targets: [ -6, -7 ], // Created and Updated at
                     render: function (data, type, row) {
                         return new Date(data).toLocaleString();
                     },
                 },
                 {
-                    targets: -7, // Notes
+                    targets: [-7, -8], // Notes
                     render: function (data, type, row) {
-                        if (row.notes) {
+                        if (data) {
                             return "<i class=\"btn btn-xs btn-info fa fa-plus\"></i>";
                         } else {
                             return "<i class=\"btn btn-xs btn-default fa fa-plus\"></i>";
