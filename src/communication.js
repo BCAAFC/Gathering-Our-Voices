@@ -9,7 +9,16 @@ var fs = require("fs"),
 var readFile = Promise.promisify(fs.readFile);
 
 module.exports = {
-    mail: function mail(to, from, cc, title, file, variables) {
+    mail: function mail(options) {
+        var to = options.to,
+            from = options.from,
+            cc = options.cc,
+            title = options.title,
+            file = options.file,
+            variables = options.variables;
+        if (!to || !from || !cc || !title || !file || !variables) {
+            throw new Error("Incorrect mailing parameters");
+        }
         return readFile("mails/" + file + ".hbs", "UTF-8").then(function (contents) {
             return new Promise(function (resolve, reject) {
                 mandrill_client.messages.send({

@@ -152,17 +152,17 @@ module.exports = function (sequelize, DataTypes) {
             recoveryStart: function () {
                 var self = this;
                 self.misc.recovery = Math.random().toString(36).slice(2);
-                return mail(
-                    [{ email: self.email, name: self.organization, }],
-                    { email: "dpreston@bcaafc.com", name: "Della Preston", },
-                    [],
-                    "Account Recovery",
-                    "recovery",
-                    [
+                return mail({
+                    to: [{ email: self.email, name: self.organization, }],
+                    from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
+                    cc: [],
+                    title: "Account Recovery",
+                    file: "recovery",
+                    variables: [
                         { name: "email", content: encodeURIComponent(self.email), },
                         { name: "key", content: encodeURIComponent(self.misc.recovery), },
                     ]
-                ).then(function () {
+                }).then(function () {
                    return self.save({fields: ['misc']});
                 });
            },
