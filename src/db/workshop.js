@@ -1,5 +1,22 @@
 "use strict";
 
+var communication = require("../communication");
+
+function eliminateDuplicates(arr) {
+  var i,
+      len=arr.length,
+      out=[],
+      obj={};
+
+  for (i=0;i<len;i++) {
+    obj[arr[i]]=0;
+  }
+  for (i in obj) {
+    out.push(i);
+  }
+  return out;
+}
+
 module.exports = function (sequelize, DataTypes) {
     var Workshop = sequelize.define("Workshop", {
         // Workshop specifics
@@ -183,6 +200,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         hooks: {
             beforeValidate: function (workshop, options, fn) {
+                workshop.facilitators = eliminateDuplicates(workshop.facilitators);
                 if (typeof workshop.audience == "string") {
                     workshop.audience = [workshop.audience];
                 }
@@ -193,6 +211,26 @@ module.exports = function (sequelize, DataTypes) {
                     workshop.tags = [workshop.tags];
                 }
                 fn(null, workshop);
+            },
+            afterCreate: function (workshop) {
+                return workshop.getAccount().then(function (account) {
+                    return communication.mail({
+                        to: [
+                            { email: account.email, name: account.affiliation, }
+                        ],
+                        from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
+                        cc: [
+                            { email: "dpreston@bcaafc.com", name: "Della Preston", }
+                        ],
+                        title: "Facilitator Application Recieved",
+                        file: "apply_facilitator",
+                        variables: [
+                            { name: "name", content: account.name, },
+                            { name: "affilation", content: account.affilation, },
+                            { name: "email", content: account.email, },
+                        ],
+                    });
+                });
             },
         },
     });
