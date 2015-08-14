@@ -1,0 +1,36 @@
+<p>Hello,</p>
+
+<p>
+    You're recieving this email because you've applied to be a volunteer at Gathering Our Voices 2016. <strong> Wow! Thank you!</strong>
+</p>
+
+<p>
+    Until we have a chance to review and verify your details you are free to edit your application as you see fit, simply log on and edit! Once we have <em>Verified</em> your application you will need to contact us to make any changes.
+</p>
+
+<p>
+    You will be required to fulfill a Criminal Record Check using <a target='blank' href='https://justice.gov.bc.ca/eCRC/'>this link</a> and access code <code>2LMZZ4EHQ6</code>.
+    <br>
+    <form action="https://gatheringourvoices.bcaafc.com/api/volunteer/{{id}}/applied" method="POST">
+        <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" name="applied" value=true>
+        <input type="submit" value="Let us know you submitted, please!">
+    </form>
+</p>
+
+<p>
+    Soon after <code>TODO: Date</code> we will be sending approval notices. Keep an eye on your inbox!
+</p>
+
+{{!-- Signature --}}
+<p>In Friendship,</p>
+<p>Della Preston</p>
+<small>
+    dpreston@bcaafc.com
+    <br>
+    250-388-5522 or 1-800-990-2432
+</small>
+
+
+<br>
+<small>This email was sent by a program.</small>
