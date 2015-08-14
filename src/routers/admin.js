@@ -225,7 +225,7 @@ module.exports = function (db, redis) {
                 columns: columns,
             });
         }).catch(function (error) {
-            console.warn(error.message);
+            console.log(error.message);
             res.status(404).send(error.message);
         });
     });

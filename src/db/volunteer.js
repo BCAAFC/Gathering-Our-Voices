@@ -1,5 +1,7 @@
 "use strict";
 
+var communication = require("../communication");
+
 function dayScaffold(day) {
     return {
         day: day,
@@ -114,6 +116,27 @@ module.exports = function (sequelize, DataTypes) {
                     volunteer.tags = [volunteer.tags];
                 }
                 fn(null, volunteer);
+            },
+            afterCreate: function (volunteer) {
+                return volunteer.getAccount().then(function (account) {
+                    return communication.mail({
+                        to: [
+                            { email: account.email, name: account.affiliation, }
+                        ],
+                        from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
+                        cc: [
+                            { email: "dpreston@bcaafc.com", name: "Della Preston", }
+                        ],
+                        title: "Volunteer Application Recieved",
+                        file: "apply_volunteer",
+                        variables: [
+                            { name: "name", content: account.name, },
+                            { name: "affilation", content: account.affilation, },
+                            { name: "email", content: account.email, },
+                            { name: "id", content: volunteer.id, },
+                        ],
+                    });
+                });
             },
         },
     });

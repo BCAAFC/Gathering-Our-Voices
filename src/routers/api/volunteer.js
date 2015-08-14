@@ -64,7 +64,6 @@ module.exports = function (db, redis) {
                 scaffoldDay("Thursday", req),
             ];
             req.body.schedule = schedule;
-
             return account.createVolunteer(req.body);
         }).then(function (volunteer) {
             res.format({
@@ -75,6 +74,7 @@ module.exports = function (db, redis) {
                 'default': function () { res.status(200).json(volunteer); },
             });
         }).catch(function (error) {
+            console.log(error);
             res.format({
                 'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
                 'default': function () { res.status(401).json({ error: error.message }); },
@@ -181,7 +181,7 @@ module.exports = function (db, redis) {
         }).then(function () {
             res.format({
                 'text/html': function () {
-                    alert.sucess(req, "Volunteer deleted.");
+                    alert.success(req, "Volunteer deleted.");
                     res.redirect('back');
                 },
                 'default': function () { res.status(200).json({}); },
@@ -211,15 +211,26 @@ module.exports = function (db, redis) {
     });
 
     router.route("/:id/applied")
-    .put(middleware.admin, function (req, res) {
+    .put(middleware.auth, function (req, res) {
         db.Volunteer.findOne({
             where: { id: req.params.id, },
         }).then(function (volunteer) {
             if (!volunteer) { throw new Error("Volunteer does not exist."); }
+            if ((volunteer.AccountId !== req.session.account.id) && !req.session.ifAdmin) {
+                throw new Error("The volunteer does not match account.");
+            }
             volunteer.applied = req.body.applied;
             return volunteer.save();
         }).then(function (volunteer) {
-            res.status(200).json({ state: volunteer.applied, });
+            res.format({
+                'text/html': function () {
+                    alert.success(req, "Volunteer CRC Application noted!");
+                    res.redirect('/account');
+                },
+                'default': function () {
+                    res.status(200).json({ state: volunteer.applied, });
+                },
+            });
         }).catch(function (error) {
             console.log(error);
             res.status(500).json({ error: error.message });

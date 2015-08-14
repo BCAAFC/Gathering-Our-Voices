@@ -1,13 +1,14 @@
-var hbs = require("hbs");
+var hbs = require("hbs"),
+    url = require("url");
 
 module.exports = function (db, redis) {
     var router = require("express").Router();
 
     router.get("/*", function (req, res) {
         db.Page.findOne({
-            where: { path: req.originalUrl },
+            where: { path: url.parse(req.originalUrl).pathname },
         }).then(function (page) {
-            if (!page) { throw new Error(req.originalUrl + " was not found."); }
+            if (!page) { throw new Error("Address" + url.parse(req.originalUrl).pathname + " was not found."); }
             page.render(res, "layout", {
                 title: page.title,
                 account: req.session.account,

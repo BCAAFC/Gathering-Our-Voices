@@ -28,10 +28,12 @@ module.exports = function (httpd, db, redis) {
 
     // Account routes.
     httpd.use("/account",
+        middleware.auth,
         require("./account")(db, redis));
 
     // Admin routes.
-    httpd.use("/admin", middleware.admin,
+    httpd.use("/admin",
+        middleware.admin,
         require("./admin")(db, redis));
 
     // It's quite important that this is last.

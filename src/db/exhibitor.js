@@ -1,5 +1,7 @@
 "use strict";
 
+var communication = require("../communication");
+
 var EXHIBITOR_COST = 400;
 
 module.exports = function (sequelize, DataTypes) {
@@ -122,6 +124,26 @@ module.exports = function (sequelize, DataTypes) {
                     exhibitor.tags = [exhibitor.tags];
                 }
                 fn(null, exhibitor);
+            },
+            afterCreate: function (exhibitor) {
+                return exhibitor.getAccount().then(function (account) {
+                    return communication.mail({
+                        to: [
+                            { email: account.email, name: account.affiliation, }
+                        ],
+                        from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
+                        cc: [
+                            { email: "dpreston@bcaafc.com", name: "Della Preston", }
+                        ],
+                        title: "Exhibitor Application Recieved",
+                        file: "apply_exhibitor",
+                        variables: [
+                            { name: "name", content: account.name, },
+                            { name: "affilation", content: account.affilation, },
+                            { name: "email", content: account.email, },
+                        ],
+                    });
+                });
             },
         },
     });

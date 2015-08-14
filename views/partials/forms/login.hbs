@@ -4,6 +4,7 @@
 
     {{{form_input title="Email Address" name="email" type="text" required=true}}}
     {{{form_input title="Password" name="password" type="password" required=true}}}
+    <input type="hidden" name="redirect">
 
 
     <div class="form-group">
@@ -11,13 +12,24 @@
     </div>
 
     <p>Can't remember your password? Fill in your email above and click
-        <a id="forgot" href="#">here</a> and we'll send you an email 
+        <a id="forgot" href="#">here</a> and we'll send you an email
         with a magic link to restore your access.
     </p>
 </form>
 
 <script>
 $(document).ready(function () {
+    // Used to determine if there is a redirect.
+    function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+    var redirect = getParameterByName('redirect');
+    if (redirect) { $("input[name='redirect']").val(redirect); }
+
+
     $("#forgot").click(function () {
         var email = $("input[name='email']").val();
         $.ajax({

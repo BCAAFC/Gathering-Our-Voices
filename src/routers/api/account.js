@@ -12,7 +12,7 @@ module.exports = function (db, redis) {
                 req.session.isAdmin = true;
             }
             res.format({
-                'text/html': function () { res.redirect('/account'); },
+                'text/html': function () { res.redirect(req.body.redirect || '/account'); },
                 'default': function () { res.status(200).json(account); },
             });
         }).catch(function (error) {

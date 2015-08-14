@@ -29,12 +29,13 @@ module.exports = function (db, redis) {
         }).then(function (account) {
             res.format({
                 'text/html': function () {
-                    alert.sucess(req, "Exhibitor application created.");
+                    alert.success(req, "Exhibitor application created.");
                     res.redirect('back');
                 },
                 'default': function () { res.status(200).json(account); },
             });
         }).catch(function (error) {
+            console.log(error);
             res.format({
                 'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
                 'default': function () { res.status(401).json({ error: error.message }); },
@@ -98,7 +99,7 @@ module.exports = function (db, redis) {
         }).then(function () {
             res.format({
                 'text/html': function () {
-                    alert.sucess(req, "Exhibitor deleted.");
+                    alert.success(req, "Exhibitor deleted.");
                     res.redirect('back');
                 },
                 'default': function () { res.status(200).json({}); },
