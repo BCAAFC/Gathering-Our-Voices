@@ -15,6 +15,8 @@ var YOUNG_CHAPERONE_MAX_BIRTH = "1991-03-17";
 var CHAPERONE_MIN_BIRTH = "1991-03-19";
 var CHAPERONE_MAX_BIRTH = "1891-03-17";
 
+var EARLYBIRD_DEADLINE = new Date("00:00 February 7, 2016");
+
 function beforeHook(member, options) {
     return new Promise(function (resolve, reject) {
         // Should really be lists...
@@ -29,6 +31,7 @@ function beforeHook(member, options) {
         if (typeof member.tags == "string") {
             member.tags = [member.tags];
         }
+        member.tags = util.eliminateDuplicates(member.tags);
         // Age
         if (member.type && member.birthDate) {
             var start, end;
@@ -48,6 +51,10 @@ function beforeHook(member, options) {
             if (!moment(member.birthDate).isBetween(start, end)) {
                 throw new Error(member.type + " must be born between "+ start +" and " + end);
             }
+        }
+        // TicketType
+        if (member.createdAt < EARLYBIRD_DEADLINE) {
+            member.cost = 125;
         }
         // Complete?
         if (member.name &&
@@ -148,11 +155,13 @@ module.exports = function (sequelize, DataTypes) {
         },
         allergies: {
             type: DataTypes.ARRAY(DataTypes.STRING),
-            allowNull: true,
+            allowNull: false,
+            default: [],
         },
         conditions: {
             type: DataTypes.ARRAY(DataTypes.STRING),
-            allowNull: true,
+            allowNull: false,
+            default: [],
         },
         // Private Data.
         complete: {

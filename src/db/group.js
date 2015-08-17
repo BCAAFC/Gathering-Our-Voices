@@ -1,6 +1,7 @@
 "use strict";
 
-var Promise = require("bluebird");
+var Promise = require("bluebird"),
+    communication = require("../communication");
 
 module.exports = function (sequelize, DataTypes) {
     var Group = sequelize.define("Group", {

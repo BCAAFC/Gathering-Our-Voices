@@ -36,6 +36,8 @@ module.exports = function (db, redis) {
                 // Regular
                 req.body.cost = 175;
             }
+            if (!req.body.allergies) { req.body.allergies = []; }
+            if (!req.body.conditions) { req.body.conditions = []; }
             // Strip
             if (req.session.isAdmin) {
                 delete req.body.cost;
@@ -90,8 +92,8 @@ module.exports = function (db, redis) {
             member.contactPhone = req.body.contactPhone;
             member.contactRelation = req.body.contactRelation;
             member.medicalNumber = req.body.medicalNumber;
-            member.allergies = req.body.allergies;
-            member.conditions = req.body.conditions;
+            member.allergies = req.body.allergies || [];
+            member.conditions = req.body.conditions || [];
             // Admin
             if (req.session.isAdmin) {
                 member.cost = Number(req.body.cost);
