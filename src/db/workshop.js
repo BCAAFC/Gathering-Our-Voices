@@ -1,21 +1,7 @@
 "use strict";
 
-var communication = require("../communication");
-
-function eliminateDuplicates(arr) {
-  var i,
-      len=arr.length,
-      out=[],
-      obj={};
-
-  for (i=0;i<len;i++) {
-    obj[arr[i]]=0;
-  }
-  for (i in obj) {
-    out.push(i);
-  }
-  return out;
-}
+var communication = require("../communication"),
+    util = require("../util");
 
 module.exports = function (sequelize, DataTypes) {
     var Workshop = sequelize.define("Workshop", {
@@ -200,7 +186,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         hooks: {
             beforeValidate: function (workshop, options, fn) {
-                workshop.facilitators = eliminateDuplicates(workshop.facilitators);
+                workshop.facilitators = util.eliminateDuplicates(workshop.facilitators);
                 if (typeof workshop.audience == "string") {
                     workshop.audience = [workshop.audience];
                 }

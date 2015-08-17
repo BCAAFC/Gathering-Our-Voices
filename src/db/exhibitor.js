@@ -1,6 +1,7 @@
 "use strict";
 
-var communication = require("../communication");
+var communication = require("../communication"),
+    util = require("../util");
 
 var EXHIBITOR_COST = 400;
 
@@ -111,6 +112,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         hooks: {
             beforeValidate: function (exhibitor, options, fn) {
+                exhibitor.representatives = util.eliminateDuplicates(exhibitor.representatives);
                 if (typeof exhibitor.representatives == "string") {
                     exhibitor.representatives = [exhibitor.representatives];
                 }
