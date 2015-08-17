@@ -121,10 +121,20 @@
             var self = this,
                 id = $(this).data("id"),
                 state = $(this).data("state");
+
+            var sendMail = false;
+            if (state === false) {
+                // Might need to send an email.
+                sendMail = window.confirm("Would you like to send an email?\n(Ok sends, Cancel does not)");
+            }
+            
             $.ajax({
                 url: "/api/exhibitor/"+id+"/approval",
                 method: "PUT",
-                data: { approved: !state, },
+                data: {
+                    approved: !state,
+                    sendMail: sendMail,
+                },
             }).done(function (data) {
                 $(self).data("state", data.state);
                 if (data.state === true) {

@@ -1,5 +1,6 @@
 var middleware = require("../../middleware"),
     alert = require("../../alert"),
+    communication = require("../../communication"),
     Promise = require('bluebird');
 
 module.exports = function (db, redis) {
@@ -205,6 +206,25 @@ module.exports = function (db, redis) {
             if (!workshop) { throw new Error("Workshop does not exist."); }
             workshop.approved = req.body.approved;
             return workshop.save();
+        }).then(function (workshop) {
+            if (req.body.sendMail === 'true') {
+                return workshop.getAccount().then(function (account) {
+                    return communication.mail({
+                        to: [{ email: account.email, name: account.affiliation, }], // To
+                        from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
+                        cc: [],
+                        title: "Facilitator Application Approval",
+                        file: "approve_facilitator",
+                        variables: [
+                            { name: "name", content: account.name, },
+                            { name: "affilation", content: account.affilation, },
+                            { name: "email", content: account.email, },
+                        ],
+                    });
+                }).then(function () { return workshop; });
+            } else {
+                return workshop;
+            }
         }).then(function (workshop) {
             res.status(200).json({ state: workshop.approved, });
         }).catch(function (error) {

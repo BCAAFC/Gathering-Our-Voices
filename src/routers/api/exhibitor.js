@@ -1,4 +1,5 @@
 var middleware = require("../../middleware"),
+    communication = require("../../communication"),
     alert = require("../../alert");
 
 module.exports = function (db, redis) {
@@ -155,6 +156,25 @@ module.exports = function (db, redis) {
             if (!exhibitor) { throw new Error("Exhibitor does not exist."); }
             exhibitor.approved = req.body.approved;
             return exhibitor.save();
+        }).then(function (exhibitor) {
+            if (req.body.sendMail === 'true') {
+                return exhibitor.getAccount().then(function (account) {
+                    return communication.mail({
+                        to: [{ email: account.email, name: account.affiliation, }], // To
+                        from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
+                        cc: [],
+                        title: "Exhibitor Application Approval",
+                        file: "approve_exhibitor",
+                        variables: [
+                            { name: "name", content: account.name, },
+                            { name: "affilation", content: account.affilation, },
+                            { name: "email", content: account.email, },
+                        ],
+                    });
+                }).then(function () { return exhibitor; });
+            } else {
+                return exhibitor;
+            }
         }).then(function (exhibitor) {
             res.status(200).json({ state: exhibitor.approved, });
         }).catch(function (error) {

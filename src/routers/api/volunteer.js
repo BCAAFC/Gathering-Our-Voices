@@ -1,5 +1,6 @@
 var middleware = require("../../middleware"),
     moment = require("moment"),
+    communication = require("../../communication"),
     alert = require("../../alert");
 
 function scaffoldDay(day, req, cur) {
@@ -202,6 +203,25 @@ module.exports = function (db, redis) {
             if (!volunteer) { throw new Error("Volunteer does not exist."); }
             volunteer.approved = req.body.approved;
             return volunteer.save();
+        }).then(function (volunteer) {
+            if (req.body.sendMail === 'true') {
+                return volunteer.getAccount().then(function (account) {
+                    return communication.mail({
+                        to: [{ email: account.email, name: account.affiliation, }], // To
+                        from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
+                        cc: [],
+                        title: "Volunteer Approval",
+                        file: "approve_volunteer",
+                        variables: [
+                            { name: "name", content: account.name, },
+                            { name: "affilation", content: account.affilation, },
+                            { name: "email", content: account.email, },
+                        ],
+                    });
+                }).then(function () { return volunteer; });
+            } else {
+                return volunteer;
+            }
         }).then(function (volunteer) {
             res.status(200).json({ state: volunteer.approved, });
         }).catch(function (error) {
