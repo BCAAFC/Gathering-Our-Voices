@@ -55,6 +55,8 @@ function beforeHook(member, options) {
         // TicketType
         if (member.createdAt < EARLYBIRD_DEADLINE) {
             member.cost = 125;
+        } else if (!member.createdAt && new Date() < EARLYBIRD_DEADLINE) {
+            member.cost = 125;
         }
         // Complete?
         if (member.name &&
