@@ -7,7 +7,9 @@
     {{/if}}
 
 
-    {{{form_input title="Full Name" name="name" type="text" value=member.name required=true}}}
+    {{{form_input title="Full Name" name="name" type="text"
+        value=member.name required=true
+        description="if you want to save a place holder for youth please put in <code>Member 1, Member 2, ...</code> placeholders can be used until you know which members are bringing; our registration coordinator will call to ensure you will be using these spaces at a later date."}}}
     {{#form_select title="Member Type" name="type" selected=member.type required=true}}
         <option value="">Choose...</option>
         <option value="Youth">Youth (14-17)</option>
