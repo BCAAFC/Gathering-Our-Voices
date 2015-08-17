@@ -1,6 +1,7 @@
 "use strict";
-var Promise = require("bluebird");
-var moment = require("moment");
+var Promise = require("bluebird"),
+    util = require("../util"),
+    moment = require("moment");
 
 var YOUTH_MIN_BIRTH = "2001-03-19";
 var YOUTH_MAX_BIRTH = "1997-03-17";
@@ -20,9 +21,11 @@ function beforeHook(member, options) {
         if (typeof member.allergies == "string") {
             member.allergies = [member.allergies];
         }
+        member.allergies = util.eliminateDuplicates(member.allergies);
         if (typeof member.conditions == "string") {
             member.conditions = [member.conditions];
         }
+        member.conditions = util.eliminateDuplicates(member.conditions);
         if (typeof member.tags == "string") {
             member.tags = [member.tags];
         }

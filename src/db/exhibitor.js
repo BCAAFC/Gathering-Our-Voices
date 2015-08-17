@@ -112,10 +112,10 @@ module.exports = function (sequelize, DataTypes) {
         },
         hooks: {
             beforeValidate: function (exhibitor, options, fn) {
-                exhibitor.representatives = util.eliminateDuplicates(exhibitor.representatives);
                 if (typeof exhibitor.representatives == "string") {
                     exhibitor.representatives = [exhibitor.representatives];
                 }
+                exhibitor.representatives = util.eliminateDuplicates(exhibitor.representatives);
                 if (typeof exhibitor.categories == "string") {
                     exhibitor.categories = [exhibitor.categories];
                 }

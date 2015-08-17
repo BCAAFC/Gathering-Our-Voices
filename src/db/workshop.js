@@ -186,6 +186,9 @@ module.exports = function (sequelize, DataTypes) {
         },
         hooks: {
             beforeValidate: function (workshop, options, fn) {
+                if (typeof workshop.facilitators == "string") {
+                    workshop.type = [workshop.type];
+                }
                 workshop.facilitators = util.eliminateDuplicates(workshop.facilitators);
                 if (typeof workshop.audience == "string") {
                     workshop.audience = [workshop.audience];
