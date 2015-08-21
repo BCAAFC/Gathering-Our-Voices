@@ -125,6 +125,7 @@ module.exports = function (sequelize, DataTypes) {
                 if (typeof exhibitor.tags == "string") {
                     exhibitor.tags = [exhibitor.tags];
                 }
+                exhibitor.tags = util.eliminateDuplicates(exhibitor.tags);
                 fn(null, exhibitor);
             },
             afterCreate: function (exhibitor) {
