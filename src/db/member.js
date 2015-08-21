@@ -15,7 +15,7 @@ var YOUNG_CHAPERONE_MAX_BIRTH = "1991-03-17";
 var CHAPERONE_MIN_BIRTH = "1991-03-19";
 var CHAPERONE_MAX_BIRTH = "1891-03-17";
 
-var EARLYBIRD_DEADLINE = new Date("00:00 February 7, 2016");
+var EARLYBIRD_DEADLINE = new Date("00:00 February 6, 2016");
 
 function beforeHook(member, options) {
     return new Promise(function (resolve, reject) {
