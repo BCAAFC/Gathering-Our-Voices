@@ -1,7 +1,8 @@
 "use strict";
 
 var Promise = require("bluebird"),
-    communication = require("../communication");
+    communication = require("../communication"),
+    util = require("../util");
 
 module.exports = function (sequelize, DataTypes) {
     var Group = sequelize.define("Group", {
@@ -100,6 +101,7 @@ module.exports = function (sequelize, DataTypes) {
                 if (typeof group.tags == "string") {
                     group.tags = [group.tags];
                 }
+                group.tags = util.eliminateDuplicates(group.tags);
                 fn(null, group);
             },
             afterCreate: function (group) {

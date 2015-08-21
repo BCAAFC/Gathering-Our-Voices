@@ -199,6 +199,7 @@ module.exports = function (sequelize, DataTypes) {
                 if (typeof workshop.tags == "string") {
                     workshop.tags = [workshop.tags];
                 }
+                workshop.tags = util.eliminateDuplicates(workshop.tags);
                 fn(null, workshop);
             },
             afterCreate: function (workshop) {

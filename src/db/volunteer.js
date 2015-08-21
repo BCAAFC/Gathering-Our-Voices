@@ -1,6 +1,7 @@
 "use strict";
 
-var communication = require("../communication");
+var communication = require("../communication"),
+    util = require("../util");
 
 function dayScaffold(day) {
     return {
@@ -115,6 +116,7 @@ module.exports = function (sequelize, DataTypes) {
                 if (typeof volunteer.tags == "string") {
                     volunteer.tags = [volunteer.tags];
                 }
+                volunteer.tags = util.eliminateDuplicates(volunteer.tags);
                 fn(null, volunteer);
             },
             afterCreate: function (volunteer) {
