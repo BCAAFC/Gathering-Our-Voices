@@ -91,8 +91,8 @@ module.exports = function (db, redis) {
                         { name: "affiliation", content: member.Group.Account.affiliation, },
                         { name: "name", content: member.name, },
                         { name: "workshop", content: session.Workshop.title, },
-                        { name: "start", content: session.start, },
-                        { name: "end", content: session.end, },
+                        { name: "start", content: session.start.toLocaleString(), },
+                        { name: "end", content: session.end.toLocaleString(), },
                     ],
                 });
             });
