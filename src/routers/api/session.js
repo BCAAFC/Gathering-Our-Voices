@@ -1,5 +1,6 @@
 var middleware = require("../../middleware"),
     alert = require("../../alert"),
+    communication = require("../../communication"),
     Promise = require('bluebird');
 
 module.exports = function (db, redis) {
@@ -64,7 +65,37 @@ module.exports = function (db, redis) {
     .get(middleware.admin, function (req, res) {
         db.Session.findOne({
             where: { id: req.params.id },
+            include: [
+                {
+                    model: db.Member,
+                    include: [{
+                        model: db.Group,
+                        include: [db.Account, ],
+                    }],
+                },
+                db.Workshop,
+            ],
         }).then(function (session) {
+            session.Members.map(function (member) {
+                communication.mail({
+                    to: [
+                        { email: member.Group.Account.email, name: member.Group.Account.affiliation, }
+                    ],
+                    from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
+                    cc: [
+                        { email: "dpreston@bcaafc.com", name: "Della Preston", }
+                    ],
+                    title: "Workshop Session Cancelled",
+                    file: "session_cancelled",
+                    variables: [
+                        { name: "affiliation", content: member.Group.Account.affiliation, },
+                        { name: "name", content: member.name, },
+                        { name: "workshop", content: session.Workshop.title, },
+                        { name: "start", content: session.start, },
+                        { name: "end", content: session.end, },
+                    ],
+                });
+            });
             return session.destroy();
         }).then(function (session) {
             res.format({

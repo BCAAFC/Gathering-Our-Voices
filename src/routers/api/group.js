@@ -88,7 +88,7 @@ module.exports = function (db, redis) {
                 },
             });
         });
-    })
+    });
 
     // Delete a group.
     router.route("/delete/:id")
