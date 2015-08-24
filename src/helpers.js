@@ -13,6 +13,14 @@ module.exports = function (hbs) {
         return JSON.stringify(val, null, indent);
     });
 
+    hbs.registerHelper("initialize", function (val) {
+        var tokens = val.split(" ");
+        if (tokens.length > 1) {
+            tokens[tokens.length - 1] = tokens[tokens.length - 1][0] + ".";
+        }
+        return tokens.join(" ");
+    });
+
     hbs.registerHelper("date", function (val) {
         if (!val) { return ""; }
         else { return moment(val).format("MM/DD/YYYY"); }
@@ -263,7 +271,7 @@ module.exports = function (hbs) {
             // Might have a conflict.
             disabled = member.Sessions.some(function (val) {
                 if (session.id === val.id) {
-                    note = "(Already attending)"
+                    note = "(Already attending)";
                     return true;
                 } else if (session.start < val.start && session.end < val.start) {
                     // Starts before, ends before.

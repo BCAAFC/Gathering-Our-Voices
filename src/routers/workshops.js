@@ -54,11 +54,15 @@ module.exports = function (db, redis) {
                     return resolve(db.Account.findOne({
                         where: { id: req.session.account.id, },
                         // TODO: Only members.
-                        include: [{
-                            model: db.Group, include: [{
-                                model: db.Member, include: [db.Session],
-                            }],
-                        }],
+                        include: [
+                            {
+                                model: db.Group,
+                                include: [
+                                    { model: db.Member, include: [db.Session], },
+                                ],
+                            },
+                            { model: db.Workshop, attributes: ["id"], },
+                        ],
                     }).then(function (account) {
                         req.session.account = account;
                         return account;
@@ -68,6 +72,12 @@ module.exports = function (db, redis) {
                 }
             }),
             function (workshop, account) {
+                var facilitatorList = false;
+                if (account && account.Workshop) {
+                    if (account.Workshop.id == workshop.id) {
+                        facilitatorList = true;
+                    }
+                }
                 res.render("workshops/id", {
                     title: "Workshop Info",
                     account: account,
@@ -75,6 +85,7 @@ module.exports = function (db, redis) {
                     alert: req.alert,
                     flags: db.Flag.cache(),
                     workshop: workshop,
+                    facilitatorList: facilitatorList,
                 });
             }
         ).catch(function (error) {
