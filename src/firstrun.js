@@ -21,6 +21,12 @@ module.exports = function (env, db) {
         });
     }).then(function () {
         return db.Page.create({
+            path: "/conduct",
+            title: "Code of Conduct",
+            content: fs.readFileSync("views/firstrun/conduct.hbs", { encoding: "utf8", }),
+        });
+    }).then(function () {
+        return db.Page.create({
             path: "/about",
             title: "About",
             content: fs.readFileSync("views/firstrun/about.hbs", { encoding: "utf8", }),
