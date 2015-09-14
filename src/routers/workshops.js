@@ -20,7 +20,7 @@ module.exports = function (db, redis) {
                 { title: 'Category', data: 'category', className: 'category' },
                 { title: 'Audience', data: 'audience', className: 'audience' },
                 { title: 'Sessions', data: 'Sessions', className: 'sessions' },
-                { title: 'Summary', data: 'summary', className: 'summary' },
+                // { title: 'Summary', data: 'summary', className: 'summary' },
             ];
             res.render("workshops/index", {
                 title: "Workshop List",
@@ -72,6 +72,7 @@ module.exports = function (db, redis) {
                 }
             }),
             function (workshop, account) {
+                workshop.description = workshop.description.replace(/\n/g, "<br>");
                 var facilitatorList = false;
                 if (account && account.Workshop) {
                     if (account.Workshop.id == workshop.id) {

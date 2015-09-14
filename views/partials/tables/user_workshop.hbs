@@ -1,5 +1,5 @@
 <div id="options"></div>
-<table id="workshop_table" class="table table-hover"></table>
+<table id="workshop_table" class="table table-striped"></table>
 <script>
     $(function () {
         var columns = {{{JSON columns 0}}};
@@ -18,7 +18,7 @@
                     }
                 },
                 {
-                    targets: [ -3 ], // Arrays
+                    targets: [ -2 ], // Arrays
                     render: function (data, type, row) {
                         return data.map(function (item) {
                             return "<span class=\"label label-default\">"+item+"</span>"
@@ -26,7 +26,7 @@
                     }
                 },
                 {
-                    targets: [ -2 ], // Arrays
+                    targets: [ -1 ], // Arrays
                     render: function (data, type, row) {
                         return data.map(function (item) {
                             var start = moment(item.start).format("MM/DD/YYYY HH:mm A");
@@ -40,6 +40,10 @@
         // Visible Toggles
         var colvis = new $.fn.dataTable.ColVis(table);
         $("#options").append(colvis.button());
+
+        $("#workshop_table").DataTable().rows().every(function () {
+            this.child(this.data().summary).show();
+        });
 
         $("#workshop_table").dataTable().fnDraw();
     });
