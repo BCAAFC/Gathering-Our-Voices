@@ -26,4 +26,8 @@ httpd.listen(env.PORT, function () {
     console.log("Listening on " + env.PORT);
 });
 
+// Start up one time cron jobs.
+var cronjobs = require("./src/cronjobs")(db);
+
+
 module.exports = httpd;

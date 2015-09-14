@@ -38,7 +38,13 @@ var getters = {
     },
     get FIRSTRUN () {
         return process.env.FIRSTRUN;
-    }
+    },
+    get TWILIO_ACCOUNT_SID () {
+        return process.env.TWILIO_ACCOUNT_SID;
+    },
+    get TWILIO_AUTH_TOKEN () {
+        return process.env.TWILIO_AUTH_TOKEN;
+    },
 };
 
 /**
@@ -68,5 +74,7 @@ module.exports = function () {
     check("REDIS_URL", process.env.REDISCLOUD_URL || "localhost");
     check("MANDRILL_APIKEY", undefined);
     check("FIRSTRUN", false);
+    check("TWILIO_ACCOUNT_SID", undefined);
+    check("TWILIO_AUTH_TOKEN", undefined);
     return getters;
 };
