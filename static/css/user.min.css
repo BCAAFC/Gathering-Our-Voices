@@ -9840,6 +9840,7 @@ footer {
   vertical-align: middle;
 }
 #landing .content {
+  padding-top: 80px;
   opacity: 1.0;
   vertical-align: middle;
   display: table-cell;
@@ -9854,10 +9855,10 @@ footer {
   display: inline-block;
 }
 #landing .slug {
-  font-size: 48pt;
+  font-size: 40pt;
 }
-#landing .year {
-  font-size: 56pt;
+#landing .place {
+  font-size: 32pt;
 }
 #landing .points {
   font-size: 36pt;
