@@ -11,22 +11,23 @@ module.exports = function (db, redis) {
 
     router.route("/")
     .post(middleware.admin, function (req, res) {
+        console.log(req.file);
         // Validate Path
         if (req.body.keyword.match(/\.|\/|\ |\$|`/g)) {
-            return unlink(req.files.data.path)
+            return unlink(req.file.path)
             .then(function () {
                 alert.error(req, "Form input looks suspicious, please remove any periods, slashes, spaces, or other odd characters from your input.");
                 res.redirect("back");
             });
-        } else if (req.files.data.length < 1) {
-            return unlink(req.files.data.path)
+        } else if (req.file.filename.length < 1) {
+            return unlink(req.file.path)
             .then(function () {
                 alert.error(req, "No upload.");
                 res.redirect("back");
             });
         }
         // Save Image
-        gm(req.files.data[0].path)
+        gm(req.file.path)
         .autoOrient()
         .resize(req.body.size, req.body.size, ">")
         .noProfile()
