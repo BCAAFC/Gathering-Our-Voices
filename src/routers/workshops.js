@@ -8,7 +8,7 @@ module.exports = function (db, redis) {
     .get(function (req, res) {
         db.Workshop.findAll({
             where: { approved: true, verified: true, },
-            attributes: ['id', 'title', 'facilitators', 'length', 'category', 'audience', 'summary'],
+            attributes: ['id', 'title', 'facilitators', 'length', 'audience', 'summary'],
             include: [db.Session],
             order: [ "title", ],
         }).then(function (workshops) {
@@ -17,7 +17,6 @@ module.exports = function (db, redis) {
                 { title: 'Title', data: 'title', className: 'title' },
                 { title: 'Facilitators', data: 'facilitators', className: 'facilitators' },
                 { title: 'Length', data: 'length', className: 'length' },
-                { title: 'Category', data: 'category', className: 'category' },
                 { title: 'Audience', data: 'audience', className: 'audience' },
                 { title: 'Sessions', data: 'Sessions', className: 'sessions' },
                 // { title: 'Summary', data: 'summary', className: 'summary' },
