@@ -24,7 +24,7 @@
                 {
                     targets: 0,
                     render: function (data, type, row) {
-                        return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.AccountId+"/exhibitor\"><i class=\"fa fa-fw fa-user\"></i></a>";
+                        return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.AccountId+"/exhibitor\">"+row.AccountId+"<i class=\"fa fa-fw fa-user\"></i></a>";
                     },
                 },
                 {
@@ -127,7 +127,7 @@
                 // Might need to send an email.
                 sendMail = window.confirm("Would you like to send an email?\n(Ok sends, Cancel does not)");
             }
-            
+
             $.ajax({
                 url: "/api/exhibitor/"+id+"/approval",
                 method: "PUT",
