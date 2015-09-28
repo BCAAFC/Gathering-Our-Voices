@@ -20,15 +20,6 @@ module.exports = function (sequelize, DataTypes) {
             values: [ "1.5 hour", "3 hour", "Full day" ],
             allowNull: false,
         },
-        category: {
-            type: DataTypes.ENUM,
-            values: [ "Cultural", "Physical", "Emotional", "Mental" ],
-            allowNull: false,
-        },
-        categoryReason: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-        },
         audience: {
             // Can't do ARRAY(ENUM)
             // Permits: "Youth", "Young Adult", "Young Chaperone", "Chaperone"
@@ -85,9 +76,17 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
             comment: "Is a mailing required?"
         },
-        flipchart: {
-            type: DataTypes.TEXT,
-            allowNull: true,
+        flipcharts: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        flipchartMarkers: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        power: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
         },
         projector: {
             type: DataTypes.BOOLEAN,
