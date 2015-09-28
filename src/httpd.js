@@ -34,7 +34,7 @@ module.exports = function (env, db, redisClient) {
         limits: {
             fileSize: 200*1000*1000, // 200mb
         },
-    }));
+    }).single("data"));
     // Allow PUT/DELETE in forms.
     server.use(require("method-override")(function methodOverrider(req, res) {
         // Just include a `_method` input on a form with the method you want.
