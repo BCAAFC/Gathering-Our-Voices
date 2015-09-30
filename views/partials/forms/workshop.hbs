@@ -8,6 +8,7 @@
 
     <div class="well">
         <p>You will be required to fulfill a Criminal Record Check using <a target='blank' href='https://justice.gov.bc.ca/eCRC/'>this link</a> and access code <code>2LMZZ4EHQ6</code> for <strong>all representatives</strong>. Please email us <a href="mailto:govcoordinator@bcaafc.com">govcoordinator@bcaafc.com</a> your <strong>full, legal names</strong> when done.</p>
+        <p>You <strong>MUST</strong> fill out all items of the form before submitting. You will be able to modify your answers later if needed.</p>
     </div>
 
     {{{form_input title="Title of Workshop" name="title" type="text"  value=workshop.title required=true
@@ -48,21 +49,21 @@
 
     <fieldset>
         <legend>Resources</legend>
-        {{{form_boolean title="Mailing" name="mailing" value=workshop.mailing
+        {{{form_boolean title="Mailing" name="mailing" value=workshop.mailing required=true
             description="Shipping costs and planning will be the responsibility of the facilitator. But if you require assistance mailing things for the conference mark this."}}}
         {{{form_input title="Flipchart" name="flipcharts" type="number" value=workshop.flipcharts
             description="Do you require flipcharts? Set to 0 (zero), or specify the number of flipcharts."}}}
         {{{form_input title="Flipchart Markers" name="flipchartMarkers" type="number" value=workshop.flipchartMarkers
             description="Do you require flipchart markers? Set to 0 (zero), or specify the number of flipchart markers."}}}
-        {{{form_boolean title="Power" name="power" value=workshop.power
+        {{{form_boolean title="Power" name="power" value=workshop.power required=true
             description="Do you require power for your workshop?"}}}
-        {{{form_boolean title="Projector" name="projector" value=workshop.projector
+        {{{form_boolean title="Projector" name="projector" value=workshop.projector required=true
             description="Do you require a projector for your workshop?"}}}
-        {{{form_boolean title="Screen" name="screen" value=workshop.screen
+        {{{form_boolean title="Screen" name="screen" value=workshop.screen required=true
             description="Do you require a screen for your workshop?"}}}
-        {{{form_boolean title="Media Player" name="player" value=workshop.player
+        {{{form_boolean title="Media Player" name="player" value=workshop.player required=true
             description="Do you require a DVD/CD player for your workshop?"}}}
-        {{{form_boolean title="Microphone & Speakers" name="microphone" value=workshop.microphone
+        {{{form_boolean title="Microphone & Speakers" name="microphone" value=workshop.microphone required=true
             description="Do you require a microphone and speakers for your workshop?"}}}
     </fieldset>
 
