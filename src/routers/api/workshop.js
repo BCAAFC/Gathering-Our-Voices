@@ -22,6 +22,10 @@ module.exports = function (db, redis) {
             if (req.body.mailing === "No") { req.body.mailing = false; }
             if (req.body.projector === "Yes") { req.body.projector = true; } else
             if (req.body.projector === "No") { req.body.projector = false; }
+            if (req.body.power === "Yes") { req.body.power = true; } else
+            if (req.body.power === "No") { req.body.power = false; }
+            if (req.body.screen === "Yes") { req.body.screen = true; } else
+            if (req.body.screen === "No") { req.body.screen = false; }
             if (req.body.player === "Yes") { req.body.player = true; } else
             if (req.body.player === "No") { req.body.player = false; }
             if (req.body.meals === "Yes") { req.body.meals = true; } else
@@ -74,8 +78,12 @@ module.exports = function (db, redis) {
             // Transform HTML form.
             if (req.body.mailing === "Yes") { req.body.mailing = true; } else
             if (req.body.mailing === "No") { req.body.mailing = false; }
+            if (req.body.power === "Yes") { req.body.power = true; } else
+            if (req.body.power === "No") { req.body.power = false; }
             if (req.body.projector === "Yes") { req.body.projector = true; } else
             if (req.body.projector === "No") { req.body.projector = false; }
+            if (req.body.screen === "Yes") { req.body.screen = true; } else
+            if (req.body.screen === "No") { req.body.screen = false; }
             if (req.body.player === "Yes") { req.body.player = true; } else
             if (req.body.player === "No") { req.body.player = false; }
             if (req.body.meals === "Yes") { req.body.meals = true; } else
