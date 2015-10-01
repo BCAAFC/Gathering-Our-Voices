@@ -8,7 +8,7 @@
 
     <div class="well">
         <p>You will be required to fulfill a Criminal Record Check using <a target='blank' href='https://justice.gov.bc.ca/eCRC/'>this link</a> and access code <code>2LMZZ4EHQ6</code> for <strong>all representatives</strong>. Please email us <a href="mailto:govcoordinator@bcaafc.com">govcoordinator@bcaafc.com</a> your <strong>full, legal names</strong> when done.</p>
-        <p>You <strong>MUST</strong> fill out all items of the form before submitting. You will be able to modify your answers later if needed.</p>
+        <p>You <strong>MUST</strong> fill out all items marked with a star (<strong>*</strong>) before submitting. You will be able to modify your answers later if needed.</p>
     </div>
 
     {{{form_input title="Title of Workshop" name="title" type="text"  value=workshop.title required=true
@@ -51,9 +51,9 @@
         <legend>Resources</legend>
         {{{form_boolean title="Mailing" name="mailing" value=workshop.mailing required=true
             description="Shipping costs and planning will be the responsibility of the facilitator. But if you require assistance mailing things for the conference mark this."}}}
-        {{{form_input title="Flipchart" name="flipcharts" type="number" value=workshop.flipcharts
+        {{{form_input title="Flipchart" name="flipcharts" type="number" value=workshop.flipcharts required=true
             description="Do you require flipcharts? Set to 0 (zero), or specify the number of flipcharts."}}}
-        {{{form_input title="Flipchart Markers" name="flipchartMarkers" type="number" value=workshop.flipchartMarkers
+        {{{form_input title="Flipchart Markers" name="flipchartMarkers" type="number" value=workshop.flipchartMarkers required=true
             description="Do you require flipchart markers? Set to 0 (zero), or specify the number of flipchart markers."}}}
         {{{form_boolean title="Power" name="power" value=workshop.power required=true
             description="Do you require power for your workshop?"}}}
@@ -84,9 +84,9 @@
 
     <fieldset>
         <legend>Compensation</legend>
-        {{{form_boolean title="Meal" name="meals" value=workshop.meals
+        {{{form_boolean title="Meal" name="meals" value=workshop.meals required=true
             description="If you request meal compensation we will provide you with a per-diem."}}}
-        {{{form_boolean title="Accomodation" name="accomodation" value=workshop.accomodation
+        {{{form_boolean title="Accomodation" name="accomodation" value=workshop.accomodation required=true
             description="If you request accomodation we will provide you with a hotel room near the conference."}}}
         {{{form_textarea title="Honorarium" name="honorarium" value=workshop.honorarium
             description="If you request an honorarium please specify the amount and some details regarding how you determined that amount.
