@@ -117,7 +117,7 @@ module.exports = function (db, redis) {
                 'default': function () { res.status(401).json({ error: error.message }); },
             });
         });
-    })
+    });
     // Delete an account.
     // .delete(middleware.admin, function (req, res) {
     //     db.Account.findOne({ where: { id: req.params.id, }, }).then(function (account) {

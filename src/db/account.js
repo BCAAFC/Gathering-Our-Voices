@@ -151,19 +151,20 @@ module.exports = function (sequelize, DataTypes) {
             },
             recoveryStart: function () {
                 var self = this;
-                self.misc.recovery = Math.random().toString(36).slice(2);
-                return communication.mail({
-                    to: [{ email: self.email, name: self.organization, }],
-                    from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
-                    cc: [],
-                    title: "Account Recovery",
-                    file: "recovery",
-                    variables: [
-                        { name: "email", content: encodeURIComponent(self.email), },
-                        { name: "key", content: encodeURIComponent(self.misc.recovery), },
-                    ]
-                }).then(function () {
-                   return self.save({fields: ['misc']});
+                return self.update({
+                    misc: { recovery: Math.random().toString(36).slice(2), }
+                }).then(function (self) {
+                    return communication.mail({
+                        to: [{ email: self.email, name: self.organization, }],
+                        from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
+                        cc: [],
+                        title: "Account Recovery",
+                        file: "recovery",
+                        variables: [
+                            { name: "email", content: encodeURIComponent(self.email), },
+                            { name: "key", content: encodeURIComponent(self.misc.recovery), },
+                        ]
+                    });
                 });
            },
            recoveryFinish: function (key) {
