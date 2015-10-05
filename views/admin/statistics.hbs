@@ -1,6 +1,7 @@
 {{> admin_bar active="statistics"}}
 
 <pre>
+{{{JSON stats 2}}}
 </pre>
 
 <div>
@@ -14,7 +15,9 @@
     <h1>Group Demographics</h1>
 
     <h3>Affiliation Type</h3>
-    (Pie)
+
+    <div id="affiliation-type"></div>
+
 
     <h3>Group Size</h3>
     (Histogram)
@@ -44,3 +47,22 @@
     <h3>Over Time</h3>
     (Linegraph)
 </div>
+
+
+<script>
+    $(function () {
+        $('#affiliation-type').highcharts({
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: 'Affiliation Type'
+            },
+            series: [{
+                name: "Affiliation",
+                data: {{{JSON stats.group_type 0}}}
+            }]
+        });
+    });
+
+</script>

@@ -375,6 +375,7 @@ module.exports = function (db, redis) {
                 group: ["province"],
                 raw: true,
             }),
+
             group_type: db.Group.findAll({
                 attributes: [
                     "affiliationType",
@@ -382,20 +383,34 @@ module.exports = function (db, redis) {
                 ],
                 group: ["affiliationType"],
                 raw: true,
+            }).then(function (result) {
+                return result.map(function (x) {
+                    return { name: x["affiliationType"], y: Number(x["count"]) };
+                });
             }),
+
             group_size: db.Group.findAll({
-                attributes: [
-                    "Group.id",
-                ],
+                attributes: ['id'],
                 group: ['Group.id'],
                 raw: true,
                 include: [{
                     model: db.Member,
                     attributes: [
-                        [sequelize.fn('count', sequelize.col("Members.id")), "Members"],
+                        [sequelize.fn('count', sequelize.col("Members.id")), "Count"],
                     ]
                 }]
+            }).then(function (groups) {
+                var histogram = {};
+                groups.map(function (x) {
+                    if (histogram[x['Members.Count']]) {
+                        histogram[x['Members.Count']] += 1;
+                    } else {
+                        histogram[x['Members.Count']] = 1;
+                    }
+                });
+                return histogram;
             }),
+
             member_type: db.Member.findAll({
                 attributes: [
                     "type",
