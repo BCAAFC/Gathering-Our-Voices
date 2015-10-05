@@ -49,8 +49,8 @@
         <tbody>
             {{#each account.Payments}}
                 <tr>
-                    <td>{{date}}</td>
                     <td>{{amount}}</td>
+                    <td>{{date}}</td>
                     <td>{{number}}</td>
                     <td>{{type}}</td>
                     <td>{{description}}</td>
@@ -64,8 +64,8 @@
                     {{/if}}
                 </tr>
             {{else}}
-                <tr colspan=5>
-                    <td>No payments yet!</td>
+                <tr>
+                    <td colspan=5>No payments yet!</td>
                 </tr>
             {{/each}}
         </tbody>

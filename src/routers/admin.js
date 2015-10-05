@@ -383,15 +383,19 @@ module.exports = function (db, redis) {
                 group: ["affiliationType"],
                 raw: true,
             }),
-            // group_size: db.Group.findAll({
-            //     attributes: [
-            //         "Group.id",
-            //         sequelize.fn('count', sequelize.col("Members.id"))
-            //     ],
-            //     group: ["Group.id"],
-            //     raw: true,
-            //     include: [{model: db.Member, attributes: ["id"],}, ]
-            // }),
+            group_size: db.Group.findAll({
+                attributes: [
+                    "Group.id",
+                ],
+                group: ['Group.id'],
+                raw: true,
+                include: [{
+                    model: db.Member,
+                    attributes: [
+                        [sequelize.fn('count', sequelize.col("Members.id")), "Members"],
+                    ]
+                }]
+            }),
             member_type: db.Member.findAll({
                 attributes: [
                     "type",

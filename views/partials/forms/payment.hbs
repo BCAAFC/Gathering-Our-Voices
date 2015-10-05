@@ -7,7 +7,7 @@
     {{/if}}
 
 
-    {{{form_input title="Date of Payment" name="date" type="date" value=(date payment.date)
+    {{{form_input title="Date of Payment" name="date" type="text" value=(date payment.date)
         description="Should be <code>MM-DD-YYYY</code>."}}}
     {{{form_input title="Amount" name="amount" type="number"  value=payment.amount required=true
         description="The amount (in CAD) of the payment."}}}
@@ -40,7 +40,7 @@
 
 <script>
     $(function () {
-        $("input[type='date']").datepicker({
+        $("input[name='date']").datepicker({
             format: "mm/dd/yyyy",
             startView: 2,
         });
