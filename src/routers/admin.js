@@ -1,5 +1,6 @@
 var Promise = require("bluebird"),
     fs = require("fs"),
+    sequelize = require("sequelize"),
     alert = require("../alert");
 
 // These all look the same, but expect them to differ later.
@@ -324,7 +325,7 @@ module.exports = function (db, redis) {
                     appExhibitors: appExhibitors,
                     appFacilitators: appFacilitators,
                     appVolunteers: appVolunteers,
-                })
+                });
             }
         );
     });
@@ -361,6 +362,58 @@ module.exports = function (db, redis) {
                 'default': function () { res.status(401).json({ error: error.message }); },
             });
         });
+    });
+
+    router.route("/statistics")
+    .get(function (req, res) {
+        Promise.props({
+            account_province: db.Account.findAll({
+                attributes: [
+                    "province",
+                    sequelize.fn("count", sequelize.col("province"))
+                ],
+                group: ["province"],
+                raw: true,
+            }),
+            group_type: db.Group.findAll({
+                attributes: [
+                    "affiliationType",
+                    sequelize.fn("count", sequelize.col("affiliationType"))
+                ],
+                group: ["affiliationType"],
+                raw: true,
+            }),
+            // group_size: db.Group.findAll({
+            //     attributes: [
+            //         "Group.id",
+            //         sequelize.fn('count', sequelize.col("Members.id"))
+            //     ],
+            //     group: ["Group.id"],
+            //     raw: true,
+            //     include: [{model: db.Member, attributes: ["id"],}, ]
+            // }),
+            member_type: db.Member.findAll({
+                attributes: [
+                    "type",
+                    sequelize.fn("count", sequelize.col("type"))
+                ],
+                group: ["type"],
+                raw: true,
+            }),
+        }).then(function (stats) {
+                console.log(stats);
+                res.render("admin/statistics", {
+                    title: "Administration - Statistics",
+                    account: req.session.account,
+                    admin: req.session.isAdmin,
+                    alert: req.alert,
+                    flags: db.Flag.cache(),
+                    // Stats
+                    stats: stats,
+                });
+            }
+        );
+
     });
 
     return router;

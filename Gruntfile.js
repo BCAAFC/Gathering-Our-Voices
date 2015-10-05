@@ -39,6 +39,8 @@ module.exports = function(grunt) {
                         'bower_components/codemirror/addon/mode/simple.js',
                         'bower_components/codemirror/addon/mode/multiplex.js',
                         'bower_components/codemirror/mode/xml/xml.js',
+                        // Highcharts
+                        'bower_components/highcharts/highcharts.js'
                     ],
                 },
             },

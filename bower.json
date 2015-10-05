@@ -27,6 +27,7 @@
     "bootstrap-datepicker": "~1.4.1",
     "datatables-plugins": "~1.10.9",
     "moment": "~2.10.6",
-    "countdownjs": "~2.6.0"
+    "countdownjs": "~2.6.0",
+    "highcharts": "~4.1.8"
   }
 }
