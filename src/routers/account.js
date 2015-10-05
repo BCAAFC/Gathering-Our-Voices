@@ -72,6 +72,7 @@ module.exports = function (db, redis) {
                 alert: req.alert,
                 cost: cost,
                 paid: paid,
+                balance: cost - paid,
                 breakdown: breakdown,
             });
         }).catch(function (error) {
