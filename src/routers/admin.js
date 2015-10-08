@@ -374,6 +374,10 @@ module.exports = function (db, redis) {
                 ],
                 group: ["province"],
                 raw: true,
+            }).then(function (result) {
+                return result.map(function (x) {
+                    return { name: x["province"], y: Number(x["count"]) };
+                });
             }),
 
             group_type: db.Group.findAll({
@@ -413,7 +417,7 @@ module.exports = function (db, redis) {
                     }
                 });
                 var arr = new Array(Number(max));
-                
+
                 Object.keys(histogram).forEach(function(key) {
                     arr[key] = histogram[key];
                 });

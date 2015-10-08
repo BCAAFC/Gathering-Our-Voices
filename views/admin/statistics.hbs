@@ -7,14 +7,13 @@
 <div>
     <h1>Account Demographics</h1>
 
-    <h3>Home Province</h3>
-    (Pie)
+    <div id="account-province"></div>
 
 </div>
 <div>
     <h1>Group Demographics</h1>
 
-    <div id="affiliation-type"></div>
+    <div id="group-affiliation"></div>
 
 
     <div id="group-size"></div>
@@ -47,10 +46,26 @@
 
 
 <script>
+    // Simple utility function.
     function range(a,b,c,d){d=[];c=b-a+1;while(c--){d[c]=b--}return d}
+
     $(function () {
+        var account_province = {{{JSON stats.account_province 0}}};
+        $('#account-province').highcharts({
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: 'Province of Origin'
+            },
+            series: [{
+                name: "Affiliation",
+                data: account_province,
+            }]
+        });
+
         var group_type = {{{JSON stats.group_type 0}}};
-        $('#affiliation-type').highcharts({
+        $('#group-affiliation').highcharts({
             chart: {
                 type: 'pie'
             },
@@ -58,14 +73,40 @@
                 text: 'Affiliation Type'
             },
             series: [{
-                name: "Affiliation",
-                data: group_type,
-            }]
+                data: group_type
+            }],
         });
 
         var group_size = {{{JSON stats.group_size 0}}};
         var group_size_categories = range(0, group_size.length);
-        console.log(group_size_categories);
+        $('#group-size').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Group Size'
+            },
+            plotOptions: {
+                columns: {
+                    groupPadding: 0,
+                    pointPadding: 0,
+                    borderWidth: 0,
+                },
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: "Occurences",
+                },
+            },
+            xAxis: {
+                categories: group_size_categories,
+            },
+            series: [{
+                data: group_size
+            }],
+        });
+
         $('#group-size').highcharts({
             chart: {
                 type: 'column'
