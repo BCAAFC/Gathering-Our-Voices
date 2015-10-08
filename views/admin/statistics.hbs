@@ -64,17 +64,7 @@
         });
 
         var group_size = {{{JSON stats.group_size 0}}};
-        var group_size_min = 0,
-            group_size_max = 0;
-        group_size.map(function (v) {
-            if (v.data > group_size_max) {
-                group_size_max = v.data;
-            }
-            if (v.data < group_size_min) {
-                group_size_min = v.data;
-            }
-        });
-        var group_size_categories = range(group_size_min, group_size_max);
+        var group_size_categories = range(0, group_size.length);
         console.log(group_size_categories);
         $('#group-size').highcharts({
             chart: {
@@ -99,7 +89,9 @@
             xAxis: {
                 categories: group_size_categories,
             },
-            series: group_size,
+            series: [{
+                data: group_size
+            }],
         });
 
     });

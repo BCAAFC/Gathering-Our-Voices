@@ -400,19 +400,22 @@ module.exports = function (db, redis) {
                     ]
                 }]
             }).then(function (groups) {
-                var histogram = {};
+                var histogram = {},
+                    max = 0;
                 groups.map(function (x) {
+                    if (x["Members.Count"] > max) {
+                        max = x["Members.Count"];
+                    }
                     if (histogram[x['Members.Count']]) {
                         histogram[x['Members.Count']] += 1;
                     } else {
                         histogram[x['Members.Count']] = 1;
                     }
                 });
-                var arr = [];
+                var arr = new Array(Number(max));
+                arr.fill(0);
                 Object.keys(histogram).forEach(function(key) {
-                    var anArray = Array();
-                    anArray[key] = histogram[key];
-                    arr.push({ name: key, data: anArray });
+                    arr[key] = histogram[key];
                 });
                 return arr;
             }),
