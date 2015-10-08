@@ -14,13 +14,10 @@
 <div>
     <h1>Group Demographics</h1>
 
-    <h3>Affiliation Type</h3>
-
     <div id="affiliation-type"></div>
 
 
-    <h3>Group Size</h3>
-    (Histogram)
+    <div id="group-size"></div>
 
     <h3>Youth In Care Numbers</h3>
     (Pie of seats used / Seats Avail)
@@ -50,7 +47,9 @@
 
 
 <script>
+    function range(a,b,c,d){d=[];c=b-a+1;while(c--){d[c]=b--}return d}
     $(function () {
+        var group_type = {{{JSON stats.group_type 0}}};
         $('#affiliation-type').highcharts({
             chart: {
                 type: 'pie'
@@ -60,9 +59,49 @@
             },
             series: [{
                 name: "Affiliation",
-                data: {{{JSON stats.group_type 0}}}
+                data: group_type,
             }]
         });
+
+        var group_size = {{{JSON stats.group_size 0}}};
+        var group_size_min = 0,
+            group_size_max = 0;
+        group_size.map(function (v) {
+            if (v.data > group_size_max) {
+                group_size_max = v.data;
+            }
+            if (v.data < group_size_min) {
+                group_size_min = v.data;
+            }
+        });
+        var group_size_categories = range(group_size_min, group_size_max);
+        console.log(group_size_categories);
+        $('#group-size').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Group Size'
+            },
+            plotOptions: {
+                columns: {
+                    groupPadding: 0,
+                    pointPadding: 0,
+                    borderWidth: 0,
+                },
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: "Occurences",
+                },
+            },
+            xAxis: {
+                categories: group_size_categories,
+            },
+            series: group_size,
+        });
+
     });
 
 </script>

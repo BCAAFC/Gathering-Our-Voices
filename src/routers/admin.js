@@ -408,7 +408,13 @@ module.exports = function (db, redis) {
                         histogram[x['Members.Count']] = 1;
                     }
                 });
-                return histogram;
+                var arr = [];
+                Object.keys(histogram).forEach(function(key) {
+                    var anArray = Array();
+                    anArray[key] = histogram[key];
+                    arr.push({ name: key, data: anArray });
+                });
+                return arr;
             }),
 
             member_type: db.Member.findAll({
