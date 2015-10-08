@@ -477,7 +477,7 @@ module.exports = function (db, redis) {
                 var ageSet = {};
                 result.map(function (x) {
                     var age = moment('2016-03-21').diff(x["birthDate"], 'years');
-                    if (age === NaN) { age = "Unspecified"; }
+                    if (age.isNaN()) { age = "Unspecified"; }
                     if (ageSet[age]) {
                         ageSet[age] += 1;
                     } else {
