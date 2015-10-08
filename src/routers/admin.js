@@ -436,6 +436,21 @@ module.exports = function (db, redis) {
                     return { name: x["type"], y: Number(x["count"]) };
                 });
             }),
+
+            ancestral_background: db.Member.findAll({
+                attributes: [
+                    "background",
+                    sequelize.fn("count", sequelize.col("background"))
+                ],
+                group: ["background"],
+                raw: true,
+            }).then(function (result) {
+                return result.map(function (x) {
+                    var background = x["background"];
+                    if (background === null) { background = "N/A"; }
+                    return { name: background, y: Number(x["count"]) };
+                });
+            }),
         }).then(function (stats) {
                 console.log(stats);
                 res.render("admin/statistics", {
