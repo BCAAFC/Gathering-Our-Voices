@@ -28,11 +28,9 @@
 
     <div id="member-type"></div>
 
+    <div id="member-background"></div>
 
-    <div id="ancestral-background"></div>
-
-    <h3>Gender</h3>
-    (Pie)
+    <div id="member-gender"></div>
 
     <h3>Age</h3>
     (Maybe???)
@@ -118,8 +116,8 @@
             }]
         });
 
-        var ancestral_background = {{{JSON stats.ancestral_background 0}}};
-        $('#ancestral-background').highcharts({
+        var member_background = {{{JSON stats.member_background 0}}};
+        $('#member-background').highcharts({
             chart: {
                 type: 'pie'
             },
@@ -131,7 +129,21 @@
             },
             series: [{
                 name: "Background",
-                data: ancestral_background,
+                data: member_background,
+            }]
+        });
+
+        var member_gender = {{{JSON stats.member_gender 0}}};
+        $('#member-gender').highcharts({
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: 'Gender',
+            },
+            series: [{
+                name: "Gender",
+                data: member_gender,
             }]
         });
 

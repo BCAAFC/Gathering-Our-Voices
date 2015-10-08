@@ -437,7 +437,7 @@ module.exports = function (db, redis) {
                 });
             }),
 
-            ancestral_background: db.Member.findAll({
+            member_background: db.Member.findAll({
                 attributes: [
                     "background",
                     sequelize.fn("count", sequelize.col("background"))
@@ -449,6 +449,21 @@ module.exports = function (db, redis) {
                     var background = x["background"];
                     if (background === null) { background = "N/A"; }
                     return { name: background, y: Number(x["count"]) };
+                });
+            }),
+
+            member_gender: db.Member.findAll({
+                attributes: [
+                    "gender",
+                    sequelize.fn("count", sequelize.col("gender"))
+                ],
+                group: ["gender"],
+                raw: true,
+            }).then(function (result) {
+                return result.map(function (x) {
+                    var gender = x["gender"];
+                    if (gender === null) { gender = "N/A"; }
+                    return { name: gender, y: Number(x["count"]) };
                 });
             }),
         }).then(function (stats) {
