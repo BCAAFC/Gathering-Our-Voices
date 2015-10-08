@@ -431,6 +431,10 @@ module.exports = function (db, redis) {
                 ],
                 group: ["type"],
                 raw: true,
+            }).then(function (result) {
+                return result.map(function (x) {
+                    return { name: x["type"], y: Number(x["count"]) };
+                });
             }),
         }).then(function (stats) {
                 console.log(stats);

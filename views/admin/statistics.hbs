@@ -26,9 +26,7 @@
 <div>
     <h1>Member Demographics</h1>
 
-    <h3>Delegate Type</h3>
-    {{{stats_delegate_types}}}
-    (Pie)
+    <div id="member-type"></div>
 
     <h3>Ancestral Background</h3>
     <p><emph>(This is an optional field.)</emph></p>
@@ -107,32 +105,18 @@
             }],
         });
 
-        $('#group-size').highcharts({
+        var member_type = {{{JSON stats.member_type 0}}};
+        $('#member-type').highcharts({
             chart: {
-                type: 'column'
+                type: 'pie'
             },
             title: {
-                text: 'Group Size'
-            },
-            plotOptions: {
-                columns: {
-                    groupPadding: 0,
-                    pointPadding: 0,
-                    borderWidth: 0,
-                },
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: "Occurences",
-                },
-            },
-            xAxis: {
-                categories: group_size_categories,
+                text: 'Member Types'
             },
             series: [{
-                data: group_size
-            }],
+                name: "Types",
+                data: member_type,
+            }]
         });
 
     });
