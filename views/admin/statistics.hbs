@@ -1,39 +1,35 @@
 {{> admin_bar active="statistics"}}
 
-<pre>
-{{{JSON stats 2}}}
-</pre>
-
-<div>
+<div class="row">
     <h1>Account Demographics</h1>
 
-    <div id="account-province"></div>
+    <div id="account-province" class="col-md-12"></div>
 
 </div>
-<div>
+
+<div class="row">
     <h1>Group Demographics</h1>
 
-    <div id="group-affiliation"></div>
-
-
-    <div id="group-size"></div>
+    <div id="group-affiliation" class="col-md-6"></div>
 
     <h3>Youth In Care Numbers</h3>
     (Pie of seats used / Seats Avail)
 
+    <div id="group-size" class="col-md-12"></div>
+
+
 </div>
 
-<div>
+<div class="row">
     <h1>Member Demographics</h1>
 
-    <div id="member-type"></div>
+    <div id="member-type" class="col-md-6"></div>
 
-    <div id="member-background"></div>
+    <div id="member-background" class="col-md-6"></div>
 
-    <div id="member-gender"></div>
+    <div id="member-gender" class="col-md-6"></div>
 
-    <h3>Age</h3>
-    (Maybe???)
+    <div id="member-age" class="col-md-6"></div>
 
     <h3>Over Time</h3>
     (Linegraph)
@@ -144,6 +140,20 @@
             series: [{
                 name: "Gender",
                 data: member_gender,
+            }]
+        });
+
+        var member_age = {{{JSON stats.member_age 0}}};
+        $('#member-age').highcharts({
+            chart: {
+                type: 'pie'
+            },
+            title: {
+                text: 'Age',
+            },
+            series: [{
+                name: "Age",
+                data: member_age,
             }]
         });
 
