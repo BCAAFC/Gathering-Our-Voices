@@ -413,7 +413,7 @@ module.exports = function (db, redis) {
                     }
                 });
                 var arr = new Array(Number(max));
-                arr.fill(0);
+                
                 Object.keys(histogram).forEach(function(key) {
                     arr[key] = histogram[key];
                 });
