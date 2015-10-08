@@ -31,8 +31,7 @@
 
     <div id="member-age" class="col-md-6"></div>
 
-    <h3>Over Time</h3>
-    (Linegraph)
+    <div id="member-timeline" class="col-md-12"></div>
 </div>
 
 
@@ -154,6 +153,27 @@
             series: [{
                 name: "Age",
                 data: member_age,
+            }]
+        });
+
+        var member_timeline = {{{JSON stats.member_timeline 0}}};
+        $('#member-timeline').highcharts({
+            chart: {
+                zoomType: 'x'
+            },
+            title: {
+                text: 'Members over time',
+            },
+            xAxis: {
+                type: 'datetime'
+            },
+            legend: {
+                enabled: false,
+            },
+            series: [{
+                name: "Members",
+                type: "area",
+                data: member_timeline,
             }]
         });
 

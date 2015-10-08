@@ -490,6 +490,34 @@ module.exports = function (db, redis) {
                 });
                 return arr;
             }),
+
+            member_timeline: db.Member.findAll({
+                attributes: [
+                    "createdAt",
+                ],
+                sort: "createdAt",
+                raw: true,
+            }).then(function (result) {
+                console.log(result);
+                var item = result.shift(),
+                    date = moment(item.createdAt).format("MMMM DD YYYY"),
+                    acc = 0,
+                    out = [];
+                while (item !== null && item !== undefined) {
+                    console.log(item);
+                    // Chomp it!
+                    var formatted = moment(item.createdAt).format("MMMM DD YYYY");
+                    if (formatted !== date) {
+                        out.push([date, acc]);
+                        date = formatted;
+                    }
+                    acc += 1;
+
+                    // Next item.
+                    item = result.shift();
+                }
+                return out;
+            }),
         }).then(function (stats) {
                 console.log(stats);
                 res.render("admin/statistics", {
