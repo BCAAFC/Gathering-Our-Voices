@@ -108,6 +108,7 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.ENUM,
             values: [
                 "Circle",
+                "Conference",
                 "Semicircle",
                 "Gym",
                 "Banquet",

@@ -6,10 +6,7 @@
         <legend>Apply to Facilitate a Workshop</legend>
     {{/if}}
 
-    <div class="well">
-        <p>You will be required to fulfill a Criminal Record Check using <a target='blank' href='https://justice.gov.bc.ca/eCRC/'>this link</a> and access code <code>2LMZZ4EHQ6</code> for <strong>all representatives</strong>. Please email us <a href="mailto:govcoordinator@bcaafc.com">govcoordinator@bcaafc.com</a> your <strong>full, legal names</strong> when done.</p>
-        <p>You <strong>MUST</strong> fill out all items marked with a star (<strong>*</strong>) before submitting. You will be able to modify your answers later if needed.</p>
-    </div>
+    <p>You <strong>MUST</strong> fill out all items marked with a star (<strong>*</strong>) before submitting. You will be able to modify your answers later if needed.</p>
 
     {{{form_input title="Title of Workshop" name="title" type="text"  value=workshop.title required=true
         description="Please keep it succinct, 5 words or less."}}}
@@ -69,7 +66,8 @@
 
     {{{img "img-rounded" "room-set-up"}}}
     {{#form_select title="Room Setup" name="room" selected=workshop.room required=true}}
-        <option value="Circle">Circle</option>
+        <option value="Circle">Circle (Chairs only)</option>
+        <option value="Conference">Conference</option>
         <option value="Semicircle">Semicircle</option>
         <option value="Gym">Gym</option>
         <option value="Banquet">Banquet</option>
@@ -107,6 +105,7 @@
             <input class="btn btn-block btn-primary" type='submit' value="Apply to Facilitate">
         </div>
     {{/if}}
+
 </form>
 
 <script>
