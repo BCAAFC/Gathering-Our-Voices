@@ -35,8 +35,8 @@
                 {
                     targets: [ -2, ], // Workshop
                     render: function (data, type, row) {
-                        if (data) {
-                            return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/workshop\">" + row.Workshop.id + "</a>";
+                        if (row.Workshops) {
+                            return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/workshop\">Yes</a>";
                         } else {
                             return "<a class=\"btn btn-xs btn-default\" disabled>N/A</a>";
                         }

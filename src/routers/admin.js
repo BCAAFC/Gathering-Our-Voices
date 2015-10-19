@@ -14,7 +14,12 @@ module.exports = function (db, redis) {
     router.route("/accounts")
     .get(function (req, res) {
         db.Account.findAll({
-            include: [{all: true, attributes: ['id'] }],
+            include: [
+                { model: db.Group, attributes: ["id"] },
+                { model: db.Workshop, attributes: ["id"] },
+                { model: db.Exhibitor, attributes: ["id"] },
+                { model: db.Volunteer, attributes: ["id"] },
+            ],
             order: [ "affiliation", ],
         }).map(function (account) {
             return account.balance().then(function (balance) {
