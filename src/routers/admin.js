@@ -120,7 +120,10 @@ module.exports = function (db, redis) {
     router.route("/workshops")
     .get(function (req, res) {
         db.Workshop.findAll({
-            include: [db.Session,],
+            include: [
+                db.Session,
+                { model: db.Account, attributes: ["id"] },
+            ],
             order: [ "title", ],
         }).then(function (workshops) {
             var columns = Object.keys(db.Workshop.attributes)

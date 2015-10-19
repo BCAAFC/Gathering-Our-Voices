@@ -17,12 +17,12 @@
         </div>
         <div id="facilitate" class="col-md-3 col-sm-6 col-xs-12 text-center">
             {{{img "img-rounded img-fill" "acc-facilitate"}}}
-            {{#if account.Workshop}}
-                <a class="btn btn-block btn-primary" href="/account/workshop">Modify Facilitation Application</a>
+            {{#if account.Workshops}}
+                <a class="btn btn-block btn-primary" href="/account/workshops">Modify Facilitation Application</a>
             {{else unless flags.facilitatorRegistration}}
                 <a class="btn btn-block btn-default" disabled>Applications closed.</a>
             {{else}}
-                <a class="btn btn-block btn-default" href="/account/workshop">Apply to Facilitate</a>
+                <a class="btn btn-block btn-default" href="/account/workshops">Apply to Facilitate</a>
             {{/if}}
             <p>As a facilitator, you'll hold the floor in one of our many rooms and have your opportunity to inspire and uplift our youth.</p>
             <p><strong>Deadline:</strong>November 6th, 2015.</p>

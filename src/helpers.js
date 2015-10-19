@@ -38,12 +38,14 @@ module.exports = function (hbs) {
     hbs.registerHelper("form_input", function (options) {
         var params = options.hash,
             output = [];
+
         // Defaults
         if (params.type === "checkbox") {
             if (params.value === true) {
                 params.value = " checked=\"checked\"";
             } else { params.value = ""; }
-        } else if (params.value) { params.value = " value=\"" + params.value + "\"";
+        } else if (params.value !== null && params.value !== undefined) {
+            params.value = " value=\"" + params.value + "\"";
         } else { params.value = ""; }
 
         if (params.required) { params.required = " required"; }

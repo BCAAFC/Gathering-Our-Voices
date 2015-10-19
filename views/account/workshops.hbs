@@ -1,0 +1,59 @@
+<h1>General Facilitator Information</h1>
+
+<ul>
+    <li>Workshops will be 1.5 or 3 hours in length and may be repeated 1-8 times throughout the conference.</li>
+    <li>Workshops targetting youth and young adults are preferred, though each year a few chaperone workshops are selected.</li>
+    <li>Preference is given towards workshops that demonstrate a high-level of interaction and share best practices/successful approaches.</li>
+    <li>Preference is given towards workshops that require little to no audio/visual aids (i.e. projectors, microphones, TV/DVD Players etc.)</li>
+    <li>Potential Facilitators <strong>must call Della (250-388-5522) before November 6th</strong> to verify their application before it is considered by the youth steering committee.</li>
+    <li>Facilitators are informed if they were chosen to host a workshop: November 23, 2015</li>
+    <li>You will also receive a confirmation email that you submitted an application. Be sure you receive that in your inbox or spam. If you did not please call Della (250-388-5522) to confirm we received your application.</li>
+</ul>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Verified</th>
+            <th>Approved</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each account.Workshops}}
+            <tr>
+                <td>{{title}}</td>
+                <td>
+                    {{#if verified}}
+                        <i class="btn btn-xs btn-disabled btn-success fa fa-check"></i>
+                    {{else}}
+                        <i class="btn btn-xs btn-disabled btn-danger fa fa-times"></i>
+                    {{/if}}
+                </td>
+                <td>
+                    {{#if approved}}
+                        <i class="btn btn-xs btn-disabled btn-success fa fa-check"></i>
+                    {{else}}
+                        <i class="btn btn-xs btn-disabled btn-danger fa fa-times"></i>
+                    {{/if}}
+                </td>
+                <td>
+                    <a class="btn btn-default" href="/account/workshop/{{id}}">
+                        <i class="fa fa-edit"></i>
+                        Edit
+                    </a>
+                </td>
+            </tr>
+        {{else}}
+            <tr><td>No workshops proposed, yet!</td></tr>
+        {{/each}}
+    </tbody>
+    <tfoot>
+        <tr><td colspan=4>
+            <a class="btn btn-success btn-block" href="/account/workshop">
+                <i class="fa fa-plus"></i>
+                Propose a Workshop
+            </a>
+        </td></tr>
+    </tfoot>
+</table>

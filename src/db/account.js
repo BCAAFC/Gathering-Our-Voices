@@ -98,7 +98,8 @@ module.exports = function (sequelize, DataTypes) {
                 Account.hasOne(models.Group, {onDelete: 'CASCADE'});
                 Account.hasOne(models.Exhibitor, {onDelete: 'CASCADE'});
                 Account.hasOne(models.Volunteer, {onDelete: 'CASCADE'});
-                Account.hasOne(models.Workshop, {onDelete: 'CASCADE'});
+                // Account.hasOne(models.Workshop, {onDelete: 'CASCADE'});
+                Account.hasMany(models.Workshop, {onDelete: 'CASCADE'});
                 Account.hasMany(models.Payment, {onDelete: 'CASCADE'});
             },
             auth: function (email, pass) {

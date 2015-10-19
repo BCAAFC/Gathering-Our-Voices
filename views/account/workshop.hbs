@@ -10,13 +10,12 @@
     <li>You will also receive a confirmation email that you submitted an application. Be sure you receive that in your inbox or spam. If you did not please call Della (250-388-5522) to confirm we received your application.</li>
 </ul>
 
-
-{{#if account.Workshop.approved}}
+{{#if workshop.approved}}
     <div class="alert alert-success">
         Your workshop has been approved by our staff! Congratulations!
         <br>
         You may see the sessions you are assigned below, or visit your workshop
-        page <a href="/workshops/{{account.Workshop.id}}">here</a> to see what potential attendees see.
+        page <a href="/workshops/{{workshop.id}}">here</a> to see what potential attendees see.
         <br>
         At this time you are no longer able to modify your workshop details.
         If you require any changes please contact us. A staff member can
@@ -29,7 +28,7 @@
             <tr><th>Start</th><th>End</th><th>Room</th><th>Venue</th><th>Capacity</th></tr>
         </thead>
         <tbody>
-            {{#each account.Workshop.Sessions}}
+            {{#each workshop.Sessions}}
                 <tr>
                     <td>{{datetime start}}</td>
                     <td>{{datetime end}}</td>
@@ -68,9 +67,9 @@
     </table>
 
     {{#if admin}}
-        {{> forms/workshop workshop=account.Workshop flags=flags}}
+        {{> forms/workshop workshop=workshop flags=flags}}
     {{/if}}
-{{else if account.Workshop.verified}}
+{{else if workshop.verified}}
     <div class="alert alert-warning">
         Your workshop has been verified by our staff and is now to selection!
         You will be notified if you are approved.
@@ -79,16 +78,16 @@
         If you require any changes please contact us. A staff member can
         change them for you.
         <br>
-        Your workshop page may be seen <a href="/workshops/{{account.Workshop.id}}">here</a>,
+        Your workshop page may be seen <a href="/workshops/{{workshop.id}}">here</a>,
         but it cannot be interacted with and it not listed, since it is not approved.
     </div>
     {{#if admin}}
-        {{> forms/workshop workshop=account.Workshop flags=flags}}
+        {{> forms/workshop workshop=workshop flags=flags}}
     {{/if}}
 {{else unless flags.facilitatorRegistration}}
     <div class="alert alert-danger">
         Unfortunately facilitator registration is closed. Perhaps next year?
     </div>
 {{else}}
-    {{> forms/workshop workshop=account.Workshop flags=flags}}
+    {{> forms/workshop workshop=workshop flags=flags}}
 {{/if}}

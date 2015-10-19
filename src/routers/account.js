@@ -157,19 +157,62 @@ module.exports = function (db, redis) {
         });
     });
 
-    router.route("/workshop")
+    router.route("/workshops")
     .get(function (req, res) {
         db.Account.findOne({
             where: { id: req.session.account.id, },
-            include: [{ model: db.Workshop, include: [{ model: db.Session, include: db.Member}] }]
+            include: [{
+                model: db.Workshop,
+                include: [
+                    { model: db.Session, include: db.Member}
+                ]
+            }],
         }).then(function (account) {
             req.session.account = account;
+            res.render("account/workshops", {
+                title: "Account - Workshops",
+                account: account,
+                admin: req.session.isAdmin,
+                flags: db.Flag.cache(),
+                alert: req.alert,
+            });
+        }).catch(function (error) {
+            alert.error(req, error.message);
+            res.redirect("/login");
+        });
+    });
+
+    router.route("/workshop/:id?")
+    .get(function (req, res) {
+        db.Account.findOne({
+            where: { id: req.session.account.id, },
+            include: [{
+                model: db.Workshop,
+                include: [
+                    { model: db.Session, include: db.Member}
+                ]
+            }],
+        }).then(function (account) {
+            req.session.account = account;
+            var workshop = null;
+
+            // Verify they own this workshop.
+            // TODO: This can be cleaned.
+            if (req.params.id) {
+                var idx = req.session.account.Workshops.map(function (x) { return x.id; }).indexOf(Number(req.params.id));
+                if (idx === -1) {
+                    throw new Error("You do not own this workshop. If this is in mistake please get in touch with us.");
+                }
+                workshop = req.session.account.Workshops[idx];
+            }
+
             res.render("account/workshop", {
                 title: "Account - Workshop",
                 account: account,
                 admin: req.session.isAdmin,
                 flags: db.Flag.cache(),
                 alert: req.alert,
+                workshop: workshop,
             });
         }).catch(function (error) {
             alert.error(req, error.message);

@@ -14,7 +14,7 @@ module.exports = function (db, redis) {
                 { model: db.Workshop, },
             ],
         }).then(function (account) {
-            if (account.Workshop) { throw new Error("Already workshop associated with this account."); }
+
             // Defaults.
             // Transform HTML form.
             if (typeof req.body.facilitators === "string") { req.body.facilitators = [req.body.facilitators]; }
@@ -46,7 +46,7 @@ module.exports = function (db, redis) {
             res.format({
                 'text/html': function () {
                     alert.success(req, "Facilitator application created.");
-                    res.redirect('back');
+                    res.redirect('/account/workshops');
                 },
                 'default': function () { res.status(200).json(account); },
             });
@@ -66,7 +66,7 @@ module.exports = function (db, redis) {
             where: { id: req.params.id },
         }).then(function (workshop) {
             // Validations.
-            if (workshop.id !== req.session.account.Workshop.id) {
+            if (req.session.account.Workshops.map(function (x) { return x.id; }).indexOf(workshop.id) === -1) {
                 throw new Error("That workshop is not associated with this account.");
             }
             if ((workshop.approved || workshop.verified) && !req.session.isAdmin) {
@@ -74,7 +74,7 @@ module.exports = function (db, redis) {
             }
 
             if (typeof req.body.facilitators === "string") { req.body.facilitators = [req.body.facilitators]; }
-            console.log("Recieved: ", req.body.facilitators);
+
             // Transform HTML form.
             if (req.body.mailing === "Yes") { req.body.mailing = true; } else
             if (req.body.mailing === "No") { req.body.mailing = false; }
@@ -99,8 +99,6 @@ module.exports = function (db, redis) {
         }).then(function (workshop) {
             workshop.title = req.body.title || workshop.title;
             workshop.facilitators = req.body.facilitators || workshop.facilitators;
-
-            console.log("Set to: ", workshop.facilitators);
 
             workshop.length = req.body.length || workshop.length;
             workshop.category = req.body.category || workshop.category;
@@ -129,7 +127,7 @@ module.exports = function (db, redis) {
             res.format({
                 'text/html': function () {
                     alert.success(req, "Facilitator application updated.");
-                    res.redirect('back');
+                    res.redirect('/account/workshops');
                 },
                 'default': function () { res.status(200).json(workshop); },
             });
