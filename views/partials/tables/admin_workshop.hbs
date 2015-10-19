@@ -23,7 +23,6 @@
                 {
                     targets: 0,
                     render: function (data, type, row) {
-                        console.log(row);
                         return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.Account.id+"/workshop/"+row.id+"\">"+row.Account.id+"<i class=\"fa fa-fw fa-user\"></i></span>";
                     },
                 },
@@ -70,6 +69,16 @@
                     render: function (data, type, row) {
                         return  "<input class=\"tags\" data-id=\""+row.id+"\" data-role=\"tagsinput\" value=\""+data+"\">";
                     },
+                },
+                {
+                    targets: [11, 14, 15, 16, 17, 18, 21, 22], // Mailing, Power, Projector, Screen, Player, Microphone, Meals, Accomodation
+                    render: function (data, type, row) {
+                        if (data === true) {
+                            return "<a class=\"btn btn-xs btn-success\"><i class=\"fa fa-check\"></i></a>";
+                        } else {
+                            return "<a class=\"btn btn-xs btn-danger\"><i class=\"fa fa-times\"></i></a>";
+                        }
+                    }
                 },
                 {
                     targets: -6, // Approved
