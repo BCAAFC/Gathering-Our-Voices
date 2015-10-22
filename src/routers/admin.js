@@ -155,6 +155,25 @@ module.exports = function (db, redis) {
         });
     });
 
+    router.route("/workshops/selection_printout")
+    .get(function (req, res) {
+        db.Workshop.findAll({
+            order: [ "title", ],
+        }).then(function (workshops) {
+            res.render("admin/workshop_selection_printout", {
+                title: "Administration - Selection",
+                account: req.session.account,
+                admin: req.session.isAdmin,
+                alert: req.alert,
+                flags: db.Flag.cache(),
+                workshops: workshops,
+            });
+        }).catch(function (error) {
+            console.warn(error.message);
+            res.status(404).send(error.message);
+        });
+    });
+
     router.route("/exhibitors")
     .get(function (req, res) {
         db.Exhibitor.findAll({
