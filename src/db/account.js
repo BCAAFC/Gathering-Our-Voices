@@ -5,14 +5,15 @@ var bcrypt = require("bcrypt"),
 
 var compare = Promise.promisify(bcrypt.compare);
 
-// Run when password changes.
-var hashPasswordHook = function (account, opts, fn) {
-  if (!account.changed('password')) return fn();
-  bcrypt.hash(account.get('password'), 10, function (err, hash) {
-    if (err) return fn(err);
-    account.set('password', hash);
-    fn(null, account);
-  });
+var updateHook = function (account, opts, fn) {
+    // Run when password changes.
+    if (!account.changed('password')) return fn();
+    bcrypt.hash(account.get('password'), 10, function (err, hash) {
+        if (err) return fn(err);
+        account.set('password', hash);
+        fn(null, account);
+    });
+    account.set("email", account.get("email").toLowerCase());
 };
 
 module.exports = function (sequelize, DataTypes) {
@@ -177,8 +178,8 @@ module.exports = function (sequelize, DataTypes) {
            },
         },
         hooks: {
-            beforeCreate: hashPasswordHook,
-            beforeUpdate: hashPasswordHook,
+            beforeCreate: updateHook,
+            beforeUpdate: updateHook,
             afterCreate: function (account) {
                 return communication.mail({
                     to: [{ email: account.email, name: account.affiliation, }], // To

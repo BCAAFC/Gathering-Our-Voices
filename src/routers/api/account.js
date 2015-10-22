@@ -6,7 +6,7 @@ module.exports = function (db, redis) {
 
     // Authenticate and login.
     router.post("/auth", function (req, res) {
-        db.Account.auth(req.body.email, req.body.password).then(function (account) {
+        db.Account.auth(req.body.email.toLowerCase(), req.body.password).then(function (account) {
             req.session.account = account;
             if (process.env.ADMINS.indexOf(account.email) !== -1) {
                 req.session.isAdmin = true;
