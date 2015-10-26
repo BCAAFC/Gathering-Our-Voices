@@ -76,37 +76,44 @@
         // Visible Toggles
         var colvis = new $.fn.dataTable.ColVis(table);
         $("#options").append(colvis.button());
+
         // Scan for tagsinputs.
-        var inputs = $("input[data-role=\"tagsinput\"]").tagsinput()
-        $("input[data-role=\"tagsinput\"]").on("itemAdded", function (e) {
-            var item = e.item,
-                id = $(this).data("id"),
-                self = this;
-            console.log("ADD " + item + " to " + id);
-            $.ajax({
-                url: "/api/group/"+id+"/tags",
-                method: "PUT",
-                data: { add: item, },
-            }).done(function (data) {
-                return;
-            }).fail(function (data) {
-                alert("Failed, please reload the page.");
+        function drawHook() {
+            console.log("FUNNING");
+            var inputs = $("input[data-role=\"tagsinput\"]").tagsinput();
+            $("input[data-role=\"tagsinput\"]").on("itemAdded", function (e) {
+                var item = e.item,
+                    id = $(this).data("id"),
+                    self = this;
+                console.log("ADD " + item + " to " + id);
+                $.ajax({
+                    url: "/api/group/"+id+"/tags",
+                    method: "PUT",
+                    data: { add: item, },
+                }).done(function (data) {
+                    return;
+                }).fail(function (data) {
+                    alert("Failed, please reload the page.");
+                });
+            })
+            $("input[data-role=\"tagsinput\"]").on("itemRemoved", function (e) {
+                var item = e.item,
+                    id = $(this).data("id"),
+                    self = this;
+                console.log("REMOVE " + item + " from " + id);
+                $.ajax({
+                    url: "/api/group/"+id+"/tags",
+                    method: "DELETE",
+                    data: { remove: item, },
+                }).done(function (data) {
+                    return;
+                }).fail(function (data) {
+                    alert("Failed, please reload the page.");
+                });
             });
-        })
-        $("input[data-role=\"tagsinput\"]").on("itemRemoved", function (e) {
-            var item = e.item,
-                id = $(this).data("id"),
-                self = this;
-            console.log("REMOVE " + item + " from " + id);
-            $.ajax({
-                url: "/api/group/"+id+"/tags",
-                method: "DELETE",
-                data: { remove: item, },
-            }).done(function (data) {
-                return;
-            }).fail(function (data) {
-                alert("Failed, please reload the page.");
-            });
-        });
+        }
+        
+        $('#group_table').on('draw.dt', drawHook);
+        $("#group_table").dataTable().fnDraw();
     });
 </script>

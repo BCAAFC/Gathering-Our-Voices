@@ -48,7 +48,7 @@
                 {
                     targets: -5, // Tags
                     render: function (data, type, row) {
-                        return  "<input class=\"tags\" data-id=\""+row.id+"\" data-role=\"tagsinput\" value=\""+data+"\">";
+                        return "<input class=\"tags\" data-id=\""+row.id+"\" data-role=\"tagsinput\" value=\""+data+"\">";
                     },
                 },
                 {
@@ -118,190 +118,142 @@
         // Visible Toggles
         var colvis = new $.fn.dataTable.ColVis(table);
         $("#options").append(colvis.button());
-        // Scan for tagsinputs.
-        var inputs = $("input[data-role=\"tagsinput\"]").tagsinput()
-        $("input[data-role=\"tagsinput\"]").on("itemAdded", function (e) {
-            var item = e.item,
-                id = $(this).data("id"),
-                self = this;
-            console.log("ADD " + item + " to " + id);
-            $.ajax({
-                url: "/api/volunteer/"+id+"/tags",
-                method: "PUT",
-                data: { add: item, },
-            }).done(function (data) {
-                return;
-            }).fail(function (data) {
-                alert("Failed, please reload the page, then try again.");
-            });
-        })
-        $("input[data-role=\"tagsinput\"]").on("itemRemoved", function (e) {
-            var item = e.item,
-                id = $(this).data("id"),
-                self = this;
-            console.log("REMOVE " + item + " from " + id);
-            $.ajax({
-                url: "/api/volunteer/"+id+"/tags",
-                method: "DELETE",
-                data: { remove: item, },
-            }).done(function (data) {
-                return;
-            }).fail(function (data) {
-                alert("Failed, please reload the page, then try again.");
-            });
-        });
-        // Approved and Verified.
-        $("a.applied").on("click", function (e) {
-            var self = this,
-                id = $(this).data("id"),
-                state = $(this).data("state");
-            $.ajax({
-                url: "/api/volunteer/"+id+"/applied",
-                method: "PUT",
-                data: { applied: !state, },
-            }).done(function (data) {
-                $(self).data("state", data.state);
-                if (data.state === true) {
-                    $(self)
-                        .removeClass("btn-danger")
-                        .addClass("btn-success")
-                        .children("i")
-                            .removeClass("fa-times")
-                            .addClass("fa-check");
-                } else {
-                    $(self)
-                        .removeClass("btn-success")
-                        .addClass("btn-danger")
-                        .children("i")
-                            .removeClass("fa-check")
-                            .addClass("fa-times");
-                }
-                return;
-            }).fail(function (data) {
-                alert("Failed, please reload the page, then try again.");
-            });
-        });
-        $("a.approval").on("click", function (e) {
-            var self = this,
-                id = $(this).data("id"),
-                state = $(this).data("state");
 
-            var sendMail = false;
-            if (state === false) {
-                // Might need to send an email.
-                sendMail = window.confirm("Would you like to send an email?\n(Ok sends, Cancel does not)");
-            }
+        function drawHook() {
+            // Scan for tagsinputs.
+            var inputs = $("input[data-role=\"tagsinput\"]").tagsinput()
+            $("input[data-role=\"tagsinput\"]").on("itemAdded", function (e) {
+                var item = e.item,
+                    id = $(this).data("id"),
+                    self = this;
+                console.log("ADD " + item + " to " + id);
+                $.ajax({
+                    url: "/api/volunteer/"+id+"/tags",
+                    method: "PUT",
+                    data: { add: item, },
+                }).done(function (data) {
+                    return;
+                }).fail(function (data) {
+                    alert("Failed, please reload the page, then try again.");
+                });
+            })
+            $("input[data-role=\"tagsinput\"]").on("itemRemoved", function (e) {
+                var item = e.item,
+                    id = $(this).data("id"),
+                    self = this;
+                console.log("REMOVE " + item + " from " + id);
+                $.ajax({
+                    url: "/api/volunteer/"+id+"/tags",
+                    method: "DELETE",
+                    data: { remove: item, },
+                }).done(function (data) {
+                    return;
+                }).fail(function (data) {
+                    alert("Failed, please reload the page, then try again.");
+                });
+            });
+            // Approved and Verified.
+            $("a.applied").on("click", function (e) {
+                var self = this,
+                    id = $(this).data("id"),
+                    state = $(this).data("state");
+                $.ajax({
+                    url: "/api/volunteer/"+id+"/applied",
+                    method: "PUT",
+                    data: { applied: !state, },
+                }).done(function (data) {
+                    $(self).data("state", data.state);
+                    if (data.state === true) {
+                        $(self)
+                            .removeClass("btn-danger")
+                            .addClass("btn-success")
+                            .children("i")
+                                .removeClass("fa-times")
+                                .addClass("fa-check");
+                    } else {
+                        $(self)
+                            .removeClass("btn-success")
+                            .addClass("btn-danger")
+                            .children("i")
+                                .removeClass("fa-check")
+                                .addClass("fa-times");
+                    }
+                    return;
+                }).fail(function (data) {
+                    alert("Failed, please reload the page, then try again.");
+                });
+            });
+            $("a.approval").on("click", function (e) {
+                var self = this,
+                    id = $(this).data("id"),
+                    state = $(this).data("state");
 
-            $.ajax({
-                url: "/api/volunteer/"+id+"/approval",
-                method: "PUT",
-                data: {
-                    approved: !state,
-                    sendMail: sendMail,
-                },
-            }).done(function (data) {
-                $(self).data("state", data.state);
-                if (data.state === true) {
-                    $(self)
-                        .removeClass("btn-danger")
-                        .addClass("btn-success")
-                        .children("i")
-                            .removeClass("fa-times")
-                            .addClass("fa-check");
-                } else {
-                    $(self)
-                        .removeClass("btn-success")
-                        .addClass("btn-danger")
-                        .children("i")
-                            .removeClass("fa-check")
-                            .addClass("fa-times");
+                var sendMail = false;
+                if (state === false) {
+                    // Might need to send an email.
+                    sendMail = window.confirm("Would you like to send an email?\n(Ok sends, Cancel does not)");
                 }
-                return;
-            }).fail(function (data) {
-                alert("Failed, please reload the page, then try again.");
+
+                $.ajax({
+                    url: "/api/volunteer/"+id+"/approval",
+                    method: "PUT",
+                    data: {
+                        approved: !state,
+                        sendMail: sendMail,
+                    },
+                }).done(function (data) {
+                    $(self).data("state", data.state);
+                    if (data.state === true) {
+                        $(self)
+                            .removeClass("btn-danger")
+                            .addClass("btn-success")
+                            .children("i")
+                                .removeClass("fa-times")
+                                .addClass("fa-check");
+                    } else {
+                        $(self)
+                            .removeClass("btn-success")
+                            .addClass("btn-danger")
+                            .children("i")
+                                .removeClass("fa-check")
+                                .addClass("fa-times");
+                    }
+                    return;
+                }).fail(function (data) {
+                    alert("Failed, please reload the page, then try again.");
+                });
             });
-        });
-        $("a.followUp").on("click", function (e) {
-            var self = this,
-                id = $(this).data("id"),
-                state = $(this).data("state");
-            $.ajax({
-                url: "/api/volunteer/"+id+"/followup",
-                method: "PUT",
-                data: { followUp: !state, },
-            }).done(function (data) {
-                $(self).data("state", data.state);
-                if (data.state === true) {
-                    $(self)
-                        .removeClass("btn-danger")
-                        .addClass("btn-success")
-                        .children("i")
-                            .removeClass("fa-times")
-                            .addClass("fa-check");
-                } else {
-                    $(self)
-                        .removeClass("btn-success")
-                        .addClass("btn-danger")
-                        .children("i")
-                            .removeClass("fa-check")
-                            .addClass("fa-times");
-                }
-                return;
-            }).fail(function (data) {
-                alert("Failed, please reload the page, then try again.");
+            $("a.followUp").on("click", function (e) {
+                var self = this,
+                    id = $(this).data("id"),
+                    state = $(this).data("state");
+                $.ajax({
+                    url: "/api/volunteer/"+id+"/followup",
+                    method: "PUT",
+                    data: { followUp: !state, },
+                }).done(function (data) {
+                    $(self).data("state", data.state);
+                    if (data.state === true) {
+                        $(self)
+                            .removeClass("btn-danger")
+                            .addClass("btn-success")
+                            .children("i")
+                                .removeClass("fa-times")
+                                .addClass("fa-check");
+                    } else {
+                        $(self)
+                            .removeClass("btn-success")
+                            .addClass("btn-danger")
+                            .children("i")
+                                .removeClass("fa-check")
+                                .addClass("fa-times");
+                    }
+                    return;
+                }).fail(function (data) {
+                    alert("Failed, please reload the page, then try again.");
+                });
             });
-        });
-        // // Toggle Buttons for Approved/Verified
-        // $("#approved_button, #verified_button").on("click", function (e) {
-        //     var oldState = $(this).data("state"),
-        //         newState;
-        //     if (oldState === true) {
-        //         console.log("Old state was true");
-        //         newState = false;
-        //         $(this)
-        //             .removeClass("btn-success")
-        //             .addClass("btn-danger")
-        //             .children("i")
-        //                 .removeClass("fa-check")
-        //                 .addClass("fa-times");
-        //     } else {
-        //         console.log("Old state was false");
-        //         newState = true;
-        //         $(this)
-        //             .removeClass("btn-danger")
-        //             .addClass("btn-success")
-        //             .children("i")
-        //                 .removeClass("fa-times")
-        //                 .addClass("fa-check");
-        //     }
-        //     $(this).data("state", newState);
-        //     $("#volunteer_table").dataTable().fnDraw();
-        // });
-        // // Filter for tables.
-        // $.fn.dataTable.ext.search.push(function(settings, _, dataIndex) {
-        //     var node = $(settings.aoData[dataIndex].nTr).find("a.approval");
-        //     if ($("#approved_button").data("state") === true) {
-        //         // Toggled on.
-        //         if (node.data("state") === true) { return true; }
-        //         else { return false; }
-        //     } else {
-        //         // Toggled off.
-        //         if (node.data("state") === true) { return false; }
-        //         else { return true; }
-        //     }
-        // });
-        // $.fn.dataTable.ext.search.push(function(settings, _, dataIndex) {
-        //     var node = $(settings.aoData[dataIndex].nTr).find("a.verification");
-        //     if ($("#verified_button").data("state") === true) {
-        //         // Toggled on.
-        //         if (node.data("state") === true) { return true; }
-        //         else { return false; }
-        //     } else {
-        //         // Toggled off.
-        //         if (node.data("state") === true) { return false; }
-        //         else { return true; }
-        //     }
-        // });
+        }
 
         // Expandos
         function expando(key) {
@@ -328,6 +280,7 @@
         expando("previousExperience");
         expando("notes");
 
+        $('#volunteer_table').on('draw.dt', drawHook);
         $("#volunteer_table").dataTable().fnDraw();
     });
 </script>
