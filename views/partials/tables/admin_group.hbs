@@ -79,8 +79,9 @@
 
         // Scan for tagsinputs.
         function drawHook() {
-            console.log("FUNNING");
             var inputs = $("input[data-role=\"tagsinput\"]").tagsinput();
+
+            $("input[data-role=\"tagsinput\"]").off("itemAdded");
             $("input[data-role=\"tagsinput\"]").on("itemAdded", function (e) {
                 var item = e.item,
                     id = $(this).data("id"),
@@ -96,6 +97,7 @@
                     alert("Failed, please reload the page.");
                 });
             })
+            $("input[data-role=\"tagsinput\"]").off("itemRemoved");
             $("input[data-role=\"tagsinput\"]").on("itemRemoved", function (e) {
                 var item = e.item,
                     id = $(this).data("id"),
@@ -112,7 +114,7 @@
                 });
             });
         }
-        
+
         $('#group_table').on('draw.dt', drawHook);
         $("#group_table").dataTable().fnDraw();
     });

@@ -122,6 +122,8 @@
         function drawHook() {
             // Scan for tagsinputs.
             var inputs = $("input[data-role=\"tagsinput\"]").tagsinput()
+
+            $("input[data-role=\"tagsinput\"]").off("itemAdded");
             $("input[data-role=\"tagsinput\"]").on("itemAdded", function (e) {
                 var item = e.item,
                     id = $(this).data("id"),
@@ -136,7 +138,9 @@
                 }).fail(function (data) {
                     alert("Failed, please reload the page, then try again.");
                 });
-            })
+            });
+
+            $("input[data-role=\"tagsinput\"]").off("itemRemoved");
             $("input[data-role=\"tagsinput\"]").on("itemRemoved", function (e) {
                 var item = e.item,
                     id = $(this).data("id"),
@@ -153,6 +157,7 @@
                 });
             });
             // Approved and Verified.
+            $("a.applied").off("click");
             $("a.applied").on("click", function (e) {
                 var self = this,
                     id = $(this).data("id"),
@@ -183,6 +188,7 @@
                     alert("Failed, please reload the page, then try again.");
                 });
             });
+            $("a.approval").off("click");
             $("a.approval").on("click", function (e) {
                 var self = this,
                     id = $(this).data("id"),
@@ -223,6 +229,7 @@
                     alert("Failed, please reload the page, then try again.");
                 });
             });
+            $("a.followUp").off("click");
             $("a.followUp").on("click", function (e) {
                 var self = this,
                     id = $(this).data("id"),
