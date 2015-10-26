@@ -36,9 +36,9 @@
         <option value="Other">Other</option>
     {{/form_select}}
     {{{form_textarea title="Description of Workshop" name="description" value=workshop.description required=true
-        description="This will be shown directly to delegates browsing workshops. Make it engaging, exciting, and interesting! It can be as long as you like, but if you make it too long it may not be read."}}}
+        description="This is a long form description for the workshop's information page and the review committee. Include the goal of the workshop, outcome, or lesson plan if applicable. There is no limit to the length."}}}
     {{{form_textarea title="Summary of Workshop" name="summary" value=workshop.summary required=true
-        description="A simple, one or two sentence description of your workshop that catches the eye. <strong>Limit of 500 characters.</strong>"}}}
+        description="A simple, few sentence description of your workshop that catches the eye. This will be shown in the conference agenda and in the workshop listings on site. <strong>Limit of 500 characters.</strong>"}}}
     {{{form_textarea title="Interaction Level" name="interactionLevel" value=workshop.interactionLevel required=true
         description="Describe how your workshop interacts with the youth. This is used as part of the selection process, our selection committee favors highly interactive workshops."}}}
     {{{form_input title="Capacity" name="capacity" type="number"  value=workshop.capacity required=true
