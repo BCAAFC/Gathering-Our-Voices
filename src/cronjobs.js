@@ -11,16 +11,16 @@ module.exports = function(db) {
             msg = String(msg.slice(0, 153) + "..");
         }
 
-        // console.log(phone, msg);
+        console.log("To: ", phone, "Msg("+ msg.length + "): ", msg);
 
-        client.sendMessage({
-            to: phone,
-            from: '(778) 402-1767',
-            body: msg,
-        }, function(err, data) {
-            if (err) { console.log(err); }
-            else { console.log("Done sending to ", phone); }
-        });
+        // client.sendMessage({
+        //     to: phone,
+        //     from: '(778) 402-1767',
+        //     body: msg,
+        // }, function(err, data) {
+        //     if (err) { console.log(err); }
+        //     else { console.log("Done sending to ", phone); }
+        // });
     }
 
     // Pass in like `new Date("Thu Sep 14 2015")`
