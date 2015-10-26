@@ -69,7 +69,17 @@
                     },
                 },
                 {
-                    targets: [-8, -9], // Notes
+                    targets: [-8], // Misc
+                    render: function (data, type, row) {
+                        if (data && Object.keys(data).length > 0) {
+                            return "<i class=\"btn btn-xs btn-info fa fa-plus\"></i>";
+                        } else {
+                            return "<i class=\"btn btn-xs btn-default fa fa-plus\"></i>";
+                        }
+                    }
+                },
+                {
+                    targets: [-9], // Notes
                     render: function (data, type, row) {
                         if (data) {
                             return "<i class=\"btn btn-xs btn-info fa fa-plus\"></i>";
@@ -98,6 +108,23 @@
                 $(this).children("i").removeClass("fa-plus");
                 $(this).children("i").addClass("fa-minus");
                 row.child(formatChild(row.data())).show();
+                tr.addClass("shown");
+            }
+        });
+        $("#account_table tbody").on("click", "td.misc", function () {
+            var tr = $(this).closest("tr");
+            var row = table.api().row(tr);
+            if (row.child.isShown()) {
+                // This row is already open - close it
+                $(this).children("i").removeClass("fa-minus");
+                $(this).children("i").addClass("fa-plus");
+                row.child.hide();
+                tr.removeClass("shown");
+            } else {
+                // Open this row
+                $(this).children("i").removeClass("fa-plus");
+                $(this).children("i").addClass("fa-minus");
+                row.child("<pre>"+JSON.stringify(row.data().misc, null, 2)+"</pre>").show();
                 tr.addClass("shown");
             }
         });
