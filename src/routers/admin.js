@@ -396,6 +396,7 @@ module.exports = function (db, redis) {
     router.route("/statistics")
     .get(function (req, res) {
         Promise.props({
+            // Province of Origin
             account_province: db.Account.findAll({
                 attributes: [
                     "province",
@@ -409,6 +410,7 @@ module.exports = function (db, redis) {
                 });
             }),
 
+            // Affiliation Types
             group_type: db.Group.findAll({
                 attributes: [
                     "affiliationType",
@@ -422,6 +424,7 @@ module.exports = function (db, redis) {
                 });
             }),
 
+            // Group size counts.
             group_size: db.Group.findAll({
                 attributes: ['id'],
                 group: ['Group.id'],
@@ -453,6 +456,23 @@ module.exports = function (db, redis) {
                 return arr;
             }),
 
+            // Affiliation Types
+            group_care: db.Group.findAll({
+                attributes: [
+                    "youthInCare",
+                    "youthInCareSupport",
+                ],
+                raw: true,
+            }).then(function (result) {
+                return result.reduce(function (acc, item) {
+                    acc.youthInCare += item.youthInCare;
+                    acc.youthInCareSupport += item.youthInCareSupport;
+                    return acc;
+                }, { youthInCare: 0, youthInCareSupport: 0 });
+            }),
+
+
+            // Member type
             member_type: db.Member.findAll({
                 attributes: [
                     "type",
@@ -466,6 +486,7 @@ module.exports = function (db, redis) {
                 });
             }),
 
+            // Optional member background.
             member_background: db.Member.findAll({
                 attributes: [
                     "background",
@@ -481,6 +502,7 @@ module.exports = function (db, redis) {
                 });
             }),
 
+            // Gender Breakdown
             member_gender: db.Member.findAll({
                 attributes: [
                     "gender",
@@ -496,6 +518,7 @@ module.exports = function (db, redis) {
                 });
             }),
 
+            // Member ages
             member_age: db.Member.findAll({
                 attributes: [
                     "birthDate",
@@ -519,6 +542,7 @@ module.exports = function (db, redis) {
                 return arr;
             }),
 
+            // Show members over time.
             member_timeline: db.Member.findAll({
                 attributes: [
                     "createdAt",
