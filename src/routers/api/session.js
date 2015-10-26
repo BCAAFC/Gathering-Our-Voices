@@ -11,16 +11,24 @@ module.exports = function (db, redis) {
         db.Account.findOne({
             where: { id: req.session.account.id },
             include: [
-                { model: db.Workshop, include: [ db.Session, ], },
+                {
+                    model: db.Workshop,
+                    include: [ db.Session, ],
+                    where: {
+                        id: req.body.workshop,
+                    }
+                },
             ],
         }).then(function (account) {
-            if (!account.Workshop) { throw new Error("No workshop associated with this account."); }
-            return account.Workshop.createSession(req.body);
+            if (account.Workshops.length !== 1) {
+                throw new Error("That workshop not associated with this account.");
+            }
+            return account.Workshops[0].createSession(req.body);
         }).then(function (workshop) {
             res.format({
                 'text/html': function () {
                     alert.success(req, "Updated workshop session");
-                    res.redirect('/account/workshop');
+                    res.redirect('/account/workshop/' + req.body.workshop);
                 },
                 'default': function () { res.status(200).json(session); },
             });
@@ -51,7 +59,7 @@ module.exports = function (db, redis) {
             res.format({
                 'text/html': function () {
                     alert.success(req, "Updated workshop session");
-                    res.redirect('/account/workshop');
+                    res.redirect('/account/workshop' + session.WorkshopId);
                 },
                 'default': function () { res.status(200).json(session); },
             });

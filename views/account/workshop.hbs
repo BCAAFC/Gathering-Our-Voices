@@ -39,7 +39,7 @@
                     {{#if ../admin}}
                         <td>
                             <div class="btn-group">
-                                <a class="btn btn-xs btn-primary" href="/account/workshop/session/{{id}}">
+                                <a class="btn btn-xs btn-primary" href="/account/workshop/{{../../workshop.id}}/session/{{id}}">
                                     <i class="fa fa-fw fa-edit"></i>
                                     Edit
                                 </a>
@@ -57,7 +57,7 @@
             {{#if admin}}
                 <tr>
                     <td colspan=6>
-                        <a href="/account/workshop/session" class="btn btn-block btn-success">
+                        <a href="/account/workshop/{{../workshop.id}}/session" class="btn btn-block btn-success">
                             <i class="fa fa-fw fa-plus"></i>
                             Create Session
                         </a>
