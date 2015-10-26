@@ -41,7 +41,7 @@
                     }
                 },
                 {
-                    targets: [ 7, 8, 9, 20, 24 ], // Description, Summary, InteractionLevel, Biography, Notes
+                    targets: [ 7, 8, 9, 20, 24, 25 ], // Description, Summary, InteractionLevel, Biography, Honorarium, Notes
                     render: function (data, type, row) {
                         if (data) {
                             return "<i class=\"btn btn-xs btn-info fa fa-plus\"></i>";
@@ -78,9 +78,9 @@
                     targets: [11, 14, 15, 16, 17, 18, 21, 22], // Mailing, Power, Projector, Screen, Player, Microphone, Meals, Accomodation
                     render: function (data, type, row) {
                         if (data === true) {
-                            return "<a class=\"btn btn-xs btn-success\"><i class=\"fa fa-check\"></i></a>";
+                            return "<i class=\"fa fa-check\"></i>";
                         } else {
-                            return "<a class=\"btn btn-xs btn-danger\"><i class=\"fa fa-times\"></i></a>";
+                            return "<i class=\"fa fa-times\"></i>";
                         }
                     }
                 },
@@ -141,6 +141,7 @@
         expando("summary");
         expando("interactionLevel");
         expando("biography");
+        expando("honorarium");
         expando("notes");
 
 
@@ -308,7 +309,7 @@
                 else { return true; }
             }
         });
-        
+
         $('#workshop_table').on('draw.dt', drawHook);
         $("#workshop_table").dataTable().fnDraw();
     });
