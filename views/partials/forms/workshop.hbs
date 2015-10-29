@@ -111,7 +111,7 @@
 <script>
 $(document).ready(function () {
     var summary = $("textarea[name='summary']");
-    summary.change(function () {
+    summary.on("change paste keyup", function () {
         var val = summary.val();
         if (val.length >= 500) {
             summary.addClass("invalid");
