@@ -132,7 +132,7 @@ module.exports = function (db, redis) {
             });
         }).catch(function (error) {
             res.format({
-                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'text/html': function () { alert.error(req, error.message); res.redirect('/admin/accounts'); },
                 'default': function () { res.status(401).json({ error: error.message }); },
             });
         });
