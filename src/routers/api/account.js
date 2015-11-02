@@ -127,7 +127,7 @@ module.exports = function (db, redis) {
             return account.destroy();
         }).then(function () {
             res.format({
-                'text/html': function () { alert.error(req, error.message); res.redirect('/admin/accounts'); },
+                'text/html': function () { res.redirect('/admin/accounts'); },
                 'default': function () { res.status(200).json({}); },
             });
         }).catch(function (error) {
