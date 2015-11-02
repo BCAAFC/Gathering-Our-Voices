@@ -40,14 +40,22 @@ module.exports = function (db, redis) {
 
     router.route("/:id")
     .put(middleware.admin, function (req, res) {
-        db.Session.findOne({
-            where: { id: req.params.id },
-        }).then(function (session) {
-            // Validations.
-            if (session.WorkshopId !== req.session.account.Workshop.id) {
-                throw new Error("That session is not associated with this workshop.");
-            }
-            return session;
+        // TODO: Can probably query this smarter.
+        Promise.join(
+            db.Session.findOne({
+                where: { id: req.params.id },
+            }),
+            db.Account.findOne({
+                where: { id: req.session.account.id },
+                attributes: ["id"],
+                include: [db.Workshop],
+            }),
+            function (session, account) {
+                // Validations.
+                if (account.Workshops.map(function (v) { return v.id; }).indexOf(session.WorkshopId) === -1) {
+                    throw new Error("That Account is not associated with this workshop.");
+                }
+                return session;
         }).then(function (session) {
             session.start = new Date(req.body.start) || session.start;
             session.end = new Date(req.body.end) || session.end;
