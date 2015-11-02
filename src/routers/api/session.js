@@ -67,7 +67,7 @@ module.exports = function (db, redis) {
             res.format({
                 'text/html': function () {
                     alert.success(req, "Updated workshop session");
-                    res.redirect('/account/workshop' + session.WorkshopId);
+                    res.redirect('/account/workshop/' + session.WorkshopId);
                 },
                 'default': function () { res.status(200).json(session); },
             });
