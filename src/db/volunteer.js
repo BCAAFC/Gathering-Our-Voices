@@ -50,11 +50,11 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
             // Easier to iterator over and always in order.
             defaultValue: [
-                dayScaffold("Sunday"),
-                dayScaffold("Monday"),
-                dayScaffold("Tuesday"),
-                dayScaffold("Wednesday"),
-                dayScaffold("Thursday"),
+                dayScaffold("Sunday, March 20"),
+                dayScaffold("Monday, March 21"),
+                dayScaffold("Tuesday, March 22"),
+                dayScaffold("Wednesday, March 23"),
+                dayScaffold("Thursday, March 24"),
             ],
         },
         // Emergency Name/number

@@ -86,8 +86,9 @@
                     render: function (data, type, row) {
                         if (data) {
                             return data.map(function (v) {
-                                var result = "<span class='btn-group'>";
+                                var result = "<span style='white-space: nowrap;'>"
                                 result += v.day.slice(0, 3);
+                                result += "<span class='btn-group'>";
                                 result += ['morning', 'afternoon', 'evening'].map(function (time) {
                                     if (v[time].available && v[time].scheduled) {
                                         return "<span class='btn btn-xs btn-success'>" + time[0].toUpperCase() + "</span>";

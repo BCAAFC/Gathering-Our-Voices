@@ -58,11 +58,11 @@ module.exports = function (db, redis) {
             }
 
             var schedule = [
-                scaffoldDay("Sunday", req),
-                scaffoldDay("Monday", req),
-                scaffoldDay("Tuesday", req),
-                scaffoldDay("Wednesday", req),
-                scaffoldDay("Thursday", req),
+                scaffoldDay("Sunday, March 20", req),
+                scaffoldDay("Monday, March 21", req),
+                scaffoldDay("Tuesday, March 22", req),
+                scaffoldDay("Wednesday, March 23", req),
+                scaffoldDay("Thursday, March 24", req),
             ];
             req.body.schedule = schedule;
             return account.createVolunteer(req.body);
