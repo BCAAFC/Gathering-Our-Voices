@@ -73,10 +73,8 @@ module.exports = function (db, redis) {
             function (workshop, account) {
                 workshop.description = workshop.description.replace(/\n/g, "<br>");
                 var facilitatorList = false;
-                if (account && account.Workshop) {
-                    if (account.Workshop.id == workshop.id) {
-                        facilitatorList = true;
-                    }
+                if (account && account.Workshops.map(function (v) { return v.id; }).indexOf(workshop.id) !== -1) {
+                    facilitatorList = true;
                 }
                 res.render("workshops/id", {
                     title: "Workshop Info",
