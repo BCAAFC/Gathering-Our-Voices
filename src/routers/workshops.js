@@ -41,10 +41,16 @@ module.exports = function (db, redis) {
         Promise.join(
             db.Workshop.findOne({
                 where: { id: req.params.id, },
-                include: [{
-                    model: db.Session,
-                    include: [db.Member],
-                }],
+                include: [
+                    {
+                        model: db.Session,
+                        include: [db.Member],
+                    },
+                    {
+                        model: db.Account,
+                        attributes: ["affiliation"],
+                    },
+                ],
                 order: [ [ db.Session, "start", ], ],
             }),
             new Promise(function (resolve, reject) {
