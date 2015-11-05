@@ -116,6 +116,10 @@ module.exports = function (sequelize, DataTypes) {
                 "Dance",
                 "Boardroom",
                 "Clear",
+                "'E' shape",
+                "'U' shape",
+                "Theatre Style",
+                "Hollow Square",
             ],
             allowNull: false,
         },
@@ -212,7 +216,7 @@ module.exports = function (sequelize, DataTypes) {
                         cc: [
                             { email: "dpreston@bcaafc.com", name: "Della Preston", }
                         ],
-                        title: "Facilitator Application Recieved",
+                        title: "Facilitator Application Received",
                         file: "apply_facilitator",
                         variables: [
                             { name: "name", content: account.name, },
