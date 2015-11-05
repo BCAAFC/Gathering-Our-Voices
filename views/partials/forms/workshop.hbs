@@ -1,5 +1,5 @@
 <form action='/api/workshop/{{workshop.id}}' method='POST' class="form-horizontal">
-    {{#if workshop}}
+    {{#if new}}
         <input style="display: none;" name="_method" value="PUT">
         <legend>Update Facilitation Application</legend>
     {{else}}
@@ -100,7 +100,7 @@
     </fieldset>
 
 
-    {{#if workshop}}
+    {{#if new}}
         <div class="form-group">
             <input class="btn btn-block btn-primary" type='submit' value="Update">
         </div>

@@ -250,6 +250,7 @@ module.exports = function (db, redis) {
                 flags: db.Flag.cache(),
                 alert: req.alert,
                 workshop: workshop,
+                new: (workshop) ? true : false,
             });
         }).catch(function (error) {
             alert.error(req, error.message);

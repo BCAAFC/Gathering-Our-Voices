@@ -18,6 +18,9 @@ module.exports = function (db, redis) {
             // Defaults.
             // Transform HTML form.
             if (typeof req.body.facilitators === "string") { req.body.facilitators = [req.body.facilitators]; }
+            if (typeof req.body.audience === "string") { req.body.audience = [req.body.audience]; }
+            if (typeof req.body.type === "string") { req.body.type = [req.body.type]; }
+
             if (req.body.mailing === "Yes") { req.body.mailing = true; } else
             if (req.body.mailing === "No") { req.body.mailing = false; }
             if (req.body.projector === "Yes") { req.body.projector = true; } else
@@ -42,7 +45,7 @@ module.exports = function (db, redis) {
             }
             // Create
             return account.createWorkshop(req.body);
-        }).then(function (account) {
+        }).then(function (workshop) {
             res.format({
                 'text/html': function () {
                     alert.success(req, "Facilitator application created.");
@@ -54,7 +57,21 @@ module.exports = function (db, redis) {
         }).catch(function (error) {
             console.log(error);
             res.format({
-                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'text/html': function () {
+
+                    res.render("account/workshop", {
+                        title: "Account - Workshop",
+                        account: req.session.account,
+                        admin: req.session.isAdmin,
+                        flags: db.Flag.cache(),
+                        alert: {
+                            type: "danger",
+                            message: error.message,
+                        },
+                        workshop: req.body,
+                        new: false,
+                    });
+                },
                 'default': function () { res.status(401).json({ error: error.message }); },
             });
         });

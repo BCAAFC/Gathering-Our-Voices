@@ -68,7 +68,7 @@
     </table>
 
     {{#if admin}}
-        {{> forms/workshop workshop=workshop flags=flags}}
+        {{> forms/workshop workshop=workshop flags=flags new=new}}
     {{/if}}
 {{else if workshop.verified}}
     <div class="alert alert-warning">
@@ -83,12 +83,12 @@
         but it cannot be interacted with and it not listed, since it is not approved.
     </div>
     {{#if admin}}
-        {{> forms/workshop workshop=workshop flags=flags}}
+        {{> forms/workshop workshop=workshop flags=flags new=new}}
     {{/if}}
 {{else unless flags.facilitatorRegistration}}
     <div class="alert alert-danger">
         Unfortunately facilitator registration is closed. Perhaps next year?
     </div>
 {{else}}
-    {{> forms/workshop workshop=workshop flags=flags}}
+    {{> forms/workshop workshop=workshop flags=flags new=new}}
 {{/if}}
