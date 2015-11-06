@@ -7,7 +7,7 @@ module.exports = function (db, redis) {
     var router = require("express").Router();
 
     router.route("/")
-    .post(function (req, res) {
+    .post(middleware.auth, function (req, res) {
         db.Account.findOne({
             where: { id: req.session.account.id },
             include: [
