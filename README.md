@@ -26,7 +26,7 @@ This website is written entirely in Javascript, Handlebars (a templating languag
 
 Our heroic Youth Conference Coordinator, Della Preston, has helped immensely with development efforts, her time, insights, and constant critical eye have helped drive the quality of the product from beginning to start. Though she has not contributed code her specifications and knowledge of the event have touched virtually every part of the codebase.
 
-The lead developer, Andrew Hobden ([@Hoverbear](https://github.com/Hoverbear/)), is a dedicated believer in the Free/Open-Source software movement. If you're interested in technology, cyber law, or 'hacking' sub-culture, you're encouraged to read  [Coding Freedom](http://codingfreedom.com/) by Gabriella Coleman, [The Future of Ideas](http://the-future-of-ideas.com/) by Lawrence Lessig, as well as [The Cathedral and Bazaar](http://www.catb.org/esr/writings/homesteading/) by Eric S. Raymond. You're encouraged to share your insights and opinions into these books on our issues page, if you so desire.
+The lead developer, Andrew Hobden ([@Hoverbear](https://github.com/Hoverbear/)), is a dedicated believer in the Free/Open-Source software movement. If you're interested in technology, cyber law, or 'hacking' sub-culture, you're encouraged to read  [Coding Freedom](http://codingfreedom.com/) by Gabriella Coleman or [The Future of Ideas](http://the-future-of-ideas.com/) by Lawrence Lessig. You're encouraged to share your insights and opinions into these books on our issues page, if you so desire.
 
 The 2015 Youth Conference Coordinators Della Preston, Kathryn Lacerte, Rosy Hartman, Gregory Forsberg, and Tara Skobel.
 
