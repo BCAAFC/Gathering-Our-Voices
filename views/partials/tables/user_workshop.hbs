@@ -1,4 +1,40 @@
-<div id="options"></div>
+<div id="options">
+    <span>
+        <strong>Filter:</strong>
+        <br>
+
+        <span>
+            Wednesday (22nd)
+            <div class="btn-group">
+                <a id="wednesday_morning" class="btn btn-xs btn-default" data-state="false">
+                    Morning
+                </a>
+                <a id="wednesday_afternoon" class="btn btn-xs btn-default" data-state="false">
+                    Afternoon
+                </a>
+                <a id="wednesday_all" class="btn btn-xs btn-default" data-state="false">
+                    All Day
+                </a>
+            </div>
+        </span>
+
+        <span>
+            Thursday (23rd)
+            <div class="btn-group">
+                <a id="thursday_morning" class="btn btn-xs btn-default" data-state="false">
+                    Morning
+                </a>
+                <a id="thursday_afternoon" class="btn btn-xs btn-default" data-state="false">
+                    Afternoon
+                </a>
+                <a id="thursday_all" class="btn btn-xs btn-default" data-state="false">
+                    All Day
+                </a>
+            </div>
+        </span>
+    </span>
+</div>
+
 <table id="workshop_table" class="table table-striped"></table>
 <script>
     $(function () {
@@ -29,9 +65,9 @@
                     targets: [ -1 ], // Arrays
                     render: function (data, type, row) {
                         return data.map(function (item) {
-                            var start = moment(item.start).format("MM/DD/YYYY HH:mm A");
+                            var start = moment(item.start).format("MMM DD HH:mm A");
                             var end = moment(item.end).format("HH:mm A");
-                            return "<span class=\"label label-default\">" + start + "-" + end + " @ " + item.venue + "</span>";
+                            return "<span class=\"label label-default\" data-start=\""+item.start+"\" data-end=\""+item.end+"\">" + start + "-" + end + " @ " + item.venue + "</span><br>";
                         }).join(" ");
                     }
                 },
@@ -46,5 +82,72 @@
         });
 
         $("#workshop_table").dataTable().fnDraw();
+
+        // Toggle Buttons
+        $("#wednesday_morning, #wednesday_afternoon, #wednesday_all, #thursday_morning, #thursday_afternoon, #thursday_all").on("click", function (e) {
+            $(this).toggleClass("btn-primary");
+            $(this).toggleClass("btn-default");
+            // Toggle state.
+            $(this).data("state", !$(this).data("state"));
+
+            $("#workshop_table").dataTable().fnDraw();
+        });
+
+        // Filter Buttons
+        var times = {
+            wednesday_morning_start: new Date("March 22, 2015, 6:00 AM"),
+            wednesday_morning_end: new Date("March 22, 2015, 12:30 PM"),
+
+            wednesday_afternoon_start: new Date("March 22, 2015, 12:30 PM"),
+            wednesday_afternoon_end: new Date("March 22, 2015, 6:00 PM"),
+
+            thursday_afternoon_start: new Date("March 22, 2015, 12:30 PM"),
+            thursday_afternoon_end: new Date("March 22, 2015, 6:00 PM"),
+
+            thursday_morning_start: new Date("March 22, 2015, 6:00 AM"),
+            thursday_morning_end: new Date("March 22, 2015, 12:30 PM"),
+        }
+
+        $.fn.dataTable.ext.search.push(function(settings, _, dataIndex) {
+            var sessions = $(settings.aoData[dataIndex].nTr).find("td.sessions span");
+
+            for (var i=0; i< sessions.length; i++) {
+                var session = sessions[i];
+
+                // This is lazy and returns as soon as one matches.
+                if ($("#wednesday_morning").data("state") === true) {
+                    if (new Date($(session).data("start")) >= times["wednesday_morning_start"] && new Date($(session).data("end")) <= times["wednesday_morning_end"]) {
+                        return true;
+                    }
+                } else if ($("#wednesday_afternoon").data("state") === true) {
+                    if (new Date($(session).data("start")) >= times["wednesday_afternoon_start"] && new Date($(session).data("end")) <= times["wednesday_afternoon_end"]) {
+                        return true;
+                    }
+                } else if ($("#wednesday_all").data("state") === true) {
+                    if (new Date($(session).data("start")) >= times["wednesday_morning_start"] && new Date($(session).data("end")) <= times["wednesday_afternoon_end"]) {
+                        return true;
+                    }
+                } else if ($("#thursday_morning").data("state") === true) {
+                    if (new Date($(session).data("start")) >= times["thursday_morning_start"] && new Date($(session).data("end")) <= times["thursday_morning_end"]) {
+                        return true;
+                    }
+                } else if ($("#thursday_afternoon").data("state") === true) {
+                    if (new Date($(session).data("start")) >= times["thursday_afternoon_start"] && new Date($(session).data("end")) <= times["thursday_afternoon_end"]) {
+                        return true;
+                    }
+                } else if ($("#thursday_all").data("state") === true) {
+                    if (new Date($(session).data("start")) >= times["thursday_morning_start"] && new Date($(session).data("end")) <= times["thursday_afternoon_end"]) {
+                        return true;
+                    }
+                } else {
+                    // Triggers when none of the buttons are toggled.
+                    return true;
+                }
+            }
+
+            // If we didn't find any.
+            return false;
+
+        });
     });
 </script>
