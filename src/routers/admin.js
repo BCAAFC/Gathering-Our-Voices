@@ -557,21 +557,21 @@ module.exports = function (db, redis) {
                 attributes: [
                     "createdAt",
                 ],
-                sort: "createdAt",
                 raw: true,
             }).then(function (result) {
-                console.log(result);
+                // Postgres seems to sort wrong.
+                result = result.sort(function (a, b) { return a.createdAt - b.createdAt });
                 var item = result.shift(),
-                    date = moment(item.createdAt).format("MMMM DD YYYY"),
+                    currDate = moment(item.createdAt).startOf('day'),
                     acc = 0,
                     out = [];
                 while (item !== null && item !== undefined) {
-                    console.log(item);
                     // Chomp it!
-                    var formatted = moment(item.createdAt).format("MMMM DD YYYY");
-                    if (formatted !== date) {
-                        out.push([date, acc]);
-                        date = formatted;
+                    var newDate = moment(item.createdAt).startOf('day');
+                    while (currDate < newDate) {
+                        var push = currDate.valueOf();
+                        out.push([push, acc]);
+                        currDate = currDate.clone().add(1, 'days').startOf('day');
                     }
                     acc += 1;
 
@@ -581,7 +581,6 @@ module.exports = function (db, redis) {
                 return out;
             }),
         }).then(function (stats) {
-                console.log(stats);
                 res.render("admin/statistics", {
                     title: "Administration - Statistics",
                     account: req.session.account,
