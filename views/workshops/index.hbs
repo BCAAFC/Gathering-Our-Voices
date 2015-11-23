@@ -1,5 +1,7 @@
 <div class="alert alert-success">
-    Workshops will be available starting in mid-February.
+    Workshops will be available starting in mid-February. We're working hard to put together an fantastic lineup!
 </div>
 
-{{> tables/user_workshop columns=columns workshops=workshops}}
+{{#if admin}}
+    {{> tables/user_workshop columns=columns workshops=workshops}}
+{{/if}}
