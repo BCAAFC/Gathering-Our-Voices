@@ -41,7 +41,7 @@
                     }
                 },
                 {
-                    targets: [ 7, 8, 9, 20, 24, 25 ], // Description, Summary, InteractionLevel, Biography, Honorarium, Notes
+                    targets: [ 8, 9, 10, 21, 25, 26 ], // Description, Summary, InteractionLevel, Biography, Honorarium, Notes
                     render: function (data, type, row) {
                         if (data) {
                             return "<i class=\"btn btn-xs btn-info fa fa-plus\"></i>";
@@ -75,7 +75,7 @@
                     },
                 },
                 {
-                    targets: [11, 14, 15, 16, 17, 18, 21, 22], // Mailing, Power, Projector, Screen, Player, Microphone, Meals, Accomodation
+                    targets: [12, 15, 16, 17, 18, 19, 22, 23], // Mailing, Power, Projector, Screen, Player, Microphone, Meals, Accomodation
                     render: function (data, type, row) {
                         if (data === true) {
                             return "<i class=\"fa fa-check\"></i>";
@@ -105,7 +105,7 @@
                     }
                 },
                 {
-                    targets: [ 3, 5, 6, ], // Arrays
+                    targets: [ 4, 6, 7, ], // Arrays
                     render: function (data, type, row) {
                         return data.map(function (item) {
                             return "<span class=\"label label-default\">"+item+"</span>"

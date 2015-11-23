@@ -128,7 +128,7 @@ module.exports = function (db, redis) {
         db.Workshop.findAll({
             include: [
                 db.Session,
-                { model: db.Account, attributes: ["id"] },
+                { model: db.Account, attributes: ["id", "affiliation"] },
             ],
             order: [ "title", ],
         }).then(function (workshops) {
@@ -138,6 +138,7 @@ module.exports = function (db, redis) {
                     return { title: val, data: v, className: v };
                 });
             columns.splice(1, 0, { title:"Sessions", data: "Sessions", className: "sessions" });
+            columns.splice(3, 0, { title:"Affiliation", data: "Account.affiliation", className: "affiliation" });
             columns.push({ title: "Delete", data: null, className: "Delete", });
 
             res.render("admin/workshops", {
