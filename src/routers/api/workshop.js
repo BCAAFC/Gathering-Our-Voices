@@ -239,7 +239,7 @@ module.exports = function (db, redis) {
                         title: "Facilitator Application Approval",
                         file: "approve_facilitator",
                         variables: [
-                            { name: "name", content: account.name, },
+                            { name: "name", content: workshop.title, },
                             { name: "affilation", content: account.affilation, },
                             { name: "email", content: account.email, },
                         ],
