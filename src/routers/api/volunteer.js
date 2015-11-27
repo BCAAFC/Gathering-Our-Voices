@@ -65,6 +65,13 @@ module.exports = function (db, redis) {
                 scaffoldDay("Thursday, March 24", req),
             ];
             req.body.schedule = schedule;
+
+            if (req.body.applied === "on") {
+                req.body.applied = true;
+            } else {
+                req.body.applied = false;
+            }
+
             return account.createVolunteer(req.body);
         }).then(function (volunteer) {
             res.format({
