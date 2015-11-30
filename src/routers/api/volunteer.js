@@ -3,7 +3,7 @@ var middleware = require("../../middleware"),
     communication = require("../../communication"),
     alert = require("../../alert");
 
-function scaffoldDay(day, req, cur) {
+function scaffoldDay(day, req, current) {
     var  result = {};
 
     result.day = day;
