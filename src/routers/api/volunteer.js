@@ -37,7 +37,6 @@ function scaffoldDay(day, req, current) {
         result.evening.scheduled = null;
     }
 
-    console.log(result);
     return result;
 }
 
@@ -71,7 +70,7 @@ module.exports = function (db, redis) {
             } else {
                 req.body.applied = false;
             }
-
+            console.log(req.body);
             return account.createVolunteer(req.body);
         }).then(function (volunteer) {
             res.format({
