@@ -56,6 +56,8 @@ module.exports = function (db, redis) {
                 throw new Error("No account found.");
             }
 
+            var volunteer = {};
+
             var schedule = [
                 scaffoldDay("Sunday, March 20", req),
                 scaffoldDay("Monday, March 21", req),
@@ -63,15 +65,23 @@ module.exports = function (db, redis) {
                 scaffoldDay("Wednesday, March 23", req),
                 scaffoldDay("Thursday, March 24", req),
             ];
-            req.body.schedule = schedule;
+            volunteer.schedule = schedule;
 
             if (req.body.applied === "on") {
-                req.body.applied = true;
+                volunteer.applied = true;
             } else {
-                req.body.applied = false;
+                volunteer.applied = false;
             }
-            console.log(req.body);
-            return account.createVolunteer(req.body);
+
+            volunteer.emergencyName = req.body.emergencyName;
+            volunteer.emergencyPhone = req.body.emergencyPhone;
+            volunteer.tshirt = req.body.tshirt;
+            volunteer.previousExperience = req.body.previousExperience;
+            volunteer.interests = req.body.interests;
+            volunteer.notes = req.body.notes;
+
+            console.log(volunteer);
+            return account.createVolunteer(volunteer);
         }).then(function (volunteer) {
             res.format({
                 'text/html': function () {
@@ -91,7 +101,6 @@ module.exports = function (db, redis) {
 
     router.route("/:id")
     .put(middleware.auth, function (req, res) {
-        console.log(req.body);
         db.Account.findOne({
             where: { id: req.session.account.id },
             include: [
@@ -108,7 +117,7 @@ module.exports = function (db, redis) {
             var volunteer = account.Volunteer;
 
             if (req.body.applied !== undefined) {
-                volunteer.applied = req.body.applied;
+                volunteer.applied = true;
             } else {
                 volunteer.applied = false;
             }
