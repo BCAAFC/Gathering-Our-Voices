@@ -31,19 +31,11 @@
                                     <textarea id="content" name="content" class="form-control"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <label>Authentication Level</label>
-                                    <select id="requirements" name="requirements" class="form-control">
-                                        <option>Normal</option>
-                                        <option>Authenticated</option>
-                                        <option>Administrator</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
                                     <label for="path">Path</label>
                                     <input id="path" name="path" value="" required class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" class="form-control">
+                                    <input type="submit" class="form-control" value="Save">
                                 </div>
                             </form>
                         </div>
@@ -54,7 +46,7 @@
                         <div class="panel-heading">
                             <h3 class="panel-title">Preview</h3>
                         </div>
-                        <div id="preview" class="panel-body"></div>
+                        <div id="preview" class="panel-body" style="overflow: scroll; height: 90vh;"></div>
                     </div>
                 </div>
             </main>
@@ -64,9 +56,10 @@
                 // Configure CodeMirror
                 var content = CodeMirror.fromTextArea($("#content").get(0), {
                     mode:  "text/html",
-                    lineNumbers: true,
                     smartIndent: true,
                     indentUnit: 4,
+                    lineNumbers: true,
+                    lineWrapping: true,
                 });
                 content.on("changes", function (instance) {
                     $("#preview").html(instance.getValue());
