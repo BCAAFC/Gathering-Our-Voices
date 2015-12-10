@@ -8,6 +8,17 @@
         </div>
     {{/if}}
 
+    {{#if flags.memberRegistration}}
+        <a href="/account/group/member/" class="btn btn-success btn btn-block">
+            <i class="fa fa-fw fa-plus"></i>
+            Add Member
+           </a>
+    {{else}}
+        <div class="alert alert-danger">
+            Unfortunately member registration is closed. Perhaps next year?
+        </div>
+    {{/if}}
+
     <table class="table">
         <thead>
             <tr><th>Complete</th><th>Name</th><th>Type</th><th>Cost</th><th></th></tr>
@@ -39,20 +50,6 @@
                 <td><strong>Young Adults:</strong> {{{count set=account.Group.Members field="type" value="Young Adult"}}}</td>
                 <td colspan=2><strong>Young Chaperones:</strong> {{{count set=account.Group.Members field="type" value="Young Chaperone"}}}</td>
                 <td><strong>Chaperones:</strong> {{{count set=account.Group.Members field="type" value="Chaperone"}}}</td>
-            </tr>
-            <tr>
-                <td colspan=5>
-                    {{#if flags.memberRegistration}}
-                        <a href="/account/group/member/" class="btn btn-success btn btn-block">
-                            <i class="fa fa-fw fa-plus"></i>
-                            Add Member
-                       	</a>
-                    {{else}}
-                        <div class="alert alert-danger">
-                            Unfortunately member registration is closed. Perhaps next year?
-                        </div>
-                    {{/if}}
-                </td>
             </tr>
         </tfoot>
     </table>
