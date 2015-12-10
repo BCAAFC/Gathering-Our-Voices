@@ -193,6 +193,12 @@ module.exports = function (db, redis) {
                 model: db.Account,
                 select: "affiliation",
             }],
+        }).map(function (exhibitor) {
+            var exhib_plain = exhibitor.get({plain: true});
+            return exhibitor.Account.balance().then(function (balance) {
+                exhib_plain.balance = balance;
+                return exhib_plain;
+            });
         }).then(function (exhibitors) {
             var columns = Object.keys(db.Exhibitor.attributes)
                 .map(function (v) {
@@ -200,6 +206,7 @@ module.exports = function (db, redis) {
                     return { title: val, data: v, className: v };
                 });
             columns.splice(1, 0, { title:"Affiliation", data: "Account.affiliation", className: "affiliation" });
+            columns.splice(7, 0, { title:"Balance", data: "balance", className: "Balance" });
             columns.push({ title: "Delete", data: null, className: "Delete", });
 
             res.render("admin/exhibitors", {

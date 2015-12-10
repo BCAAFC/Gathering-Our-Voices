@@ -145,7 +145,7 @@ module.exports = function (sequelize, DataTypes) {
                     this.cost(),
                     this.paid(),
                     function done(cost, payments) {
-                        return cost + payments;
+                        return cost - payments;
                 });
             },
             passwordValid: function (attempt) {
