@@ -83,9 +83,9 @@
                     targets: [5, 6], // Electrical/Delegate Bags
                     render: function (data, type, row) {
                         if (data === true) {
-                            return "<i class=\"fa fa-check\"></i>";
+                            return "<i class=\"fa fa-check\"></i><span style='display: none;'>T</span>";
                         } else {
-                            return "<i class=\"fa fa-times\"></i>";
+                            return "<i class=\"fa fa-times\"></i><span style='display: none;'>F</span>";
                         }
                     }
                 },
