@@ -61,7 +61,7 @@ module.exports = function (hbs) {
         if (params.type === "number") {
             output.push("<p><small>This input will only accept numeric values.</small></p>");
         }
-        output.push("<input class=form-control type=" + params.type + " name=" + params.name + params.required + params.value + ">");
+        output.push("<input class=form-control type=" + params.type + " name=" + hbs.handlebars.Utils.escapeExpression(params.name) + params.required + params.value + ">");
         output.push("</div>");
         // Return
         return output.join("");
