@@ -136,15 +136,6 @@
                 }
             });
         }
-        expando("categoryReason");
-        expando("description");
-        expando("summary");
-        expando("interactionLevel");
-        expando("biography");
-        expando("honorarium");
-        expando("notes");
-
-
 
         // Visible Toggles
         var colvis = new $.fn.dataTable.ColVis(table);
@@ -230,6 +221,7 @@
                     alert("Failed, please reload the page, then try again.");
                 });
             });
+
             $("a.verification").off("click");
             $("a.verification").on("click", function (e) {
                 var self = this,
@@ -261,6 +253,15 @@
                     alert("Failed, please reload the page, then try again.");
                 });
             });
+
+            // Expandos
+            expando("categoryReason");
+            expando("description");
+            expando("summary");
+            expando("interactionLevel");
+            expando("biography");
+            expando("honorarium");
+            expando("notes");
         }
 
         // Toggle Buttons for Approved/Verified
