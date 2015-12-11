@@ -45,7 +45,7 @@ module.exports = function (hbs) {
                 params.value = " checked=\"checked\"";
             } else { params.value = ""; }
         } else if (params.value !== null && params.value !== undefined) {
-            params.value = " value=\"" + params.value + "\"";
+            params.value = " value=\"" + hbs.handlebars.Utils.escapeExpression(params.value) + "\"";
         } else { params.value = ""; }
 
         if (params.required) { params.required = " required"; }
@@ -61,7 +61,7 @@ module.exports = function (hbs) {
         if (params.type === "number") {
             output.push("<p><small>This input will only accept numeric values.</small></p>");
         }
-        output.push("<input class=form-control type=" + params.type + " name=" + hbs.handlebars.Utils.escapeExpression(params.name) + params.required + params.value + ">");
+        output.push("<input class=form-control type=" + params.type + " name=" + params.name + params.required + params.value + ">");
         output.push("</div>");
         // Return
         return output.join("");
