@@ -35,12 +35,12 @@
         <option value="Q/A">Q/A</option>
         <option value="Other">Other</option>
     {{/form_select}}
-    {{{form_textarea title="Description of Workshop" name="description" value=workshop.description required=true
-        description="This is a long form description for the workshop's information page and the review committee. Include the goal of the workshop, outcome, or lesson plan if applicable. There is no limit to the length."}}}
-    {{{form_textarea title="Summary of Workshop" name="summary" value=workshop.summary required=true
-        description="A simple, few sentence description of your workshop that catches the eye. This will be shown in the conference agenda and in the workshop listings on site. <strong>Limit of 500 characters.</strong>"}}}
-    {{{form_textarea title="Interaction Level" name="interactionLevel" value=workshop.interactionLevel required=true
-        description="Describe how your workshop interacts with the youth. This is used as part of the selection process, our selection committee favors highly interactive workshops."}}}
+    {{form_textarea title="Description of Workshop" name="description" value=workshop.description required=true
+        description="This is a long form description for the workshop's information page and the review committee. Include the goal of the workshop, outcome, or lesson plan if applicable. There is no limit to the length."}}
+    {{form_textarea title="Summary of Workshop" name="summary" value=workshop.summary required=true
+        description="A simple, few sentence description of your workshop that catches the eye. This will be shown in the conference agenda and in the workshop listings on site. <strong>Limit of 500 characters.</strong>"}}
+    {{form_textarea title="Interaction Level" name="interactionLevel" value=workshop.interactionLevel required=true
+        description="Describe how your workshop interacts with the youth. This is used as part of the selection process, our selection committee favors highly interactive workshops."}}
     {{form_input title="Capacity" name="capacity" type="number"  value=workshop.capacity required=true
         description="Indicate the number of attendees you are comfortable hosting. This is used for scheduling as well as in the selection process. Please <strong>only</strong> specify a number."}}
 
@@ -81,8 +81,8 @@
         <option value="Hollow Square">Hollow Square</option>
     {{/form_select}}
 
-    {{{form_textarea title="Facilitator Biography" name="biography" value=workshop.biography required=true
-        description="Tell us a bit about yourself! What other workshops have you facilitated?"}}}
+    {{form_textarea title="Facilitator Biography" name="biography" value=workshop.biography required=true
+        description="Tell us a bit about yourself! What other workshops have you facilitated?"}}
 
     <fieldset>
         <legend>Compensation</legend>
@@ -90,13 +90,13 @@
             description="If you request meal compensation we will provide you with a per-diem."}}}
         {{{form_boolean title="Accomodation" name="accomodation" value=workshop.accomodation required=true
             description="If you request accomodation we will provide you with a hotel room near the conference."}}}
-        {{{form_textarea title="Honorarium" name="honorarium" value=workshop.honorarium
+        {{form_textarea title="Honorarium" name="honorarium" value=workshop.honorarium
             description="If you request an honorarium please specify the amount and some details regarding how you determined that amount.
-                         <em>Make sure to specify if the amount is per workshop or for all services.</em>"}}}
+                         <em>Make sure to specify if the amount is per workshop or for all services.</em>"}}
         {{form_input title="Travel" name="travel" value=workshop.travel
             description="If you request travel we will provide you with travel arrangements to the conference. If you don't need travel, leave this blank. <strong>Please let us know where you are coming from.</strong>"}}
-        {{{form_textarea title="Notes" name="notes" value=workshop.notes
-            description="Feel encouraged to place any notes you wish to include for the selection committee or the coordinators regarding you or your workshop."}}}
+        {{form_textarea title="Notes" name="notes" value=workshop.notes
+            description="Feel encouraged to place any notes you wish to include for the selection committee or the coordinators regarding you or your workshop."}}
     </fieldset>
 
 

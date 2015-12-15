@@ -89,7 +89,7 @@ module.exports = function (hbs) {
         output.push("</textarea>");
         output.push("</div>");
         // Return
-        return output.join("");
+        return new hbs.handlebars.SafeString(output.join(""));
     });
 
     hbs.registerHelper("form_select", function (options) {
