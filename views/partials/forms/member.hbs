@@ -7,9 +7,9 @@
     {{/if}}
 
 
-    {{{form_input title="Full Name" name="name" type="text"
+    {{form_input title="Full Name" name="name" type="text"
         value=member.name required=true
-        description="if you want to save a place holder for youth please put in <code>Member 1, Member 2, ...</code> placeholders can be used until you know which members are bringing; our registration coordinator will call to ensure you will be using these spaces at a later date."}}}
+        description="if you want to save a place holder for youth please put in <code>Member 1, Member 2, ...</code> placeholders can be used until you know which members are bringing; our registration coordinator will call to ensure you will be using these spaces at a later date."}}
     {{#form_select title="Member Type" name="type" selected=member.type required=true}}
         <option value="">Choose...</option>
         <option value="Youth">Youth (14-17)</option>
@@ -23,8 +23,8 @@
         <option value="Female">Female</option>
         <option value="Other">Other</option>
     {{/form_select}}
-    {{{form_input title="Birth Date" name="birthDate" value=(date member.birthDate)
-        description="Should be <code>MM/DD/YYYY</code>."}}}
+    {{form_input title="Birth Date" name="birthDate" value=(date member.birthDate)
+        description="Should be <code>MM/DD/YYYY</code>."}}
     {{#form_select title="Background" name="background" selected=member.background
         description="<strong>Optional.</strong> If this is provided we will use it for statistics and reporting."}}
         <option value="">Choose...</option>
@@ -37,21 +37,21 @@
         <option value="Non-Aboriginal">Non-Aboriginal</option>
     {{/form_select}}
 
-    {{{form_input title="Phone Number" name="phone" type="text" value=member.phone
-        description="<strong>Optional</strong>. If this member has a cellphone, please specify it here so we can contact them on-site if necessary."}}}
+    {{form_input title="Phone Number" name="phone" type="text" value=member.phone
+        description="<strong>Optional</strong>. If this member has a cellphone, please specify it here so we can contact them on-site if necessary."}}
     <a target="_blank" href="http://twilio.org"><img src="/img/twilio.png"></a>
-    {{{form_boolean title="" name="notifications" value=member.notifications
-        description="<strong>Optional</strong>. If the above number is a cellphone we can notify the member during the event of their workshops and locations. <em>This service will be used sparingly and is provided for convience only.</em>"}}}
-    {{{form_input title="Email Address" name="email" type="email" value=member.email
-        description="<strong>Optional</strong>. If this is entered we will email this address if changes occur to workshops the workshops the member is enrolled in."}}}
+    {{form_boolean title="" name="notifications" value=member.notifications
+        description="<strong>Optional</strong>. If the above number is a cellphone we can notify the member during the event of their workshops and locations. <em>This service will be used sparingly and is provided for convience only.</em>"}}
+    {{form_input title="Email Address" name="email" type="email" value=member.email
+        description="<strong>Optional</strong>. If this is entered we will email this address if changes occur to workshops the workshops the member is enrolled in."}}
 
     <fieldset>
         <legend>Emergency Information</legend>
-        {{{form_input title="Contact Name" name="contactName" type="text" value=member.contactName}}}
-        {{{form_input title="Contact Phone" name="contactPhone" type="text" value=member.contactPhone}}}
-        {{{form_input title="Contact Relationship" name="contactRelation" type="text" value=member.contactRelation
-            description="The contact's relationship with the member."}}}
-        {{{form_input title="Medical Number" name="medicalNumber" type="text" value=member.medicalNumber}}}
+        {{form_input title="Contact Name" name="contactName" type="text" value=member.contactName}}
+        {{form_input title="Contact Phone" name="contactPhone" type="text" value=member.contactPhone}}
+        {{form_input title="Contact Relationship" name="contactRelation" type="text" value=member.contactRelation
+            description="The contact's relationship with the member."}}
+        {{form_input title="Medical Number" name="medicalNumber" type="text" value=member.medicalNumber}}
         {{#form_tags title="Allergies" name="allergies" type="text" description="<strong>You may leave this blank if not applicable.</strong>"}}
             {{#each member.allergies}}
                 <option value="{{this}}">{{this}}</option>

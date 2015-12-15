@@ -6,8 +6,8 @@
         <legend>Register as a Volunteer</legend>
     {{/if}}
 
-    {{{form_input title="Emergency Contact" name="emergencyName" type="text" value=volunteer.emergencyName required=true}}}
-    {{{form_input title="Emergency Phone Number" name="emergencyPhone" type="text" value=volunteer.emergencyPhone required=true}}}
+    {{form_input title="Emergency Contact" name="emergencyName" type="text" value=volunteer.emergencyName required=true}}
+    {{form_input title="Emergency Phone Number" name="emergencyPhone" type="text" value=volunteer.emergencyPhone required=true}}
 
     <h3>Your Availability & Schedule</h3>
     {{#unless flags.volunteerRegistration}}
@@ -117,8 +117,8 @@
 
     {{{form_textarea title="Other Notes" name="notes" value=volunteer.notes required=true}}}
 
-    {{{form_input title="Criminal Record Check Applied for" name="applied" type="checkbox" value=volunteer.applied
-        description="You will be required to fulfill a Criminal Record Check using <a target='blank' href='https://justice.gov.bc.ca/eCRC/'>this link</a> and access code <code>2LMZZ4EHQ6</code>. Please tick this when you are done so we know you have applied."}}}
+    {{form_input title="Criminal Record Check Applied for" name="applied" type="checkbox" value=volunteer.applied
+        description="You will be required to fulfill a Criminal Record Check using <a target='blank' href='https://justice.gov.bc.ca/eCRC/'>this link</a> and access code <code>2LMZZ4EHQ6</code>. Please tick this when you are done so we know you have applied."}}
 
     {{#if volunteer}}
         <div class="form-group">

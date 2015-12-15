@@ -8,8 +8,8 @@
 
     <p>You <strong>MUST</strong> fill out all items marked with a star (<strong>*</strong>) before submitting. You will be able to modify your answers later if needed.</p>
 
-    {{{form_input title="Title of Workshop" name="title" type="text"  value=workshop.title required=true
-        description="Please keep it succinct, 5 words or less."}}}
+    {{form_input title="Title of Workshop" name="title" type="text"  value=workshop.title required=true
+        description="Please keep it succinct, 5 words or less."}}
     {{#form_tags title="Facilitators" name="facilitators" required=true
         description="Please include <strong>full, legal names</strong> of all members, including the primary registrant for this account."}}
         {{#each workshop.facilitators}}
@@ -41,17 +41,17 @@
         description="A simple, few sentence description of your workshop that catches the eye. This will be shown in the conference agenda and in the workshop listings on site. <strong>Limit of 500 characters.</strong>"}}}
     {{{form_textarea title="Interaction Level" name="interactionLevel" value=workshop.interactionLevel required=true
         description="Describe how your workshop interacts with the youth. This is used as part of the selection process, our selection committee favors highly interactive workshops."}}}
-    {{{form_input title="Capacity" name="capacity" type="number"  value=workshop.capacity required=true
-        description="Indicate the number of attendees you are comfortable hosting. This is used for scheduling as well as in the selection process. Please <strong>only</strong> specify a number."}}}
+    {{form_input title="Capacity" name="capacity" type="number"  value=workshop.capacity required=true
+        description="Indicate the number of attendees you are comfortable hosting. This is used for scheduling as well as in the selection process. Please <strong>only</strong> specify a number."}}
 
     <fieldset>
         <legend>Resources</legend>
         {{{form_boolean title="Mailing" name="mailing" value=workshop.mailing required=true
             description="Shipping costs and planning will be the responsibility of the facilitator. But if you require assistance mailing things for the conference mark this."}}}
-        {{{form_input title="Flipchart" name="flipcharts" type="number" value=workshop.flipcharts required=true
-            description="Do you require flipcharts? Set to 0 (zero), or specify the number of flipcharts."}}}
-        {{{form_input title="Flipchart Markers" name="flipchartMarkers" type="number" value=workshop.flipchartMarkers required=true
-            description="Do you require flipchart markers? Set to 0 (zero), or specify the number of flipchart markers."}}}
+        {{form_input title="Flipchart" name="flipcharts" type="number" value=workshop.flipcharts required=true
+            description="Do you require flipcharts? Set to 0 (zero), or specify the number of flipcharts."}}
+        {{form_input title="Flipchart Markers" name="flipchartMarkers" type="number" value=workshop.flipchartMarkers required=true
+            description="Do you require flipchart markers? Set to 0 (zero), or specify the number of flipchart markers."}}
         {{{form_boolean title="Power" name="power" value=workshop.power required=true
             description="Do you require power for your workshop?"}}}
         {{{form_boolean title="Projector" name="projector" value=workshop.projector required=true
@@ -93,8 +93,8 @@
         {{{form_textarea title="Honorarium" name="honorarium" value=workshop.honorarium
             description="If you request an honorarium please specify the amount and some details regarding how you determined that amount.
                          <em>Make sure to specify if the amount is per workshop or for all services.</em>"}}}
-        {{{form_input title="Travel" name="travel" value=workshop.travel
-            description="If you request travel we will provide you with travel arrangements to the conference. If you don't need travel, leave this blank. <strong>Please let us know where you are coming from.</strong>"}}}
+        {{form_input title="Travel" name="travel" value=workshop.travel
+            description="If you request travel we will provide you with travel arrangements to the conference. If you don't need travel, leave this blank. <strong>Please let us know where you are coming from.</strong>"}}
         {{{form_textarea title="Notes" name="notes" value=workshop.notes
             description="Feel encouraged to place any notes you wish to include for the selection committee or the coordinators regarding you or your workshop."}}}
     </fieldset>

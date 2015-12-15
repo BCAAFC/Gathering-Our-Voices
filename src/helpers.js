@@ -64,7 +64,7 @@ module.exports = function (hbs) {
         output.push("<input class=form-control type=" + params.type + " name=" + params.name + params.required + params.value + ">");
         output.push("</div>");
         // Return
-        return output.join("");
+        return new hbs.handlebars.SafeString(output.join(""));
     });
 
     hbs.registerHelper("form_textarea", function (options) {

@@ -6,21 +6,21 @@
         <legend>Register New Account</legend>
     {{/if}}
 
-    {{{form_input title="Email Address" name="email" type="email"  value=account.email required=true}}}
+    {{form_input title="Email Address" name="email" type="email"  value=account.email required=true}}
     {{#if account}}
-        {{{form_input title="Password" name="password" type="password" value=""
-            description="Please <strong>only</strong> fill this in if you actually intend to change your password."}}}
+        {{form_input title="Password" name="password" type="password" value=""
+            description="Please <strong>only</strong> fill this in if you actually intend to change your password."}}
     {{else}}
-        {{{form_input title="Password" name="password" type="password" required=true value="" description="You can choose anything you'd like."}}}
+        {{form_input title="Password" name="password" type="password" required=true value="" description="You can choose anything you'd like."}}
     {{/if}}
 
-    {{{form_input title="Full Name" name="name" type="text" value=account.name required=true}}}
-    {{{form_input title="Affiliation" name="affiliation" type="text" required=true value=account.affiliation
-        description="This is typically your band, organization, or agency."}}}
-    {{{form_input title="Phone Number" name="phone" type="text" value=account.phone required=true}}}
-    {{{form_input title="Fax Number (Optional)" name="fax" type="text" value=account.fax}}}
-    {{{form_input title="Address" name="address" type="text" value=account.address required=true}}}
-    {{{form_input title="City" name="city" type="text" value=account.city required=true}}}
+    {{form_input title="Full Name" name="name" type="text" value=account.name required=true}}
+    {{form_input title="Affiliation" name="affiliation" type="text" required=true value=account.affiliation
+        description="This is typically your band, organization, or agency."}}
+    {{form_input title="Phone Number" name="phone" type="text" value=account.phone required=true}}
+    {{form_input title="Fax Number (Optional)" name="fax" type="text" value=account.fax}}
+    {{form_input title="Address" name="address" type="text" value=account.address required=true}}
+    {{form_input title="City" name="city" type="text" value=account.city required=true}}
     {{#form_select title="Province" name="province" type="text" selected=account.province required=true}}
         <option value="British Columbia">British Columbia</option>
         <option value="Alberta">Alberta</option>
@@ -37,10 +37,10 @@
         <option value="Yukon">Yukon</option>
         <option value="Other (Outside Canada)">Other (Outside Canada)</option>
     {{/form_select}}
-    {{{form_input title="Postal Code" name="postalCode" type="text" value=account.postalCode required=true}}}
+    {{form_input title="Postal Code" name="postalCode" type="text" value=account.postalCode required=true}}
 
-    {{{form_input title="Are you human?" name="robots" type="text" value="" required=true
-        description="This year, GOV is being hosted in Victoria. Please prove you're not a robot by entering where GOV is this year below."}}}
+    {{form_input title="Are you human?" name="robots" type="text" value="" required=true
+        description="This year, GOV is being hosted in Victoria. Please prove you're not a robot by entering where GOV is this year below."}}
 
     {{#if account}}
         <div class="form-group">

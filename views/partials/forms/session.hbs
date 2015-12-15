@@ -8,13 +8,13 @@
     {{/if}}
 
 
-    {{{form_input title="Start Time" name="start" type="datetime" value=(datetime session.start)
-        description="Should be <code>MM/DD/YYYY hh:mm AM</code>"}}}
-    {{{form_input title="End Time" name="end" type="datetime" value=(datetime session.end)
-        description="Should be <code>MM/DD/YYYY hh:mm AM</code>"}}}
-    {{{form_input title="Room" name="room" type="text" value=session.room}}}
-    {{{form_input title="Venue" name="venue" type="text" value=session.venue}}}
-    {{{form_input title="Capacity" name="capacity" type="number" value=session.capacity}}}
+    {{form_input title="Start Time" name="start" type="datetime" value=(datetime session.start)
+        description="Should be <code>MM/DD/YYYY hh:mm AM</code>"}}
+    {{form_input title="End Time" name="end" type="datetime" value=(datetime session.end)
+        description="Should be <code>MM/DD/YYYY hh:mm AM</code>"}}
+    {{form_input title="Room" name="room" type="text" value=session.room}}
+    {{form_input title="Venue" name="venue" type="text" value=session.venue}}
+    {{form_input title="Capacity" name="capacity" type="number" value=session.capacity}}
 
 
     {{#if session}}
