@@ -39,6 +39,9 @@
     {{/form_select}}
     {{{form_input title="Postal Code" name="postalCode" type="text" value=account.postalCode required=true}}}
 
+    {{{form_input title="Are you human?" name="robots" type="text" value="" required=true
+        description="This year, GOV is being hosted in Victoria. Please prove you're not a robot by entering where GOV is this year below."}}}
+
     {{#if account}}
         <div class="form-group">
             <input class="btn btn-block btn-primary" type='submit' value="Update">

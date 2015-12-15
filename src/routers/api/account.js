@@ -46,6 +46,12 @@ module.exports = function (db, redis) {
     })
     // Account creation.
     .post(function (req, res) {
+        if (!req.body.robots || req.body.robots.toLowerCase() !== "victoria") {
+            alert.error(req, "Please fill in the human testing question. The answer should be very straightforward.");
+            res.redirect('back');
+            return; // Finish
+        }
+
         // Strip
         if (!req.session.isAdmin) {
             delete req.body.notes;
