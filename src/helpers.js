@@ -203,7 +203,7 @@ module.exports = function (hbs) {
         }
         output.push("</div>");
 
-        return output.join("");
+        return new hbs.handlebars.SafeString(output.join(""));
     });
 
     hbs.registerHelper("balance", function (account, options) {
@@ -225,17 +225,19 @@ module.exports = function (hbs) {
     });
 
     hbs.registerHelper("img", function (classes, keyword, options) {
-        return "<img class=\"" + classes + "\" src=\"/api/image/" + keyword + ".jpg\">";
+        return new hbs.handlebars.SafeString("<img class=\"" + classes + "\" src=\"/api/image/" + keyword + ".jpg\">");
     });
 
     hbs.registerHelper("flag", function (flag, flags, options) {
+        var out;
         if (flags[flag] === null || flags[flag] === undefined) {
-            return "<a class=\"btn btn-default\" href=\"/admin/flag/" + flag + "/true\">Create: " + flag + "</a>";
+            out = "<a class=\"btn btn-default\" href=\"/admin/flag/" + flag + "/true\">Create: " + flag + "</a>";
         } else if (flags[flag] === true) {
-            return "<a class=\"btn btn-success\" href=\"/admin/flag/" + flag + "/" + !flags[flag] + "\">Unset:" + flag + "</a>";
+            out = "<a class=\"btn btn-success\" href=\"/admin/flag/" + flag + "/" + !flags[flag] + "\">Unset:" + flag + "</a>";
         } else {
-            return "<a class=\"btn btn-danger\" href=\"/admin/flag/" + flag + "/" + !flags[flag] + "\">Set:" + flag + "</a>";
+            out = "<a class=\"btn btn-danger\" href=\"/admin/flag/" + flag + "/" + !flags[flag] + "\">Set:" + flag + "</a>";
         }
+        return new hbs.handlebars.SafeString(out);
     });
 
     hbs.registerHelper("count", function (options) {
@@ -252,7 +254,7 @@ module.exports = function (hbs) {
 
     hbs.registerHelper("label-list", function (list) {
         return list.map(function (item) {
-            return "<span class=\"label label-default\">"+item+"</span>";
+            return "<span class=\"label label-default\">"+ hbs.handlebars.Utils.escapeExpression(item) +"</span>";
         }).join(' ');
     });
 
@@ -292,7 +294,8 @@ module.exports = function (hbs) {
         if (conflict !== null) {
             conflict = "conflict=\"" + conflict + "\"";
         } else { conflict = ""; }
-        return "<option "+disabled+" "+conflict+" name=member value="+member.id+">"+member.name+" "+note+"</option>";
+
+        return new hbs.handlebars.SafeString("<option "+disabled+" "+conflict+" name=member value="+member.id+">"+member.name+" "+note+"</option>");
     });
 
     hbs.registerHelper("if-in-session", function (options) {
