@@ -155,7 +155,7 @@ module.exports = function (hbs) {
         output.push("</select>");
         output.push("</div>");
         // Return
-        return output.join("");
+        return new hbs.handlebars.SafeString(output.join(""));
     });
 
     hbs.registerHelper("form_boolean", function (options) {
