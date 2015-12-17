@@ -99,6 +99,10 @@ module.exports = function (db, redis) {
     .get(function (req, res) {
         db.Member.findAll({
             order: [ "name", ],
+            include: [{
+                model: db.Group,
+                attributes: [ "AccountId" ],
+            }],
         }).then(function (members) {
             var columns = Object.keys(db.Member.attributes)
                 .map(function (v) {
