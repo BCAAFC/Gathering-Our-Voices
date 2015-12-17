@@ -134,8 +134,8 @@ module.exports = function (db, redis) {
         db.Exhibitor.findOne({
             where: { id: req.params.id, },
         }).then(function (exhibitor) {
-            var idx = exhibitor.tags.indexOf(req.body.add);
-            if (idx === -1) {
+            var idx = exhibitor.tags.indexOf(req.body.remove);
+            if (idx !== -1) {
                 exhibitor.tags.splice(idx, 1);
                 return exhibitor.save({fields: ['tags']});
             } else {

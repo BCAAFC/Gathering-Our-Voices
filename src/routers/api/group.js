@@ -141,8 +141,8 @@ module.exports = function (db, redis) {
         db.Group.findOne({
             where: { id: req.params.id, },
         }).then(function (group) {
-            var idx = group.tags.indexOf(req.body.add);
-            if (idx === -1) {
+            var idx = group.tags.indexOf(req.body.remove);
+            if (idx !== -1) {
                 group.tags.splice(idx, 1);
                 return group.save({fields: ['tags']});
             } else {

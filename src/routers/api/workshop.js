@@ -207,8 +207,8 @@ module.exports = function (db, redis) {
         db.Workshop.findOne({
             where: { id: req.params.id, },
         }).then(function (workshop) {
-            var idx = workshop.tags.indexOf(req.body.add);
-            if (idx === -1) {
+            var idx = workshop.tags.indexOf(req.body.remove);
+            if (idx !== -1) {
                 workshop.tags.splice(idx, 1);
                 return workshop.save({fields: ['tags']});
             } else {

@@ -174,8 +174,8 @@ module.exports = function (db, redis) {
             where: { id: req.params.id, },
         }).then(function (volunteer) {
             if (!volunteer) { throw new Error("Member not found."); }
-            var idx = volunteer.tags.indexOf(req.body.add);
-            if (idx === -1) {
+            var idx = volunteer.tags.indexOf(req.body.remove);
+            if (idx !== -1) {
                 volunteer.tags.splice(idx, 1);
                 return volunteer.save({fields: ['tags']});
             } else {

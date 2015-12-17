@@ -138,8 +138,8 @@ module.exports = function (db, redis) {
             where: { id: req.params.id, },
         }).then(function (member) {
             if (!member) { throw new Error("Member not found."); }
-            var idx = member.tags.indexOf(req.body.add);
-            if (idx === -1) {
+            var idx = member.tags.indexOf(req.body.remove);
+            if (idx !== -1) {
                 member.tags.splice(idx, 1);
                 return member.save({fields: ['tags']});
             } else {
