@@ -17,6 +17,10 @@
         If you require any changes please contact us. A staff member can
         change them for you.
     </div>
+
+    {{#if admin}}
+        {{> forms/exhibitor exhibitor=account.Exhibitor flags=flags}}
+    {{/if}}
 {{else if account.Exhibitor.verified}}
     <div class="alert alert-warning">
         Your exhibitor table has been verified by our staff! This means that
@@ -27,6 +31,10 @@
         If you require any changes please contact us. A staff member can
         change them for you.
     </div>
+
+    {{#if admin}}
+        {{> forms/exhibitor exhibitor=account.Exhibitor flags=flags}}
+    {{/if}}
 {{else unless flags.exhibitorRegistration}}
     <div class="alert alert-danger">
         Unfortunately exhibitor registration is closed. Perhaps next year?
