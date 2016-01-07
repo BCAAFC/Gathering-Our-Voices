@@ -102,6 +102,8 @@
                 var item = e.item,
                     id = $(this).data("id"),
                     self = this;
+                // If it's nothing exit early.
+                if (e.item === undefined) { return; }
                 console.log("REMOVE " + item + " from " + id);
                 $.ajax({
                     url: "/api/group/"+id+"/tags",

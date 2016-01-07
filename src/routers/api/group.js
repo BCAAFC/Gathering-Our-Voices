@@ -134,6 +134,7 @@ module.exports = function (db, redis) {
         }).then(function (group) {
             res.status(200).json(group.tags);
         }).catch(function (error) {
+            console.log(error);
             res.status(500).json({ error: error.message });
         });
     })
@@ -151,6 +152,7 @@ module.exports = function (db, redis) {
         }).then(function (group) {
             res.status(200).json(group.tags);
         }).catch(function (error) {
+            console.log(error);
             res.status(500).json({ error: error.message });
         });
     });
