@@ -158,7 +158,7 @@
                 }).done(function (data) {
                     return;
                 }).fail(function (data) {
-                    alert("Failed, please reload the page, then try again.");
+                    alert(data.responseJSON.error);
                 });
             });
 

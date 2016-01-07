@@ -94,7 +94,7 @@
                 }).done(function (data) {
                     return;
                 }).fail(function (data) {
-                    alert("Failed, please reload the page.");
+                    alert(data.responseJSON.error);
                 });
             })
             $("input[data-role=\"tagsinput\"]").off("itemRemoved");
