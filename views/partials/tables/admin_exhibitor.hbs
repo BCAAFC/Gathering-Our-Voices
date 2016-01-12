@@ -96,7 +96,9 @@
         $("#options").append(colvis.button());
         // Scan for tagsinputs.
         function drawHook() {
-            var inputs = $("input[data-role=\"tagsinput\"]").tagsinput()
+            var inputs = $("input[data-role=\"tagsinput\"]").tagsinput({
+                maxChars: 80,
+            });
 
             $("input[data-role=\"tagsinput\"]").off("itemAdded");
             $("input[data-role=\"tagsinput\"]").on("itemAdded", function (e) {

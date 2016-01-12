@@ -143,7 +143,9 @@
 
         function drawHook() {
             // Scan for tagsinputs.
-            var inputs = $("input[data-role=\"tagsinput\"]").tagsinput()
+            var inputs = $("input[data-role=\"tagsinput\"]").tagsinput({
+                maxChars: 80,
+            });
 
             $("input[data-role=\"tagsinput\"]").off("itemAdded");
             $("input[data-role=\"tagsinput\"]").on("itemAdded", function (e) {
