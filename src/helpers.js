@@ -28,11 +28,11 @@ module.exports = function (hbs) {
 
     hbs.registerHelper("datetime", function (val) {
         if (!val) { return ""; }
-        else { return moment(val).format("MM/DD/YYYY HH:mm A"); }
+        else { return moment(val).format("MM/DD/YYYY hh:mm A"); }
     });
     hbs.registerHelper("time", function (val) {
         if (!val) { return ""; }
-        else { return moment(val).format("HH:mm A"); }
+        else { return moment(val).format("hh:mm A"); }
     });
 
     hbs.registerHelper("form_input", function (options) {
