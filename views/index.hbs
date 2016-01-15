@@ -25,6 +25,12 @@
                         <div id="timer">
                             <p class="lead" style="padding-top: 30px;">
                                 Gathering Our Voices 2016 begins at the <strong>Victoria Conference Center</strong> in <span id="countdown"></span>!
+                                <br>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{memberCount}}" aria-valuemin="0" aria-valuemax="1500" style="width: {{percent memberCount 1500}}%;">
+                                        {{memberCount}} / 1500 spots filled!
+                                    </div>
+                                </div>
                             </p>
                             <script>
                                 var timer = countdown(

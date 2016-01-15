@@ -1,12 +1,35 @@
 var middleware = require("../middleware");
+var moment = require("moment");
+var promise = require("bluebird");
+
+var memberCountCache = {
+    count: 0,
+    lastCheck: moment("Jan 1 1970", "MMM DD YYYY"), // Epoch, force this to update.
+};
+function getMemberCount(db) {
+    if (moment(new Date()).subtract(5, "minutes") > memberCountCache.lastCheck) {
+        return db.Member.count().then(function (count) {
+            memberCountCache.count = count;
+            return count;
+        });
+    } else {
+        return new Promise(function (resolve, reject) {
+            return resolve(memberCountCache.count);
+        });
+    }
+}
 
 module.exports = function (httpd, db, redis) {
+
     httpd.get("/", function (req, res) {
-        res.render("index", {
-            title: "Landing Page",
-            layout: null,
-            account: req.session.account,
-            admin: req.session.isAdmin,
+        getMemberCount(db).then(function (count) {
+            res.render("index", {
+                title: "Landing Page",
+                layout: null,
+                memberCount: count,
+                account: req.session.account,
+                admin: req.session.isAdmin,
+            });
         });
     });
 

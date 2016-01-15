@@ -13,6 +13,10 @@ module.exports = function (hbs) {
         return JSON.stringify(val, null, indent);
     });
 
+    hbs.registerHelper("percent", function (dividend, divisor) {
+        return new hbs.handlebars.SafeString((dividend / divisor) * 100);
+    });
+
     hbs.registerHelper("initialize", function (val) {
         var tokens = val.split(" ");
         if (tokens.length > 1) {
