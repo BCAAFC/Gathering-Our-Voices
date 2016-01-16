@@ -8,11 +8,14 @@ var memberCountCache = {
 };
 function getMemberCount(db) {
     if (moment(new Date()).subtract(5, "minutes") > memberCountCache.lastCheck) {
+        console.log("Hitting the DB");
         return db.Member.count().then(function (count) {
             memberCountCache.count = count;
+            memberCountCache.lastCheck = moment(new Date());
             return count;
         });
     } else {
+        console.log("Not hitting the DB");
         return new Promise(function (resolve, reject) {
             return resolve(memberCountCache.count);
         });
