@@ -1,6 +1,6 @@
 var middleware = require("../middleware");
 var moment = require("moment");
-var promise = require("bluebird");
+var Promise = require("bluebird");
 
 var memberCountCache = {
     count: 0,
