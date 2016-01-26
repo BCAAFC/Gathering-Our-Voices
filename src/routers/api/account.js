@@ -113,11 +113,13 @@ module.exports = function (db, redis) {
             // Save.
             return account.save();
         }).then(function (account) {
+            alert.success(req, "Changes saved.");
             res.format({
                 'text/html': function () { res.redirect('back'); },
                 'default': function () { res.status(200).json(account); },
             });
         }).catch(function (error) {
+            alert.error(req, error.message);
             res.format({
                 'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
                 'default': function () { res.status(401).json({ error: error.message }); },
