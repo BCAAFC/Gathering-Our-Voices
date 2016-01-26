@@ -36,7 +36,7 @@
                         return data.map(function (item) {
                             var start = moment(item.start).format("MM/DD/YYYY HH:mm A");
                             var end = moment(item.end).format("HH:mm A");
-                            return "<span class=\"label label-default\">"+start+"-"+end+"</span>"
+                            return "<span class=\"label label-default\">"+start+"-"+end+" "+item.room+"@"+item.venue+"</span>"
                         }).join("<br>");
                     }
                 },
