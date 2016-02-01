@@ -143,6 +143,7 @@ module.exports = function (db, redis) {
                 include: [ db.Group ],
             }).then(function (acc) {
                 if (!acc) { throw new Error("Account not found."); }
+                if (!acc.Group) { throw new Error("Account has no group associated."); }
                 return acc.Group.getMembers({
                     where: { id: req.body.member, },
                 });

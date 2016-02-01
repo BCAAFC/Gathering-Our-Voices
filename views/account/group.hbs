@@ -12,11 +12,21 @@
         <a href="/account/group/member/" class="btn btn-success btn btn-block">
             <i class="fa fa-fw fa-plus"></i>
             Add Member
-           </a>
+        </a>
     {{else}}
-        <div class="alert alert-danger">
-            Unfortunately member registration is closed. Perhaps next year?
-        </div>
+        {{#if admin}}
+            <div class="alert alert-danger">
+                Unfortunately member registration is closed. Perhaps next year?
+            </div>
+            <a href="/account/group/member/" class="btn btn-success btn btn-block">
+                <i class="fa fa-fw fa-plus"></i>
+                Add Member
+            </a>
+        {{else}}
+            <div class="alert alert-danger">
+                Unfortunately member registration is closed. Perhaps next year?
+            </div>
+        {{/if}}
     {{/if}}
 
     <table class="table">
@@ -37,8 +47,16 @@
                     <td>
                         <div class="btn-group">
                             <a href="/account/group/member/{{this.id}}" class="btn btn-xs btn-default"><i class="fa fa-fw fa-edit"></i>Edit & Workshops</a>
-                            {{!-- <a href="/account/group/member/{{this.id}}" class="btn btn-xs btn-default"><i class="fa fa-fw fa-th-list"></i>Workshops</a> --}}
-                            <a href="/api/member/delete/{{this.id}}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-fw fa-trash"></i>Delete</a>
+                            {{#if ../admin}}
+                                <a href="/api/member/delete/{{this.id}}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-fw fa-trash"></i>Delete</a>
+                            {{else}}
+                                <div class="btn btn-xs btn-danger disabled" data-toggle="tooltip" data-placement="top" title="We've disabled this to prevent accidental deletions. Please call us at 1 800 990-2432 if you're sure."><i class="fa fa-fw fa-trash"></i>Delete</a>
+                                <script>
+                                $(function () {
+                                    $('[data-toggle="tooltip"]').tooltip();
+                                });
+                                </script>
+                            {{/if}}
                         </div>
                      </td>
                 </tr>
