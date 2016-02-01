@@ -13,6 +13,8 @@
             {{img "img-rounded img-fill" "acc-group"}}
             {{#if account.Group}}
                 <a class="btn btn-block btn-primary" href="/account/group">Manage your Group</a>
+            {{else if admin}}
+                <a class="btn btn-block btn-default" href="/account/group">(Admin) Add Group</a>
             {{else unless flags.groupRegistration}}
                 <a class="btn btn-block btn-default" disabled>Applications closed.</a>
             {{else}}
@@ -25,6 +27,8 @@
             {{img "img-rounded img-fill" "acc-facilitate"}}
             {{#if account.Workshops}}
                 <a class="btn btn-block btn-primary" href="/account/workshops">Modify Facilitation Application</a>
+            {{else if admin}}
+                <a class="btn btn-block btn-default" href="/account/workshops">(Admin) Facilitate</a>
             {{else unless flags.facilitatorRegistration}}
                 <a class="btn btn-block btn-default" disabled>Applications closed.</a>
             {{else}}
@@ -37,6 +41,8 @@
             {{img "img-rounded img-fill" "acc-exhibit"}}
             {{#if account.Exhibitor}}
                 <a class="btn btn-block btn-primary" href="/account/exhibitor">Modify Exhibitor Application</a>
+            {{else if admin}}
+                <a class="btn btn-block btn-default" href="/account/exhibitor">(Admin) Exhibit</a>
             {{else unless flags.exhibitorRegistration}}
                 <a class="btn btn-block btn-default" disabled>Applications closed.</a>
             {{else}}
@@ -49,6 +55,8 @@
             {{img "img-rounded img-fill" "acc-volunteer"}}
             {{#if account.Volunteer}}
                 <a class="btn btn-block btn-primary" href="/account/volunteer">Modify Volunteer Application</a>
+            {{else if admin}}
+                <a class="btn btn-block btn-default" href="/account/volunteer">(Admin) Add Volunteer</a>
             {{else unless flags.volunteerRegistration}}
                 <a class="btn btn-block btn-default" disabled>Applications closed.</a>
             {{else}}
