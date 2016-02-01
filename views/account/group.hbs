@@ -79,12 +79,6 @@
         </ul>
     </div>
     {{> forms/group group=account.Group flags=flags}}
-{{/if}}
-
-{{#unless flags.groupRegistration}}
-    <div class="alert alert-danger">
-        Unfortunately group registration is closed. Perhaps next year?
-    </div>
-{{else unless account.Group}}
+{{else}}
     {{> forms/group group=account.Group flags=flags}}
-{{/unless}}
+{{/if}}
