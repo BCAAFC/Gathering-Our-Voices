@@ -169,7 +169,10 @@ module.exports = function (db, redis) {
             });
         }).catch(function (error) {
             console.log(error);
-            res.status(401).json({ error: error.message });
+            res.format({
+                'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+                'default': function () { res.status(401).json({ error: error.message }); },
+            });
         });
     });
 
