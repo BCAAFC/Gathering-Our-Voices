@@ -271,10 +271,10 @@ module.exports = function (hbs) {
             conflict = null;
         if (workshop.audience.indexOf(member.type) === -1) {
             disabled = true;
-            note = "(Ineligible)";
+            note = "(Bad Member Type)";
         } else if (member.complete === false) {
             disabled = true;
-            note = "(Incomplete)";
+            note = "(Incomplete Member)";
         } else {
             // Might have a conflict.
             disabled = member.Sessions.some(function (val) {

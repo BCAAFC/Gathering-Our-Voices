@@ -1,3 +1,7 @@
+{{#if backTo}}
+    <a class="btn btn-default btn-block" href="/workshops/{{backTo}}">Go back to prior Workshop...</a>
+{{/if}}
+
 {{#with workshop}}
     {{#unless approved}}
         <div class="alert alert-warning">
@@ -10,6 +14,7 @@
             and didn't expect to, please let us know!
         </div>
     {{/unless}}
+
     <div class="row">
         <h1>{{title}}</h1>
         <p class="lead">Hosted by: {{facilitators}}</p>
@@ -123,7 +128,7 @@
             $("select[name='member']").change(function () {
                 var conflict = $(this).find(":selected").attr("conflict");
                 if (conflict && confirm("Would you like to browse to the conflicting workshop?")) {
-                    window.location = "/workshops/" + conflict;
+                    window.location = "/workshops/" + conflict + "?backTo={{id}}";
                 }
             });
         });

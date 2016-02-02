@@ -90,6 +90,7 @@ module.exports = function (db, redis) {
                     flags: db.Flag.cache(),
                     workshop: workshop,
                     facilitatorList: facilitatorList,
+                    backTo: req.query.backTo,
                 });
             }
         ).catch(function (error) {
