@@ -2,8 +2,11 @@
     Workshops will be available starting in mid-February. We're working hard to put together an fantastic lineup!
 </div>
 
-{{!-- {{#if flags.workshopSignup}}
+{{#if flags.workshopSignup}}
     {{> tables/user_workshop columns=columns workshops=workshops}}
 {{else if admin}}
+    <div class="well">
+        You're seeing this because you're an admin.
+    </div>
     {{> tables/user_workshop columns=columns workshops=workshops}}
-{{/if}} --}}
+{{/if}}
