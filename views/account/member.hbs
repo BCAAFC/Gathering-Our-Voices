@@ -1,3 +1,14 @@
+<div class="visible-print-block">
+    <h2>{{member.name}}</h2>
+</div>
+
+<div class="hidden-print pull-right">
+    <a class="btn btn-info" onclick="window.print();">
+        <i class="fa fa-print"></i>
+        Workshops
+    </a>
+</div>
+
 {{#if member}}
     {{#if member.complete}}
         <h3>Workshops</h3>
@@ -29,4 +40,6 @@
     {{/if}}
 {{/if}}
 
-{{> forms/member member=member flags=flags admin=admin}}
+<div class="hidden-print">
+    {{> forms/member member=member flags=flags admin=admin}}
+</div>
