@@ -31,7 +31,7 @@
 
     <table class="table">
         <thead>
-            <tr><th>Complete</th><th>Name</th><th>Type</th><th>Cost</th><th></th></tr>
+            <tr><th>Complete</th><th>Name</th><th>Type</th><th># of Workshops</th><th>Cost</th><th></th></tr>
         </thead>
         <tbody>
             {{#each account.Group.Members}}
@@ -43,6 +43,7 @@
                     {{/if}}
                     <td>{{this.name}}</td>
                     <td>{{this.type}}</td>
+                    <td>{{this.Sessions.length}}</td>
                     <td>${{this.cost}}</td>
                     <td>
                         <div class="btn-group">

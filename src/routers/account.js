@@ -88,7 +88,13 @@ module.exports = function (db, redis) {
             where: { id: req.session.account.id, },
             include: [
                 { model: db.Group,
-                    include: [db.Member,],
+                    include: [{
+                        model: db.Member,
+                        include: [{
+                            model: db.Session,
+                            attributes: [ "id" ]
+                        }],
+                    }],
                 },
             ],
             order: [ [ db.Group, db.Member, "name", ], ],
