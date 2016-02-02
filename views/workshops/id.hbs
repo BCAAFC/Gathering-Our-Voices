@@ -85,9 +85,9 @@
                         <div class="col-xs-6">
                             <table class="table">
                                 <thead>
-                                    <tr><th>Delegates Attending</th></tr>
+                                    <tr><th data-toggle="collapse" data-target="#facilitatorList-{{id}}">Delegates Attending (Click to expand)</th></tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="facilitatorList-{{id}}" class="collapse">
                                     {{#each Members}}
                                         <tr>
                                             <td>{{initialize name}}</td>
@@ -104,9 +104,9 @@
                         <div class="col-xs-6">
                             <table class="table">
                                 <thead>
-                                    <tr><th>Admin List</th></tr>
+                                    <tr><th data-toggle="collapse" data-target="#adminList-{{id}}">Admin List (Click to expand)</th></tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="adminList-{{id}}" class="collapse">
                                     {{#each Members}}
                                         <tr>
                                             <td>{{name}}</td>
