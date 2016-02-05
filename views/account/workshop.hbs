@@ -69,6 +69,179 @@
 
     {{#if admin}}
         {{> forms/workshop workshop=workshop flags=flags new=new}}
+    {{else}}
+        {{#with workshop}}
+            <div class="workshop row" style="page-break-after: always;">
+                <div class="col-sm-12">
+                    <hr>
+                    <h2>A Review of your Submission:</h2>
+                    <h3>{{title}}</h3>
+                    <p>Hosted By: <strong>{{facilitators}}</strong></p>
+                    <p>Affiliation: <strong>{{Account.affiliation}}</strong></p>
+                </div>
+
+                <div class="col-sm-12 description">
+                    <h4>Description</h4>
+                    <p>{{{description}}}</p>
+                </div>
+
+                <div class="col-sm-12 biography">
+                    <h4>Biography</h4>
+                    <p>{{{biography}}}</p>
+                </div>
+
+                <div class="col-sm-12 interaction">
+                    <h4>Interaction Level</h4>
+                    <p>{{{interactionLevel}}}</p>
+                </div>
+
+                <div class="col-sm-3 synopsis">
+                    <h4>Synopsis</h4>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Length:</strong>
+                                </td><td>
+                                    {{length}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Audience:</strong>
+                                </td><td>
+                                    {{#each audience}}
+                                        {{this}}<br>
+                                    {{/each}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Capacity:</strong>
+                                </td><td>
+                                    {{capacity}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Type:</strong>
+                                </td><td>
+                                    {{#each type}}
+                                        {{this}}<br>
+                                    {{/each}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Room:</strong>
+                                </td><td>
+                                    {{room}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-sm-3 requirements">
+                    <h4>Requirements</h4>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Mailing:</strong>
+                                </td><td>
+                                    {{#if mailing}} <i class="fa fa-check"></i> {{else}} <i class="fa fa-times"></i> {{/if}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Power:</strong>
+                                </td><td>
+                                    {{#if power}} <i class="fa fa-check"></i> {{else}} <i class="fa fa-times"></i> {{/if}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Projector:</strong>
+                                </td><td>
+                                    {{#if projector}} <i class="fa fa-check"></i> {{else}} <i class="fa fa-times"></i> {{/if}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Screen:</strong>
+                                </td><td>
+                                    {{#if screen}} <i class="fa fa-check"></i> {{else}} <i class="fa fa-times"></i> {{/if}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Player:</strong>
+                                </td><td>
+                                    {{#if player}} <i class="fa fa-check"></i> {{else}} <i class="fa fa-times"></i> {{/if}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Microphone:</strong>
+                                </td><td>
+                                    {{#if microphone}} <i class="fa fa-check"></i> {{else}} <i class="fa fa-times"></i> {{/if}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Flipcharts:</strong>
+                                </td><td>
+                                    {{flipcharts}} ({{flipchartMarkers}} markers)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-sm-6 compensation">
+                    <h4>Compensation</h4>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Meals:</strong>
+                                </td><td>
+                                    {{#if meals}} <i class="fa fa-check"></i> {{else}} <i class="fa fa-times"></i> {{/if}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Accomodation:</strong>
+                                </td><td>
+                                    {{#if accomodation}} <i class="fa fa-check"></i> {{else}} <i class="fa fa-times"></i> {{/if}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Travel:</strong>
+                                </td><td>
+                                    {{travel}}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Honorarium:</strong>
+                                </td><td>
+                                    {{honorarium}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-sm-12 interaction">
+                    <h4>Notes</h4>
+                    <p>{{#if notes}} {{notes}} {{else}} (No notes) {{/if}}</p>
+                </div>
+
+            </div>
+        {{/with}}
     {{/if}}
 {{else if workshop.verified}}
     <div class="alert alert-warning">
