@@ -89,6 +89,11 @@
     <div class="alert alert-danger">
         Unfortunately facilitator registration is closed. Perhaps next year?
     </div>
+
+    {{#if admin}}
+        <div class="well">You're seeing this because you're an admin</div>
+        {{> forms/workshop workshop=workshop flags=flags new=new}}
+    {{/if}}
 {{else}}
     {{> forms/workshop workshop=workshop flags=flags new=new}}
 {{/if}}
