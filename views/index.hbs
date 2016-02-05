@@ -25,12 +25,14 @@
                         <div id="timer">
                             <p class="lead" style="padding-top: 30px;">
                                 Gathering Our Voices 2016 begins at the <strong>Victoria Conference Center</strong> in <span id="countdown"></span>!
-                                <br>
-                                <div class="progress">
-                                    <div class="progress-bar" role="progressbar" aria-valuenow="{{memberCount}}" aria-valuemin="0" aria-valuemax="1500" style="width: {{percent memberCount 1500}}%;">
-                                        {{memberCount}} / 1500 spots filled!
+                                {{#if flags.groupRegistration}}
+                                    <br>
+                                    <div class="progress">
+                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{memberCount}}" aria-valuemin="0" aria-valuemax="1500" style="width: {{percent memberCount 1500}}%;">
+                                            {{memberCount}} / 1500 spots filled!
+                                        </div>
                                     </div>
-                                </div>
+                                {{/if}}
                             </p>
                             <script>
                                 var timer = countdown(
@@ -42,8 +44,16 @@
                                 )
                             </script>
                         </div>
+                        {{#if flags.groupRegistration}}
+                            <p><a href="/register" class="btn btn-block btn-lg btn-primary">Apply as a group, facilitator, volunteer, or exhibitor!</a></p>
+                        {{else}}
+                            <div class="well">
+                                <h3>GOV 2016 Registration Closed - Maximum Capacity Reached</h3>
+                                <br>
+                                Each year groups work hard to fundraise to make the trip to the conference.  We are inspired with the high level of interest in Gathering Our Voices and encourage those who cannot participate this year to register early for next year’s conference. Registration for GOV opens every year in late September; we recommend signing up to our distribution list to get the most up to date information.
+                            </div>
+                        {{/if}}
 
-                        <p><a href="/register" class="btn btn-block btn-lg btn-primary">Apply as a group, facilitator, volunteer, or exhibitor!</a></p>
                         <p>Interact with us via:</p>
                         <div class="btn-group">
                             <a class="btn btn-info" style="background-color: #56ADEE" target="_blank" href="https://twitter.com/GOV_Conference">
