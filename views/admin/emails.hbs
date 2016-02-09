@@ -3,16 +3,16 @@
 <blockquote>Click to select.</blockquote>
 
 <h3>All Accounts</h3>
-<pre onclick="var range = document.createRange(); range.selectNodeContents(this); window.getSelection().addRange(range)">{{#each accounts}} {{this.name}} &lt;{{this.email}}&gt;, {{/each}}</pre>
+<pre onclick="var range = document.createRange(); range.selectNodeContents(this); window.getSelection().addRange(range)">{{#each accounts}} {{this.name}} &lt;{{this.email}}&gt;; {{/each}}</pre>
 
 <h3>All Groups</h3>
-<pre onclick="var range = document.createRange(); range.selectNodeContents(this); window.getSelection().addRange(range)">{{#each groups}} {{this.Account.name}} &lt;{{this.Account.email}}&gt;, {{/each}}</pre>
+<pre onclick="var range = document.createRange(); range.selectNodeContents(this); window.getSelection().addRange(range)">{{#each groups}} {{this.Account.name}} &lt;{{this.Account.email}}&gt;; {{/each}}</pre>
 
 <h3>Approved Exhibitors</h3>
-<pre onclick="var range = document.createRange(); range.selectNodeContents(this); window.getSelection().addRange(range)">{{#each appExhibitors}} {{this.Account.name}} &lt;{{this.Account.email}}&gt;, {{/each}}</pre>
+<pre onclick="var range = document.createRange(); range.selectNodeContents(this); window.getSelection().addRange(range)">{{#each appExhibitors}} {{this.Account.name}} &lt;{{this.Account.email}}&gt;; {{/each}}</pre>
 
 <h3>Approved Facilitators</h3>
-<pre onclick="var range = document.createRange(); range.selectNodeContents(this); window.getSelection().addRange(range)">{{#each appFacilitators}} {{this.Account.name}} &lt;{{this.Account.email}}&gt;, {{/each}}</pre>
+<pre onclick="var range = document.createRange(); range.selectNodeContents(this); window.getSelection().addRange(range)">{{#each appFacilitators}} {{this.Account.name}} &lt;{{this.Account.email}}&gt;; {{/each}}</pre>
 
 <h3>Approved Volunteers</h3>
-<pre onclick="var range = document.createRange(); range.selectNodeContents(this); window.getSelection().addRange(range)">{{#each appVolunteers}} {{this.Account.name}} &lt;{{this.Account.email}}&gt;, {{/each}}</pre>
+<pre onclick="var range = document.createRange(); range.selectNodeContents(this); window.getSelection().addRange(range)">{{#each appVolunteers}} {{this.Account.name}} &lt;{{this.Account.email}}&gt;; {{/each}}</pre>
