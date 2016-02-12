@@ -340,6 +340,7 @@ module.exports = function (db, redis) {
             });
         }).then(function (volunteers) {
             res.contentType("text/csv");
+            res.setHeader('Content-disposition', 'attachment; filename=volunteers.csv');
             res.send(volunteers);
         }).catch(function (error) {
             console.log(error);
