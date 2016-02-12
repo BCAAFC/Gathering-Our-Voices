@@ -2,6 +2,7 @@ var middleware = require("../../middleware"),
     moment = require("moment"),
     communication = require("../../communication"),
     csv_stringify = require("csv-stringify"),
+    Promise = require("bluebird"),
     alert = require("../../alert");
 
 function scaffoldDay(day, req, current) {
@@ -329,7 +330,6 @@ module.exports = function (db, redis) {
             }
 
             return new Promise(function (resolve, reject) {
-                console.log(volunteers[22]);
                 csv_stringify(volunteers, { header: true, escape: true }, function (err, out) {
                     if (err) {
                         return reject(err);
