@@ -9,8 +9,13 @@ module.exports = function (db, redis) {
         db.Workshop.findAll({
             where: { approved: true, verified: true, },
             attributes: ['id', 'title', 'facilitators', 'length', 'audience', 'summary'],
-            include: [db.Session],
-            order: [ "title", ],
+            include: [{
+                model: db.Session,
+            }],
+            order: [
+                ["title"],
+                [db.Session, "start"]
+            ],
         }).then(function (workshops) {
             var columns = [
                 { title: "View", data: null, className: "view", },
