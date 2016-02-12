@@ -1,6 +1,7 @@
 var middleware = require("../../middleware"),
     moment = require("moment"),
     communication = require("../../communication"),
+    csv_stringify = require("csv-stringify"),
     alert = require("../../alert");
 
 function scaffoldDay(day, req, current) {
@@ -282,6 +283,64 @@ module.exports = function (db, redis) {
             return volunteer.save();
         }).then(function (volunteer) {
             res.status(200).json({ state: volunteer.followUp, });
+        }).catch(function (error) {
+            console.log(error);
+            res.status(500).json({ error: error.message });
+        });
+    });
+
+    router.route("/csv")
+    .get(middleware.admin, function (req, res) {
+        db.Volunteer.findAll({
+            // Deliberately empty
+            include: [
+                {
+                    model: db.Account,
+                    attributes: ["email", "name", "affiliation", "phone", "address", "city", "province", "postalCode"],
+                }
+            ],
+            order: "id",
+            raw: true
+        }).then(function (volunteers) {
+            // Process Schedule
+            for (var vol_num=0; vol_num < volunteers.length; vol_num++) {
+                volunteers[vol_num].tags = String(volunteers[vol_num].tags)
+                volunteers[vol_num].applied = String(volunteers[vol_num].applied)
+                volunteers[vol_num].approved = String(volunteers[vol_num].approved)
+                volunteers[vol_num].followUp = String(volunteers[vol_num].followUp)
+                var schedule = volunteers[vol_num].schedule;
+                for (var i=0; i < schedule.length; i++) {
+                    var entry = schedule[i];
+                    var day = entry.day.split(",")[0];
+                    if (entry.morning) {
+                        volunteers[vol_num][day + "-morning-available"] = String(entry.morning.available);
+                        volunteers[vol_num][day + "-morning-scheduled"] = String(entry.morning.scheduled);
+                    }
+                    if (entry.afternoon) {
+                        volunteers[vol_num][day + "-afternoon-available"] = String(entry.afternoon.available);
+                        volunteers[vol_num][day + "-afternoon-scheduled"] = String(entry.afternoon.scheduled);
+                    }
+                    if (entry.evening) {
+                        volunteers[vol_num][day + "-evening-available"] = String(entry.evening.available);
+                        volunteers[vol_num][day + "-evening-scheduled"] = String(entry.evening.scheduled);
+                    }
+                }
+                delete volunteers[vol_num].schedule;
+            }
+
+            return new Promise(function (resolve, reject) {
+                console.log(volunteers[22]);
+                csv_stringify(volunteers, { header: true, escape: true }, function (err, out) {
+                    if (err) {
+                        return reject(err);
+                    } else {
+                        return resolve(out);
+                    }
+                });
+            });
+        }).then(function (volunteers) {
+            res.contentType("text/csv");
+            res.send(volunteers);
         }).catch(function (error) {
             console.log(error);
             res.status(500).json({ error: error.message });
