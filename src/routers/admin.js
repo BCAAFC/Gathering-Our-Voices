@@ -196,6 +196,8 @@ module.exports = function (db, redis) {
             include: [{
                 model: db.Account,
                 attributes: ["affiliation"]
+            }, {
+                model: db.Session
             }],
             where: {
                 approved: true
@@ -207,7 +209,7 @@ module.exports = function (db, redis) {
                 workshop.interactionLevel = workshop.interactionLevel.replace(/\n/g, "<br>");
                 return workshop;
             });
-            res.render("admin/workshop_selection_printout", {
+            res.render("admin/workshop_approved_printout", {
                 title: "Administration - Approved Workshops",
                 account: req.session.account,
                 admin: req.session.isAdmin,
