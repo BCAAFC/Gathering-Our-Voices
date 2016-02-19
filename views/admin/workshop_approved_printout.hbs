@@ -1,6 +1,6 @@
 {{#each workshops}}
 
-    <div class="workshop row" style="page-break-after: always;">
+    <div class="workshop row">
         <div class="col-sm-12">
             <h3>{{title}}</h3>
             <p>Hosted By: <strong>{{facilitators}}</strong></p>
@@ -8,71 +8,14 @@
         </div>
 
         <div class="col-sm-12 description">
-            <h4>Description</h4>
-            <p>{{{description}}}</p>
+            <h4>Summary</h4>
+            <p>{{{summary}}}</p>
         </div>
 
-        <div class="col-sm-12 biography">
-            <h4>Biography</h4>
-            <p>{{{biography}}}</p>
-        </div>
-
-        <div class="col-sm-12 interaction">
-            <h4>Interaction Level</h4>
-            <p>{{{interactionLevel}}}</p>
-        </div>
-
-        <div class="col-sm-3 synopsis">
-            <h4>Synopsis</h4>
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <td>
-                            <strong>Length:</strong>
-                        </td><td>
-                            {{length}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <strong>Audience:</strong>
-                        </td><td>
-                            {{#each audience}}
-                                {{this}}<br>
-                            {{/each}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <strong>Capacity:</strong>
-                        </td><td>
-                            {{capacity}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <strong>Type:</strong>
-                        </td><td>
-                            {{#each type}}
-                                {{this}}<br>
-                            {{/each}}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <strong>Room:</strong>
-                        </td><td>
-                            {{room}}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="sessions col-sm-6">
+        <div class="sessions col-sm-12">
             <h4>Sessions</h4>
             {{#each Sessions}}
-                <div>
+                <div class="col-sm-3">
                     <strong>Start:</strong> {{datetime start}}
                     <br>
                     <strong>End:</strong> {{time end}}
@@ -86,7 +29,8 @@
                 </div>
             {{/each}}
         </div>
-
     </div>
+
+    <hr>
 
 {{/each}}
