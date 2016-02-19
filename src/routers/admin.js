@@ -189,6 +189,38 @@ module.exports = function (db, redis) {
         });
     });
 
+    router.route("/workshops/approved_printout")
+    .get(function (req, res) {
+        db.Workshop.findAll({
+            order: [ "title", ],
+            include: [{
+                model: db.Account,
+                attributes: ["affiliation"]
+            }],
+            where: {
+                approved: true
+            }
+        }).then(function (workshops) {
+            workshops = workshops.map(function (workshop) {
+                workshop.description = workshop.description.replace(/\n/g, "<br>");
+                workshop.biography = workshop.biography.replace(/\n/g, "<br>");
+                workshop.interactionLevel = workshop.interactionLevel.replace(/\n/g, "<br>");
+                return workshop;
+            });
+            res.render("admin/workshop_selection_printout", {
+                title: "Administration - Approved Workshops",
+                account: req.session.account,
+                admin: req.session.isAdmin,
+                alert: req.alert,
+                flags: db.Flag.cache(),
+                workshops: workshops,
+            });
+        }).catch(function (error) {
+            console.warn(error.message);
+            res.status(404).send(error.message);
+        });
+    });
+
     router.route("/exhibitors")
     .get(function (req, res) {
         db.Exhibitor.findAll({
