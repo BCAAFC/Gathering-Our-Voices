@@ -65,9 +65,12 @@
                     targets: [ -1 ], // Arrays
                     render: function (data, type, row) {
                         return data.map(function (item) {
+                            if (item.capacity <= item.attending) {
+                                return null;
+                            }
                             var start = moment(item.start).format("MMM D hh:mm A");
                             var end = moment(item.end).format("hh:mm A");
-                            return "<span class=\"label label-default\" data-start=\""+item.start+"\" data-end=\""+item.end+"\">" + start + "-" + end + " @ " + item.venue + "</span><br>";
+                            return "<span class=\"label label-default\" data-start=\""+item.start+"\" data-end=\""+item.end+"\">" + item.attending + "/" + item.capacity + " " + start + "-" + end + " @ " + item.venue + "</span><br>";
                         }).join(" ");
                     }
                 },

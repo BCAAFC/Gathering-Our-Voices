@@ -8,15 +8,35 @@ module.exports = function (db, redis) {
     .get(function (req, res) {
         db.Workshop.findAll({
             where: { approved: true, verified: true, },
-            attributes: ['id', 'title', 'facilitators', 'length', 'audience', 'summary'],
+            attributes: [
+                'id',
+                'title',
+                'facilitators',
+                'length',
+                'audience',
+                'summary'
+            ],
             include: [{
                 model: db.Session,
+                include: [{
+                    model: db.Member,
+                    attributes: ["id"]
+                }],
             }],
             order: [
                 ["title"],
                 [db.Session, "start"]
             ],
         }).then(function (workshops) {
+            workshops = workshops.map(function (workshop) {
+                workshop = workshop.toJSON();
+                workshop.Sessions.map(function (session) {
+                    session.attending = session.Members.length;
+                    delete session.Members;
+                    return session;
+                });
+                return workshop;
+            });
             var columns = [
                 { title: "View", data: null, className: "view", },
                 { title: 'Title', data: 'title', className: 'title' },
