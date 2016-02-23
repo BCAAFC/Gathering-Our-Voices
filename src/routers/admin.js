@@ -626,6 +626,17 @@ module.exports = function (db, redis) {
                 }
                 return out;
             }),
+
+            // Payment information
+            waived_fees: db.Payment.find({
+                where: {
+                    type: "Waived"
+                },
+                attributes: [ [sequelize.fn('SUM', sequelize.col('amount')), "total"] ],
+                raw: true
+            }).then(function (result) {
+                return result;
+            })
         }).then(function (stats) {
                 res.render("admin/statistics", {
                     title: "Administration - Statistics",
