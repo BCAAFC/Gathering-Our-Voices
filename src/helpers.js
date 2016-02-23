@@ -271,7 +271,7 @@ module.exports = function (hbs) {
             conflict = null;
         if (workshop.audience.indexOf(member.type) === -1) {
             disabled = true;
-            note = "(Bad Member Type)";
+            note = "(Ineligible Member Type)";
         } else if (member.complete === false) {
             disabled = true;
             note = "(Incomplete Member)";
