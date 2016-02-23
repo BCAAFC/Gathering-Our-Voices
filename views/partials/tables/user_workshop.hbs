@@ -66,7 +66,7 @@
                     render: function (data, type, row) {
                         return data.map(function (item) {
                             if (item.capacity <= item.attending) {
-                                return null;
+                                return "<span class=\"label label-default\">Full Session</span><br>";
                             }
                             var start = moment(item.start).format("MMM D hh:mm A");
                             var end = moment(item.end).format("hh:mm A");
