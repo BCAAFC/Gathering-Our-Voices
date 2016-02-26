@@ -125,7 +125,7 @@ module.exports = function (sequelize, DataTypes) {
                         to: [
                             { email: account.email, name: account.affiliation, }
                         ],
-                        from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
+                        from: { email: "govadmin@bcaafc.com", name: "Holly Brinkman", },
                         cc: [
                             { email: "dpreston@bcaafc.com", name: "Della Preston", }
                         ],
