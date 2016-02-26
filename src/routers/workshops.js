@@ -69,14 +69,19 @@ module.exports = function (db, redis) {
                 include: [
                     {
                         model: db.Session,
-                        include: [db.Member],
+                        include: [{
+                            model: db.Member,
+                        }],
+                        order: [ db.Member, "name", ],
                     },
                     {
                         model: db.Account,
                         attributes: ["affiliation"],
                     },
                 ],
-                order: [ [ db.Session, "start", ], ],
+                order: [
+                    [ db.Session, "start", ],
+                ],
             }),
             new Promise(function (resolve, reject) {
                 if (req.session.account) {
@@ -88,11 +93,18 @@ module.exports = function (db, redis) {
                             {
                                 model: db.Group,
                                 include: [
-                                    { model: db.Member, include: [db.Session], },
+                                    {
+                                        model: db.Member,
+                                        include: [db.Session],
+                                    },
                                 ],
                             },
-                            { model: db.Workshop, attributes: ["id"], },
+                            {
+                                model: db.Workshop,
+                                attributes: ["id"],
+                            },
                         ],
+                        order: [ [ db.Group, db.Member, "name", ], ],
                     }).then(function (account) {
                         req.session.account = account;
                         return account;

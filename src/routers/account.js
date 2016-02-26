@@ -142,6 +142,7 @@ module.exports = function (db, redis) {
                     model: db.Session,
                     include: [db.Workshop],
                 }],
+                order: [ [ db.Session, "start", ], ],
             }),
             function (account, member) {
                 if (member && (account.Group.id !== member.GroupId)) {
