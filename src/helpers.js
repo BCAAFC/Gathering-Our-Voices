@@ -310,4 +310,14 @@ module.exports = function (hbs) {
         }
     });
 
+    hbs.registerHelper("stringify-list", function (list) {
+        if (list.length > 2) {
+            list[list.length-1] = "and " + list[list.length-1]
+            return list.join(", ");
+        } else if (list.length === 2) {
+            return list.join(" and ")
+        } else {
+            return String(list);
+        }
+    });
 };

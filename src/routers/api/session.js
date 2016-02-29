@@ -92,14 +92,14 @@ module.exports = function (db, redis) {
                 db.Workshop,
             ],
         }).then(function (session) {
-            session.Members.map(function (member) {
+            return Promise.map(session.Members, function (member) {
                 communication.mail({
                     to: [
                         { email: member.Group.Account.email, name: member.Group.Account.affiliation, }
                     ],
-                    from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
+                    from: { email: "govworkshops@bcaafc.com", name: "Shawna Johnson", },
                     cc: [
-                        { email: "dpreston@bcaafc.com", name: "Della Preston", }
+                        { email: "govworkshops@bcaafc.com", name: "Shawna Johnson", }
                     ],
                     title: "Workshop Session Cancelled",
                     file: "session_cancelled",
@@ -111,13 +111,14 @@ module.exports = function (db, redis) {
                         { name: "end", content: session.end.toLocaleString(), },
                     ],
                 });
+            }).then(function () {
+                return session.destroy();
             });
-            return session.destroy();
         }).then(function (session) {
             res.format({
                 'text/html': function () {
                     alert.success(req, "Deleted session.");
-                    res.redirect('/account/workshop');
+                    res.redirect('/account');
                 },
                 'default': function () { res.status(200).json(session); },
             });
