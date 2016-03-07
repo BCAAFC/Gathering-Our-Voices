@@ -79,12 +79,13 @@
                     targets: [ -1 ], // Arrays
                     render: function (data, type, row) {
                         return data.map(function (item) {
-                            if (item.capacity <= item.attending) {
-                                return "<span class=\"label label-default\">Full Session</span><br>";
-                            }
                             var start = moment(item.start).format("MMM D hh:mm A");
                             var end = moment(item.end).format("hh:mm A");
-                            return "<span class=\"label label-default\" data-start=\""+item.start+"\" data-end=\""+item.end+"\">" + item.attending + "/" + item.capacity + " " + start + "-" + end + " @ " + item.venue + "</span><br>";
+                            if (item.capacity <= item.attending) {
+                                return "<span class=\"label label-default\" data-start=\""+item.start+"\" data-end=\""+item.end+">Full Session</span><br>";
+                            } else {
+                                return "<span class=\"label label-default\" data-start=\""+item.start+"\" data-end=\""+item.end+"\">" + item.attending + "/" + item.capacity + " " + start + "-" + end + " @ " + item.venue + "</span><br>";
+                            }
                         }).join(" ");
                     }
                 },
