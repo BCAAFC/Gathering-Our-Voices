@@ -81,6 +81,7 @@ module.exports = function (db, redis) {
                 ],
                 order: [
                     [ db.Session, "start", ],
+                    [ db.Session, db.Member, "name", ],
                 ],
             }),
             new Promise(function (resolve, reject) {
@@ -104,7 +105,9 @@ module.exports = function (db, redis) {
                                 attributes: ["id"],
                             },
                         ],
-                        order: [ [ db.Group, db.Member, "name", ], ],
+                        order: [
+                            [ db.Group, db.Member, "name", ],
+                        ],
                     }).then(function (account) {
                         req.session.account = account;
                         return account;
