@@ -65,7 +65,7 @@ module.exports = function (db, redis) {
                 attributes: ['type', ],
             }, {
                 model: db.Account,
-                attributes: ['affiliation', ],
+                attributes: ['affiliation', 'email'],
             }],
             order: [ "Group.AccountId", ],
         }).then(function (groups) {
@@ -75,8 +75,9 @@ module.exports = function (db, redis) {
                     return { title: val, data: v, className: v };
                 });
             columns.splice(1, 0, { title: "Affiliation", data: "Account.affiliation", className: "Affiliation" });
-            columns.splice(2, 0, { title: "Size", data: "", className: "Size" });
-            columns.splice(3, 0, { title: "Members", data: "Members", className: "Members" });
+            columns.splice(2, 0, { title: "Email", data: "Account.email", className: "Email" });
+            columns.splice(3, 0, { title: "Size", data: "", className: "Size" });
+            columns.splice(4, 0, { title: "Members", data: "Members", className: "Members" });
             columns.push({ title: "Delete", data: null, className: "Delete", });
 
             res.render("admin/groups", {

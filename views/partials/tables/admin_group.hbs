@@ -18,13 +18,13 @@
                     },
                 },
                 {
-                    targets: 2, // Size
+                    targets: 3, // Size
                     render: function (data, type, row) {
                         return row.Members.length;
                     }
                 },
                 {
-                    targets: 3, // Members
+                    targets: 4, // Members
                     render: function (data, type, row) {
                         var set = data.reduce(function (acc, val) {
                             acc[val.type] += 1;
