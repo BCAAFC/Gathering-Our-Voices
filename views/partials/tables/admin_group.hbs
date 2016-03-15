@@ -21,9 +21,9 @@
                     targets: 1, // Checked in,
                     render: function (data, type, row) {
                         if (data && data.checkin) {
-                            return "<a class=\"checkin btn btn-xs btn-success\" data-account="+ row.AccountId +"><i class=\"fa fa-check\"></i></a>"
+                            return "<a class=\"checkin btn btn-xs btn-success\" data-account="+ row.AccountId +"><span class='display: none'>t</span><i class=\"fa fa-check\"></i></a>"
                         } else {
-                            return "<a class=\"checkin btn btn-xs btn-danger\" data-account="+ row.AccountId +"><i class=\"fa fa-times\"></i></a>"
+                            return "<a class=\"checkin btn btn-xs btn-danger\" data-account="+ row.AccountId +"><span class='display: none'>f</span><i class=\"fa fa-times\"></i></a>"
                         }
                     },
                 },
@@ -139,9 +139,9 @@
                 }).done(function (data) {
                     $(self).toggleClass("btn-danger btn-success");
                     if (data === true) {
-                        $(self).html("<i class=\"fa fa-check\"></i>")
+                        $(self).html("<span class='display: none'>t</span><i class=\"fa fa-check\"></i>")
                     } else {
-                        $(self).html("<i class=\"fa fa-times\"></i>")
+                        $(self).html("<span class='display: none'>f</span><i class=\"fa fa-times\"></i>")
                     }
                 })
             })
