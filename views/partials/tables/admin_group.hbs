@@ -18,13 +18,23 @@
                     },
                 },
                 {
-                    targets: 3, // Size
+                    targets: 1, // Checked in,
+                    render: function (data, type, row) {
+                        if (data && data.checkin) {
+                            return "<a class=\"checkin btn btn-xs btn-success\" data-account="+ row.AccountId +"><i class=\"fa fa-check\"></i></a>"
+                        } else {
+                            return "<a class=\"checkin btn btn-xs btn-danger\" data-account="+ row.AccountId +"><i class=\"fa fa-times\"></i></a>"
+                        }
+                    },
+                },
+                {
+                    targets: 4, // Size
                     render: function (data, type, row) {
                         return row.Members.length;
                     }
                 },
                 {
-                    targets: 4, // Members
+                    targets: 5, // Members
                     render: function (data, type, row) {
                         var set = data.reduce(function (acc, val) {
                             acc[val.type] += 1;
@@ -117,6 +127,24 @@
                     alert("Failed, please reload the page.");
                 });
             });
+
+            $(".checkin").unbind("click");
+            $(".checkin").bind("click", function (e) {
+                var account = $(this).data("account"),
+                    self = $(this);
+                $.ajax({
+                    url: "/api/account/"+ account +"/checkin",
+                    method: "GET",
+                    data: { account: account, },
+                }).done(function (data) {
+                    $(self).toggleClass("btn-danger btn-success");
+                    if (data === true) {
+                        $(self).html("<i class=\"fa fa-check\"></i>")
+                    } else {
+                        $(self).html("<i class=\"fa fa-times\"></i>")
+                    }
+                })
+            })
         }
 
         $('#group_table').on('draw.dt', drawHook);

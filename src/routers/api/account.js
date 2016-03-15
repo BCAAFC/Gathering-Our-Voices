@@ -193,6 +193,30 @@ module.exports = function (db, redis) {
                 'text/html': function () { res.redirect("back"); },
                 'default': function () { res.status(200).json(account); },
             });
+        }).catch(function (err) {
+            console.log(err);
+            alert.error(req, err);
+            res.send();
+        });
+    });
+
+    router.route("/:id/checkin")
+    .get(middleware.admin, function (req, res) {
+        db.Account.find({
+            where: { id: req.params.id },
+        }).then(function (account) {
+            target = true;
+            if (account && account.misc && account.misc.checkin) {
+                target = false;
+            }
+            return account.update({
+                misc: { checkin: target },
+            });
+        }).then(function (account) {
+            res.status(200).json(account.misc.checkin);
+        }).catch(function (err) {
+            alert.error(req, err);
+            res.send();
         });
     });
 
