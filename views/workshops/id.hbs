@@ -27,7 +27,10 @@
         <div class="col-sm-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{datetime start}}-{{time end}} @ {{venue}}</span>
+                    <h3 class="panel-title">
+                        {{datetime start}}-{{time end}} @ {{venue}}
+                        <a class="btn btn-xs btn-default" href="/api/session/{{id}}/emergencyinfo"><i class="fa fa-print"></i></a>
+                    </h3>
                 </div>
                 <div class="panel-body row">
                     <div class="row">

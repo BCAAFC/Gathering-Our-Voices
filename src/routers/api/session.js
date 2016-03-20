@@ -1,6 +1,7 @@
 var middleware = require("../../middleware"),
     alert = require("../../alert"),
     communication = require("../../communication"),
+    csv_stringify = require("csv-stringify"),
     Promise = require('bluebird');
 
 module.exports = function (db, redis) {
@@ -174,6 +175,40 @@ module.exports = function (db, redis) {
                 'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
                 'default': function () { res.status(401).json({ error: error.message }); },
             });
+        });
+    });
+
+    router.route("/:id/emergencyinfo")
+    .get(middleware.admin, function (req, res) {
+        db.Session.findOne({
+            where: { id: req.params.id },
+            attributes: ["id"],
+            include: [{
+                model: db.Member,
+                attributes: ["name", "medicalNumber", "contactName", "contactPhone", "allergies", "conditions"],
+            }],
+            order: ["name"]
+        }).then(function (session) {
+            var members = [];
+            for (var i=0; i < session.Members.length; i++) {
+                members.push(session.Members[i].toJSON());
+            }
+            return new Promise(function (resolve, reject) {
+                csv_stringify(members, { header: true, escape: true }, function (err, out) {
+                    if (err) {
+                        return reject(err);
+                    } else {
+                        return resolve(out);
+                    }
+                });
+            });
+        }).then(function (data) {
+            res.contentType("text/csv");
+            res.setHeader('Content-disposition', 'attachment; filename=members.csv');
+            res.send(data);
+        }).catch(function (error) {
+            console.log(error);
+            res.status(401).json({ error: error.message });
         });
     });
 
