@@ -11,16 +11,16 @@ module.exports = function(db) {
             msg = String(msg.slice(0, 153) + "..");
         }
 
-        console.log("To: ", phone, "Msg("+ msg.length + "): ", msg);
+        // console.log("   To: ", phone, "Msg("+ msg.length + "): ", msg);
 
-        // client.sendMessage({
-        //     to: phone,
-        //     from: '(778) 402-1767',
-        //     body: msg,
-        // }, function(err, data) {
-        //     if (err) { console.log(err); }
-        //     else { console.log("Done sending to ", phone); }
-        // });
+        client.sendMessage({
+            to: phone,
+            from: '(778) 402-1767',
+            body: msg,
+        }, function(err, data) {
+            if (err) { console.log(err); }
+            else { console.log("Done sending to ", phone); }
+        });
     }
 
     // Pass in like `new Date("Thu Sep 14 2015")`
@@ -54,14 +54,18 @@ module.exports = function(db) {
                 where: { approved: true, },
             }],
         }).then(function (sessions) {
-            console.log(sessions);
+            // console.log(sessions);
             _.each(sessions, function (session) {
                 console.log("On session of ", session.Workshop.title);
                 var startTime = moment(session.start).format('h:mm a');
                 _.each(session.Members, function (member) {
-                    console.log("Sending message to", member.name);
-                    var msg = "Start: " + startTime + ", At: " + session.room + " " + session.venue +  ", Wkshp: " + session.Workshop.title;
-                    sendSMS(member.phone, msg);
+                    if (member.phone) {
+                        console.log("   Sending message to", member.name);
+                        var msg = "Start: " + startTime + ", At: " + session.room + " " + session.venue +  ", Wkshp: " + session.Workshop.title;
+                        sendSMS(member.phone, msg);
+                    } else {
+                        console.log("   Skipping message to", member.name);
+                    }
                 });
             });
         }).catch(function (err) {
@@ -87,7 +91,7 @@ module.exports = function(db) {
 
     console.log("Hooking cronjobs...");
     return [
-        setupCron("Mar 22 2016 07:30:00"),
+        setupCron("Mar 22 2016 07:11:00"),
         setupCron("Mar 23 2016 07:30:00"),
     ];
 };
