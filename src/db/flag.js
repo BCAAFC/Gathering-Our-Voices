@@ -38,6 +38,10 @@ module.exports = function (sequelize, DataTypes) {
             return acc;
         }, {});
         return;
+    }).catch(function (e) {
+        // Probably a firstrun.
+        console.log("No flags detected. If this is a firstrun that's totallly ok.");
+        return;
     });
 
     return Flag;

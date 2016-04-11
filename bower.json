@@ -1,7 +1,7 @@
 {
   "name": "Gathering-Our-Voices",
   "main": "index.js",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "homepage": "https://github.com/BCAAFC/Gathering-Our-Voices",
   "authors": [
     "Andrew Hobden <andrew@hoverbear.org>"
@@ -15,19 +15,19 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.3.5",
-    "codemirror": "~5.7.0",
-    "datatables": "~1.10.9",
+    "bootstrap": "~3.3.6",
+    "bootstrap-datepicker": "~1.6.0",
+    "codemirror": "~5.13.3",
     "jquery": "~2.1.4",
-    "bootstrap-tagsinput": "~0.5.0",
+    "bootstrap-tagsinput": "~0.8.0",
+    "datatables": "~1.10.11",
+    "datatables-plugins": "~1.10.11",
     "datatables-colvis": "~1.1.2",
-    "datatables-responsive": "~1.0.7",
-    "font-awesome": "~4.4.0",
+    "datatables-responsive": "~2.0.2",
+    "font-awesome": "~4.5.0",
     "marked": "~0.3.5",
-    "bootstrap-datepicker": "~1.4.1",
-    "datatables-plugins": "~1.10.9",
-    "moment": "~2.10.6",
+    "moment": "~2.12.0",
     "countdownjs": "~2.6.0",
-    "highcharts": "~4.1.8"
+    "highcharts": "~4.2.3"
   }
 }

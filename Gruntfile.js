@@ -86,23 +86,13 @@ module.exports = function(grunt) {
                 ]
             }
         },
-        mochaTest: {
-            test: {
-                options: {
-                    reporter: 'spec',
-                },
-                src: ['test/**/*.js']
-            },
-        }
     });
 
-    grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-concurrent');
     // Default task(s).
     grunt.registerTask('build', ['uglify', 'less', 'copy']);
-    grunt.registerTask('test', ['mochaTest']);
 
 };

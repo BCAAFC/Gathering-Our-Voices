@@ -29,25 +29,5 @@ httpd.listen(env.PORT, function () {
 // Start up one time cron jobs.
 var cronjobs = require("./src/cronjobs")(db);
 
-// One time job.
-// (function() {
-//     db.Workshop.sync()
-//         .catch(function () {})
-//         .then(function () {
-//             db.Workshop.findAll().then(function (wkshps) {
-//                 return wkshps.map(function (wkshp) {
-//                     return db.Account.findOne({
-//                         where: { id: wkshp.AccountId }
-//                     }).then(function (acc) {
-//                         console.log(wkshp.toJSON());
-//                         console.log(acc.toJSON());
-//                         console.log("Adding wkshp", wkshp.id, "to acc", acc.id);
-//                         acc.addWorkshop(wkshp);
-//                         acc.save();
-//                     });
-//                 });
-//             });
-//         });
-// })();
 
 module.exports = httpd;

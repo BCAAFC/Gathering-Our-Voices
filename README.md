@@ -108,14 +108,16 @@ firstrun() {
 
 ## Contributors ##
 
-Our heroic Youth Conference Coordinator, Della Preston, has helped immensely with development efforts, her time, insights, and constant critical eye have helped drive the quality of the product from beginning to start. Though she has not contributed code her specifications and knowledge of the event have touched virtually every part of the codebase.
-
 The lead developer, Andrew Hobden ([@Hoverbear](https://github.com/Hoverbear/)), is a dedicated believer in the Free/Open-Source software movement. If you're interested in technology, cyber law, or 'hacking' sub-culture, you're encouraged to read  [Coding Freedom](http://gabriellacoleman.org/Coleman-Coding-Freedom.pdf) by Gabriella Coleman or [The Future of Ideas](http://the-future-of-ideas.com/) by Lawrence Lessig. You're encouraged to share your insights and opinions into these books on our issues page, if you so desire.
 
-The 2016 Youth Conference Coordinator Agnes Wisden.
+Special thanks to those who put up with all the mistakes, bugs, and ill-planned ideas but still managed to totally rock and constantly help improve the application:
 
-The 2015 Youth Conference Coordinators Della Preston, Kathryn Lacerte, Rosy Hartman, Gregory Forsberg, and Tara Skobel.
+Our heroic Youth Conference Coordinator, Della Preston, has helped immensely with development efforts, her time, insights, and constant critical eye have helped drive the quality of the product from beginning to start. Though she has not contributed code her specifications and knowledge of the event have touched virtually every part of the codebase.
 
-The 2014 Youth Conference Coordinators, Gregory Forsberg and Nik Richardson, who helped further the site.
+The 2016 Youth Conference Coordinators Agnes Wisden, Keana Zamardi, Jennifer Ambers, Holly Brinkman, Julie Robertson, and Shawna Johnson.
 
-The 2013 Youth Conference Coordinators, Siku Allooloo and Vanessa Sloan-Morgan, who put up with all the mistakes, bugs, and ill-planned ideas but still managed to totally rock and constantly improve the application.
+The 2015 Youth Conference Coordinators Kathryn Lacerte, Rosy Hartman, Gregory Forsberg, and Tara Skobel.
+
+The 2014 Youth Conference Coordinators, Gregory Forsberg and Nik Richardson.
+
+The 2013 Youth Conference Coordinators, Siku Allooloo and Vanessa Sloan-Morgan.
