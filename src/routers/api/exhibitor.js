@@ -160,16 +160,15 @@ module.exports = function (db, redis) {
             if (req.body.sendMail === 'true') {
                 return exhibitor.getAccount().then(function (account) {
                     return communication.mail({
-                        to: [{ email: account.email, name: account.affiliation, }], // To
-                        from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
-                        cc: [],
+                        to: account.email,
+                        from: '"GOV Robot" <website-robot@mg.bcaafc.com>',
                         title: "Exhibitor Application Approval",
-                        file: "approve_exhibitor",
-                        variables: [
-                            { name: "name", content: account.name, },
-                            { name: "affilation", content: account.affilation, },
-                            { name: "email", content: account.email, },
-                        ],
+                        template: "approve_exhibitor",
+                        variables: {
+                            name: account.name,
+                            affilation: account.affilation,
+                            email: account.email,
+                        },
                     });
                 }).then(function () { return exhibitor; });
             } else {

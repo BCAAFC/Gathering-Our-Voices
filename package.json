@@ -39,7 +39,7 @@
     "hiredis": "~0.4.1",
     "redis": "~2.6.0-1",
     "lodash": "~4.10.0",
-    "mandrill-api": "~1.0.45",
+    "nodemailer": "~2.3.2",
     "marked": "~0.3.5",
     "method-override": "~2.3.5",
     "moment": "~2.12.0",

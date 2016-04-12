@@ -3,22 +3,22 @@
 var fs = require("fs"),
     marked = require("marked"),
     Promise = require("bluebird"),
-    mandrill = require("mandrill-api/mandrill"),
-    mandrill_client = new mandrill.Mandrill(process.env.MANDRILL_APIKEY);
+    Handlebars = require("handlebars"),
+    nodemailer = require("nodemailer"),
+    mail_transport = nodemailer.createTransport(process.env.MAILGUN_CREDS);
 
-var readFile = Promise.promisify(fs.readFile);
+// Use sync stuff here because it's easy and it only happens once at startup.
+var templates = {}
+fs.readdirSync("mails/").forEach(function (mail_template) {
+    var template_name = mail_template.split(".")[0], // Name without .hbs
+        content = fs.readFileSync("mails/" + mail_template, 'utf-8');
+    templates[template_name] = Handlebars.compile(content);
+});
 
 module.exports = {
     mail: function mail(options) {
-        console.log(process.env.MANDRILL_APIKEY);
-        console.log(!process.env.MANDRILL_APIKEY);
-        console.log(typeof process.env.MANDRILL_APIKEY);
-        console.log(process.env.MANDRILL_APIKEY == "undefined");
-        if (process.env.MANDRILL_APIKEY == "undefined") {
-            console.log("To: " + options.to[0].email);
-            console.log("From: " + options.from.email);
-            console.log("CC: " + options.cc[0].email);
-            console.log("Title: " + options.title);
+        if (process.env.MAILGUN_CREDS == "undefined") { // Env variables are strings. :S
+            console.log("Attempted to mail, but no credentials were present.")
             return new Promise(function (resolve, reject) { return resolve(); });
         } else {
             // If we can!
@@ -26,35 +26,18 @@ module.exports = {
                 from = options.from,
                 cc = options.cc,
                 title = options.title,
-                file = options.file,
+                template = options.template,
                 variables = options.variables;
-            if (!to || !from || !cc || !title || !file || !variables) {
+            if (!to || !from || !title || !template || !variables) {
                 throw new Error("Incorrect mailing parameters");
             }
-            return readFile("mails/" + file + ".hbs", "UTF-8").then(function (contents) {
-                return new Promise(function (resolve, reject) {
-                    mandrill_client.messages.send({
-                        message: {
-                            subject: "[GOV2016] " + title,
-                            html: contents,
-                            from_email: from.email,
-                            from_name: from.name,
-                            // [{ email: $EMAIL, name: $NAME, }]
-                            to: to,
-                            cc: cc,
-                            merge: true,
-                            merge_language: "handlebars",
-                            // [{ name: $NAME, content: $CONTENT, }]
-                            global_merge_vars: variables,
-                        },
-                        async: false,
-                    }, function (result) {
-                        resolve();
-                    }, function (error) {
-                        console.log(error);
-                        reject(error);
-                    });
-                });
+            var content = templates[template](variables);
+            return mail_transport.sendMail({
+                from: from,
+                cc: cc,
+                to: to,
+                subject: title,
+                html: content
             });
         }
     }

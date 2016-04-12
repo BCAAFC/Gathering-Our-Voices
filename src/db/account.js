@@ -157,15 +157,14 @@ module.exports = function (sequelize, DataTypes) {
                     misc: { recovery: Math.random().toString(36).slice(2), }
                 }).then(function (self) {
                     return communication.mail({
-                        to: [{ email: self.email, name: self.organization, }],
-                        from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
-                        cc: [],
+                        to: self.email,
+                        from: '"GOV Robot" <website-robot@mg.bcaafc.com>',
                         title: "Account Recovery",
-                        file: "recovery",
-                        variables: [
-                            { name: "email", content: encodeURIComponent(self.email), },
-                            { name: "key", content: encodeURIComponent(self.misc.recovery), },
-                        ]
+                        template: "recovery",
+                        variables: {
+                            email: encodeURIComponent(self.email),
+                            key: encodeURIComponent(self.misc.recovery),
+                        }
                     });
                 });
            },
@@ -182,16 +181,15 @@ module.exports = function (sequelize, DataTypes) {
             beforeUpdate: updateHook,
             afterCreate: function (account) {
                 return communication.mail({
-                    to: [{ email: account.email, name: account.affiliation, }], // To
-                    from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
-                    cc: [],
+                    to: account.email,
+                    from: '"GOV Robot" <website-robot@mg.bcaafc.com>',
                     title: "Registration Confirmation",
-                    file: "registration",
-                    variables: [
-                        { name: "name", content: account.name, },
-                        { name: "affilation", content: account.affilation, },
-                        { name: "email", content: account.email, },
-                    ],
+                    template: "registration",
+                    variables: {
+                        name: account.name,
+                        affilation: account.affilation,
+                        email: account.email,
+                    },
                 });
             },
         },

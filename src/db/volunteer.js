@@ -122,21 +122,17 @@ module.exports = function (sequelize, DataTypes) {
             afterCreate: function (volunteer) {
                 return volunteer.getAccount().then(function (account) {
                     return communication.mail({
-                        to: [
-                            { email: account.email, name: account.affiliation, }
-                        ],
-                        from: { email: "govadmin@bcaafc.com", name: "Holly Brinkman", },
-                        cc: [
-                            { email: "dpreston@bcaafc.com", name: "Della Preston", }
-                        ],
+                        to: account.email,
+                        from: '"GOV Robot" <website-robot@mg.bcaafc.com>',
+                        cc: "dpreston@bcaafc.com",
                         title: "Volunteer Application Recieved",
-                        file: "apply_volunteer",
-                        variables: [
-                            { name: "name", content: account.name, },
-                            { name: "affilation", content: account.affilation, },
-                            { name: "email", content: account.email, },
-                            { name: "id", content: volunteer.id, },
-                        ],
+                        template: "apply_volunteer",
+                        variables: {
+                            name: account.name,
+                            affilation: account.affilation,
+                            email: account.email,
+                            id: volunteer.id,
+                        },
                     });
                 });
             },

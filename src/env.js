@@ -33,8 +33,8 @@ var getters = {
     get UPLOAD_DIR () {
         return process.env.UPLOAD_DIR;
     },
-    get MANDRILL_APIKEY () {
-        return process.env.MANDRILL_APIKEY;
+    get MAILGUN_CREDS () {
+        return process.env.MAILGUN_CREDS;
     },
     get FIRSTRUN () {
         return process.env.FIRSTRUN;
@@ -72,7 +72,7 @@ module.exports = function () {
     check("UPLOAD_DIR", "./uploads/");
     check("POSTGRES_URL", process.env.HEROKU_POSTGRESQL_NAVY_URL || "postgres://localhost/test");
     check("REDIS_URL", process.env.REDISCLOUD_URL || "localhost");
-    check("MANDRILL_APIKEY", undefined);
+    check("MAILGUN_CREDS", undefined);
     check("FIRSTRUN", false);
     check("TWILIO_ACCOUNT_SID", undefined);
     check("TWILIO_AUTH_TOKEN", undefined);

@@ -224,16 +224,15 @@ module.exports = function (db, redis) {
             if (req.body.sendMail === 'true') {
                 return volunteer.getAccount().then(function (account) {
                     return communication.mail({
-                        to: [{ email: account.email, name: account.affiliation, }], // To
-                        from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
-                        cc: [],
+                        to: account.email,
+                        from: '"GOV Robot" <website-robot@mg.bcaafc.com>',
                         title: "Volunteer Approval",
-                        file: "approve_volunteer",
-                        variables: [
-                            { name: "name", content: account.name, },
-                            { name: "affilation", content: account.affilation, },
-                            { name: "email", content: account.email, },
-                        ],
+                        template: "approve_volunteer",
+                        variables: {
+                            name: account.name,
+                            affilation: account.affilation,
+                            email: account.email,
+                        },
                     });
                 }).then(function () { return volunteer; });
             } else {

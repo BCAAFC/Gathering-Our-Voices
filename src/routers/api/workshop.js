@@ -233,16 +233,15 @@ module.exports = function (db, redis) {
             if (req.body.sendMail === 'true') {
                 return workshop.getAccount().then(function (account) {
                     return communication.mail({
-                        to: [{ email: account.email, name: account.affiliation, }], // To
-                        from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
-                        cc: [],
+                        to: account.email,
+                        from: '"GOV Robot" <website-robot@mg.bcaafc.com>',
                         title: "Facilitator Application Approval",
-                        file: "approve_facilitator",
-                        variables: [
-                            { name: "name", content: workshop.title, },
-                            { name: "affilation", content: account.affilation, },
-                            { name: "email", content: account.email, },
-                        ],
+                        template: "approve_facilitator",
+                        variables: {
+                            name: workshop.title,
+                            affilation: account.affilation,
+                            email: account.email,
+                        },
                     });
                 }).then(function () { return workshop; });
             } else {

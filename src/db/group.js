@@ -107,20 +107,16 @@ module.exports = function (sequelize, DataTypes) {
             afterCreate: function (group) {
                 return group.getAccount().then(function (account) {
                     return communication.mail({
-                        to: [
-                            { email: account.email, name: account.affiliation, }
-                        ],
-                        from: { email: "dpreston@bcaafc.com", name: "Della Preston", },
-                        cc: [
-                            { email: "dpreston@bcaafc.com", name: "Della Preston", }
-                        ],
+                        to: account.email,
+                        from: '"GOV Robot" <website-robot@mg.bcaafc.com>',
+                        cc: "dpreston@bcaafc.com",
                         title: "Group Registered!",
-                        file: "apply_group",
-                        variables: [
-                            { name: "name", content: account.name, },
-                            { name: "affilation", content: account.affilation, },
-                            { name: "email", content: account.email, },
-                        ],
+                        template: "apply_group",
+                        variables: {
+                            name: account.name,
+                            affilation: account.affilation,
+                            email: account.email,
+                        },
                     });
                 });
             },

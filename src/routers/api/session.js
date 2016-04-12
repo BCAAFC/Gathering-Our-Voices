@@ -95,22 +95,18 @@ module.exports = function (db, redis) {
         }).then(function (session) {
             return Promise.map(session.Members, function (member) {
                 communication.mail({
-                    to: [
-                        { email: member.Group.Account.email, name: member.Group.Account.affiliation, }
-                    ],
-                    from: { email: "govworkshops@bcaafc.com", name: "Shawna Johnson", },
-                    cc: [
-                        { email: "govworkshops@bcaafc.com", name: "Shawna Johnson", }
-                    ],
+                    to: member.Group.Account.email,
+                    from: '"GOV Robot" <website-robot@mg.bcaafc.com>',
+                    cc: 'dpreston@bcaafc.com'
                     title: "Workshop Session Cancelled",
-                    file: "session_cancelled",
-                    variables: [
-                        { name: "affiliation", content: member.Group.Account.affiliation, },
-                        { name: "name", content: member.name, },
-                        { name: "workshop", content: session.Workshop.title, },
-                        { name: "start", content: session.start.toLocaleString(), },
-                        { name: "end", content: session.end.toLocaleString(), },
-                    ],
+                    template: "session_cancelled",
+                    variables: {
+                        affiliation: member.Group.Account.affiliation,
+                        name: member.name,
+                        workshop: session.Workshop.title,
+                        start: session.start.toLocaleString(),
+                        end: session.end.toLocaleString(),
+                    },
                 });
             }).then(function () {
                 return session.destroy();
