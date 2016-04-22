@@ -97,7 +97,7 @@ module.exports = function (db, redis) {
                 communication.mail({
                     to: member.Group.Account.email,
                     from: '"GOV Robot" <website-robot@mg.bcaafc.com>',
-                    cc: 'dpreston@bcaafc.com'
+                    cc: 'dpreston@bcaafc.com',
                     title: "Workshop Session Cancelled",
                     template: "session_cancelled",
                     variables: {
