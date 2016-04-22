@@ -18,6 +18,23 @@ This website is written entirely in Javascript, Handlebars (a templating languag
 * `grunt build`
 * `npm start`
 
+## Backing Up and Restoring ##
+
+There is a `backups` folder containing two scripts which should make backing up and
+restoring easier.
+
+To backup, creating a `backups/$DATE.tar.gz` file:
+
+```bash
+./backups/backup.sh
+```
+
+To restore given a `backups/$DATE.tar.gz`:
+
+```bash
+./backups/restore.sh backups/$DATE.tar.gz
+```
+
 ## How to Deploy ##
 
 There are a number of environment variables to (optionally) define:
