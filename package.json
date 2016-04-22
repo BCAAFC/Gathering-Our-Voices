@@ -1,15 +1,14 @@
 {
   "name": "gov",
-  "version": "0.0.4",
-  "description": "The registration website for GOV 2016.",
+  "version": "0.0.5",
+  "description": "The registration website for GOV.",
   "main": "server.js",
   "engines": {
     "node": "~5.10.1",
     "npm": "~3.8.6"
   },
   "scripts": {
-    "start": "node index.js",
-    "build": "grunt build"
+    "start": "node start.js",
   },
   "repository": {
     "type": "git",

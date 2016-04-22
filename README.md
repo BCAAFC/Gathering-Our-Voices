@@ -4,19 +4,34 @@ Welcome, this is the whole source for the GOV 2016 Website.
 
 ## Why this site? ##
 
-The [BCAAFC](http://www.bcaafc.com/) needed a clean, simple, user friendly event management software for the Gathering Our Voices Youth Conference.
+The [BCAAFC](http://www.bcaafc.com/) needed a clean, simple, user friendly event
+management software for the Gathering Our Voices Youth Conference.
 
-It was decided at the start of the project, back in September 2012 to develop the project in the open, encouraging people to utilize our techniques for dealing with troubles, as well as letting them inspect how it works.
+It was decided at the start of the project, back in September 2012 to develop the project in
+ the open, encouraging people to utilize our techniques for dealing with troubles, as well
+ as letting them inspect how it works.
 
 ## What does it use? ##
 
-This website is written entirely in Javascript, Handlebars (a templating language), and CSS. It uses the Postgres database to store attendee data.
+This website is written entirely in Javascript, Handlebars (a templating language), and CSS.
+ It uses the Postgres database to store attendee data.
 
 ## How to Use ##
 
+This application follows the [12 Factor App](http://12factor.net/) style of configuration and
+is primarily configured through environment variables.
+
 * `git clone git@github.com:BCAAFC/Gathering-Our-Voices.git`
 * `grunt build`
-* `npm start`
+* `PG_URL="$YOUR_URL" ./setup.js` - Run one-time setup of table creation.
+* Setup your environment. See `src/env.js` for various knobs to tweak.
+* Run `start.js` with the desired settings.
+
+Example:
+
+```bash
+SECRET="test" PG_URL="postgres://localhost/gov" REDIS_URL="localhost" ADMINS="andrew@hoverbear.org" ./start.js
+```
 
 ## Backing Up and Restoring ##
 
@@ -36,22 +51,6 @@ To restore given a `backups/$DATE.tar.gz`:
 ```
 
 ## How to Deploy ##
-
-There are a number of environment variables to (optionally) define:
-
-* `NODE_ENV` - Generally "production" or "development". (Default `development`)
-* `SSL` - Set to `true` to redirect to SSL always. Note: you should use `nginx` or something to actually terminate the SSL. (Default `true`)
-* `PORT` - The port to host the service. (Default `8080`)
-* `SECRET` - The secret for cookies etc. Should be kept secret.
-* `ADMINS` - A list of admins for the website. (Default `["andrew@hoverbear.org"]`)
-* `MAX_YOUTH` - The maximum youth at the conference. (Default `2000`, not implemented.)
-* `POSTGRES_URL` - The URL of the PostgreSQL server. (Default `"postgres://localhost/test"`)
-* `REDIS_URL` - The URL of redis. (Default `"localhost"`)
-* `UPLOAD_DIR` - The directory of the uploads. (Default `"./uploads/"`)
-* `MANDRILL_APIKEY` - Your API key for Mandrill.
-* `FIRSTRUN` - Set to `true` if this is the firstrun, will populate initial tables.
-* `TWILIO_ACCOUNT_SID` - Your Twilio SID.
-* `TWILIO_AUTH_TOKEN` - Your Twilio Auth.
 
 In order to deploy on Funtoo this script is used in `/etc/init.d/gov2016`:
 
@@ -77,7 +76,7 @@ export NODE_ENV=production
 export PORT=$FIXME
 export SECRET=$FIXME
 export ADMINS=$FIXME
-export POSTGRES_URL=$FIXME
+export PG_URL=$FIXME
 export UPLOAD_DIR=$FIXME
 export MANDRILL_APIKEY=$FIXME
 export TWILIO_ACCOUNT_SID=$FIXME

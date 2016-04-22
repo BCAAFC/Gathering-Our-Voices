@@ -4,9 +4,9 @@ var fs        = require("fs"),
     path      = require("path"),
     Sequelize = require("sequelize");
 
-module.exports = function (env) {
+module.exports = function setup() {
     // Connect
-    var sequelize = new Sequelize(env.POSTGRES_URL, {
+    var sequelize = new Sequelize(process.env.PG_URL, {
             timestamps: true,
             // paranoid: true,
             logging: (process.env.PG_LOG === "true") ? console.log : false, // Switch to `console.log` for output.

@@ -1,61 +1,20 @@
 "use strict";
 
-var async = require("async"),
-    promise = require("bluebird"),
-    _     = require("lodash");
-
-// Getters for various `env` variables.
-var getters = {
-    get NODE_ENV () {
-        return process.env.NODE_ENV;
-    },
-    get SSL () {
-        return process.env.SSL;
-    },
-    get PORT () {
-        return process.env.PORT;
-    },
-    get SECRET () {
-        return process.env.SECRET;
-    },
-    get ADMINS () {
-        return process.env.ADMINS;
-    },
-    get MAX_YOUTH () {
-        return process.env.MAX_YOUTH;
-    },
-    get POSTGRES_URL () {
-        return process.env.POSTGRES_URL;
-    },
-    get REDIS_URL () {
-        return process.env.REDIS_URL;
-    },
-    get UPLOAD_DIR () {
-        return process.env.UPLOAD_DIR;
-    },
-    get MAILGUN_CREDS () {
-        return process.env.MAILGUN_CREDS;
-    },
-    get FIRSTRUN () {
-        return process.env.FIRSTRUN;
-    },
-    get TWILIO_ACCOUNT_SID () {
-        return process.env.TWILIO_ACCOUNT_SID;
-    },
-    get TWILIO_AUTH_TOKEN () {
-        return process.env.TWILIO_AUTH_TOKEN;
-    },
-};
-
 /**
- * Checks an `environment` value, if it does not exist falls back to `fallback`
+ * Checks an `environment` value, if it does not exist falls back to `fallback`.
+ * Passing `undefined` to `fallback` makes the process fail if the value is not present
+ * in the environment.
  */
 function check(variable, fallback) {
     if (process.env[variable] === undefined) {
+        if (fallback === undefined) {
+            console.warn("You must set $"+variable+". See \`src/env.js\` for help.")
+            process.exit(1);
+        }
         process.env[variable] = fallback;
-        console.warn("$" + variable + " not set. Defaulted to: " + process.env[variable]);
+        console.warn("$" + variable + " = (DEFAULT)", process.env[variable]);
     } else {
-        console.log("$" + variable + " set to " + process.env[variable]);
+        console.log("$" + variable + " = ", process.env[variable]);
     }
 }
 
@@ -63,18 +22,40 @@ function check(variable, fallback) {
  * Returns a nice set of convienence functions.
  */
 module.exports = function () {
+    /*
+     * Definitely set these:
+     */
+    // Configure the secret used by cookies and sessions.
+    check("SECRET", undefined);
+     // The postgres database URL.
+    // Ex. `postgres://localhost/gov`
+    check("PG_URL",  undefined);
+    // The redis URL.
+    // Ex. `localhost`
+    check("REDIS_URL", undefined);
+    // A list of administrators, by email, comma seperated.
+    // Ex. `andrew@hoverbear.org,root@hoverbear.org`
+    check("ADMINS", null);
+
+    /*
+     * These are third party helpers which the site uses.
+     * Mailgun and Twilio are both great, high quality services with reasonable rates.
+     */
+    // The credentials for Mailgun.
+    // Ex. `smtps://$EMAIL:$PASSWORD@smtp.mailgun.org`
+    check("MAILGUN_CREDS", null);
+    // Twilio Credentials. See your account page for these details.
+    check("TWILIO_ACCOUNT_SID", null);
+    check("TWILIO_AUTH_TOKEN", null);
+
+    /*
+     * These might be set different in deployment conditions.
+     */
+    // $NODE_ENV is a node.js specific variable that configures debugging levels.
+    // Should be "development" or "production"
     check("NODE_ENV", "development");
-    check("SSL", true);
+    // Configure the port the site will bind to.
     check("PORT", 8080);
-    check("SECRET", "I'm insecure!");
-    check("ADMINS", ["andrew@hoverbear.org"]);
-    check("MAX_YOUTH", 2000);
+    // The directory image uploads will go.
     check("UPLOAD_DIR", "./uploads/");
-    check("POSTGRES_URL", process.env.HEROKU_POSTGRESQL_NAVY_URL || "postgres://localhost/test");
-    check("REDIS_URL", process.env.REDISCLOUD_URL || "localhost");
-    check("MAILGUN_CREDS", undefined);
-    check("FIRSTRUN", false);
-    check("TWILIO_ACCOUNT_SID", undefined);
-    check("TWILIO_AUTH_TOKEN", undefined);
-    return getters;
 };

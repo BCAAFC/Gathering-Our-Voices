@@ -5,7 +5,7 @@ var fs = require("fs"),
     express = require("express"),
     morgan = require("morgan");
 
-module.exports = function (env, db, redisClient) {
+module.exports = function (db, redisClient) {
     var server = express();
 
     // Ensure that requests that should be SSL use SSL.
