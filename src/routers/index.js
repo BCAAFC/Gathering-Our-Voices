@@ -35,7 +35,7 @@ module.exports = function (httpd, db, redis) {
                 memberCount: count,
                 account: req.session.account,
                 admin: req.session.isAdmin,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
             });
         });
     });

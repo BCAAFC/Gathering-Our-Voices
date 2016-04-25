@@ -1,7 +1,6 @@
 "use strict";
 
 module.exports = function (sequelize, DataTypes) {
-    var cache = {};
     var Flag = sequelize.define("Flag", {
         keyword: {
             type: DataTypes.STRING,
@@ -32,6 +31,7 @@ module.exports = function (sequelize, DataTypes) {
         }
     });
 
+    var cache = {};
     Flag.findAll().then(function (flags) {
         cache = flags.reduce(function (acc, flag) {
             acc[flag.keyword] = flag.value;
@@ -43,6 +43,7 @@ module.exports = function (sequelize, DataTypes) {
         console.log("No flags detected. If this is a firstrun that's totallly ok.");
         return;
     });
+    Flag.cache = cache;
 
     return Flag;
 };

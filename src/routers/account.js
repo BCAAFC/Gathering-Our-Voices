@@ -18,7 +18,7 @@ module.exports = function (db, redis) {
                 title: "Account - Index",
                 account: account,
                 admin: req.session.isAdmin,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 alert: req.alert,
             });
         }).catch(function (error) {
@@ -38,7 +38,7 @@ module.exports = function (db, redis) {
                 title: "Account - Details",
                 account: account,
                 admin: req.session.isAdmin,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 alert: req.alert,
             });
         }).catch(function (error) {
@@ -70,7 +70,7 @@ module.exports = function (db, redis) {
                 title: "Account - Payments",
                 account: account,
                 admin: req.session.isAdmin,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 alert: req.alert,
                 cost: cost,
                 paid: paid,
@@ -120,7 +120,7 @@ module.exports = function (db, redis) {
                 title: "Account - Group",
                 account: account,
                 admin: req.session.isAdmin,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 alert: req.alert,
                 notEnoughChaperones: notEnoughChaperones,
             });
@@ -155,7 +155,7 @@ module.exports = function (db, redis) {
                     title: "Account - Member",
                     account: req.session.account,
                     admin: req.session.isAdmin,
-                    flags: db.Flag.cache(),
+                    flags: db.Flag.cache,
                     alert: req.alert,
                     member: member,
                 });
@@ -182,7 +182,7 @@ module.exports = function (db, redis) {
                 title: "Account - Workshops",
                 account: account,
                 admin: req.session.isAdmin,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 alert: req.alert,
             });
         }).catch(function (error) {
@@ -216,7 +216,7 @@ module.exports = function (db, redis) {
                     title: "Account - Session",
                     account: account,
                     admin: req.session.isAdmin,
-                    flags: db.Flag.cache(),
+                    flags: db.Flag.cache,
                     alert: req.alert,
                     session: session,
                     workshop: req.params.wksp,
@@ -256,7 +256,7 @@ module.exports = function (db, redis) {
                 title: "Account - Workshop",
                 account: account,
                 admin: req.session.isAdmin,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 alert: req.alert,
                 workshop: workshop,
                 new: (workshop) ? true : false,
@@ -278,7 +278,7 @@ module.exports = function (db, redis) {
                 title: "Account - Exhibitor",
                 account: account,
                 admin: req.session.isAdmin,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 alert: req.alert,
             });
         }).catch(function (error) {
@@ -302,7 +302,7 @@ module.exports = function (db, redis) {
                 title: "Account - Volunteer",
                 account: account,
                 admin: req.session.isAdmin,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 alert: req.alert,
                 schedule: schedule, // Used on empty volunteer.
             });

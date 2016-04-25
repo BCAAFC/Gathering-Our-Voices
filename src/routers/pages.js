@@ -14,7 +14,7 @@ module.exports = function (db, redis) {
             page.render(res, "layout", {
                 title: page.title,
                 account: req.session.account,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 admin: req.session.isAdmin,
                 alert: req.alert,
             });

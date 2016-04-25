@@ -53,7 +53,7 @@ module.exports = function (db, redis) {
                 account: req.session.account,
                 admin: req.session.isAdmin,
                 alert: req.alert,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 data: workshops,
                 columns: columns,
             });
@@ -129,7 +129,7 @@ module.exports = function (db, redis) {
                     account: account,
                     admin: req.session.isAdmin,
                     alert: req.alert,
-                    flags: db.Flag.cache(),
+                    flags: db.Flag.cache,
                     workshop: workshop,
                     facilitatorList: facilitatorList,
                     backTo: req.query.backTo,

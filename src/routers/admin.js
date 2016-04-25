@@ -48,7 +48,7 @@ module.exports = function (db, redis) {
                 account: req.session.account,
                 admin: req.session.isAdmin,
                 alert: req.alert,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 // Admin Table
                 data: accounts,
                 columns: columns,
@@ -88,7 +88,7 @@ module.exports = function (db, redis) {
                 account: req.session.account,
                 admin: req.session.isAdmin,
                 alert: req.alert,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 // Admin Table
                 data: groups,
                 columns: columns
@@ -120,7 +120,7 @@ module.exports = function (db, redis) {
                 account: req.session.account,
                 admin: req.session.isAdmin,
                 alert: req.alert,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 // Admin Table
                 data: members,
                 columns: columns
@@ -154,7 +154,7 @@ module.exports = function (db, redis) {
                 account: req.session.account,
                 admin: req.session.isAdmin,
                 alert: req.alert,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 data: workshops,
                 columns: columns,
             });
@@ -184,7 +184,7 @@ module.exports = function (db, redis) {
                 account: req.session.account,
                 admin: req.session.isAdmin,
                 alert: req.alert,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 workshops: workshops,
             });
         }).catch(function (error) {
@@ -218,7 +218,7 @@ module.exports = function (db, redis) {
                 account: req.session.account,
                 admin: req.session.isAdmin,
                 alert: req.alert,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 workshops: workshops,
             });
         }).catch(function (error) {
@@ -256,7 +256,7 @@ module.exports = function (db, redis) {
                 account: req.session.account,
                 admin: req.session.isAdmin,
                 alert: req.alert,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 data: exhibitors,
                 columns: columns,
             });
@@ -280,7 +280,7 @@ module.exports = function (db, redis) {
                 title: "Administration - Payments",
                 account: req.session.account,
                 admin: req.session.isAdmin,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 alert: req.alert,
                 data: payments,
                 columns: columns,
@@ -310,7 +310,7 @@ module.exports = function (db, redis) {
                 account: req.session.account,
                 admin: req.session.isAdmin,
                 alert: req.alert,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 data: volunteers,
                 columns: columns,
             });
@@ -335,7 +335,7 @@ module.exports = function (db, redis) {
                 title: "Administration - Images",
                 account: req.session.account,
                 admin: req.session.isAdmin,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
                 alert: req.alert,
                 files: files,
             });
@@ -349,7 +349,7 @@ module.exports = function (db, redis) {
                 layout: null,
                 pages: pages,
                 admin: req.session.isAdmin,
-                flags: db.Flag.cache(),
+                flags: db.Flag.cache,
             });
         });
     });
@@ -407,7 +407,7 @@ module.exports = function (db, redis) {
                     account: req.session.account,
                     admin: req.session.isAdmin,
                     alert: req.alert,
-                    flags: db.Flag.cache(),
+                    flags: db.Flag.cache,
                     // Page specific
                     accounts: accounts,
                     groups: groups,
@@ -426,7 +426,7 @@ module.exports = function (db, redis) {
             account: req.session.account,
             admin: req.session.isAdmin,
             alert: req.alert,
-            flags: db.Flag.cache(),
+            flags: db.Flag.cache,
         });
     });
 
@@ -647,7 +647,7 @@ module.exports = function (db, redis) {
                     account: req.session.account,
                     admin: req.session.isAdmin,
                     alert: req.alert,
-                    flags: db.Flag.cache(),
+                    flags: db.Flag.cache,
                     // Stats
                     stats: stats,
                 });
