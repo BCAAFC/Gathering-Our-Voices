@@ -91,7 +91,7 @@ module.exports = function(db) {
 
     console.log("Hooking cronjobs...");
     return [
-        setupCron("Mar 22 2016 07:11:00"),
-        setupCron("Mar 23 2016 07:30:00"),
+        setupCron("Mar 22 2017 07:11:00"),
+        setupCron("Mar 23 2017 07:30:00"),
     ];
 };
