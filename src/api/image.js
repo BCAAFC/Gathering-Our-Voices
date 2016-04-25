@@ -1,10 +1,11 @@
 "use strict";
 
+var alert = require("../alert"),
+    middleware = require("../middleware");
+
 var gm = require("gm"),
-    Promise = require("bluebird"),
-    alert = require("../../alert"),
     fs = require("fs"),
-    middleware = require("../../middleware");
+    Promise = require("bluebird");
 
 var unlink = Promise.promisify(fs.unlink);
 

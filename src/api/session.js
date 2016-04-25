@@ -1,9 +1,10 @@
 "use strict";
 
-var middleware = require("../../middleware"),
-    alert = require("../../alert"),
-    communication = require("../../communication"),
-    csv_stringify = require("csv-stringify"),
+var middleware = require("../middleware"),
+    alert = require("../alert"),
+    communication = require("../communication");
+
+var csv_stringify = require("csv-stringify"),
     Promise = require('bluebird');
 
 module.exports = function (db, redis) {

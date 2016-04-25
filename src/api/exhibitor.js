@@ -1,8 +1,8 @@
 "use strict";
 
-var middleware = require("../../middleware"),
-    communication = require("../../communication"),
-    alert = require("../../alert");
+var middleware = require("../middleware"),
+    communication = require("../communication"),
+    alert = require("../alert");
 
 module.exports = function (db, redis) {
     var router = require("express").Router();

@@ -1,9 +1,10 @@
 "use strict";
 
-var middleware = require("../../middleware"),
-    alert = require("../../alert"),
-    communication = require("../../communication"),
-    Promise = require('bluebird');
+var middleware = require("../middleware"),
+    communication = require("../communication"),
+    alert = require("../alert");
+
+var Promise = require('bluebird');
 
 module.exports = function (db, redis) {
     var router = require("express").Router();
@@ -25,20 +26,28 @@ module.exports = function (db, redis) {
 
             if (req.body.mailing === "Yes") { req.body.mailing = true; } else
             if (req.body.mailing === "No") { req.body.mailing = false; }
+
             if (req.body.projector === "Yes") { req.body.projector = true; } else
             if (req.body.projector === "No") { req.body.projector = false; }
+
             if (req.body.power === "Yes") { req.body.power = true; } else
             if (req.body.power === "No") { req.body.power = false; }
+
             if (req.body.screen === "Yes") { req.body.screen = true; } else
             if (req.body.screen === "No") { req.body.screen = false; }
+
             if (req.body.player === "Yes") { req.body.player = true; } else
             if (req.body.player === "No") { req.body.player = false; }
+
             if (req.body.meals === "Yes") { req.body.meals = true; } else
             if (req.body.meals === "No") { req.body.meals = false; }
+
             if (req.body.accomodation === "Yes") { req.body.accomodation = true; } else
             if (req.body.accomodation === "No") { req.body.accomodation = false; }
+
             if (req.body.microphone === "Yes") { req.body.microphone = true; } else
             if (req.body.microphone === "No") { req.body.microphone = false; }
+
             // Strip
             if (!req.session.isAdmin) {
                 delete req.body.verified;
@@ -55,12 +64,10 @@ module.exports = function (db, redis) {
                 },
                 'default': function () { res.status(200).json(account); },
             });
-            console.log("post-respond");
         }).catch(function (error) {
             console.log(error);
             res.format({
                 'text/html': function () {
-
                     res.render("account/workshop", {
                         title: "Account - Workshop",
                         account: req.session.account,

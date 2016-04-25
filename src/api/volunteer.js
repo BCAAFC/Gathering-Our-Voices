@@ -1,11 +1,12 @@
 "use strict";
 
-var middleware = require("../../middleware"),
+var middleware = require("../middleware"),
+    communication = require("../communication"),
+    alert = require("../alert");
+
+var csv_stringify = require("csv-stringify"),
     moment = require("moment"),
-    communication = require("../../communication"),
-    csv_stringify = require("csv-stringify"),
-    Promise = require("bluebird"),
-    alert = require("../../alert");
+    Promise = require("bluebird");
 
 function scaffoldDay(day, req, current) {
     var  result = {};

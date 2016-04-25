@@ -8,6 +8,7 @@ var memberCountCache = {
     count: 0,
     lastCheck: moment("Jan 1 1970", "MMM DD YYYY"), // Epoch, force this to update.
 };
+
 function getMemberCount(db) {
     if (moment(new Date()).subtract(5, "minutes") > memberCountCache.lastCheck) {
         console.log("Hitting the DB");
@@ -40,7 +41,7 @@ module.exports = function (httpd, db, redis) {
     });
 
     httpd.use("/api",
-        require("./api")(db, redis));
+        require("../api")(db, redis));
 
     httpd.use(function (req, res, next) {
         // Consume message.

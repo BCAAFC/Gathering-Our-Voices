@@ -1,8 +1,9 @@
 "use strict";
 
-var middleware = require("../../middleware"),
-    moment = require("moment"),
-    alert = require("../../alert");
+var middleware = require("../middleware"),
+    alert = require("../alert");
+
+var moment = require("moment");
 
 // TODO: Make this ENV.
 var EARLYBIRD_DEADLINE = new Date("February 6 2016"); // It's actually the 5th.
