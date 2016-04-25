@@ -1,24 +1,6 @@
 "use strict";
 
 /**
- * Checks an `environment` value, if it does not exist falls back to `fallback`.
- * Passing `undefined` to `fallback` makes the process fail if the value is not present
- * in the environment.
- */
-function check(variable, fallback) {
-    if (process.env[variable] === undefined) {
-        if (fallback === undefined) {
-            console.warn("You must set $"+variable+". See \`src/env.js\` for help.")
-            process.exit(1);
-        }
-        process.env[variable] = fallback;
-        console.warn("$" + variable + " = (DEFAULT)", process.env[variable]);
-    } else {
-        console.log("$" + variable + " = ", process.env[variable]);
-    }
-}
-
-/**
  * Returns a nice set of convienence functions.
  */
 module.exports = function () {
@@ -59,3 +41,21 @@ module.exports = function () {
     // The directory image uploads will go.
     check("UPLOAD_DIR", "./uploads/");
 };
+
+/**
+* Checks an `environment` value, if it does not exist falls back to `fallback`.
+* Passing `undefined` to `fallback` makes the process fail if the value is not present
+* in the environment.
+*/
+function check(variable, fallback) {
+    if (process.env[variable] === undefined) {
+        if (fallback === undefined) {
+            console.warn("You must set $"+variable+". See \`src/env.js\` for help.")
+            process.exit(1);
+        }
+        process.env[variable] = fallback;
+        console.warn("$" + variable + " = (DEFAULT)", process.env[variable]);
+    } else {
+        console.log("$" + variable + " = ", process.env[variable]);
+    }
+}
