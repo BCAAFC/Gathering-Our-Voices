@@ -41,8 +41,10 @@
         description="A simple, few sentence description of your workshop that catches the eye. This will be shown in the conference agenda and in the workshop listings on site. <strong>Limit of 500 characters.</strong>"}}
     {{form_textarea title="Interaction Level" name="interactionLevel" value=workshop.interactionLevel required=true
         description="Describe how your workshop interacts with the youth. This is used as part of the selection process, our selection committee favors highly interactive workshops."}}
-    {{form_input title="Capacity" name="capacity" type="number"  value=workshop.capacity required=true
-        description="Indicate the number of attendees you are comfortable hosting. This is used for scheduling as well as in the selection process. Please <strong>only</strong> specify a number."}}
+    {{form_input title="Minimum Capacity" name="minCapacity" type="number"  value=workshop.minCapacity required=true
+        description="Indicate the <strong>minimum</strong> number of attendees you are comfortable hosting. This is used for scheduling as well as in the selection process. Please <strong>only</strong> specify a number."}}
+    {{form_input title="Maximum Capacity" name="maxCapacity" type="number"  value=workshop.maxCapacity required=true
+        description="Indicate the <strong>maximum</strong> number of attendees you are comfortable hosting. This is used for scheduling as well as in the selection process. Please <strong>only</strong> specify a number."}}
 
     <fieldset>
         <legend>Resources</legend>

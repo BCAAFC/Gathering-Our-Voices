@@ -100,6 +100,8 @@ module.exports = function (db, redis) {
             }
 
             if (typeof req.body.facilitators === "string") { req.body.facilitators = [req.body.facilitators]; }
+            if (typeof req.body.audience === "string") { req.body.audience = [req.body.audience]; }
+            if (typeof req.body.type === "string") { req.body.type = [req.body.type]; }
 
             // Transform HTML form.
             if (req.body.mailing === "Yes") { req.body.mailing = true; } else
@@ -134,7 +136,8 @@ module.exports = function (db, redis) {
             workshop.description = req.body.description || workshop.description;
             workshop.summary = req.body.summary || workshop.summary;
             workshop.interactionLevel = req.body.interactionLevel || workshop.interactionLevel;
-            workshop.capacity = req.body.capacity || workshop.capacity;
+            workshop.maxCapacity = req.body.maxCapacity || workshop.maxCapacity;
+            workshop.minCapacity = req.body.minCapacity || workshop.minCapacity;
             workshop.mailing = req.body.mailing; // Can't do "|| workshop.mailing;" since might be false.
             workshop.flipchart = req.body.flipchart || workshop.flipchart;
             workshop.projector = req.body.projector; // Can't do "|| workshop.projector;" since might be false.

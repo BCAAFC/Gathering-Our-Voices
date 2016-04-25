@@ -68,5 +68,10 @@ db.sequelize.sync().then(function () {
         content: fs.readFileSync("setup/privacy.hbs", { encoding: "utf8", }),
     });
 }).then(function () {
-    return console.log("Done setup. You're good to go!");
-});
+    console.log("Done setup. You're good to go!");
+    process.exit(0);
+}).catch(function (e) {
+    console.log(e);
+    console.log("You may need to recreate the database. `dropdb $DB` then `createdb $DB`");
+    process.exit(-1)
+})

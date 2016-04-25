@@ -66,7 +66,11 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.TEXT,
             allowNull: false,
         },
-        capacity: {
+        maxCapacity: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        },
+        minCapacity: {
             type: DataTypes.INTEGER,
             allowNull: false,
         },
