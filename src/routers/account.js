@@ -1,3 +1,5 @@
+"use strict";
+
 var Promise = require("bluebird"),
     fs = require("fs"),
     alert = require("../alert");

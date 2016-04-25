@@ -1,3 +1,5 @@
+"use strict";
+
 var middleware = require("../middleware");
 var moment = require("moment");
 var Promise = require("bluebird");

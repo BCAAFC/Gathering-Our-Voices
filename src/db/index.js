@@ -11,7 +11,7 @@ module.exports = function setup() {
             // paranoid: true,
             logging: (process.env.PG_LOG === "true") ? console.log : false, // Switch to `console.log` for output.
         }),
-        db        = {};
+        db = {};
 
     // Read in schemas.
     fs.readdirSync(__dirname)

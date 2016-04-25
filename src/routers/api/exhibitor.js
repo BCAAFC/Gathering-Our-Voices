@@ -1,3 +1,5 @@
+"use strict";
+
 var middleware = require("../../middleware"),
     communication = require("../../communication"),
     alert = require("../../alert");

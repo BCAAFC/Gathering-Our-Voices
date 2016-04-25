@@ -1,3 +1,5 @@
+"use strict";
+
 var middleware = require("../../middleware"),
     moment = require("moment"),
     communication = require("../../communication"),

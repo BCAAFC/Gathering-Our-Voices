@@ -1,4 +1,5 @@
 "use strict";
+
 var bcrypt = require("bcrypt"),
     Promise = require("bluebird"),
     communication = require("../communication");

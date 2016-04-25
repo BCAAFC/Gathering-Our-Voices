@@ -1,3 +1,5 @@
+"use strict";
+
 var client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN),
     cron = require('cron').CronJob,
     moment = require("moment"),
@@ -10,9 +12,7 @@ module.exports = function(db) {
         if (msg.length > 153) {
             msg = String(msg.slice(0, 153) + "..");
         }
-
         // console.log("   To: ", phone, "Msg("+ msg.length + "): ", msg);
-
         client.sendMessage({
             to: phone,
             from: '(778) 402-1767',

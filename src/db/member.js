@@ -1,4 +1,5 @@
 "use strict";
+
 var Promise = require("bluebird"),
     util = require("../util"),
     moment = require("moment");

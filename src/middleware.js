@@ -1,3 +1,5 @@
+"use strict";
+
 var alert = require("./alert");
 
 module.exports = {

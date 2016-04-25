@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = {
     error: function error(req, message) {
         req.session.alert = {
