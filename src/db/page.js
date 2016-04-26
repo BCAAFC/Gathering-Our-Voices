@@ -88,7 +88,9 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     // Build initial cache.
-    Page.refreshCache().then(newCache => cache = newCache);
+    Page.refreshCache().then(newCache => cache = newCache).catch(e => {
+        console.log("Pages got an error building cache. If this is firstrun that's ok!");
+    });
 
     return Page;
 };

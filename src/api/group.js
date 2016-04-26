@@ -60,6 +60,7 @@ module.exports = function (db, redis) {
             }
             // Edit details in a batch.
             group.affiliationType = req.body.affiliationType || group.affiliationType;
+            group.paymentPlans = req.body.paymentPlans || group.paymentPlans;
             group.youthInCare = req.body.youthInCare || group.youthInCare;
             group.youthInCareSupport = req.body.youthInCareSupport || group.youthInCareSupport;
             // Admin

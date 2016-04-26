@@ -28,6 +28,17 @@ module.exports = function (sequelize, DataTypes) {
             defaultValue: 0,
             allowNull: false,
         },
+        paymentPlans: {
+            type: DataTypes.ENUM,
+            values: [
+                "Cheque",
+                "Money Order",
+                "Invoice",
+                "Credit Card",
+                "Paypal"
+            ],
+            allowNull: false,
+        },
         // Admin only.
         tags: {
             type: DataTypes.ARRAY(DataTypes.STRING(80)),

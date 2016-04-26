@@ -15,6 +15,17 @@
         <option value="MCFD or Delegated Agency">MCFD or Delegated Agency</option>
         <option value="Other">Other</option>
     {{/form_select}}
+
+    {{#form_select title="Payment Plans" name="paymentPlans" selected=group.paymentPlans required=true
+        description="How are you planning to pay?"}}
+        <option value="">Choose...</option>
+        <option value="Cheque">Cheque</option>
+        <option value="Money Order">Money Order</option>
+        <option value="Invoice">Invoice</option>
+        <option value="Credit Card">Credit Card</option>
+        <option value="Paypal">Paypal</option>
+    {{/form_select}}
+
     {{form_input title="Youth In Care" name="youthInCare" type="number" value=group.youthInCare
         description="Each year the conference hosts a feast to honour Youth In Care. If some of this groups
                      delegates are or have been a youth in the care of the Ministry of Children and Family
