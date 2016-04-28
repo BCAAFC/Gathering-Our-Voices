@@ -24,5 +24,8 @@ module.exports = function (db, redis) {
     router.use("/page",
         require("./page")(db, redis));
 
+    router.use("/admin",
+        require("./admin")(db, redis));
+
     return router;
 };

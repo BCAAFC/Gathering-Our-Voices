@@ -653,7 +653,6 @@ module.exports = function (db, redis) {
                 });
             }
         );
-
     });
 
     return router;

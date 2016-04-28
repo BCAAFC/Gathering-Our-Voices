@@ -155,7 +155,7 @@ module.exports = function (sequelize, DataTypes) {
             recoveryStart: function () {
                 var self = this;
                 return self.update({
-                    misc: { recovery: Math.random().toString(36).slice(2), }
+                    misc: { recovery: crypto.randomBytes(128).toString('base64'), }
                 }).then(function (self) {
                     return communication.mail({
                         to: self.email,

@@ -40,6 +40,10 @@ module.exports = function () {
     check("PORT", 8080);
     // The directory image uploads will go.
     check("UPLOAD_DIR", "./uploads/");
+    // The key used by the datasource API requests from Excel etc.
+    // If not set it'll just be disabled.
+    // You should set this with something like `crypto.randomBytes(128).toString('base64')`
+    check("DATASOURCE_KEY", null);
 };
 
 /**
