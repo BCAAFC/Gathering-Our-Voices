@@ -20,14 +20,11 @@ module.exports = (db, redis) => {
             if (process.env.DATASOURCE_KEY !== null && key !== process.env.DATASOURCE_KEY) {
                 reject(new Error("Key is invalid."));
             } else {
-                console.log("Key is fine");
                 resolve(db[model].findAll({ order: "id", raw: true }));
             }
         }).then(data => {
-            console.log("Into next promise");
             return new Promise((resolve, reject) => {
-                console.log("Got data")
-                csv_stringify(data, { header: true, escape: true }, (err, out) => {
+                csv_stringify(data, { header: true, escape: true, quoted: true, qoutedString: true }, (err, out) => {
                     if (err) {
                         reject(err);
                     } else {
@@ -36,7 +33,6 @@ module.exports = (db, redis) => {
                 });
             });
         }).then(out => {
-            console.log("Sending");
             res.contentType("text/csv");
             res.setHeader('Content-disposition', 'attachment; filename=data.csv');
             return res.send(out);
