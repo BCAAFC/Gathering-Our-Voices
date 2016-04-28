@@ -37,6 +37,8 @@ module.exports = (db, redis) => {
             });
         }).then(out => {
             console.log("Sending");
+            res.contentType("text/csv");
+            res.setHeader('Content-disposition', 'attachment; filename=data.csv');
             return res.send(out);
         }).catch(err => {
             console.warn(err);
