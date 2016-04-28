@@ -8,17 +8,6 @@ var fs = require("fs"),
 module.exports = function (db, redisClient) {
     var server = express();
 
-    // Ensure that requests that should be SSL use SSL.
-    server.use(function ensureSecurity(req, res, next) {
-        // This detects if the original request (prior to Heroku"s forwarding) was SSL based.
-        // If the requests aren"t from localhost (eg. For development) it redirects them to the HTTPS site.
-        // if (process.env.SSL && req.headers["x-forwarded-proto"] !== "https" && req.hostname !== "localhost") {
-        //     res.redirect("https://" + req.hostname + req.url);
-        // } else {
-            next();
-        // }
-    });
-
     // Logging
     server.use(morgan("common"));
 
