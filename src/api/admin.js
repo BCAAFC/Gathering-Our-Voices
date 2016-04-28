@@ -24,7 +24,7 @@ module.exports = (db, redis) => {
             }
         }).then(data => {
             return new Promise((resolve, reject) => {
-                csv_stringify(data, { header: true, escape: true, quoted: true, qoutedString: true }, (err, out) => {
+                csv_stringify(data, { header: true, quoted: true, qoutedString: true }, (err, out) => {
                     if (err) {
                         reject(err);
                     } else {
