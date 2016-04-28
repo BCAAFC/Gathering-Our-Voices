@@ -6,8 +6,9 @@ var csv_stringify = require("csv-stringify");
 
 module.exports = (db, redis) => {
     var router = require("express").Router();
-    router.use(middleware.admin)
 
+    // This route is **not** middleware authenticated since Excel can't do this.
+    // Instead we use a predetermined key.
     router.route("/csv/:model")
     .get((req, res) => {
         return new Promise((resolve, reject) => {
