@@ -5,6 +5,10 @@
     <div class="alert alert-danger">
         Sorry! Volunteer registration is closed. Perhaps next year?
     </div>
+
+    {{#if admin}}
+        {{> forms/volunteer volunteer=account.Volunteer admin=admin flags=flags}}
+    {{/if}}
 {{else}}
     {{!-- Creates a new volunteer. --}}
     {{> forms/volunteer volunteer=account.Volunteer admin=admin schedule=schedule flags=flags}}
