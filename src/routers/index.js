@@ -66,6 +66,17 @@ module.exports = function (httpd, db, redis) {
         middleware.admin,
         require("./admin")(db, redis));
 
+    // Let's Encrypt
+    httpd.use("/.well-known/acme-challenge/:key", (req, res) => {
+        var fs = require("fs");
+        // Make sure it's actually there and this isn't a hack job.
+        fs.readdir("cert/acme-challenge/", (err, files) => {
+            if (files.indexOf(req.params.key) != -1) {
+                res.sendFile(req.params.key, { root: "cert/acme-challenge/" });
+            }
+        });
+    });
+
     // It's quite important that this is last.
     httpd.use("/",
         require("./pages")(db, redis));
