@@ -5,3 +5,4 @@ npm-debug.log
 cert/
 uploads/
 backups/*.tar.gz
+private_config.env

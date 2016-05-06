@@ -8,6 +8,7 @@ module.exports = function setup() {
     // Connect
     var sequelize = new Sequelize(process.env.PG_URL, {
             timestamps: true,
+            dialect: "postgres",
             // paranoid: true,
             logging: (process.env.PG_LOG === "true") ? console.log : false, // Switch to `console.log` for output.
         }),
@@ -28,6 +29,13 @@ module.exports = function setup() {
         if ("associate" in db[modelName]) {
             console.log("Associating " + modelName);
             db[modelName].associate(db);
+        }
+    });
+
+    db.Group.findAll().catch(e => {
+        if (e.message.includes("does not exist")) {
+            console.log("This appears to be a firstrun. Running init.");
+            require("../init.js")(db);
         }
     });
 

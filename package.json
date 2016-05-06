@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "async": "~2.0.0-rc.3",
-    "bcrypt": "~0.8.5",
+    "bcrypt": "~0.8.6",
     "bluebird": "~3.3.4",
     "body-parser": "~1.15.0",
     "chai": "~3.5.0",
@@ -35,7 +35,6 @@
     "gm": "~1.22.0",
     "handlebars": "~4.0.5",
     "hbs": "~4.0.0",
-    "hiredis": "~0.4.1",
     "redis": "~2.6.0-1",
     "lodash": "~4.10.0",
     "nodemailer": "~2.3.2",
