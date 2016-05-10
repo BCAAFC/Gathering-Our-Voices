@@ -44,7 +44,6 @@ module.exports = function (db, redis) {
 
     router.route("/:id")
     .put(middleware.admin, function (req, res) {
-        // TODO: Can probably query this smarter.
         Promise.join(
             db.Session.findOne({
                 where: { id: req.params.id },

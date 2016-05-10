@@ -91,7 +91,6 @@ module.exports = function (db, redis) {
                     // Refresh account information.
                     return resolve(db.Account.findOne({
                         where: { id: req.session.account.id, },
-                        // TODO: Only members.
                         include: [
                             {
                                 model: db.Group,

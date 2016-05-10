@@ -243,7 +243,6 @@ module.exports = function (db, redis) {
             var workshop = null;
 
             // Verify they own this workshop.
-            // TODO: This can be cleaned.
             if (req.params.id) {
                 var idx = req.session.account.Workshops.map(function (x) { return x.id; }).indexOf(Number(req.params.id));
                 if (idx === -1) {

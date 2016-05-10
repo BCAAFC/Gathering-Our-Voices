@@ -12,7 +12,7 @@ module.exports = {
             res.format({
                 'text/html': function () {
                     alert.error(req, message);
-                    res.redirect('/login?redirect=' + req.originalUrl); // TODO: URL Encode?
+                    res.redirect('/login?redirect=' + encoreURIComponent(req.originalUrl));
                 },
                 "default": function (){
                     res.status(401).send({ message: message });
@@ -32,7 +32,7 @@ module.exports = {
             res.format({
                 'text/html': function () {
                     alert.error(req, message);
-                    res.redirect('/login?redirect=' + req.originalUrl); // TODO: URL Encode?
+                    res.redirect('/login?redirect=' + encoreURIComponent(req.originalUrl));
                 },
                 "default": function (){
                     res.status(401).send({ message: message });
@@ -49,7 +49,7 @@ module.exports = {
             res.format({
                 'text/html': function () {
                     alert.error(req, message);
-                    res.redirect('/login?redirect=' + req.originalUrl); // TODO: URL Encode?
+                    res.redirect('/login?redirect=' + encoreURIComponent(req.originalUrl));
                 },
                 "default": function (){
                     res.status(401).send({ message: message });

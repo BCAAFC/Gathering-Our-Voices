@@ -39,7 +39,6 @@ module.exports = function (db, redis) {
     router.route("/")
     // Send all accounts.
     .get(middleware.admin, function (req, res) {
-        // TODO: Costs?
         db.Account.findAll({}).then(function (accounts) {
             res.status(200).json(accounts);
         }).catch(function (error) {
