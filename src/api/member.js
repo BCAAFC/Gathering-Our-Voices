@@ -5,8 +5,7 @@ var middleware = require("../middleware"),
 
 var moment = require("moment");
 
-// TODO: Make this ENV.
-var EARLYBIRD_DEADLINE = new Date("February 6 2016"); // It's actually the 5th.
+var EARLYBIRD_DEADLINE = new Date(process.env.EARLYBIRD_DEADLINE);
 
 module.exports = function (db, redis) {
     var router = require("express").Router();
@@ -166,7 +165,6 @@ module.exports = function (db, redis) {
             if ((!req.session.account.Group || member.GroupId !== req.session.account.Group.id) && !req.session.isAdmin) {
                 throw new Error("Member is not in your group.");
             }
-            // TODO: Verify relationships are destroyed too?
             return member.destroy();
         }).then(function (member) {
             res.format({
