@@ -1,6 +1,6 @@
 "use strict";
 
-var middleware = require("../middleware");
+var middleware = require("../utils/middleware");
 
 var csv_stringify = require("csv-stringify");
 

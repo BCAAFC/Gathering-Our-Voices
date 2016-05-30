@@ -1,8 +1,8 @@
 "use strict";
 
-var middleware = require("../middleware"),
+var middleware = require("../utils/middleware"),
     communication = require("../communication"),
-    alert = require("../alert");
+    alert = require("../utils/alert");
 
 var Promise = require('bluebird');
 

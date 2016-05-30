@@ -3,7 +3,7 @@
 var Promise = require("bluebird"),
     fs = require("fs"),
     sequelize = require("sequelize"),
-    alert = require("../alert"),
+    alert = require("../utils/alert"),
     moment = require("moment");
 
 // These all look the same, but expect them to differ later.

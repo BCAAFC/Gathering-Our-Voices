@@ -1,7 +1,7 @@
 "use strict";
 
-var middleware = require("../middleware"),
-    alert = require("../alert");
+var middleware = require("../utils/middleware"),
+    alert = require("../utils/alert");
 
 var moment = require("moment");
 

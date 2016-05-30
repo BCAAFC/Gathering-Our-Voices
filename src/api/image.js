@@ -1,7 +1,7 @@
 "use strict";
 
-var alert = require("../alert"),
-    middleware = require("../middleware");
+var alert = require("../utils/alert"),
+    middleware = require("../utils/middleware");
 
 var gm = require("gm"),
     fs = require("fs"),

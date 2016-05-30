@@ -187,7 +187,12 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: false,
             defaultValue: [],
             comment: "Short tags about the member.",
-        }
+        },
+        secret: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
+        },
     }, {
         classMethods: {
             associate: function (models) {
