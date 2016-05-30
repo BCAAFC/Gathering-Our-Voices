@@ -53,7 +53,7 @@ module.exports = function (db, redisClient) {
     var hbs = require("hbs");
     hbs.registerPartials('./views/partials');
     // Load helpers.
-    require("./helpers")(hbs);
+    require("./handlebars")(hbs);
 
     server.set("view engine", "hbs");
     server.set("views", "./views");
