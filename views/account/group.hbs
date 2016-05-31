@@ -50,6 +50,8 @@
                             <a href="/account/group/member/{{this.id}}" class="btn btn-xs btn-default"><i class="fa fa-fw fa-edit"></i>Edit & Workshops</a>
                             {{#if ../admin}}
                                 <a href="/api/member/delete/{{this.id}}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-fw fa-trash"></i>Delete</a>
+                            {{else if ../flags.memberRegistration}}
+                                <a href="/api/member/delete/{{this.id}}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-fw fa-trash"></i>Delete</a>
                             {{else}}
                                 <div class="btn btn-xs btn-danger disabled" data-toggle="tooltip" data-placement="top" title="We've disabled this to prevent accidental deletions. Please call us at 1 800 990-2432 if you're sure."><i class="fa fa-fw fa-trash"></i>Delete</a>
                                 <script>

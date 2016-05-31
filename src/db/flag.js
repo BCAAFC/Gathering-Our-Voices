@@ -13,37 +13,37 @@ module.exports = function (sequelize, DataTypes) {
     }, {
         hooks: {
             afterCreate: function(flag, opts, fn) {
-                cache[flag.keyword] = flag.value;
+                Flag.cache[flag.keyword] = flag.value;
                 fn(null, flag);
             },
             afterUpdate: function(flag, opts, fn) {
-                cache[flag.keyword] = flag.value;
+                Flag.cache[flag.keyword] = flag.value;
                 fn(null, flag);
             },
         },
         classMethods: {
             lookup: function(keyword) {
-                return cache[keyword];
+                return Flag.cache[keyword];
             },
             cache: function() {
-                return cache;
+                return Flag.cache;
             }
         }
     });
 
-    var cache = {};
+    Flag.cache = {};
     Flag.findAll().then(function (flags) {
-        cache = flags.reduce(function (acc, flag) {
+        Flag.cache = flags.reduce(function (acc, flag) {
             acc[flag.keyword] = flag.value;
             return acc;
         }, {});
+        console.log("Flags cached.");
         return;
     }).catch(function (e) {
         // Probably a firstrun.
         console.log("No flags detected. If this is a firstrun that's totallly ok.");
         return;
     });
-    Flag.cache = cache;
 
     return Flag;
 };
