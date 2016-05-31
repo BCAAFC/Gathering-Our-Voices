@@ -1,7 +1,7 @@
 "use strict";
 
 var Promise = require("bluebird"),
-    util = require("../util"),
+    util = require("../utils/eliminate-duplicates"),
     moment = require("moment");
 
 var YOUTH_MIN_BIRTH = "2002-03-21";
@@ -17,65 +17,6 @@ var CHAPERONE_MIN_BIRTH = "1991-03-21";
 var CHAPERONE_MAX_BIRTH = "1891-03-21";
 
 var EARLYBIRD_DEADLINE = new Date("00:00 February 6, 2016");
-
-function beforeHook(member, options) {
-    return new Promise(function (resolve, reject) {
-        // Should really be lists...
-        if (typeof member.allergies == "string") {
-            member.allergies = [member.allergies];
-        }
-        member.allergies = util.eliminateDuplicates(member.allergies);
-        if (typeof member.conditions == "string") {
-            member.conditions = [member.conditions];
-        }
-        member.conditions = util.eliminateDuplicates(member.conditions);
-        if (typeof member.tags == "string") {
-            member.tags = [member.tags];
-        }
-        member.tags = util.eliminateDuplicates(member.tags);
-        // Age
-        if (member.type && member.birthDate) {
-            var start, end;
-            if (member.type === "Youth") {
-                end = YOUTH_MIN_BIRTH;
-                start = YOUTH_MAX_BIRTH;
-            } else if (member.type === "Young Adult") {
-                end = YOUNG_ADULT_MIN_BIRTH;
-                start = YOUNG_ADULT_MAX_BIRTH;
-            } else if (member.type === "Young Chaperone") {
-                end = YOUNG_CHAPERONE_MIN_BIRTH;
-                start = YOUNG_CHAPERONE_MAX_BIRTH;
-            } else if (member.type === "Chaperone") {
-                end = CHAPERONE_MIN_BIRTH;
-                start = CHAPERONE_MAX_BIRTH;
-            }
-            if (!moment(member.birthDate).isBetween(start, end)) {
-                throw new Error(member.type + " must be born between "+ start +" and " + end);
-            }
-        }
-        // TicketType
-        if (member.createdAt < EARLYBIRD_DEADLINE) {
-            member.cost = 125;
-        } else if (!member.createdAt && new Date() < EARLYBIRD_DEADLINE) {
-            member.cost = 125;
-        }
-        // Complete?
-        if (member.name &&
-            member.type &&
-            member.gender &&
-            member.birthDate &&
-            member.contactName &&
-            member.contactRelation &&
-            member.contactPhone &&
-            member.medicalNumber)
-        {
-            member.complete = true;
-        } else {
-            member.complete = false;
-        }
-        return resolve(member);
-    });
-}
 
 module.exports = function (sequelize, DataTypes) {
     var Member = sequelize.define("Member", {
@@ -227,3 +168,62 @@ module.exports = function (sequelize, DataTypes) {
 
     return Member;
 };
+
+function beforeHook(member, options) {
+    return new Promise(function (resolve, reject) {
+        // Should really be lists...
+        if (typeof member.allergies == "string") {
+            member.allergies = [member.allergies];
+        }
+        member.allergies = util.eliminateDuplicates(member.allergies);
+        if (typeof member.conditions == "string") {
+            member.conditions = [member.conditions];
+        }
+        member.conditions = util.eliminateDuplicates(member.conditions);
+        if (typeof member.tags == "string") {
+            member.tags = [member.tags];
+        }
+        member.tags = util.eliminateDuplicates(member.tags);
+        // Age
+        if (member.type && member.birthDate) {
+            var start, end;
+            if (member.type === "Youth") {
+                end = YOUTH_MIN_BIRTH;
+                start = YOUTH_MAX_BIRTH;
+            } else if (member.type === "Young Adult") {
+                end = YOUNG_ADULT_MIN_BIRTH;
+                start = YOUNG_ADULT_MAX_BIRTH;
+            } else if (member.type === "Young Chaperone") {
+                end = YOUNG_CHAPERONE_MIN_BIRTH;
+                start = YOUNG_CHAPERONE_MAX_BIRTH;
+            } else if (member.type === "Chaperone") {
+                end = CHAPERONE_MIN_BIRTH;
+                start = CHAPERONE_MAX_BIRTH;
+            }
+            if (!moment(member.birthDate).isBetween(start, end)) {
+                throw new Error(member.type + " must be born between "+ start +" and " + end);
+            }
+        }
+        // TicketType
+        if (member.createdAt < EARLYBIRD_DEADLINE) {
+            member.cost = 125;
+        } else if (!member.createdAt && new Date() < EARLYBIRD_DEADLINE) {
+            member.cost = 125;
+        }
+        // Complete?
+        if (member.name &&
+            member.type &&
+            member.gender &&
+            member.birthDate &&
+            member.contactName &&
+            member.contactRelation &&
+            member.contactPhone &&
+            member.medicalNumber)
+        {
+            member.complete = true;
+        } else {
+            member.complete = false;
+        }
+        return resolve(member);
+    });
+}
