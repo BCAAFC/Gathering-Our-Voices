@@ -1,8 +1,9 @@
 "use strict";
 
 var Promise = require("bluebird"),
-    util = require("../utils/eliminate-duplicates"),
-    moment = require("moment");
+    moment = require("moment"),
+    eliminateDuplicates = require("../utils/eliminate-duplicates"),
+    randomWords = require("../utils/random-words");
 
 var YOUTH_MIN_BIRTH = "2002-03-21";
 var YOUTH_MAX_BIRTH = "1998-03-21";
@@ -161,6 +162,7 @@ module.exports = function (sequelize, DataTypes) {
             },
         },
         hooks: {
+            beforeValidate: secretCodeGeneration,
             beforeCreate: beforeHook,
             beforeUpdate: beforeHook,
         },
@@ -169,21 +171,31 @@ module.exports = function (sequelize, DataTypes) {
     return Member;
 };
 
+function secretCodeGeneration(member, options) {
+    return new Promise(function (resolve, reject) {
+        // Secret code.
+        if (typeof member.secret !== "string") {
+            member.secret = randomWords({ exactly: 3, join: '-' });
+        }
+        return resolve(member);
+    });
+}
+
 function beforeHook(member, options) {
     return new Promise(function (resolve, reject) {
         // Should really be lists...
         if (typeof member.allergies == "string") {
             member.allergies = [member.allergies];
         }
-        member.allergies = util.eliminateDuplicates(member.allergies);
+        member.allergies = eliminateDuplicates(member.allergies);
         if (typeof member.conditions == "string") {
             member.conditions = [member.conditions];
         }
-        member.conditions = util.eliminateDuplicates(member.conditions);
+        member.conditions = eliminateDuplicates(member.conditions);
         if (typeof member.tags == "string") {
             member.tags = [member.tags];
         }
-        member.tags = util.eliminateDuplicates(member.tags);
+        member.tags = eliminateDuplicates(member.tags);
         // Age
         if (member.type && member.birthDate) {
             var start, end;
@@ -224,6 +236,7 @@ function beforeHook(member, options) {
         } else {
             member.complete = false;
         }
+
         return resolve(member);
     });
 }

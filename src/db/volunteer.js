@@ -1,25 +1,7 @@
 "use strict";
 
 var communication = require("../communication"),
-    util = require("../utils/eliminate-duplicates");
-
-function dayScaffold(day) {
-    return {
-        day: day,
-        morning: {
-            available: false,
-            scheduled: null,
-        },
-        afternoon: {
-            available: false,
-            scheduled: null,
-        },
-        evening: {
-            available: false,
-            scheduled: null,
-        },
-    };
-}
+    eliminateDuplicates = require("../utils/eliminate-duplicates");
 
 module.exports = function (sequelize, DataTypes) {
     var Volunteer = sequelize.define("Volunteer", {
@@ -116,7 +98,7 @@ module.exports = function (sequelize, DataTypes) {
                 if (typeof volunteer.tags == "string") {
                     volunteer.tags = [volunteer.tags];
                 }
-                volunteer.tags = util.eliminateDuplicates(volunteer.tags);
+                volunteer.tags = eliminateDuplicates(volunteer.tags);
                 fn(null, volunteer);
             },
             afterCreate: function (volunteer) {
@@ -141,3 +123,21 @@ module.exports = function (sequelize, DataTypes) {
 
     return Volunteer;
 };
+
+function dayScaffold(day) {
+    return {
+        day: day,
+        morning: {
+            available: false,
+            scheduled: null,
+        },
+        afternoon: {
+            available: false,
+            scheduled: null,
+        },
+        evening: {
+            available: false,
+            scheduled: null,
+        },
+    };
+}

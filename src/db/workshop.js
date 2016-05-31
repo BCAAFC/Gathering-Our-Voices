@@ -1,7 +1,7 @@
 "use strict";
 
 var communication = require("../communication"),
-    util = require("../utils/eliminate-duplicates");
+    eliminateDuplicates = require("../utils/eliminate-duplicates");
 
 module.exports = function (sequelize, DataTypes) {
     var Workshop = sequelize.define("Workshop", {
@@ -197,7 +197,7 @@ module.exports = function (sequelize, DataTypes) {
                 if (typeof workshop.facilitators == "string") {
                     workshop.type = [workshop.type];
                 }
-                workshop.facilitators = util.eliminateDuplicates(workshop.facilitators);
+                workshop.facilitators = eliminateDuplicates(workshop.facilitators);
                 if (typeof workshop.audience == "string") {
                     workshop.audience = [workshop.audience];
                 }
@@ -207,7 +207,7 @@ module.exports = function (sequelize, DataTypes) {
                 if (typeof workshop.tags == "string") {
                     workshop.tags = [workshop.tags];
                 }
-                workshop.tags = util.eliminateDuplicates(workshop.tags);
+                workshop.tags = eliminateDuplicates(workshop.tags);
                 fn(null, workshop);
             },
             afterCreate: function (workshop) {

@@ -1,7 +1,7 @@
 "use strict";
 
 var communication = require("../communication"),
-    util = require("../utils/eliminate-duplicates");
+    eliminateDuplicates = require("../utils/eliminate-duplicates");
 
 var EXHIBITOR_COST = 400;
 
@@ -115,7 +115,7 @@ module.exports = function (sequelize, DataTypes) {
                 if (typeof exhibitor.representatives == "string") {
                     exhibitor.representatives = [exhibitor.representatives];
                 }
-                exhibitor.representatives = util.eliminateDuplicates(exhibitor.representatives);
+                exhibitor.representatives = eliminateDuplicates(exhibitor.representatives);
                 if (typeof exhibitor.categories == "string") {
                     exhibitor.categories = [exhibitor.categories];
                 }
@@ -125,7 +125,7 @@ module.exports = function (sequelize, DataTypes) {
                 if (typeof exhibitor.tags == "string") {
                     exhibitor.tags = [exhibitor.tags];
                 }
-                exhibitor.tags = util.eliminateDuplicates(exhibitor.tags);
+                exhibitor.tags = eliminateDuplicates(exhibitor.tags);
                 fn(null, exhibitor);
             },
             afterCreate: function (exhibitor) {

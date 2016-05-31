@@ -2,7 +2,7 @@
 
 var Promise = require("bluebird"),
     communication = require("../communication"),
-    util = require("../utils/eliminate-duplicates");
+    eliminateDuplicates = require("../utils/eliminate-duplicates");
 
 module.exports = function (sequelize, DataTypes) {
     var Group = sequelize.define("Group", {
@@ -112,7 +112,7 @@ module.exports = function (sequelize, DataTypes) {
                 if (typeof group.tags == "string") {
                     group.tags = [group.tags];
                 }
-                group.tags = util.eliminateDuplicates(group.tags);
+                group.tags = eliminateDuplicates(group.tags);
                 fn(null, group);
             },
             afterCreate: function (group) {
