@@ -1,4 +1,7 @@
 'use strict';
+
+var hbs = require('hbs');
+
 module.exports = function(sequelize, DataTypes) {
   var Page = sequelize.define('Page', {
       path: {
