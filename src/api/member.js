@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var middleware = require("../utils/middleware"),
     alert = require("../utils/alert");

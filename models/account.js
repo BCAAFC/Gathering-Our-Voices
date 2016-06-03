@@ -1,24 +1,13 @@
-"use strict";
+'use strict';
 
 var bcrypt = require("bcrypt"),
-    Promise = require("bluebird"),
-    communication = require("../communication");
+Promise = require("bluebird"),
+communication = require("../src/communication");
 
 var compare = Promise.promisify(bcrypt.compare);
 
-var updateHook = function (account, opts, fn) {
-    // Run when password changes.
-    if (!account.changed('password')) return fn();
-    bcrypt.hash(account.get('password'), 10, function (err, hash) {
-        if (err) return fn(err);
-        account.set('password', hash);
-        fn(null, account);
-    });
-    account.set("email", account.get("email").toLowerCase());
-};
-
-module.exports = function (sequelize, DataTypes) {
-    var Account = sequelize.define("Account", {
+module.exports = function(sequelize, DataTypes) {
+    var Account = sequelize.define('Account', {
         // Info
         email: {
             type: DataTypes.STRING,
@@ -95,12 +84,11 @@ module.exports = function (sequelize, DataTypes) {
         },
     }, {
         classMethods: {
-            associate: function (models) {
+            associate: function(models) {
                 // All things associated with an account should delete when it is.
                 Account.hasOne(models.Group, {onDelete: 'CASCADE'});
                 Account.hasOne(models.Exhibitor, {onDelete: 'CASCADE'});
                 Account.hasOne(models.Volunteer, {onDelete: 'CASCADE'});
-                // Account.hasOne(models.Workshop, {onDelete: 'CASCADE'});
                 Account.hasMany(models.Workshop, {onDelete: 'CASCADE'});
                 Account.hasMany(models.Payment, {onDelete: 'CASCADE'});
             },
@@ -195,6 +183,16 @@ module.exports = function (sequelize, DataTypes) {
             },
         },
     });
-
     return Account;
+};
+
+var updateHook = function (account, opts, fn) {
+    // Run when password changes.
+    if (!account.changed('password')) return fn();
+    bcrypt.hash(account.get('password'), 10, function (err, hash) {
+        if (err) return fn(err);
+        account.set('password', hash);
+        fn(null, account);
+    });
+    account.set("email", account.get("email").toLowerCase());
 };

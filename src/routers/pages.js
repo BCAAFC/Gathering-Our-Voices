@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var hbs = require("hbs"),
     url = require("url");

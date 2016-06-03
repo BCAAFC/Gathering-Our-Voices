@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /**
  * Returns a nice set of convienence functions.

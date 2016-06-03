@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var middleware = require("../utils/middleware");
 var moment = require("moment");

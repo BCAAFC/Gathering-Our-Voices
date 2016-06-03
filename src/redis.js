@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 module.exports = function () {
     var uri    = require('url').parse(process.env.REDIS_URL),

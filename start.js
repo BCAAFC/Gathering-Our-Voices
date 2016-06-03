@@ -4,13 +4,13 @@
  * Gathering Our Voices
  * @author Andrew Hobden <andrew@hoverbear.org>
  */
-"use strict";
+'use strict';
 
 // Check the environment.
 var env = require("./src/env")();
 
 // Connect to the database.
-var db = require("./src/db")();
+var db = require("./models");
 
 // Connect to redis.
 var redis = require("./src/redis")();
