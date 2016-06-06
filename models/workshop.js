@@ -1,4 +1,8 @@
 'use strict';
+
+var eliminateDuplicates = require("../src/utils/eliminate-duplicates"),
+  communication = require("../src/communication");
+
 module.exports = function(sequelize, DataTypes) {
   var Workshop = sequelize.define('Workshop', {
     // Workshop specifics
