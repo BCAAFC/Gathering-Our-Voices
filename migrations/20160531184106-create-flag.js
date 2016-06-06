@@ -10,12 +10,12 @@ module.exports = {
       },
 
       keyword: {
-          type: Sequelize.STRING,
-          unique: true,
+        type: Sequelize.STRING,
+        unique: true,
       },
       value: {
-          defaultValue: false,
-          type: Sequelize.BOOLEAN
+        defaultValue: false,
+        type: Sequelize.BOOLEAN
       },
 
       createdAt: {

@@ -8,30 +8,27 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-
       // Info
       start: {
-          type: Sequelize.DATE,
-          allowNull: false,
+        type: Sequelize.DATE,
+        allowNull: false,
       },
       end: {
-          type: Sequelize.DATE,
-          allowNull: false,
+        type: Sequelize.DATE,
+        allowNull: false,
       },
       room: {
-          type: Sequelize.STRING,
-          allowNull: false,
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       venue: {
-          type: Sequelize.STRING,
-          allowNull: false,
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       capacity: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
+        type: Sequelize.INTEGER,
+        allowNull: false,
       },
-
-
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

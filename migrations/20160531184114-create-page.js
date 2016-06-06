@@ -8,8 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-
-
       path: {
           type: Sequelize.STRING,
           allowNull: false,
@@ -32,8 +30,6 @@ module.exports = {
           values: [ "Normal", "Authenticated", "Administrator" ],
           defaultValue: "Normal",
       },
-
-
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

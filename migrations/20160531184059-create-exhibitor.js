@@ -14,56 +14,56 @@ module.exports = {
 
       // Info
       representatives: {
-          type: Sequelize.ARRAY(Sequelize.STRING),
-          allowNull: false,
-          comment: "The primary account controller should be included.",
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: false,
+        comment: "The primary account controller should be included.",
       },
       categories: {
-          type: Sequelize.ARRAY(Sequelize.STRING),
-          allowNull: true,
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: true,
       },
       provides: {
-          type: Sequelize.ARRAY(Sequelize.STRING),
-          allowNull: true,
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: true,
       },
       // Requirements.
       electrical: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
       },
       delegateBags: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
-          comment: "Item for the delegate bags",
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        comment: "Item for the delegate bags",
       },
       cost: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          defautValue: EXHIBITOR_COST,
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defautValue: EXHIBITOR_COST,
       },
       payment: {
-          type: Sequelize.ENUM,
-          allowNull: false,
-          values: [ "Cheque", "Money Order", "Credit Card" ],
+        type: Sequelize.ENUM,
+        allowNull: false,
+        values: [ "Cheque", "Money Order", "Credit Card" ],
       },
       // Private
       verified: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
-          defaultValue: false,
-          comment: "If the exhibitor has been checked by the team.",
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        comment: "If the exhibitor has been checked by the team.",
       },
       approved: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
-          defaultValue: false,
-          comment: "If the workshop has been approved by the team.",
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+        comment: "If the workshop has been approved by the team.",
       },
       tags: {
-          type: Sequelize.ARRAY(Sequelize.STRING(80)),
-          allowNull: false,
-          defaultValue: [],
-          comment: "Short tags about the exhibitor.",
+        type: Sequelize.ARRAY(Sequelize.STRING(80)),
+        allowNull: false,
+        defaultValue: [],
+        comment: "Short tags about the exhibitor.",
       },
 
       createdAt: {

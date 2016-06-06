@@ -8,8 +8,6 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-
-
       // Info
       date: {
           type: Sequelize.DATE,
@@ -39,8 +37,6 @@ module.exports = {
           type: Sequelize.TEXT,
           allowNull: true,
       },
-
-
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
