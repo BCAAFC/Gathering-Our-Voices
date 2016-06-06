@@ -1,9 +1,9 @@
 'use strict';
 
 var Promise = require("bluebird"),
-moment = require("moment"),
-eliminateDuplicates = require("../src/utils/eliminate-duplicates"),
-randomWords = require("../src/utils/random-words");
+  moment = require("moment"),
+  eliminateDuplicates = require("../src/utils/eliminate-duplicates"),
+  randomWords = require("../src/utils/random-words");
 
 var YOUTH_MIN_BIRTH = "2002-03-21";
 var YOUTH_MAX_BIRTH = "1998-03-21";

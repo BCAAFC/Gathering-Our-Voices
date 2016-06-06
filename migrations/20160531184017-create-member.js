@@ -110,7 +110,10 @@ module.exports = {
         allowNull: false,
         unique: true,
       },
-
+      GroupId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -118,7 +121,7 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
     });
   },
   down: function(queryInterface, Sequelize) {

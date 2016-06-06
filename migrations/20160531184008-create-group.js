@@ -48,6 +48,10 @@ module.exports = {
         comment: "Short tags about the group.",
       },
       //
+      AccountId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -55,7 +59,7 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
     });
   },
   down: function(queryInterface, Sequelize) {

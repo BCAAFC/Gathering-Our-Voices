@@ -1,7 +1,7 @@
 'use strict';
 
 var communication = require("../src/communication"),
-eliminateDuplicates = require("../src/utils/eliminate-duplicates");
+  eliminateDuplicates = require("../src/utils/eliminate-duplicates");
 
 var EXHIBITOR_COST = 400;
 

@@ -1,9 +1,9 @@
 #! /bin/env node
 
 /**
- * Gathering Our Voices
- * @author Andrew Hobden <andrew@hoverbear.org>
- */
+* Gathering Our Voices
+* @author Andrew Hobden <andrew@hoverbear.org>
+*/
 'use strict';
 
 // Check the environment.
@@ -22,7 +22,7 @@ var httpd = require("./src/httpd")(db, redis);
 httpd = require("./src/routers")(httpd, db, redis);
 
 httpd.listen(process.env.PORT, function () {
-    console.log("Listening on " + process.env.PORT);
+  console.log("Listening on " + process.env.PORT);
 });
 
 // Start up one time cron jobs.

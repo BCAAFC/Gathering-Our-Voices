@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports =  function eliminateDuplicates(arr) {
+module.exports = function eliminateDuplicates(arr) {
   if (!(arr instanceof Array)) {
     return arr;
   }

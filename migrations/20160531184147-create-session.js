@@ -29,6 +29,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      WorkshopId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -36,7 +40,7 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
     });
   },
   down: function(queryInterface, Sequelize) {

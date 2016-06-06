@@ -21,6 +21,17 @@ module.exports = function (db, redis) {
             if (req.body.electrical === "No") { req.body.electrical = false; }
             if (req.body.delegateBags === "Yes") { req.body.delegateBags = true; } else
             if (req.body.delegateBags === "No") { req.body.delegateBags = false; }
+
+            if (typeof req.body.representatives === "string") {
+              req.body.representatives = [req.body.representatives];
+            }
+            if (typeof req.body.provides === "string") {
+              req.body.provides = [req.body.provides];
+            }
+            if (typeof req.body.categories === "string") {
+              req.body.categories = [req.body.categories];
+            }
+
             req.body.cost = 400;
             // Strip
             if (!req.session.isAdmin) {
@@ -60,6 +71,16 @@ module.exports = function (db, redis) {
             if (req.body.electrical === "No") { req.body.electrical = false; }
             if (req.body.delegateBags === "Yes") { req.body.delegateBags = true; } else
             if (req.body.delegateBags === "No") { req.body.delegateBags = false; }
+
+            if (typeof req.body.representatives === "string") {
+              req.body.representatives = [req.body.representatives];
+            }
+            if (typeof req.body.provides === "string") {
+              req.body.provides = [req.body.provides];
+            }
+            if (typeof req.body.categories === "string") {
+              req.body.categories = [req.body.categories];
+            }
 
             return exhibitor;
         }).then(function (exhibitor) {

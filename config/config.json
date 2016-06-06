@@ -4,7 +4,8 @@
     "password": null,
     "database": "gov_dev",
     "host": "localhost",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "logging": false
   },
   "production": {
     "username": "postgres",

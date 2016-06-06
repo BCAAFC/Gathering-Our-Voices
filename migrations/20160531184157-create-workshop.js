@@ -154,6 +154,10 @@ module.exports = {
         defaultValue: [],
         comment: "Short tags about the workshop.",
       },
+      AccountId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -161,7 +165,7 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
     });
   },
   down: function(queryInterface, Sequelize) {
