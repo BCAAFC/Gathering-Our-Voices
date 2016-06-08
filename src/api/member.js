@@ -3,7 +3,8 @@
 var middleware = require("../utils/middleware"),
     alert = require("../utils/alert");
 
-var moment = require("moment");
+var moment = require("moment"),
+  Promise = require('bluebird');
 
 var EARLYBIRD_DEADLINE = new Date(process.env.EARLYBIRD_DEADLINE);
 
@@ -180,6 +181,84 @@ module.exports = function (db, redis) {
                 'default': function () { res.status(401).json({ error: error.message }); },
             });
         });
+    });
+
+    // Members express interest with their email and a secret code we've assigned.
+    router.route("/interest")
+    .post(function (req, res) {
+      db.Member.findOne({
+        where: { email: req.body.email, secret: req.body.secret },
+      }).then(function (member) {
+        if (!member) { throw new Error("Member not found."); }
+
+        if (req.body.session) {
+          return member.addInterest(req.body.session);
+        } else {
+          throw new Error("No session specified.");
+        }
+      }).then(function (member) {
+          res.format({
+              'text/html': function () {
+                  alert.success(req, "Interest expressed.");
+                  res.redirect('back');
+              },
+              'default': function () { res.status(200).json(account); },
+          });
+      }).catch(function (error) {
+          res.format({
+              'text/html': function () { alert.error(req, error.message); res.redirect('back'); },
+              'default': function () { res.status(401).json({ error: error.message }); },
+          });
+      });
+    });
+
+    // Primary contacts accept or reject interests expressed by members.
+    router.route("/:member/interest/accept/:session")
+    .get(middleware.auth, function (req, res) {
+      Promise.join(
+        db.Member.findOne({
+          where: { id: req.params.member, },
+        }).then(member => {
+          if (!member) { throw new Error("Member not found."); }
+          if ((!req.session.account.Group || member.GroupId !== req.session.account.Group.id) && !req.session.isAdmin) {
+              throw new Error("Member is not in your group.");
+          }
+          return member;
+        }),
+        db.Session.findOne({
+          where: { id: req.params.session, },
+        })
+      ).spread((member, session) => {
+        // Add the interest as a chosen workshop.
+        // Don't (yet) delete it from interests as they may be removed from the workshop.
+        session.register(member);
+      }).then(function (member) {
+        alert.success(req, "Interest accepted successfully.");
+        res.redirect('back');
+      }).catch(function (error) {
+        alert.error(req, error.message);
+        res.redirect('back');
+      });
+    });
+
+    router.route("/:member/interest/reject/:session")
+    .get(middleware.auth, function (req, res) {
+      db.Member.findOne({
+        where: { id: req.params.member, },
+      }).then(member => {
+        if (!member) { throw new Error("Member not found."); }
+        if ((!req.session.account.Group || member.GroupId !== req.session.account.Group.id) && !req.session.isAdmin) {
+            throw new Error("Member is not in your group.");
+        }
+        member.removeInterest(req.params.session);
+        return member;
+      }).then(function (member) {
+        alert.success(req, "Interest rejected.");
+        res.redirect('back');
+      }).catch(function (error) {
+        alert.error(req, error.message);
+        res.redirect('back');
+      });
     });
 
     return router;

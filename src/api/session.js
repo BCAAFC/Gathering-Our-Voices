@@ -151,13 +151,7 @@ module.exports = function (db, redis) {
             function (session, members) {
                 if (members === []) { throw new Error("Member not found."); }
                 var member = members[0];
-                if (session.Members.length < session.capacity) {
-                    return member.checkConflicts(session).then(function () {
-                        return session.addMember(member);
-                    });
-                } else {
-                    throw new Error("Session full.");
-                }
+                return session.register(member);
             }
         ).then(function (session) {
             res.format({

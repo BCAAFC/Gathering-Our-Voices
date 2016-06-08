@@ -143,6 +143,13 @@ module.exports = function (db, redis) {
         include: [{
           model: db.Session,
           include: [db.Workshop],
+        }, {
+          model: db.Session,
+          as: 'Interest',
+          include: [{
+            model: db.Workshop,
+            attributes: ['title', 'id'],
+          }],
         }],
         order: [ [ db.Session, "start", ], ],
       }),
@@ -150,6 +157,12 @@ module.exports = function (db, redis) {
         if (member && (account.Group.id !== member.GroupId)) {
           throw new Error("Member is not in that group");
         }
+        // Ensure we don't show interests already registered in.
+        var sessions = member.Sessions.map(x => x.id);
+        var interests = member.Interest.filter(x => {
+          return sessions.indexOf(x.id) === -1;
+        });
+
         req.session.account = account;
         res.render("account/member", {
           title: "Account - Member",
@@ -158,6 +171,7 @@ module.exports = function (db, redis) {
           flags: db.Flag.cache,
           alert: req.alert,
           member: member,
+          interests: interests,
         });
       }).catch(function (error) {
         console.log(error);

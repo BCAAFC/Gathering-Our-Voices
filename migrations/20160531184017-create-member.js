@@ -99,6 +99,12 @@ module.exports = {
         defaultValue: 175,
         allowNull: false,
       },
+      interests: {
+        type: Sequelize.ARRAY(Sequelize.INTEGER),
+        allowNull: false,
+        defaultValue: [],
+        comment: "A list of session IDs the member has expressed interest in.",
+      },
       tags: {
         type: Sequelize.ARRAY(Sequelize.STRING(80)),
         allowNull: false,

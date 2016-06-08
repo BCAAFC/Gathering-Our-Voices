@@ -57,6 +57,19 @@
                                             </select>
                                         </div>
                                     </form>
+                                {{else}}
+                                    <div class="btn btn-info" onclick="$('.session-{{../this.id}}').toggle() && false">
+                                      <i class="fa fa-heart"></i>
+                                      Express Interest
+                                    </div>
+                                    <form class="session-{{../this.id}}" style="display: none;" action="/api/member/interest" method="POST">
+                                        {{form_input title="Email" name="email" type="email" required=true}}
+                                        {{form_input title="Secret" name="secret" type="text" required=true}}
+                                        <input name="session" type="hidden" value="{{../this.id}}" required=true />
+                                        <div class="form-group">
+                                            <input class="btn btn-block btn-primary" type='submit' value="Send Interest" />
+                                        </div>
+                                    </form>
                                 {{/if}}
                             </div>
                         </div>
@@ -67,11 +80,11 @@
                                         <tr><th>Group Members Attending</th><th></th></tr>
                                     </thead>
                                     <tbody>
-                                        {{#each ../../../account.Group.Members}}
+                                        {{#each ../../account.Group.Members}}
                                             {{#if-in-session member=this session=../this}}
                                                 <tr>
                                                     <td>{{name}}</td>
-                                                    <td><a class="btn btn-xs btn-danger" href="/api/session/{{../../../id}}/remove/{{id}}" onclick="return confirm('Are you sure?')">
+                                                    <td><a class="btn btn-xs btn-danger" href="/api/session/{{../../id}}/remove/{{id}}" onclick="return confirm('Are you sure?')">
                                                         <i class="fa fa-fw fa-trash"></i>
                                                     </a></td>
                                                 </tr>
