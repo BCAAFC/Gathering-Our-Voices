@@ -140,5 +140,45 @@ module.exports = function (db, redis) {
     });
   });
 
+  router.route("/member")
+  .post(function (req, res) {;
+    db.Member.findOne({
+      where: {
+        email: req.body.email,
+        secret: req.body.secret,
+      },
+      include: [{
+        model: db.Session,
+        include: [db.Workshop],
+      }, {
+        model: db.Session,
+        as: 'Interest',
+        include: [{
+          model: db.Workshop,
+          attributes: ['title', 'id'],
+        }],
+      }],
+    }).then(member => {
+      if (!member) { throw new Error("Member either does not exist or the secret code was wrong."); }
+      // Ensure we don't show interests already registered in.
+      var sessions = member.Sessions.map(x => x.id);
+      var interests = member.Interest.filter(x => {
+        return sessions.indexOf(x.id) === -1;
+      });
+
+      res.render("workshops/member", {
+        title: "Member - Workshops",
+        member: member,
+        interests: interests,
+        admin: req.session.isAdmin,
+        flags: db.Flag.cache,
+        alert: req.alert,
+      });
+    }).catch(function (error) {
+      alert.error(req, error.message);
+      res.redirect("/login");
+    })
+  });
+
   return router;
 };

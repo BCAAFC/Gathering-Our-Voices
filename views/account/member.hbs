@@ -18,6 +18,7 @@
           <th>End</th>
           <th>Room</th>
           <th>Venue</th>
+          <th>Actions</th>
         </thead>
         <tbody>
             {{#each member.Sessions}}
@@ -27,14 +28,21 @@
                   <td>{{time end}}</td>
                   <td>{{room}}</td>
                   <td>{{venue}}</td>
+                  <td>
+                    <a class="btn btn-xs btn-danger" href="/api/session/{{../member.id}}/remove/{{id}}" onclick="return confirm('Are you sure?')">
+                      <i class="fa fa-fw fa-trash"></i>
+                    </a>
+                  </td>
               </tr>
             {{/each}}
         </tbody>
       </table>
-      {{#if member.email}}
-        <p>
-          Since this member is complete and has an email attached you can share their secret code with them to allow them to express interest in workshops by visiting the "Workshops" page. Their code is <code>{{member.secret}}</code> and their email is <code>{{member.email}}</code>.
-        </p>
+      {{#if member.complete}}
+        {{#if member.email}}
+          <p>
+            Since this member is complete and has an email attached you can share their secret code with them to allow them to express interest in workshops by visiting the "Workshops" page. Their code is <code>{{member.secret}}</code> and their email is <code>{{member.email}}</code>.
+          </p>
+        {{/if}}
       {{/if}}
       {{#if interests}}
         <strong>Member has expressed interest in:</strong>
@@ -58,6 +66,7 @@
                   <td>
                     <a href="/api/member/{{../member.id}}/interest/accept/{{id}}" class="btn btn-xs btn-success"><i class="fa fa-check"></i></a>
                     <a href="/api/member/{{../member.id}}/interest/reject/{{id}}" class="btn btn-xs btn-danger"><i class="fa fa-times"></i></a>
+                  </td>
               </tr>
             {{/each}}
           </tbody>

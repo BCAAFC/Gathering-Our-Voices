@@ -1,0 +1,14 @@
+<form action="/workshops/member" method="POST" class="form-horizontal">
+    <legend>View Workshops for Member</legend>
+
+    {{form_input title="Email Address" name="email" type="text" required=true}}
+    {{form_input title="Secret" name="secret" type="text" required=true}}
+
+    <div class="form-group">
+        <input class="btn btn-block btn-primary" type="submit" value="View Registered Workshops">
+    </div>
+
+    <p>
+      Can't remember your secret code? Ask your group's primary contact!
+    </p>
+</form>

@@ -1,0 +1,58 @@
+{{#if member.complete}}
+    <h3>Workshops</h3>
+    <table class="table">
+      <thead>
+        <th>Title</th>
+        <th>Start</th>
+        <th>End</th>
+        <th>Room</th>
+        <th>Venue</th>
+      </thead>
+      <tbody>
+          {{#each member.Sessions}}
+            <tr>
+                <td><a href="/workshops/{{Workshop.id}}">{{Workshop.title}}</a></td>
+                <td>{{datetime start}}</td>
+                <td>{{time end}}</td>
+                <td>{{room}}</td>
+                <td>{{venue}}</td>
+            </tr>
+          {{/each}}
+      </tbody>
+    </table>
+    {{#if member.complete}}
+      {{#if member.email}}
+        <p>
+          Since this member is complete and has an email attached you can share their secret code with them to allow them to express interest in workshops by visiting the "Workshops" page. Their code is <code>{{member.secret}}</code> and their email is <code>{{member.email}}</code>.
+        </p>
+      {{/if}}
+    {{/if}}
+    {{#if interests}}
+      <strong>Member has expressed interest in:</strong>
+      <table class="table">
+        <thead>
+          <th>Title</th>
+          <th>Start</th>
+          <th>End</th>
+          <th>Room</th>
+          <th>Venue</th>
+        </thead>
+        <tbody>
+          {{#each interests}}
+            <tr>
+                <td><a href="/workshops/{{Workshop.id}}">{{Workshop.title}}</a></td>
+                <td>{{datetime start}}</td>
+                <td>{{time end}}</td>
+                <td>{{room}}</td>
+                <td>{{venue}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    {{/if}}
+{{else}}
+  <div class="alert alert-warning">
+    This member is not complete, and is currently unable to sign up for
+    workshops. Please complete their information.
+  </div>
+{{/if}}

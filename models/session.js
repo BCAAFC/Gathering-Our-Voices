@@ -36,8 +36,14 @@ module.exports = function(sequelize, DataTypes) {
           this.countMembers()
           .then(memberCount => {
             if (memberCount < this.capacity) {
-              return member.checkConflicts(this).then(_ => {
-                return resolve(this.addMember(member))
+              this.getWorkshop({ attributes: ['audience', ], }).then(workshop => {
+                if (workshop.audience.indexOf(member.type) === -1) {
+                  return reject(Error("This member type is not permitted in this workshop."));
+                } else {
+                  return member.checkConflicts(this).then(_ => {
+                    return resolve(this.addMember(member));
+                  });
+                }
               });
             } else {
               return reject(Error("Session full."));

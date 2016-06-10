@@ -189,7 +189,7 @@ module.exports = function (db, redis) {
       db.Member.findOne({
         where: { email: req.body.email, secret: req.body.secret },
       }).then(function (member) {
-        if (!member) { throw new Error("Member not found."); }
+        if (!member) { throw new Error("Member not found or secret entered incorrectly."); }
 
         if (req.body.session) {
           return member.addInterest(req.body.session);
@@ -231,7 +231,7 @@ module.exports = function (db, redis) {
       ).spread((member, session) => {
         // Add the interest as a chosen workshop.
         // Don't (yet) delete it from interests as they may be removed from the workshop.
-        session.register(member);
+        return session.register(member);
       }).then(function (member) {
         alert.success(req, "Interest accepted successfully.");
         res.redirect('back');
