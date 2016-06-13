@@ -1,10 +1,10 @@
 'use strict';
 
 var Promise = require("bluebird"),
-fs = require("fs"),
-sequelize = require("sequelize"),
-alert = require("../utils/alert"),
-moment = require("moment");
+    fs = require("fs"),
+    sequelize = require("sequelize"),
+    alert = require("../utils/alert"),
+    moment = require("moment");
 
 module.exports = function (db, redis) {
   var router = require("express").Router();

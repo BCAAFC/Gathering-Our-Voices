@@ -1,8 +1,8 @@
 'use strict';
 
-var middleware = require("../utils/middleware");
-var moment = require("moment");
-var Promise = require("bluebird");
+var middleware = require("../utils/middleware"),
+    moment = require("moment"),
+    Promise = require("bluebird");
 
 var memberCountCache = {
   count: 0,

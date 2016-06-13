@@ -1,7 +1,8 @@
 'use strict';
 
 var Promise = require("bluebird"),
-fs = require("fs");
+    alert = require("../utils/alert"),
+    fs = require("fs");
 
 module.exports = function (db, redis) {
   var router = require("express").Router();
@@ -168,6 +169,7 @@ module.exports = function (db, redis) {
 
       res.render("workshops/member", {
         title: "Member - Workshops",
+        // account: account,
         member: member,
         interests: interests,
         admin: req.session.isAdmin,

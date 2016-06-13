@@ -1,8 +1,8 @@
 'use strict';
 
 var Promise = require("bluebird"),
-fs = require("fs"),
-alert = require("../utils/alert");
+    fs = require("fs"),
+    alert = require("../utils/alert");
 
 module.exports = function (db, redis) {
   var router = require("express").Router();
@@ -157,11 +157,13 @@ module.exports = function (db, redis) {
         if (member && (account.Group.id !== member.GroupId)) {
           throw new Error("Member is not in that group");
         }
-        // Ensure we don't show interests already registered in.
-        var sessions = member.Sessions.map(x => x.id);
-        var interests = member.Interest.filter(x => {
-          return sessions.indexOf(x.id) === -1;
-        });
+        if (member) {
+          // Ensure we don't show interests already registered in.
+          var sessions = member.Sessions.map(x => x.id);
+          var interests = member.Interest.filter(x => {
+            return sessions.indexOf(x.id) === -1;
+          });
+        }
 
         req.session.account = account;
         res.render("account/member", {

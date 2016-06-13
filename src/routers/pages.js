@@ -1,7 +1,7 @@
 'use strict';
 
 var hbs = require("hbs"),
-url = require("url");
+    url = require("url");
 
 module.exports = function (db, redis) {
   var router = require("express").Router();
