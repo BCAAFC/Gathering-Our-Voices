@@ -1,5 +1,7 @@
 'use strict';
 
+var config = require("../../config/config");
+
 var Promise = require("bluebird"),
     fs = require("fs"),
     alert = require("../utils/alert");
@@ -164,7 +166,6 @@ module.exports = function (db, redis) {
             return sessions.indexOf(x.id) === -1;
           });
         }
-
         req.session.account = account;
         res.render("account/member", {
           title: "Account - Member",
@@ -174,6 +175,12 @@ module.exports = function (db, redis) {
           alert: req.alert,
           member: member,
           interests: interests,
+          birthDates: {
+            'Youth': db.Member.birthDateLimits('Youth'),
+            'Young Adult': db.Member.birthDateLimits('Young Adult'),
+            'Young Chaperone': db.Member.birthDateLimits('Young Chaperone'),
+            'Chaperone': db.Member.birthDateLimits('Chaperone'),
+          },
         });
       }).catch(function (error) {
         console.log(error);

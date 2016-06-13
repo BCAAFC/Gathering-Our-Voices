@@ -65,9 +65,9 @@
     </fieldset>
 
     {{#if admin}}
-        {{#form_select title="Cost" name="cost" type="number" selected=member.cost description="Admin-only field." required=true}}
-            <option value=175>$175 - Regular</option>
-            <option value=125>$125 - Earlybird</option>
+        {{#form_select title="Ticket Type" name="ticketType" type="text" selected=member.ticketType description="Admin-only field." required=true}}
+            <option value='regular'>$175 - Regular</option>
+            <option value='earlybird'>$125 - Earlybird</option>
         {{/form_select}}
     {{/if}}
 
@@ -83,18 +83,7 @@
 </form>
 
 <script>
-    var YOUTH_MIN_BIRTH = "2002-03-21";
-    var YOUTH_MAX_BIRTH = "1998-03-21";
-
-    var YOUNG_ADULT_MIN_BIRTH = "1998-03-21";
-    var YOUNG_ADULT_MAX_BIRTH = "1991-03-21";
-
-    var YOUNG_CHAPERONE_MIN_BIRTH = "1995-03-21";
-    var YOUNG_CHAPERONE_MAX_BIRTH = "1991-03-21";
-
-    var CHAPERONE_MIN_BIRTH = "1991-03-21";
-    var CHAPERONE_MAX_BIRTH = "1891-03-21";
-
+    var dates = {{{JSON birthDates 0}}};
 
     $(function () {
         var birthDate = $("input[name='birthDate']");
@@ -103,30 +92,17 @@
             format: "mm/dd/yyyy",
             startView: 2,
             todayHightlight: true,
-            endDate: new Date(YOUTH_MIN_BIRTH),
-            startDate: new Date(CHAPERONE_MAX_BIRTH),
+            endDate: new Date(dates['Youth'][1]),
+            startDate: new Date(dates['Chaperone'][0]),
         });
 
         type.change(function () {
             var newType = type.val();
             var end, start;
+            if (!newType) { return }
 
-            if (newType === "Youth") {
-                end = YOUTH_MIN_BIRTH;
-                start = YOUTH_MAX_BIRTH;
-            } else if (newType === "Young Adult") {
-                end = YOUNG_ADULT_MIN_BIRTH;
-                start = YOUNG_ADULT_MAX_BIRTH;
-            } else if (newType === "Young Chaperone") {
-                end = YOUNG_CHAPERONE_MIN_BIRTH;
-                start = YOUNG_CHAPERONE_MAX_BIRTH;
-            } else if (newType === "Chaperone") {
-                end = CHAPERONE_MIN_BIRTH;
-                start = CHAPERONE_MAX_BIRTH;
-            }
-
-            $(birthDate).datepicker('setStartDate', new Date(start));
-            $(birthDate).datepicker('setEndDate', new Date(end));
+            $(birthDate).datepicker('setStartDate', new Date(dates[newType][1]));
+            $(birthDate).datepicker('setEndDate', new Date(dates[newType][0]));
             $(birthDate).datepicker('update');
         });
         type.change();

@@ -1,23 +1,11 @@
 'use strict';
 
+var config = require("../config/config");
+
 var Promise = require("bluebird"),
   moment = require("moment"),
   eliminateDuplicates = require("../src/utils/eliminate-duplicates"),
   randomWords = require("../src/utils/random-words");
-
-var YOUTH_MIN_BIRTH = "2002-03-21";
-var YOUTH_MAX_BIRTH = "1998-03-21";
-
-var YOUNG_ADULT_MIN_BIRTH = "1998-03-21";
-var YOUNG_ADULT_MAX_BIRTH = "1991-03-21";
-
-var YOUNG_CHAPERONE_MIN_BIRTH = "1995-03-21";
-var YOUNG_CHAPERONE_MAX_BIRTH = "1991-03-21";
-
-var CHAPERONE_MIN_BIRTH = "1991-03-21";
-var CHAPERONE_MAX_BIRTH = "1891-03-21";
-
-var EARLYBIRD_DEADLINE = new Date("00:00 February 6, 2016");
 
 module.exports = function(sequelize, DataTypes) {
   var Member = sequelize.define('Member', {
@@ -44,14 +32,6 @@ module.exports = function(sequelize, DataTypes) {
     birthDate: {
       type: DataTypes.DATE,
       allowNull: true,
-      validate: {
-        // TODO: More age validation.
-        tooYoung: function (val) {
-          if (moment(val).isAfter(YOUTH_MIN_BIRTH)) {
-            throw new Error("Member too young to attend the conference.");
-          }
-        },
-      },
     },
     background: {
       type: DataTypes.ENUM,
@@ -68,7 +48,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     phone: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
     },
     notifications: {
       type: DataTypes.BOOLEAN,
@@ -114,15 +94,14 @@ module.exports = function(sequelize, DataTypes) {
       defaultValue: false,
       allowNull: false,
     },
-    cost: {
-      type: DataTypes.INTEGER,
-      defaultValue: 175,
+    ticketType: {
+      type: DataTypes.ENUM,
+      values: [
+        'regular',
+        'earlybird',
+      ],
+      defaultValue: 'regular',
       allowNull: false,
-      set: function (v) {
-        if (v === 125 || v === 175) {
-          return this.setDataValue('cost', v);
-        } else { throw new Error("Invalid cost"); }
-      },
     },
     tags: {
       type: DataTypes.ARRAY(DataTypes.STRING(80)),
@@ -136,12 +115,27 @@ module.exports = function(sequelize, DataTypes) {
       unique: true,
     },
   }, {
+    getterMethods: {
+      cost: function () {
+        return config.prices[this.getDataValue('ticketType')];
+      },
+      isRightAge: function () {
+        var bracket = Member.birthDateLimits(this.type);
+        return moment(this.birthDate).isBetween(bracket[0], bracket[1]);
+      }
+    },
     classMethods: {
-      associate: function(models) {
+      associate: function (models) {
         Member.belongsTo(models.Group, { onDelete: 'CASCADE', });
         Member.belongsToMany(models.Session, { through: "MemberSession", onDelete: 'CASCADE', });
         Member.belongsToMany(models.Session, { as: "Interest", through: "MemberInterest", onDelete: 'CASCADE' });
-      }
+      },
+      birthDateLimits: function (type) {
+        return [
+          moment(config.dates.start).subtract(config.ages[type].youngest, 'years').toDate(),
+          moment(config.dates.start).subtract(config.ages[type].oldest, 'years').toDate(),
+        ];
+      },
     },
     instanceMethods: {
       checkConflicts: function (target) {
@@ -198,29 +192,15 @@ function beforeHook(member, options) {
     member.tags = eliminateDuplicates(member.tags);
     // Age
     if (member.type && member.birthDate) {
-      var start, end;
-      if (member.type === "Youth") {
-        end = YOUTH_MIN_BIRTH;
-        start = YOUTH_MAX_BIRTH;
-      } else if (member.type === "Young Adult") {
-        end = YOUNG_ADULT_MIN_BIRTH;
-        start = YOUNG_ADULT_MAX_BIRTH;
-      } else if (member.type === "Young Chaperone") {
-        end = YOUNG_CHAPERONE_MIN_BIRTH;
-        start = YOUNG_CHAPERONE_MAX_BIRTH;
-      } else if (member.type === "Chaperone") {
-        end = CHAPERONE_MIN_BIRTH;
-        start = CHAPERONE_MAX_BIRTH;
-      }
-      if (!moment(member.birthDate).isBetween(start, end)) {
-        throw new Error(member.type + " must be born between "+ start +" and " + end);
+      if (!member.isRightAge) {
+        throw new Error(member.type + " must be born between "+ Member.youngestBirthDate(member.type) +" and " + Member.oldestBirthDate(member.type));
       }
     }
     // TicketType
-    if (member.createdAt < EARLYBIRD_DEADLINE) {
-      member.cost = 125;
-    } else if (!member.createdAt && new Date() < EARLYBIRD_DEADLINE) {
-      member.cost = 125;
+    if (member.createdAt < config.deadlines.earlybird) {
+      member.ticketType = 'earlybird';
+    } else if (!member.createdAt && new Date() < config.deadlines.earlybird) {
+      member.ticketType = 'earlybird';
     }
     // Complete?
     if (member.name &&

@@ -94,9 +94,13 @@ module.exports = {
         defaultValue: false,
         allowNull: false,
       },
-      cost: {
-        type: Sequelize.INTEGER,
-        defaultValue: 175,
+      ticketType: {
+        type: Sequelize.ENUM,
+        values: [
+          'regular',
+          'earlybird',
+        ],
+        defaultValue: 'regular',
         allowNull: false,
       },
       interests: {
