@@ -22,9 +22,13 @@ This application follows the [12 Factor App](http://12factor.net/) style of conf
 is primarily configured through environment variables.
 
 * `git clone git@github.com:BCAAFC/Gathering-Our-Voices.git`
+* `cd Gathering-Our-Voices`
+* `npm install`
+* `./node_modules/bower/bin/bower install`
 * `grunt build`
-* `PG_URL="$YOUR_URL" ./setup.js` - Run one-time setup of table creation.
-* Setup your environment. See `src/env.js` for various knobs to tweak.
+* Setup your environment. See `config/` for various knobs to tweak.
+* `./node_modules/sequelize-cli/bin/sequelize db:migrate`
+* `node_modules/sequelize-cli/bin/sequelize db:seed:all`
 * Run `start.js` with the desired settings.
 
 Example:
