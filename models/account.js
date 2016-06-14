@@ -114,85 +114,85 @@ module.exports = function(sequelize, DataTypes) {
     instanceMethods: {
       cost: function () {
         return Promise.join(
-          this.getGroup().then(function (group) {
+          this.getGroup({attributes: ['id'], }).then(function (group) {
             return group ? group.cost() : 0;
           }),
-          this.getExhibitor({ attributes: ['cost'], }).then(function (exhibitor) {
+          this.getExhibitor({attributes: ['id'], }).then(function (exhibitor) {
             return exhibitor ? exhibitor.cost : 0;
           }),
           function done(group, exhibitor) {
             return group + exhibitor;
           });
-        },
-        paid: function () {
-          return this.getPayments().reduce(function (total, payment) {
-            return total + payment.amount;
-          }, 0);
-        },
-        balance: function () {
-          return Promise.join(
-            this.cost(),
-            this.paid(),
-            function done(cost, payments) {
-              return cost - payments;
-            });
-          },
-          passwordValid: function (attempt) {
-            return compare(attempt, this.password);
-          },
-          recoveryStart: function () {
-            var self = this;
-            return self.update({
-              misc: { recovery: crypto.randomBytes(128).toString('base64'), }
-            }).then(function (self) {
-              return communication.mail({
-                to: self.email,
-                from: '"GOV Robot" <website-robot@mg.bcaafc.com>',
-                title: "Account Recovery",
-                template: "recovery",
-                variables: {
-                  email: encodeURIComponent(self.email),
-                  key: encodeURIComponent(self.misc.recovery),
-                }
-              });
-            });
-          },
-          recoveryFinish: function (key) {
-            if (this.misc.recovery === key) {
-              return this;
-            } else {
-              throw new Error("Invalid recovery key.");
+      },
+      paid: function () {
+        return this.getPayments().reduce(function (total, payment) {
+          return total + payment.amount;
+        }, 0);
+      },
+      balance: function () {
+        return Promise.join(
+          this.cost(),
+          this.paid(),
+          function done(cost, payments) {
+            return cost - payments;
+          });
+      },
+      passwordValid: function (attempt) {
+        return compare(attempt, this.password);
+      },
+      recoveryStart: function () {
+        var self = this;
+        return self.update({
+          misc: { recovery: crypto.randomBytes(128).toString('base64'), }
+        }).then(function (self) {
+          return communication.mail({
+            to: self.email,
+            from: '"GOV Robot" <website-robot@mg.bcaafc.com>',
+            title: "Account Recovery",
+            template: "recovery",
+            variables: {
+              email: encodeURIComponent(self.email),
+              key: encodeURIComponent(self.misc.recovery),
             }
+          });
+        });
+      },
+      recoveryFinish: function (key) {
+        if (this.misc.recovery === key) {
+          return this;
+        } else {
+          throw new Error("Invalid recovery key.");
+        }
+      },
+    },
+    hooks: {
+      beforeCreate: updateHook,
+      beforeUpdate: updateHook,
+      afterCreate: function (account) {
+        return communication.mail({
+          to: account.email,
+          from: '"GOV Robot" <website-robot@mg.bcaafc.com>',
+          title: "Registration Confirmation",
+          template: "registration",
+          variables: {
+            name: account.name,
+            affilation: account.affilation,
+            email: account.email,
           },
-        },
-        hooks: {
-          beforeCreate: updateHook,
-          beforeUpdate: updateHook,
-          afterCreate: function (account) {
-            return communication.mail({
-              to: account.email,
-              from: '"GOV Robot" <website-robot@mg.bcaafc.com>',
-              title: "Registration Confirmation",
-              template: "registration",
-              variables: {
-                name: account.name,
-                affilation: account.affilation,
-                email: account.email,
-              },
-            });
-          },
-        },
-      });
-      return Account;
-    };
+        });
+      },
+    },
+  });
+  return Account;
+};
 
-    var updateHook = function (account, opts, fn) {
-      // Run when password changes.
-      if (!account.changed('password')) return fn();
-      bcrypt.hash(account.get('password'), 10, function (err, hash) {
-        if (err) return fn(err);
-        account.set('password', hash);
-        fn(null, account);
-      });
-      account.set("email", account.get("email").toLowerCase());
-    };
+var updateHook = function (account, opts, fn) {
+  // Run when password changes.
+  if (!account.changed('password')) return fn();
+  bcrypt.hash(account.get('password'), 10, function (err, hash) {
+    if (err) return fn(err);
+    account.set('password', hash);
+    fn(null, account);
+  });
+  account.set("email", account.get("email").toLowerCase());
+};

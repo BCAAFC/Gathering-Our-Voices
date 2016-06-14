@@ -193,7 +193,8 @@ function beforeHook(member, options) {
     // Age
     if (member.type && member.birthDate) {
       if (!member.isRightAge) {
-        throw new Error(member.type + " must be born between "+ Member.youngestBirthDate(member.type) +" and " + Member.oldestBirthDate(member.type));
+        var limits = birthDateLimits(member.type);
+        throw new Error(member.type + " must be born between "+ limits[0] +" and " + limits[1]);
       }
     }
     // TicketType

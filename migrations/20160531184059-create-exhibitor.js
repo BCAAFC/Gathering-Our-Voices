@@ -36,11 +36,6 @@ module.exports = {
         allowNull: false,
         comment: "Item for the delegate bags",
       },
-      cost: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        defautValue: EXHIBITOR_COST,
-      },
       payment: {
         type: Sequelize.ENUM,
         allowNull: false,

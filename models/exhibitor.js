@@ -1,5 +1,7 @@
 'use strict';
 
+var config = require("../config/config");
+
 var communication = require("../src/communication"),
   eliminateDuplicates = require("../src/utils/eliminate-duplicates");
 
@@ -75,11 +77,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       comment: "Item for the delegate bags",
     },
-    cost: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defautValue: EXHIBITOR_COST,
-    },
     payment: {
       type: DataTypes.ENUM,
       allowNull: false,
@@ -106,45 +103,50 @@ module.exports = function(sequelize, DataTypes) {
     }
   }, {
     classMethods: {
-      associate: function(models) {
+      associate: function (models) {
         Exhibitor.belongsTo(models.Account, { onDelete: 'CASCADE', });
       },
-      hooks: {
-        beforeValidate: function (exhibitor, options, fn) {
-          if (typeof exhibitor.representatives == "string") {
-            exhibitor.representatives = [exhibitor.representatives];
-          }
-          exhibitor.representatives = eliminateDuplicates(exhibitor.representatives);
-          if (typeof exhibitor.categories == "string") {
-            exhibitor.categories = [exhibitor.categories];
-          }
-          if (typeof exhibitor.provides == "string") {
-            exhibitor.provides = [exhibitor.provides];
-          }
-          if (typeof exhibitor.tags == "string") {
-            exhibitor.tags = [exhibitor.tags];
-          }
-          exhibitor.tags = eliminateDuplicates(exhibitor.tags);
-          fn(null, exhibitor);
-        },
-        afterCreate: function (exhibitor) {
-          return exhibitor.getAccount().then(function (account) {
-            return communication.mail({
-              to: account.email,
-              from: '"GOV Robot" <website-robot@mg.bcaafc.com>',
-              cc: "dpreston@bcaafc.com",
-              title: "Exhibitor Application Recieved",
-              template: "apply_exhibitor",
-              variables: {
-                name: account.name,
-                affilation: account.affilation,
-                email: account.email,
-              },
-            });
-          });
-        },
+    },
+    getterMethods: {
+      cost: function () {
+        return config.prices['exhibitor'];
       },
-    }
+    },
+    hooks: {
+      beforeValidate: function (exhibitor, options, fn) {
+        if (typeof exhibitor.representatives == "string") {
+          exhibitor.representatives = [exhibitor.representatives];
+        }
+        exhibitor.representatives = eliminateDuplicates(exhibitor.representatives);
+        if (typeof exhibitor.categories == "string") {
+          exhibitor.categories = [exhibitor.categories];
+        }
+        if (typeof exhibitor.provides == "string") {
+          exhibitor.provides = [exhibitor.provides];
+        }
+        if (typeof exhibitor.tags == "string") {
+          exhibitor.tags = [exhibitor.tags];
+        }
+        exhibitor.tags = eliminateDuplicates(exhibitor.tags);
+        fn(null, exhibitor);
+      },
+      afterCreate: function (exhibitor) {
+        return exhibitor.getAccount().then(function (account) {
+          return communication.mail({
+            to: account.email,
+            from: '"GOV Robot" <website-robot@mg.bcaafc.com>',
+            cc: "dpreston@bcaafc.com",
+            title: "Exhibitor Application Recieved",
+            template: "apply_exhibitor",
+            variables: {
+              name: account.name,
+              affilation: account.affilation,
+              email: account.email,
+            },
+          });
+        });
+      },
+    },
   });
   return Exhibitor;
 };

@@ -1,5 +1,7 @@
 'use strict';
 
+var config = require("../config/config");
+
 var eliminateDuplicates = require("../src/utils/eliminate-duplicates"),
   communication = require("../src/communication");
 
@@ -52,57 +54,63 @@ module.exports = function(sequelize, DataTypes) {
       },
     },
     instanceMethods: {
+      // Returns a hard number.
       cost: function () {
-        return this.getMembers({attributes: ['cost'], }).then(function (members) {
+        return this.getMembers({attributes: ['id'], }).then(function (members) {
           // Get counts of each price.
-          var counts = members.reduce(function (total, member, idx) {
-            total[member.cost] +=1;
-            return total;
-          }, {175: 0, 125: 0});
+          var counts = members.reduce(function (acc, member, idx) {
+            if (!acc[member.ticketType]) { acc[member.ticketType] = 0; }
+            acc[member.ticketType] +=1;
+            return acc;
+          }, {});
           // Find number of free.
-          var free = Math.floor((counts[175] + counts[125]) / 6);
+          var regularCount = (counts['regular']) ? counts['regular'].length : 0,
+              earlybirdCount = (counts['earlybird']) ? counts['earlybird'].length : 0;
+          var free = Math.floor((regularCount + earlybirdCount) / 6);
           // Drop some regulars till we have no more frees, or no more regs.
-          while (free > 0 && counts[175] > 0) {
+          while (free > 0 && counts['regular'] > 0) {
             free -= 1;
-            counts[175] -= 1;
+            counts['regular'] -= 1;
           }
           // Same for early
-          while (free > 0 && counts[125] > 0) {
+          while (free > 0 && counts['earlybird'] > 0) {
             free -= 1;
-            counts[125] -= 1;
+            counts['earlybird'] -= 1;
           }
 
-          return (counts[125]*125) + (counts[175]*175);
+          return ((counts['earlybird'] || 0)*config.prices.earlybird) + ((counts['regular'] || 0)*config.prices.regular);
         });
       },
+      // Returns a tabular description.
       breakdown: function () {
         return this.getMembers({
-          attributes: ['name', 'type', 'cost'],
-          raw: true,
+          attributes: ['name', 'type', 'ticketType', ],
         }).then(function (members) {
           // Get counts of each price.
-          var counts = members.reduce(function (total, member, idx) {
-            total[member.cost].push(member);
-            return total;
-          }, {175: [], 125: []});
+          var counts = members.reduce(function (acc, member, idx) {
+            if (!acc[member.ticketType]) { acc[member.ticketType] = []; }
+            acc[member.ticketType].push(member);
+            return acc;
+          }, {});
           // Find number of free.
-          var free = Math.floor((counts[175].length + counts[125].length) / 6);
+          var regularCount = (counts['regular']) ? counts['regular'].length : 0,
+              earlybirdCount = (counts['earlybird']) ? counts['earlybird'].length : 0;
+          var free = Math.floor((regularCount + earlybirdCount) / 6);
           // Drop some regulars till we have no more frees, or no more regs.
           var idx = 0;
-          while (free > 0 && counts[175].length > idx) {
+          while (free > 0 && counts['regular'].length > idx) {
             free -= 1;
-            counts[175][idx].cost = 0;
+            counts['regular'][idx].cost = 0;
             idx += 1;
           }
           // Same for early
           idx = 0;
-          while (free > 0 && counts[125].length > idx) {
+          while (free > 0 && counts['earlybird'].length > idx) {
             free -= 1;
-            counts[125][idx].cost = 0;
+            counts['earlybird'][idx].cost = 0;
             idx += 1;
           }
-
-          return counts[175].concat(counts[125]);
+          return (counts['regular'] || []).concat((counts['earlybird'] || []));
         });
       },
     },

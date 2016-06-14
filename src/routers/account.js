@@ -59,10 +59,10 @@ module.exports = function (db, redis) {
         {
           model: db.Group,
           include: [
-            { model: db.Member, attributes: ['name', 'cost',], },
+            { model: db.Member, attributes: ['name', 'type'], },
           ],
         },
-        { model: db.Exhibitor, attributes: ['cost'], }
+        { model: db.Exhibitor }
       ],
     }).then(function (account) {
       return [account, account.cost(), account.paid(), (account.Group? account.Group.breakdown() : null)];

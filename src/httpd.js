@@ -52,6 +52,8 @@ module.exports = function (db, redisClient) {
   // View engine
   var hbs = require("hbs");
   hbs.registerPartials('./views/partials');
+  hbs.localsAsTemplateData(server);
+  server.locals.config = require('../config/config');
   // Load helpers.
   require("./handlebars")(hbs);
 
