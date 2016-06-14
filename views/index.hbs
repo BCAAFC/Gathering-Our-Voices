@@ -48,7 +48,7 @@
                             <p><a href="/register" class="btn btn-block btn-lg btn-primary">Apply as a group, facilitator, volunteer, or exhibitor!</a></p>
                         {{else}}
                             <div class="well">
-                                <h3>GOV 2016 Delegate Registration Closed - Maximum Capacity Reached</h3>
+                                <h3>Delegate Registration Closed - Maximum Capacity Reached</h3>
                                 Each year groups work hard to fundraise to make the trip to the conference.  We are inspired with the high level of interest in Gathering Our Voices and encourage those who cannot participate this year to register early for next year’s conference. Registration for GOV opens every year in late September; we recommend signing up to our distribution list to get the most up to date information.
                             </div>
                             <div>
@@ -58,15 +58,15 @@
 
                         <p>Interact with us via:</p>
                         <div class="btn-group">
-                            <a class="btn btn-info" style="background-color: #56ADEE" target="_blank" href="https://twitter.com/GOV_Conference">
+                            <a class="btn btn-info" style="background-color: #56ADEE" target="_blank" href="https://twitter.com/{{@config.social.twitter}}">
                                 <i class="fa fa-twitter"></i>
                                 Twitter
                             </a>
-                            <a class="btn btn-info" style="background-color: #3A5795"  target="_blank" href="https://www.facebook.com/gatheringourvoices">
+                            <a class="btn btn-info" style="background-color: #3A5795"  target="_blank" href="https://www.facebook.com/{{@config.social.facebook}}">
                                 <i class="fa fa-facebook"></i>
                                 Facebook
                             </a>
-                            <a class="btn btn-info"  style="background-color: #DA4A38" target="_blank" href="https://bcaafc.us5.list-manage.com/subscribe?u=2df229be67a6e024a5c741916&id=f98ad81590">
+                            <a class="btn btn-info"  style="background-color: #DA4A38" target="_blank" href="{{@config.social.list}}">
                                 <i class="fa fa-envelope"></i>
                                 Mailing List
                             </a>

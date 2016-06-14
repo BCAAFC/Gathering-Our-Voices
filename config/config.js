@@ -1,4 +1,10 @@
 module.exports = {
+  // Social Media accounts
+  'social': {
+    'twitter': 'GOV_Conference',
+    'facebook': 'gatheringourvoices',
+    'list': 'https://bcaafc.us5.list-manage.com/subscribe?u=2df229be67a6e024a5c741916&id=f98ad81590',
+  },
   // The admins of the site, by email.
   'admins': [ 'andrew@hoverbear.org' ],
   // The dates of the conference
