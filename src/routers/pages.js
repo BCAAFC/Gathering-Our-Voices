@@ -16,7 +16,7 @@ module.exports = function (db, redis) {
   });
 
   router.get("/conduct", function (req, res) {
-    res.render("condut", {
+    res.render("conduct", {
       account: req.session.account,
       flags: db.Flag.cache,
       admin: req.session.isAdmin,
