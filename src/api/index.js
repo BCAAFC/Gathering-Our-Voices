@@ -19,10 +19,6 @@ module.exports = function (db, redis) {
         require("./volunteer")(db, redis));
     router.use("/payment",
         require("./payment")(db, redis));
-    router.use("/image",
-        require("./image")(db, redis));
-    router.use("/page",
-        require("./page")(db, redis));
 
     router.use("/admin",
         require("./admin")(db, redis));
