@@ -15,17 +15,6 @@ module.exports = function () {
   // The redis URL.
   // Ex. `localhost`
   check("REDIS_URL", undefined);
-  // A list of administrators, by email, comma seperated.
-  // Ex. `andrew@hoverbear.org,root@hoverbear.org`
-  check("ADMINS", null);
-  // The Earlybird deadline for cheaper tickets.
-  check("EARLYBIRD_DEADLINE", undefined);
-  // This will error and exit the process if the deadline isn't properly set.
-  if (isNaN(Date.parse(process.env.EARLYBIRD_DEADLINE)) === true) {
-    console.warn("Error: EARLYBIRD_DEADLINE needs to be a date.")
-    process.exit(1);
-  }
-
   /*
   * These are third party helpers which the site uses.
   * Mailgun and Twilio are both great, high quality services with reasonable rates.
