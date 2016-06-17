@@ -67,7 +67,9 @@ module.exports = function (db, redisClient) {
   {maxAge: 86400000 * 4}));
   server.use("/fonts", express.static("./static/fonts",
   {maxAge: 86400000 * 4}));
-  server.use("/img", express.static("./static/img",
+  server.use("/images", express.static("./static/images",
+  {maxAge: 86400000 * 4}));
+  server.use("/logos", express.static("./static/logos",
   {maxAge: 86400000 * 4}));
   server.use("/js", express.static("./static/js",
   {maxAge: 86400000 * 4}));
