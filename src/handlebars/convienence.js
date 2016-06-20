@@ -1,7 +1,6 @@
 'use strict';
 
-var moment = require('moment'),
-    marked = require('marked');
+var moment = require('moment');
 
 module.exports = function (hbs) {
   hbs.registerHelper("eq", function (val, check, options) {
@@ -11,18 +10,6 @@ module.exports = function (hbs) {
       return;
     }
   });
-
-  hbs.registerHelper("markdown", function (options) {
-    var content = options.fn(this);
-    // Scan for start indentation level.
-    var i = 0;
-    while (content[i] == ' ') { i += 1; }
-    // Trim all lines with the appropriate indent level.
-    var lines = content.split('\n').map(line => line.slice(i)).join('\n');
-    return "<div class='markdown'>" + marked(lines, {
-      smartypants: true,
-    }) + "</div>";
-  })
 
   hbs.registerHelper("JSON", function (val, indent) {
     return JSON.stringify(val, null, indent);

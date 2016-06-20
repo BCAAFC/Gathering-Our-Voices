@@ -1,0 +1,21 @@
+div.markdown {
+  figure {
+    text-align: center;
+    font-style: italic;
+    padding: 5px;
+  }
+
+  div.parallax {
+    @size: 350px;
+    height: @size;
+    div {
+      height: @size;
+      position: absolute;
+      left: 0;
+      right: 0;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+  }
+}
