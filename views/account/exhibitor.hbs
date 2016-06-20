@@ -1,53 +1,53 @@
 {{#markdown}}
-  ### General Exhibitor Information
+### General Exhibitor Information
 
-  * **Exhibitor Registration Fee:** $400 per table, 2 days, March 22nd and 23rd, 8:30 am – 5:00 pm.
-  * Preferred method of payment is by cheque payable to BCAAFC and mailed to: 551 Chatham Street, Victoria, BC  V8T 1E1. For more info hit "Account" in the top navigtion bar and hit the "Pay Fees" button.
-  * Each booth will be provided with one 6’ skirted table and two chairs.
-  * All exhibitors are responsible for their own meals, refreshments and shipping their own materials.
-  * Potential Exhibitor will be contacted to confirm their acceptance. You will also receive a confirmation email that you submitted an application. Be sure you receive that in your inbox or spam. If you did not please call Della (250-388-5522) to confirm we received your application.
+* **Exhibitor Registration Fee:** $400 per table, 2 days, March 22nd and 23rd, 8:30 am – 5:00 pm.
+* Preferred method of payment is by cheque payable to BCAAFC and mailed to: 551 Chatham Street, Victoria, BC  V8T 1E1. For more info hit "Account" in the top navigtion bar and hit the "Pay Fees" button.
+* Each booth will be provided with one 6’ skirted table and two chairs.
+* All exhibitors are responsible for their own meals, refreshments and shipping their own materials.
+* Potential Exhibitor will be contacted to confirm their acceptance. You will also receive a confirmation email that you submitted an application. Be sure you receive that in your inbox or spam. If you did not please call Della (250-388-5522) to confirm we received your application.
 {{/markdown}}
 
 {{#if account.Exhibitor.approved}}
-    <div class="alert alert-success">
-      {{#markdown}}
-        Your exhibitor table has been approved by our staff! Congratulations!
+  <div class="alert alert-success">
+    {{#markdown}}
+    Your exhibitor table has been approved by our staff! Congratulations!
 
-        At this time you are no longer able to modify your exhibitor details.
-        If you require any changes please contact us. A staff member can
-        change them for you.
-      {{/markdown}}
-    </div>
+    At this time you are no longer able to modify your exhibitor details.
+    If you require any changes please contact us. A staff member can
+    change them for you.
+    {{/markdown}}
+  </div>
 
-    {{#if admin}}
-        {{> forms/exhibitor exhibitor=account.Exhibitor flags=flags}}
-    {{/if}}
-{{else if account.Exhibitor.verified}}
-    <div class="alert alert-warning">
-      {{#markdown}}
-        Your exhibitor table has been verified by our staff! This means that
-        your information is confirmed and we've placed you into our selection
-        process.
-        <br>
-        At this time you are no longer able to modify your exhibitor details.
-        If you require any changes please contact us. A staff member can
-        change them for you.
-      {{/markdown}}
-    </div>
-
-    {{#if admin}}
-        {{> forms/exhibitor exhibitor=account.Exhibitor flags=flags}}
-    {{/if}}
-{{else unless flags.exhibitorRegistration}}
-    <div class="alert alert-danger">
-      {{#markdown}}
-        Unfortunately exhibitor registration is closed. Perhaps next year?
-      {{/markdown}}
-    </div>
-
-    {{#if admin}}
-        {{> forms/exhibitor exhibitor=account.Exhibitor flags=flags}}
-    {{/if}}
-{{else}}
+  {{#if admin}}
     {{> forms/exhibitor exhibitor=account.Exhibitor flags=flags}}
+  {{/if}}
+{{else if account.Exhibitor.verified}}
+  <div class="alert alert-warning">
+    {{#markdown}}
+    Your exhibitor table has been verified by our staff! This means that
+    your information is confirmed and we've placed you into our selection
+    process.
+    <br>
+    At this time you are no longer able to modify your exhibitor details.
+    If you require any changes please contact us. A staff member can
+    change them for you.
+    {{/markdown}}
+  </div>
+
+  {{#if admin}}
+    {{> forms/exhibitor exhibitor=account.Exhibitor flags=flags}}
+  {{/if}}
+{{else unless flags.exhibitorRegistration}}
+  <div class="alert alert-danger">
+    {{#markdown}}
+    Unfortunately exhibitor registration is closed. Perhaps next year?
+    {{/markdown}}
+  </div>
+
+  {{#if admin}}
+    {{> forms/exhibitor exhibitor=account.Exhibitor flags=flags}}
+  {{/if}}
+{{else}}
+  {{> forms/exhibitor exhibitor=account.Exhibitor flags=flags}}
 {{/if}}

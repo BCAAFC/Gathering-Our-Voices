@@ -1,15 +1,15 @@
 {{#if account.Volunteer.approved}}
-    {{!-- So they can always review their information --}}
-    {{> forms/volunteer volunteer=account.Volunteer admin=admin flags=flags}}
+  {{!-- So they can always review their information --}}
+  {{> forms/volunteer volunteer=account.Volunteer admin=admin flags=flags}}
 {{else unless flags.volunteerRegistration}}
-    <div class="alert alert-danger">
-        Sorry! Volunteer registration is closed. Perhaps next year?
-    </div>
+  <div class="alert alert-danger">
+      Sorry! Volunteer registration is closed. Perhaps next year?
+  </div>
 
-    {{#if admin}}
-        {{> forms/volunteer volunteer=account.Volunteer admin=admin flags=flags}}
-    {{/if}}
+  {{#if admin}}
+      {{> forms/volunteer volunteer=account.Volunteer admin=admin flags=flags}}
+  {{/if}}
 {{else}}
-    {{!-- Creates a new volunteer. --}}
-    {{> forms/volunteer volunteer=account.Volunteer admin=admin schedule=schedule flags=flags}}
+  {{!-- Creates a new volunteer. --}}
+  {{> forms/volunteer volunteer=account.Volunteer admin=admin schedule=schedule flags=flags}}
 {{/if}}

@@ -1,75 +1,75 @@
 {{#if admin}}
-    <div class="row">
-        <div class="alert alert-info text-center">You are currently <strong>{{account.email}}</strong>, affiliation <strong>{{account.affiliation}}</strong>.</div>
-    </div>
+  <div class="row">
+    <div class="alert alert-info text-center">You are currently <strong>{{account.email}}</strong>, affiliation <strong>{{account.affiliation}}</strong>.</div>
+  </div>
 {{/if}}
 
 <div class="text-center">
-    <h1>Account Management</h1>
+  <h1>Account Management</h1>
 </div>
 <div class="container">
-    <div class="row">
-        <div id="group" class="col-md-3 col-sm-6 col-xs-12 text-center">
-            {{img "img-rounded img-fill" "acc-group"}}
-            {{#if account.Group}}
-                <a class="btn btn-block btn-primary" href="/account/group">Manage your Group</a>
-            {{else if admin}}
-                <a class="btn btn-block btn-default" href="/account/group">(Admin) Add Group</a>
-            {{else unless flags.groupRegistration}}
-                <a class="btn btn-block btn-default" disabled>Applications closed.</a>
-            {{else}}
-                <a class="btn btn-block btn-default" href="/account/group">Declare your Group</a>
-            {{/if}}
-            <p>As a group, register your youth (and young at heart) for the main events and their choice of curated workshops.</p>
-            <p><strong>Deadline:</strong> {{date @config.dates.start}}</p>
-        </div>
-        <div id="facilitate" class="col-md-3 col-sm-6 col-xs-12 text-center">
-            {{img "img-rounded img-fill" "acc-facilitate"}}
-            {{#if account.Workshops}}
-                <a class="btn btn-block btn-primary" href="/account/workshops">Modify Facilitation Application</a>
-            {{else if admin}}
-                <a class="btn btn-block btn-default" href="/account/workshops">(Admin) Facilitate</a>
-            {{else unless flags.facilitatorRegistration}}
-                <a class="btn btn-block btn-default" disabled>Applications closed.</a>
-            {{else}}
-                <a class="btn btn-block btn-default" href="/account/workshops">Apply to Facilitate</a>
-            {{/if}}
-            <p>As a facilitator, you'll hold the floor in one of our many rooms and have your opportunity to inspire and uplift our youth.</p>
-            <p><strong>Deadline:</strong> {{date @config.deadlines.facilitator}}</p>
-        </div>
-        <div id="exhibit" class="col-md-3 col-sm-6 col-xs-12 text-center">
-            {{img "img-rounded img-fill" "acc-exhibit"}}
-            {{#if account.Exhibitor}}
-                <a class="btn btn-block btn-primary" href="/account/exhibitor">Modify Exhibitor Application</a>
-            {{else if admin}}
-                <a class="btn btn-block btn-default" href="/account/exhibitor">(Admin) Exhibit</a>
-            {{else unless flags.exhibitorRegistration}}
-                <a class="btn btn-block btn-default" disabled>Applications closed.</a>
-            {{else}}
-                <a class="btn btn-block btn-default" href="/account/exhibitor">Apply to Exhibit</a>
-            {{/if}}
-            <p>As an exhibitor, you'll have space in our Career & Education Fair and meet hundreds of interested delegates.</p>
-            <p><strong>Deadline:</strong> {{date @config.deadlines.exhibitor}}</p>
-        </div>
-        <div id="volunteer" class="col-md-3 col-sm-6 col-xs-12 text-center">
-            {{img "img-rounded img-fill" "acc-volunteer"}}
-            {{#if account.Volunteer}}
-                <a class="btn btn-block btn-primary" href="/account/volunteer">Modify Volunteer Application</a>
-            {{else if admin}}
-                <a class="btn btn-block btn-default" href="/account/volunteer">(Admin) Add Volunteer</a>
-            {{else unless flags.volunteerRegistration}}
-                <a class="btn btn-block btn-default" disabled>Applications closed.</a>
-            {{else}}
-                <a class="btn btn-block btn-default" href="/account/volunteer">Apply to Volunteer</a>
-            {{/if}}
-            <p>As a volunteer, you'll be <strong>our hero</strong> and be a key part of the event in every way!</p>
-            <p><strong>Deadline:</strong> {{date @config.deadlines.volunteer}}</p>
-        </div>
+  <div class="row">
+    <div id="group" class="col-md-3 col-sm-6 col-xs-12 text-center">
+      <img class="img-rounded img-fill" src="/images/acc-group.jpg">
+      {{#if account.Group}}
+        <a class="btn btn-block btn-primary" href="/account/group">Manage your Group</a>
+      {{else if admin}}
+        <a class="btn btn-block btn-default" href="/account/group">(Admin) Add Group</a>
+      {{else unless flags.groupRegistration}}
+        <a class="btn btn-block btn-default" disabled>Applications closed.</a>
+      {{else}}
+        <a class="btn btn-block btn-default" href="/account/group">Declare your Group</a>
+      {{/if}}
+      <p>As a group, register your youth (and young at heart) for the main events and their choice of curated workshops.</p>
+      <p><strong>Deadline:</strong> {{date @config.dates.start}}</p>
     </div>
-    <div class="row text-center">
-        <div class="btn-group btn-block">
-            <a href="/account/details" class="btn btn-primary" style="width: 50%">Modify Account Details</a>
-            <a href="/account/payments" class="btn btn-success" style="width: 50%">Pay Fees</a>
-        </div>
+    <div id="facilitate" class="col-md-3 col-sm-6 col-xs-12 text-center">
+      <img class="img-rounded img-fill" src="/images/acc-facilitate.jpg">
+      {{#if account.Workshops}}
+        <a class="btn btn-block btn-primary" href="/account/workshops">Modify Facilitation Application</a>
+      {{else if admin}}
+        <a class="btn btn-block btn-default" href="/account/workshops">(Admin) Facilitate</a>
+      {{else unless flags.facilitatorRegistration}}
+        <a class="btn btn-block btn-default" disabled>Applications closed.</a>
+      {{else}}
+        <a class="btn btn-block btn-default" href="/account/workshops">Apply to Facilitate</a>
+      {{/if}}
+      <p>As a facilitator, you'll hold the floor in one of our many rooms and have your opportunity to inspire and uplift our youth.</p>
+      <p><strong>Deadline:</strong> {{date @config.deadlines.facilitator}}</p>
     </div>
+    <div id="exhibit" class="col-md-3 col-sm-6 col-xs-12 text-center">
+      <img class="img-rounded img-fill" src="/images/acc-exhibit.jpg">
+      {{#if account.Exhibitor}}
+        <a class="btn btn-block btn-primary" href="/account/exhibitor">Modify Exhibitor Application</a>
+      {{else if admin}}
+        <a class="btn btn-block btn-default" href="/account/exhibitor">(Admin) Exhibit</a>
+      {{else unless flags.exhibitorRegistration}}
+        <a class="btn btn-block btn-default" disabled>Applications closed.</a>
+      {{else}}
+        <a class="btn btn-block btn-default" href="/account/exhibitor">Apply to Exhibit</a>
+      {{/if}}
+      <p>As an exhibitor, you'll have space in our Career & Education Fair and meet hundreds of interested delegates.</p>
+      <p><strong>Deadline:</strong> {{date @config.deadlines.exhibitor}}</p>
+    </div>
+    <div id="volunteer" class="col-md-3 col-sm-6 col-xs-12 text-center">
+      <img class="img-rounded img-fill" src="/images/acc-volunteer.jpg">
+      {{#if account.Volunteer}}
+        <a class="btn btn-block btn-primary" href="/account/volunteer">Modify Volunteer Application</a>
+      {{else if admin}}
+        <a class="btn btn-block btn-default" href="/account/volunteer">(Admin) Add Volunteer</a>
+      {{else unless flags.volunteerRegistration}}
+        <a class="btn btn-block btn-default" disabled>Applications closed.</a>
+      {{else}}
+        <a class="btn btn-block btn-default" href="/account/volunteer">Apply to Volunteer</a>
+      {{/if}}
+      <p>As a volunteer, you'll be <strong>our hero</strong> and be a key part of the event in every way!</p>
+      <p><strong>Deadline:</strong> {{date @config.deadlines.volunteer}}</p>
+    </div>
+  </div>
+  <div class="row text-center">
+    <div class="btn-group btn-block">
+      <a href="/account/details" class="btn btn-primary" style="width: 50%">Modify Account Details</a>
+      <a href="/account/payments" class="btn btn-success" style="width: 50%">Pay Fees</a>
+    </div>
+  </div>
 </div>

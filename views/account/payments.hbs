@@ -1,110 +1,110 @@
 <div class="row">
-    <div class="well">
-        <strong>Balance:</strong> ${{this.balance}}
-    </div>
+  <div class="well">
+    <strong>Balance:</strong> ${{this.balance}}
+  </div>
 
-    <h3>Current Costs</h3>
-    <p>
-        As a reminder, for every 5 tickets a 6th ticket is free of charge for members. Payment is due <strong>February 29, 2016</strong>.
-    </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Amount</th>
-                <th>Reason</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each breakdown}}
-                <tr>
-                    <td>${{cost}}</td>
-                    <td>Member ({{ticketType}}) cost for {{type}} <strong>{{name}}</strong>.</td>
-                </tr>
-            {{/each}}
-            {{#with account.Exhibitor}}
-                <tr>
-                    <td>${{cost}}</td>
-                    <td>Exhibitor table cost.</td>
-                </tr>
-            {{/with}}
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan=2>Total: <strong>${{cost}}</strong></td>
-            </tr>
+  <h3>Current Costs</h3>
+  <p>
+    As a reminder, for every 5 tickets a 6th ticket is free of charge for members. Payment is due <strong>February 29, 2016</strong>.
+  </p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Amount</th>
+        <th>Reason</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each breakdown}}
+        <tr>
+          <td>${{cost}}</td>
+          <td>Member ({{ticketType}}) cost for {{type}} <strong>{{name}}</strong>.</td>
+        </tr>
+      {{/each}}
+      {{#with account.Exhibitor}}
+        <tr>
+          <td>${{cost}}</td>
+          <td>Exhibitor table cost.</td>
+        </tr>
+      {{/with}}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan=2>Total: <strong>${{cost}}</strong></td>
+      </tr>
     </table>
 
     <h3>Logged Payments</h3>
     <table class="table">
-        <thead>
-            <tr>
-                <th>Amount</th>
-                <th>Date</th>
-                <th>Number</th>
-                <th>Type</th>
-                <th>Description</th>
-                {{#if admin}}
-                    <th>Del</th>
-                {{/if}}
-            </tr>
-        </thead>
-        <tbody>
-            {{#each account.Payments}}
-                <tr>
-                    <td>${{amount}}</td>
-                    <td>{{date this.date}}</td>
-                    <td>{{number}}</td>
-                    <td>{{type}}</td>
-                    <td>{{description}}</td>
-                    {{#if ../admin}}
-                        <td>
-                            <a href="/api/payment/delete/{{id}}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')">
-                                <i class="fa fa-fw fa-trash"></i>
-                                Delete
-                            </a>
-                        </td>
-                    {{/if}}
-                </tr>
-            {{else}}
-                <tr>
-                    <td colspan=5>No payments yet!</td>
-                </tr>
-            {{/each}}
-        </tbody>
-        <tfoot>
-            <td colspan=2>Total: <strong>${{paid}}</strong></td>
-        </tfoot>
+      <thead>
+        <tr>
+          <th>Amount</th>
+          <th>Date</th>
+          <th>Number</th>
+          <th>Type</th>
+          <th>Description</th>
+          {{#if admin}}
+            <th>Del</th>
+          {{/if}}
+        </tr>
+      </thead>
+      <tbody>
+        {{#each account.Payments}}
+          <tr>
+            <td>${{amount}}</td>
+            <td>{{date this.date}}</td>
+            <td>{{number}}</td>
+            <td>{{type}}</td>
+            <td>{{description}}</td>
+            {{#if ../admin}}
+              <td>
+                <a href="/api/payment/delete/{{id}}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')">
+                  <i class="fa fa-fw fa-trash"></i>
+                  Delete
+                </a>
+              </td>
+            {{/if}}
+          </tr>
+        {{else}}
+          <tr>
+            <td colspan=5>No payments yet!</td>
+          </tr>
+        {{/each}}
+      </tbody>
+      <tfoot>
+        <td colspan=2>Total: <strong>${{paid}}</strong></td>
+      </tfoot>
     </table>
-</div>
+  </div>
 
-<div class="row">
+  <div class="row">
     <p>Ready to pay? We offer several payment methods:</p>
     <ul>
-        <li><strong>Preferred: </strong>Cheque or money order payable to <strong>BCAAFC</strong>, 551 Chatham Street, Victoria, BC V8T 1E1</li>
-        <li><strong>Phone:</strong> Call Della Preston at 1-800-990-2432 to make payment by VISA or MasterCard</li>
-        <li><strong>PayPal:</strong> Please use the button below and allow for a few days for us to process the payment.
+      <li><strong>Preferred: </strong>Cheque or money order payable to <strong>BCAAFC</strong>, 551 Chatham Street, Victoria, BC V8T 1E1</li>
+      <li><strong>Phone:</strong> Call Della Preston at 1-800-990-2432 to make payment by VISA or MasterCard</li>
+      <li><strong>PayPal:</strong> Please use the button below and allow for a few days for us to process the payment.
         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-            <input type="hidden" name="cmd" value="_xclick">
-            <input type="hidden" name="business" value="accounting@bcaafc.com">
-            <input type="hidden" name="currency_code" value="CAD">
-            <input type="hidden" name="cn" value="You can leave us a note here...">
-            <input type="hidden" name="no_note" value="0">
-            <input type="hidden" name="custom" value="Org: {{account.affiliation}} -- Id: {{account.id}}">
-            <input type="hidden" name="no_shipping" value="1">
-            <input type="hidden" name="return" value="https://gatheringourvoices.bcaafc.com/">
-            <input type="hidden" name="cancel_return" value="https://gatheringourvoices.bcaafc.com/">
-            <input type="hidden" name="item_name" value="Gathering Our Voices 2016 Delegate Payment">
-            <input type="hidden" name="amount" value="{{cost}}">
-            <input type="hidden" name="quantity" value="1">
-            <input type="submit" class="btn btn-success btn-block" value="Pay with Paypal">
+          <input type="hidden" name="cmd" value="_xclick">
+          <input type="hidden" name="business" value="accounting@bcaafc.com">
+          <input type="hidden" name="currency_code" value="CAD">
+          <input type="hidden" name="cn" value="You can leave us a note here...">
+          <input type="hidden" name="no_note" value="0">
+          <input type="hidden" name="custom" value="Org: {{account.affiliation}} -- Id: {{account.id}}">
+          <input type="hidden" name="no_shipping" value="1">
+          <input type="hidden" name="return" value="https://gatheringourvoices.bcaafc.com/">
+          <input type="hidden" name="cancel_return" value="https://gatheringourvoices.bcaafc.com/">
+          <input type="hidden" name="item_name" value="Gathering Our Voices 2016 Delegate Payment">
+          <input type="hidden" name="amount" value="{{cost}}">
+          <input type="hidden" name="quantity" value="1">
+          <input type="submit" class="btn btn-success btn-block" value="Pay with Paypal">
         </form>
-        </li>
+      </li>
     </ul>
     <em>Note payments with Paypal may take a few days to process.</em>
-</div>
+  </div>
 
-{{#if admin}}
-	<hr>
+  {{#if admin}}
+    <hr>
     <h2 class="lead">Admin only zone below!</h2>
     {{> forms/payment payment=null flags=flags}}
-{{/if}}
+  {{/if}}

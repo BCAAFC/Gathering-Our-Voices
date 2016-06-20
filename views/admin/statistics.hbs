@@ -1,196 +1,193 @@
 {{> admin_bar active="statistics"}}
 
 <div class="row">
-    <h1>Account Demographics</h1>
+  <h1>Account Demographics</h1>
 
-    <div id="account-province" class="col-md-12"></div>
-
+  <div id="account-province" class="col-md-12"></div>
 </div>
 
 <div class="row">
-    <h1>Group Demographics</h1>
+  <h1>Group Demographics</h1>
 
-    <div id="group-affiliation" class="col-md-6"></div>
+  <div id="group-affiliation" class="col-md-6"></div>
 
-    <h3>Youth In Care Numbers</h3>
-    <p>Youth In Care: {{stats.group_care.youthInCare}}</p>
-    <p>Youth In Care Support: {{stats.group_care.youthInCareSupport}}</p>
+  <h3>Youth In Care Numbers</h3>
+  <p>Youth In Care: {{stats.group_care.youthInCare}}</p>
+  <p>Youth In Care Support: {{stats.group_care.youthInCareSupport}}</p>
 
-    <div id="group-size" class="col-md-12"></div>
-
-
+  <div id="group-size" class="col-md-12"></div>
 </div>
 
 <div class="row">
-    <h1>Member Demographics</h1>
+  <h1>Member Demographics</h1>
 
-    <div id="member-type" class="col-md-6"></div>
+  <div id="member-type" class="col-md-6"></div>
 
-    <div id="member-background" class="col-md-6"></div>
+  <div id="member-background" class="col-md-6"></div>
 
-    <div id="member-gender" class="col-md-6"></div>
+  <div id="member-gender" class="col-md-6"></div>
 
-    <div id="member-age" class="col-md-6"></div>
+  <div id="member-age" class="col-md-6"></div>
 
-    <div id="member-timeline" class="col-md-12"></div>
+  <div id="member-timeline" class="col-md-12"></div>
 </div>
 
 <div class="row">
-    <h1>Financial Demographics</h1>
+  <h1>Financial Demographics</h1>
 
-    <div id="waived-fees" class="col-md-6">
-        Waived Fees: ${{stats.waived_fees.total}}
-    </div>
+  <div id="waived-fees" class="col-md-6">
+    Waived Fees: ${{stats.waived_fees.total}}
+  </div>
 </div>
 
 
 <script>
-    // Simple utility function.
-    function range(a,b,c,d){d=[];c=b-a+1;while(c--){d[c]=b--}return d}
+// Simple utility function.
+function range(a,b,c,d){d=[];c=b-a+1;while(c--){d[c]=b--}return d}
 
-    $(function () {
-        var account_province = {{{JSON stats.account_province 0}}};
-        $('#account-province').highcharts({
-            chart: {
-                type: 'pie'
-            },
-            title: {
-                text: 'Province of Origin'
-            },
-            series: [{
-                name: "Affiliation",
-                data: account_province,
-            }]
-        });
+$(function () {
+  var account_province = {{{JSON stats.account_province 0}}};
+  $('#account-province').highcharts({
+    chart: {
+      type: 'pie'
+    },
+    title: {
+      text: 'Province of Origin'
+    },
+    series: [{
+      name: "Affiliation",
+      data: account_province,
+    }]
+  });
 
-        var group_type = {{{JSON stats.group_type 0}}};
-        $('#group-affiliation').highcharts({
-            chart: {
-                type: 'pie'
-            },
-            title: {
-                text: 'Affiliation Type'
-            },
-            series: [{
-                data: group_type
-            }],
-        });
+  var group_type = {{{JSON stats.group_type 0}}};
+  $('#group-affiliation').highcharts({
+    chart: {
+      type: 'pie'
+    },
+    title: {
+      text: 'Affiliation Type'
+    },
+    series: [{
+      data: group_type
+    }],
+  });
 
-        var group_size = {{{JSON stats.group_size 0}}};
-        var group_size_categories = range(0, group_size.length);
-        $('#group-size').highcharts({
-            chart: {
-                type: 'column'
-            },
-            title: {
-                text: 'Group Size'
-            },
-            plotOptions: {
-                columns: {
-                    groupPadding: 0,
-                    pointPadding: 0,
-                    borderWidth: 0,
-                },
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: "Occurences",
-                },
-            },
-            xAxis: {
-                categories: group_size_categories,
-            },
-            series: [{
-                data: group_size
-            }],
-        });
+  var group_size = {{{JSON stats.group_size 0}}};
+  var group_size_categories = range(0, group_size.length);
+  $('#group-size').highcharts({
+    chart: {
+      type: 'column'
+    },
+    title: {
+      text: 'Group Size'
+    },
+    plotOptions: {
+      columns: {
+        groupPadding: 0,
+        pointPadding: 0,
+        borderWidth: 0,
+      },
+    },
+    yAxis: {
+      min: 0,
+      title: {
+        text: "Occurences",
+      },
+    },
+    xAxis: {
+      categories: group_size_categories,
+    },
+    series: [{
+      data: group_size
+    }],
+  });
 
-        var member_type = {{{JSON stats.member_type 0}}};
-        $('#member-type').highcharts({
-            chart: {
-                type: 'pie'
-            },
-            title: {
-                text: 'Member Types'
-            },
-            series: [{
-                name: "Types",
-                data: member_type,
-            }]
-        });
+  var member_type = {{{JSON stats.member_type 0}}};
+  $('#member-type').highcharts({
+    chart: {
+      type: 'pie'
+    },
+    title: {
+      text: 'Member Types'
+    },
+    series: [{
+      name: "Types",
+      data: member_type,
+    }]
+  });
 
-        var member_background = {{{JSON stats.member_background 0}}};
-        $('#member-background').highcharts({
-            chart: {
-                type: 'pie'
-            },
-            title: {
-                text: 'Ancestral Background',
-            },
-            subtitle: {
-                text: "This is an optional field.",
-            },
-            series: [{
-                name: "Background",
-                data: member_background,
-            }]
-        });
+  var member_background = {{{JSON stats.member_background 0}}};
+  $('#member-background').highcharts({
+    chart: {
+      type: 'pie'
+    },
+    title: {
+      text: 'Ancestral Background',
+    },
+    subtitle: {
+      text: "This is an optional field.",
+    },
+    series: [{
+      name: "Background",
+      data: member_background,
+    }]
+  });
 
-        var member_gender = {{{JSON stats.member_gender 0}}};
-        $('#member-gender').highcharts({
-            chart: {
-                type: 'pie'
-            },
-            title: {
-                text: 'Gender',
-            },
-            series: [{
-                name: "Gender",
-                data: member_gender,
-            }]
-        });
+  var member_gender = {{{JSON stats.member_gender 0}}};
+  $('#member-gender').highcharts({
+    chart: {
+      type: 'pie'
+    },
+    title: {
+      text: 'Gender',
+    },
+    series: [{
+      name: "Gender",
+      data: member_gender,
+    }]
+  });
 
-        var member_age = {{{JSON stats.member_age 0}}};
-        $('#member-age').highcharts({
-            chart: {
-                type: 'pie'
-            },
-            title: {
-                text: 'Age',
-            },
-            series: [{
-                name: "Age",
-                data: member_age,
-            }]
-        });
+  var member_age = {{{JSON stats.member_age 0}}};
+  $('#member-age').highcharts({
+    chart: {
+      type: 'pie'
+    },
+    title: {
+      text: 'Age',
+    },
+    series: [{
+      name: "Age",
+      data: member_age,
+    }]
+  });
 
-        var member_timeline = {{{JSON stats.member_timeline 0}}};
-        $('#member-timeline').highcharts({
-            chart: {
-                zoomType: 'x'
-            },
-            title: {
-                text: 'Members over time',
-            },
-            yAxis: {
-                title: {
-                    text: 'Members',
-                },
-            },
-            xAxis: {
-                type: 'datetime',
-            },
-            legend: {
-                enabled: false,
-            },
-            series: [{
-                name: "Members",
-                type: "area",
-                data: member_timeline,
-            }]
-        });
+  var member_timeline = {{{JSON stats.member_timeline 0}}};
+  $('#member-timeline').highcharts({
+    chart: {
+      zoomType: 'x'
+    },
+    title: {
+      text: 'Members over time',
+    },
+    yAxis: {
+      title: {
+        text: 'Members',
+      },
+    },
+    xAxis: {
+      type: 'datetime',
+    },
+    legend: {
+      enabled: false,
+    },
+    series: [{
+      name: "Members",
+      type: "area",
+      data: member_timeline,
+    }]
+  });
 
-    });
+});
 
 </script>

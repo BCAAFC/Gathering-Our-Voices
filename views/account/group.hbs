@@ -1,102 +1,102 @@
 {{#if account.Group}}
-    <h3>Manage Group Members</h3>
+  <h3>Manage Group Members</h3>
 
-    {{#if notEnoughChaperones}}
-        <div class="alert alert-warning">
-            Your group is unbalanced! For every 5 "Youth" (14-17yrs) in your
-            group you must have at least one "Chaperone" or "Young Chaperone."
-        </div>
-    {{/if}}
-
-    {{#if flags.memberRegistration}}
-        <a href="/account/group/member/" class="btn btn-success btn btn-block">
-            <i class="fa fa-fw fa-plus"></i>
-            Add Member
-        </a>
-    {{else}}
-        {{#if admin}}
-            <div class="alert alert-danger">
-                Unfortunately member registration is closed. Perhaps next year?
-            </div>
-            <a href="/account/group/member/" class="btn btn-success btn btn-block">
-                <i class="fa fa-fw fa-plus"></i>
-                Add Member
-            </a>
-        {{else}}
-            <div class="alert alert-danger">
-                Unfortunately member registration is closed. Perhaps next year?
-            </div>
-        {{/if}}
-    {{/if}}
-
-    <table class="table">
-        <thead>
-            <tr>
-              <th>Complete</th>
-              <th>Name</th>
-              <th>Type</th>
-              <th># of Workshops</th>
-              <th>Cost</th>
-              <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each account.Group.Members}}
-                <tr class="{{#if this.complete}}success{{else}}warning{{/if}}">
-                    {{#if this.complete}}
-                        <td><span class="label label-success"><i class="fa fa-fw fa-check"></i></span></td>
-                    {{else}}
-                        <td><span class="label label-warning"><i class="fa fa-fw fa-times"></i></span></td>
-                    {{/if}}
-                    <td>{{this.name}}</td>
-                    <td>{{this.type}}</td>
-                    <td>{{this.Sessions.length}}</td>
-                    <td>${{this.cost}}</td>
-                    <td>
-                        <div class="btn-group">
-                            <a href="/account/group/member/{{this.id}}" class="btn btn-xs btn-default"><i class="fa fa-fw fa-edit"></i>Edit & Workshops</a>
-                            {{#if ../admin}}
-                                <a href="/api/member/delete/{{this.id}}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-fw fa-trash"></i>Delete</a>
-                            {{else if ../flags.memberRegistration}}
-                                <a href="/api/member/delete/{{this.id}}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-fw fa-trash"></i>Delete</a>
-                            {{else}}
-                                <div class="btn btn-xs btn-danger disabled" data-toggle="tooltip" data-placement="top" title="We've disabled this to prevent accidental deletions. Please call us at 1 800 990-2432 if you're sure."><i class="fa fa-fw fa-trash"></i>Delete</a>
-                                <script>
-                                $(function () {
-                                    $('[data-toggle="tooltip"]').tooltip();
-                                });
-                                </script>
-                            {{/if}}
-                        </div>
-                     </td>
-                </tr>
-            {{/each}}
-        </tbody>
-        <tfoot>
-            <tr>
-                <td>
-                  <strong>Youths:</strong> {{{count set=account.Group.Members field="type" value="Youth"}}}
-                </td>
-                <td>
-                  <strong>Young Adults:</strong> {{{count set=account.Group.Members field="type" value="Young Adult"}}}
-                </td>
-                <td colspan=2>
-                  <strong>Young Chaperones:</strong> {{{count set=account.Group.Members field="type" value="Young Chaperone"}}}
-                </td>
-                <td>
-                  <strong>Chaperones:</strong> {{{count set=account.Group.Members field="type" value="Chaperone"}}}
-                </td>
-            </tr>
-        </tfoot>
-    </table>
-    <div class="well">
-      {{#markdown}}
-        * When all delegate information is added you can register in workshops (available early February).
-        * Review the [FAQ](/faq)’s if you have any questions!
-        * Connect with the registration coordinator for receipt and confirmation of full registration.
-      {{/markdown}}
+  {{#if notEnoughChaperones}}
+    <div class="alert alert-warning">
+      Your group is unbalanced! For every 5 "Youth" (14-17yrs) in your
+      group you must have at least one "Chaperone" or "Young Chaperone."
     </div>
-    {{> forms/group group=account.Group flags=flags}}
+  {{/if}}
+
+  {{#if flags.memberRegistration}}
+    <a href="/account/group/member/" class="btn btn-success btn btn-block">
+      <i class="fa fa-fw fa-plus"></i>
+      Add Member
+    </a>
+  {{else}}
+    {{#if admin}}
+      <div class="alert alert-danger">
+        Unfortunately member registration is closed. Perhaps next year?
+      </div>
+      <a href="/account/group/member/" class="btn btn-success btn btn-block">
+        <i class="fa fa-fw fa-plus"></i>
+        Add Member
+      </a>
+    {{else}}
+      <div class="alert alert-danger">
+        Unfortunately member registration is closed. Perhaps next year?
+      </div>
+    {{/if}}
+  {{/if}}
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Complete</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th># of Workshops</th>
+        <th>Cost</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each account.Group.Members}}
+        <tr class="{{#if this.complete}}success{{else}}warning{{/if}}">
+          {{#if this.complete}}
+            <td><span class="label label-success"><i class="fa fa-fw fa-check"></i></span></td>
+          {{else}}
+            <td><span class="label label-warning"><i class="fa fa-fw fa-times"></i></span></td>
+          {{/if}}
+          <td>{{this.name}}</td>
+          <td>{{this.type}}</td>
+          <td>{{this.Sessions.length}}</td>
+          <td>${{this.cost}}</td>
+          <td>
+            <div class="btn-group">
+              <a href="/account/group/member/{{this.id}}" class="btn btn-xs btn-default"><i class="fa fa-fw fa-edit"></i>Edit & Workshops</a>
+              {{#if ../admin}}
+              <a href="/api/member/delete/{{this.id}}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-fw fa-trash"></i>Delete</a>
+              {{else if ../flags.memberRegistration}}
+              <a href="/api/member/delete/{{this.id}}" class="btn btn-xs btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-fw fa-trash"></i>Delete</a>
+              {{else}}
+              <div class="btn btn-xs btn-danger disabled" data-toggle="tooltip" data-placement="top" title="We've disabled this to prevent accidental deletions. Please call us at 1 800 990-2432 if you're sure."><i class="fa fa-fw fa-trash"></i>Delete</a>
+                <script>
+                $(function () {
+                  $('[data-toggle="tooltip"]').tooltip();
+                });
+                </script>
+                {{/if}}
+              </div>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>
+          <strong>Youths:</strong> {{{count set=account.Group.Members field="type" value="Youth"}}}
+        </td>
+        <td>
+          <strong>Young Adults:</strong> {{{count set=account.Group.Members field="type" value="Young Adult"}}}
+        </td>
+        <td colspan=2>
+          <strong>Young Chaperones:</strong> {{{count set=account.Group.Members field="type" value="Young Chaperone"}}}
+        </td>
+        <td>
+          <strong>Chaperones:</strong> {{{count set=account.Group.Members field="type" value="Chaperone"}}}
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+  <div class="well">
+    {{#markdown}}
+    * When all delegate information is added you can register in workshops (available early February).
+    * Review the [FAQ](/faq)’s if you have any questions!
+    * Connect with the registration coordinator for receipt and confirmation of full registration.
+    {{/markdown}}
+  </div>
+  {{> forms/group group=account.Group flags=flags}}
 {{else}}
-    {{> forms/group group=account.Group flags=flags}}
+  {{> forms/group group=account.Group flags=flags}}
 {{/if}}

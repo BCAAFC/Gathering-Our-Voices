@@ -1,36 +1,33 @@
 {{#each workshops}}
-
-    <div class="workshop row">
-        <div class="col-sm-12">
-            <h3>{{title}}</h3>
-            <p>Hosted By: <strong>{{facilitators}}</strong></p>
-            <p>Affiliation: <strong>{{Account.affiliation}}</strong></p>
-        </div>
-
-        <div class="col-sm-12 description">
-            <h4>Summary</h4>
-            <p>{{{summary}}}</p>
-        </div>
-
-        <div class="sessions col-sm-12">
-            <h4>Sessions</h4>
-            {{#each Sessions}}
-                <div class="col-sm-3">
-                    <strong>Start:</strong> {{datetime start}}
-                    <br>
-                    <strong>End:</strong> {{time end}}
-                    <br>
-                    <strong>Room:</strong> {{room}}
-                    <br>
-                    <strong>Venue:</strong> {{venue}}
-                    <br>
-                    <strong>Capacity:</strong> {{capacity}}
-                    <hr>
-                </div>
-            {{/each}}
-        </div>
+  <div class="workshop row">
+    <div class="col-sm-12">
+      <h3>{{title}}</h3>
+      <p>Hosted By: <strong>{{facilitators}}</strong></p>
+      <p>Affiliation: <strong>{{Account.affiliation}}</strong></p>
     </div>
 
-    <hr>
+    <div class="col-sm-12 description">
+      <h4>Summary</h4>
+      <p>{{{summary}}}</p>
+    </div>
 
+    <div class="sessions col-sm-12">
+      <h4>Sessions</h4>
+      {{#each Sessions}}
+        <div class="col-sm-3">
+          <strong>Start:</strong> {{datetime start}}
+          <br>
+          <strong>End:</strong> {{time end}}
+          <br>
+          <strong>Room:</strong> {{room}}
+          <br>
+          <strong>Venue:</strong> {{venue}}
+          <br>
+          <strong>Capacity:</strong> {{capacity}}
+          <hr>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+  <hr>
 {{/each}}
