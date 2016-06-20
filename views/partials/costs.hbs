@@ -1,24 +1,27 @@
 <div class="well">
-    <h3>Costs & Balance</h3>
-    <table class="table table-condensed table-hover">
-        <thead>
-            <tr><th>Description</th><th>Cost</th></tr>
-        </thead>
-        <tbody>
-            {{#if Group}}
-                {{#each Group.Members}}
-                    <tr><td>Member fee (ID {{id}}): {{name}}</td><td>${{cost}}</td></tr>
-                {{/each}}
-            {{/if}}
-            {{#if Exhibitor}}
-                <tr><td>Exhibitor fee (ID {{id}})</td><td>${{Exhibitor.cost}}</td></tr>
-            {{/if}}
-            {{#each Payments}}
-                <tr><td>{{description}}</td><td>$-{{amount}}</td></tr>
-            {{/each}}
-        </tbody>
-        <tfoot>
-            <tr><td></td><td><strong>${{{balance this}}}</strong></td></tr>
-        </tfoot>
-    </table>
+  <h3>Costs & Balance</h3>
+  <table class="table table-condensed table-hover">
+    <thead>
+      <tr><th>Description</th><th>Cost</th></tr>
+    </thead>
+    <tbody>
+      {{#if Group}}
+        {{#each Group.Members}}
+          <tr><td>Member fee (ID {{id}}): {{name}}</td><td>${{cost}}</td></tr>
+        {{/each}}
+      {{/if}}
+      {{#if Exhibitor}}
+        <tr><td>Exhibitor fee (ID {{id}})</td><td>${{Exhibitor.cost}}</td></tr>
+      {{/if}}
+      {{#each Payments}}
+        <tr><td>{{description}}</td><td>$-{{amount}}</td></tr>
+      {{/each}}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td></td>
+        <td><strong>${{{balance this}}}</strong></td>
+      </tr>
+    </tfoot>
+  </table>
 </div>

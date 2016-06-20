@@ -1,142 +1,142 @@
 <div id="options"></div>
 <table id="account_table" class="table table-hover"></table>
 <script>
-    $(function () {
-        var columns = {{{JSON columns 0}}};
-        columns.unshift({
-            "orderable":      false,
-            "data":           null,
-            "defaultContent": ''
-        });
-        var table = $("#account_table").dataTable({
-            stateSave: true,
-            stateDuration: 60*60*24*5, // 5 days.
-            scrollX: true,
-            // Datas
-            data: {{{JSON data 0}}},
-            columns: columns,
-            columnDefs: [
-                {
-                    targets: 0, // Account ID --> Manage
-                    render: function (data, type, row) {
-                        return "<a href=\"/admin/manage/"+row.id+"/\" class=\"btn btn-xs btn-info\"><i class=\"fa fa-user\"></i></a>";
-                    },
-                },
-                {
-                    targets: [ -1, ], // Volunteers
-                    render: function (data, type, row) {
-                        if (data) {
-                            return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/volunteer\">" + row.Volunteer.id + "</a>";
-                        } else {
-                            return "<a class=\"btn btn-xs btn-default\" disabled>N/A</a>";
-                        }
-                    },
-                },
-                {
-                    targets: [ -2, ], // Workshop
-                    render: function (data, type, row) {
-                        if (row.Workshops.length > 0) {
-                            return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/workshops/\">Yes</a>";
-                        } else {
-                            return "<a class=\"btn btn-xs btn-default\" disabled>N/A</a>";
-                        }
-                    },
-                },
-                {
-                    targets: [ -3, ], // Exhibitor
-                    render: function (data, type, row) {
-                        if (data) {
-                            return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/exhibitor\">" + row.Exhibitor.id + "</a>";
-                        } else {
-                            return "<a class=\"btn btn-xs btn-default\" disabled>N/A</a>";
-                        }
-                    },
-                },
-                {
-                    targets: [ -4, ], // Group
-                    render: function (data, type, row) {
-                        if (data) {
-                            return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/group\">" + row.Group.id + "</a>";
-                        } else {
-                            return "<a class=\"btn btn-xs btn-default\" disabled>N/A</a>";
-                        }
-                    },
-                },
-                {
-                    targets: [ -6, -7 ], // Created and Updated at
-                    render: function (data, type, row) {
-                        return new Date(data).toLocaleString();
-                    },
-                },
-                {
-                    targets: [-8], // Misc
-                    render: function (data, type, row) {
-                        if (data && Object.keys(data).length > 0) {
-                            return "<i class=\"btn btn-xs btn-info fa fa-plus\"></i>";
-                        } else {
-                            return "<i class=\"btn btn-xs btn-default fa fa-plus\"></i>";
-                        }
-                    }
-                },
-                {
-                    targets: [-9], // Notes
-                    render: function (data, type, row) {
-                        if (data) {
-                            return "<i class=\"btn btn-xs btn-info fa fa-plus\"></i>";
-                        } else {
-                            return "<i class=\"btn btn-xs btn-default fa fa-plus\"></i>";
-                        }
-                    }
-                },
-            ],
-        });
-        // Visible Toggles
-        var colvis = new $.fn.dataTable.ColVis(table);
-        $("#options").append(colvis.button());
-        // Expandos
-        $("#account_table tbody").on("click", "td.notes", function () {
-            var tr = $(this).closest("tr");
-            var row = table.api().row(tr);
-            if (row.child.isShown()) {
-                // This row is already open - close it
-                $(this).children("i").removeClass("fa-minus");
-                $(this).children("i").addClass("fa-plus");
-                row.child.hide();
-                tr.removeClass("shown");
-            } else {
-                // Open this row
-                $(this).children("i").removeClass("fa-plus");
-                $(this).children("i").addClass("fa-minus");
-                row.child(formatChild(row.data())).show();
-                tr.addClass("shown");
-            }
-        });
-        $("#account_table tbody").on("click", "td.misc", function () {
-            var tr = $(this).closest("tr");
-            var row = table.api().row(tr);
-            if (row.child.isShown()) {
-                // This row is already open - close it
-                $(this).children("i").removeClass("fa-minus");
-                $(this).children("i").addClass("fa-plus");
-                row.child.hide();
-                tr.removeClass("shown");
-            } else {
-                // Open this row
-                $(this).children("i").removeClass("fa-plus");
-                $(this).children("i").addClass("fa-minus");
-                row.child("<pre>"+JSON.stringify(row.data().misc, null, 2)+"</pre>").show();
-                tr.addClass("shown");
-            }
-        });
-    });
-
-    function formatChild(data) {
-        return "" +
-        "<form class=\"form-inline\" action=\"/api/account/"+data.id+"/notes\" method=\"POST\">" +
-        "<input type=\"hidden\" name=\"_method\" value=\"PUT\">" +
-        "<div class=\"form-group\"><textarea name=\"notes\">"+data.notes+"</textarea></div>" +
-        "<div class=\"form-group\"><input class=\"btn btn-primary\" type=\"submit\" value=\"Update\"></div>" +
-        "</form>";
-
+$(function () {
+  var columns = {{{JSON columns 0}}};
+  columns.unshift({
+    "orderable":      false,
+    "data":           null,
+    "defaultContent": ''
+  });
+  var table = $("#account_table").dataTable({
+    stateSave: true,
+    stateDuration: 60*60*24*5, // 5 days.
+    scrollX: true,
+    // Datas
+    data: {{{JSON data 0}}},
+    columns: columns,
+    columnDefs: [
+      {
+        targets: 0, // Account ID --> Manage
+        render: function (data, type, row) {
+          return "<a href=\"/admin/manage/"+row.id+"/\" class=\"btn btn-xs btn-info\"><i class=\"fa fa-user\"></i></a>";
+        },
+      },
+      {
+        targets: [ -1, ], // Volunteers
+        render: function (data, type, row) {
+          if (data) {
+            return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/volunteer\">" + row.Volunteer.id + "</a>";
+          } else {
+            return "<a class=\"btn btn-xs btn-default\" disabled>N/A</a>";
+          }
+        },
+      },
+      {
+        targets: [ -2, ], // Workshop
+        render: function (data, type, row) {
+          if (row.Workshops.length > 0) {
+            return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/workshops/\">Yes</a>";
+          } else {
+            return "<a class=\"btn btn-xs btn-default\" disabled>N/A</a>";
+          }
+        },
+      },
+      {
+        targets: [ -3, ], // Exhibitor
+        render: function (data, type, row) {
+          if (data) {
+            return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/exhibitor\">" + row.Exhibitor.id + "</a>";
+          } else {
+            return "<a class=\"btn btn-xs btn-default\" disabled>N/A</a>";
+          }
+        },
+      },
+      {
+        targets: [ -4, ], // Group
+        render: function (data, type, row) {
+          if (data) {
+            return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.id+"/group\">" + row.Group.id + "</a>";
+          } else {
+            return "<a class=\"btn btn-xs btn-default\" disabled>N/A</a>";
+          }
+        },
+      },
+      {
+        targets: [ -6, -7 ], // Created and Updated at
+        render: function (data, type, row) {
+          return new Date(data).toLocaleString();
+        },
+      },
+      {
+        targets: [-8], // Misc
+        render: function (data, type, row) {
+          if (data && Object.keys(data).length > 0) {
+            return "<i class=\"btn btn-xs btn-info fa fa-plus\"></i>";
+          } else {
+            return "<i class=\"btn btn-xs btn-default fa fa-plus\"></i>";
+          }
+        }
+      },
+      {
+        targets: [-9], // Notes
+        render: function (data, type, row) {
+          if (data) {
+            return "<i class=\"btn btn-xs btn-info fa fa-plus\"></i>";
+          } else {
+            return "<i class=\"btn btn-xs btn-default fa fa-plus\"></i>";
+          }
+        }
+      },
+    ],
+  });
+  // Visible Toggles
+  var colvis = new $.fn.dataTable.ColVis(table);
+  $("#options").append(colvis.button());
+  // Expandos
+  $("#account_table tbody").on("click", "td.notes", function () {
+    var tr = $(this).closest("tr");
+    var row = table.api().row(tr);
+    if (row.child.isShown()) {
+      // This row is already open - close it
+      $(this).children("i").removeClass("fa-minus");
+      $(this).children("i").addClass("fa-plus");
+      row.child.hide();
+      tr.removeClass("shown");
+    } else {
+      // Open this row
+      $(this).children("i").removeClass("fa-plus");
+      $(this).children("i").addClass("fa-minus");
+      row.child(formatChild(row.data())).show();
+      tr.addClass("shown");
     }
+  });
+  $("#account_table tbody").on("click", "td.misc", function () {
+    var tr = $(this).closest("tr");
+    var row = table.api().row(tr);
+    if (row.child.isShown()) {
+      // This row is already open - close it
+      $(this).children("i").removeClass("fa-minus");
+      $(this).children("i").addClass("fa-plus");
+      row.child.hide();
+      tr.removeClass("shown");
+    } else {
+      // Open this row
+      $(this).children("i").removeClass("fa-plus");
+      $(this).children("i").addClass("fa-minus");
+      row.child("<pre>"+JSON.stringify(row.data().misc, null, 2)+"</pre>").show();
+      tr.addClass("shown");
+    }
+  });
+});
+
+function formatChild(data) {
+  return "" +
+  "<form class=\"form-inline\" action=\"/api/account/"+data.id+"/notes\" method=\"POST\">" +
+  "<input type=\"hidden\" name=\"_method\" value=\"PUT\">" +
+  "<div class=\"form-group\"><textarea name=\"notes\">"+data.notes+"</textarea></div>" +
+  "<div class=\"form-group\"><input class=\"btn btn-primary\" type=\"submit\" value=\"Update\"></div>" +
+  "</form>";
+
+}
 </script>

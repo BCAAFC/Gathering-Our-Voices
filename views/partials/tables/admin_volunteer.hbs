@@ -1,296 +1,296 @@
 <div id="options">
-    {{!-- <a id="verified_button" class="btn btn-xs btn-success" data-state="true">
-        <i class="fa fa-check"></i>
-        Verified
-    </a>
-    <a id="approved_button" class="btn btn-xs btn-success" data-state="true">
-        <i class="fa fa-check"></i>
-        Approved
-    </a> --}}
+  {{!-- <a id="verified_button" class="btn btn-xs btn-success" data-state="true">
+  <i class="fa fa-check"></i>
+  Verified
+</a>
+<a id="approved_button" class="btn btn-xs btn-success" data-state="true">
+<i class="fa fa-check"></i>
+Approved
+</a> --}}
 </div>
 <table id="volunteer_table" class="table table-hover"></table>
 <script>
-    $(function () {
-        var columns = {{{JSON columns 0}}},
-            data = {{{JSON data 0}}};
-        var table = $("#volunteer_table").dataTable({
-            stateSave: true,
-            stateDuration: 60*60*24*5, // 5 days.
-            scrollX: true,
-            // Datas
-            data: data,
-            columns: columns,
-            columnDefs: [
-                {
-                    targets: 0,
-                    render: function (data, type, row) {
-                        return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.AccountId+"/volunteer\">"+row.AccountId+"<i class=\"fa fa-fw fa-user\"></i></a>";
-                    },
-                },
-                {
-                    targets: [ -1, ], // Delete
-                    render: function (data, type, row) {
-                        return "<a href='/api/volunteer/delete/" + row.id + "' class='btn btn-xs btn-danger' onclick='return confirm(\"Are you sure?\")'><i class='fa fa-fw fa-trash'></i></a>";
-                    }
-                },
-                {
-                    targets: -2,
-                    render: function (data, type, row) {
-                        return "<a class=\"btn btn-primary\" href=\"/admin/manage/"+row.AccountId+"\">"+data+"</a>";
-                    },
-                },
-                {
-                    targets: [ -3, -4 ], // Created and Updated at
-                    render: function (data, type, row) {
-                        return new Date(data).toLocaleString();
-                    },
-                },
-                {
-                    targets: -5, // Tags
-                    render: function (data, type, row) {
-                        return "<input class=\"tags\" data-id=\""+row.id+"\" data-role=\"tagsinput\" value=\""+data+"\">";
-                    },
-                },
-                {
-                    targets: 3, // Applied
-                    render: function (data, type, row) {
-                        if (data === true) {
-                            return "<a class=\"applied btn btn-xs btn-success\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-check\"></i></a>";
-                        } else {
-                            return "<a class=\"applied btn btn-xs btn-danger\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-times\"></i></a>";
-                        }
-                    }
-                },
-                {
-                    targets: 4, // Approved
-                    render: function (data, type, row) {
-                        if (data === true) {
-                            return "<a class=\"approval btn btn-xs btn-success\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-check\"></i></a>";
-                        } else {
-                            return "<a class=\"approval btn btn-xs btn-danger\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-times\"></i></a>";
-                        }
-                    }
-                },
-                {
-                    targets: 5, // FollowUp
-                    render: function (data, type, row) {
-                        if (data === true) {
-                            return "<a class=\"followUp btn btn-xs btn-success\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-check\"></i></a>";
-                        } else {
-                            return "<a class=\"followUp btn btn-xs btn-danger\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-times\"></i></a>";
-                        }
-                    }
-                },
-                {
-                    targets: 6, // Schedule
-                    render: function (data, type, row) {
-                        if (data) {
-                            return data.map(function (v) {
-                                var result = "<span style='white-space: nowrap;'>"
-                                result += v.day.slice(0, 3);
-                                result += "<span class='btn-group'>";
-                                result += ['morning', 'afternoon', 'evening'].map(function (time) {
-                                    if (v[time].available && v[time].scheduled) {
-                                        return "<span class='btn btn-xs btn-success'>" + time[0].toUpperCase() + "</span>";
-                                    } else if (v[time].available) {
-                                        return "<span class='btn btn-xs btn-warning'>" + time[0].toUpperCase() + "</span>";
-                                    } else {
-                                        return "<span class='btn btn-xs btn-default'>" + time[0].toUpperCase() + "</span>";
-                                    }
-                                }).join("");
-                                result += "</span>"
-                                return result;
-                            }).join("<br>");
-                        }
-                    }
-                },
-                {
-                    targets: [-6, -7, -8 ], // Notes, Previous Experience, Interests
-                    render: function (data, type, row) {
-                        if (data) {
-                            return "<i class=\"btn btn-xs btn-info fa fa-plus\"></i>";
-                        } else {
-                            return "<i class=\"btn btn-xs btn-default fa fa-plus\"></i>";
-                        }
-                    }
-                },
-            ],
-        });
-        // Visible Toggles
-        var colvis = new $.fn.dataTable.ColVis(table);
-        $("#options").append(colvis.button());
-
-        function drawHook() {
-            // Scan for tagsinputs.
-            var inputs = $("input[data-role=\"tagsinput\"]").tagsinput({
-                maxChars: 80,
-            });
-
-            $("input[data-role=\"tagsinput\"]").off("itemAdded");
-            $("input[data-role=\"tagsinput\"]").on("itemAdded", function (e) {
-                var item = e.item,
-                    id = $(this).data("id"),
-                    self = this;
-                console.log("ADD " + item + " to " + id);
-                $.ajax({
-                    url: "/api/volunteer/"+id+"/tags",
-                    method: "PUT",
-                    data: { add: item, },
-                }).done(function (data) {
-                    return;
-                }).fail(function (data) {
-                    alert(data.responseJSON.error);
-                });
-            });
-
-            $("input[data-role=\"tagsinput\"]").off("itemRemoved");
-            $("input[data-role=\"tagsinput\"]").on("itemRemoved", function (e) {
-                var item = e.item,
-                    id = $(this).data("id"),
-                    self = this;
-                console.log("REMOVE " + item + " from " + id);
-                $.ajax({
-                    url: "/api/volunteer/"+id+"/tags",
-                    method: "DELETE",
-                    data: { remove: item, },
-                }).done(function (data) {
-                    return;
-                }).fail(function (data) {
-                    alert("Failed, please reload the page, then try again.");
-                });
-            });
-            // Approved and Verified.
-            $("a.applied").off("click");
-            $("a.applied").on("click", function (e) {
-                var self = this,
-                    id = $(this).data("id"),
-                    state = $(this).data("state");
-                $.ajax({
-                    url: "/api/volunteer/"+id+"/applied",
-                    method: "PUT",
-                    data: { applied: !state, },
-                }).done(function (data) {
-                    $(self).data("state", data.state);
-                    if (data.state === true) {
-                        $(self)
-                            .removeClass("btn-danger")
-                            .addClass("btn-success")
-                            .children("i")
-                                .removeClass("fa-times")
-                                .addClass("fa-check");
-                    } else {
-                        $(self)
-                            .removeClass("btn-success")
-                            .addClass("btn-danger")
-                            .children("i")
-                                .removeClass("fa-check")
-                                .addClass("fa-times");
-                    }
-                    return;
-                }).fail(function (data) {
-                    alert("Failed, please reload the page, then try again.");
-                });
-            });
-            $("a.approval").off("click");
-            $("a.approval").on("click", function (e) {
-                var self = this,
-                    id = $(this).data("id"),
-                    state = $(this).data("state");
-
-                var sendMail = false;
-                if (state === false) {
-                    // Might need to send an email.
-                    sendMail = window.confirm("Would you like to send an email?\n(Ok sends, Cancel does not)");
-                }
-
-                $.ajax({
-                    url: "/api/volunteer/"+id+"/approval",
-                    method: "PUT",
-                    data: {
-                        approved: !state,
-                        sendMail: sendMail,
-                    },
-                }).done(function (data) {
-                    $(self).data("state", data.state);
-                    if (data.state === true) {
-                        $(self)
-                            .removeClass("btn-danger")
-                            .addClass("btn-success")
-                            .children("i")
-                                .removeClass("fa-times")
-                                .addClass("fa-check");
-                    } else {
-                        $(self)
-                            .removeClass("btn-success")
-                            .addClass("btn-danger")
-                            .children("i")
-                                .removeClass("fa-check")
-                                .addClass("fa-times");
-                    }
-                    return;
-                }).fail(function (data) {
-                    alert("Failed, please reload the page, then try again.");
-                });
-            });
-            $("a.followUp").off("click");
-            $("a.followUp").on("click", function (e) {
-                var self = this,
-                    id = $(this).data("id"),
-                    state = $(this).data("state");
-                $.ajax({
-                    url: "/api/volunteer/"+id+"/followup",
-                    method: "PUT",
-                    data: { followUp: !state, },
-                }).done(function (data) {
-                    $(self).data("state", data.state);
-                    if (data.state === true) {
-                        $(self)
-                            .removeClass("btn-danger")
-                            .addClass("btn-success")
-                            .children("i")
-                                .removeClass("fa-times")
-                                .addClass("fa-check");
-                    } else {
-                        $(self)
-                            .removeClass("btn-success")
-                            .addClass("btn-danger")
-                            .children("i")
-                                .removeClass("fa-check")
-                                .addClass("fa-times");
-                    }
-                    return;
-                }).fail(function (data) {
-                    alert("Failed, please reload the page, then try again.");
-                });
-            });
+$(function () {
+  var columns = {{{JSON columns 0}}},
+  data = {{{JSON data 0}}};
+  var table = $("#volunteer_table").dataTable({
+    stateSave: true,
+    stateDuration: 60*60*24*5, // 5 days.
+    scrollX: true,
+    // Datas
+    data: data,
+    columns: columns,
+    columnDefs: [
+      {
+        targets: 0,
+        render: function (data, type, row) {
+          return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.AccountId+"/volunteer\">"+row.AccountId+"<i class=\"fa fa-fw fa-user\"></i></a>";
+        },
+      },
+      {
+        targets: [ -1, ], // Delete
+        render: function (data, type, row) {
+          return "<a href='/api/volunteer/delete/" + row.id + "' class='btn btn-xs btn-danger' onclick='return confirm(\"Are you sure?\")'><i class='fa fa-fw fa-trash'></i></a>";
         }
-
-        // Expandos
-        function expando(key) {
-            $("td."+key).on("click", function () {
-                var tr = $(this).closest("tr");
-                var row = table.api().row(tr);
-                if (row.child.isShown()) {
-                    // This row is already open - close it
-                    $(this).children("i").removeClass("fa-minus");
-                    $(this).children("i").addClass("fa-plus");
-                    row.child.hide();
-                    tr.removeClass("shown");
+      },
+      {
+        targets: -2,
+        render: function (data, type, row) {
+          return "<a class=\"btn btn-primary\" href=\"/admin/manage/"+row.AccountId+"\">"+data+"</a>";
+        },
+      },
+      {
+        targets: [ -3, -4 ], // Created and Updated at
+        render: function (data, type, row) {
+          return new Date(data).toLocaleString();
+        },
+      },
+      {
+        targets: -5, // Tags
+        render: function (data, type, row) {
+          return "<input class=\"tags\" data-id=\""+row.id+"\" data-role=\"tagsinput\" value=\""+data+"\">";
+        },
+      },
+      {
+        targets: 3, // Applied
+        render: function (data, type, row) {
+          if (data === true) {
+            return "<a class=\"applied btn btn-xs btn-success\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-check\"></i></a>";
+          } else {
+            return "<a class=\"applied btn btn-xs btn-danger\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-times\"></i></a>";
+          }
+        }
+      },
+      {
+        targets: 4, // Approved
+        render: function (data, type, row) {
+          if (data === true) {
+            return "<a class=\"approval btn btn-xs btn-success\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-check\"></i></a>";
+          } else {
+            return "<a class=\"approval btn btn-xs btn-danger\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-times\"></i></a>";
+          }
+        }
+      },
+      {
+        targets: 5, // FollowUp
+        render: function (data, type, row) {
+          if (data === true) {
+            return "<a class=\"followUp btn btn-xs btn-success\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-check\"></i></a>";
+          } else {
+            return "<a class=\"followUp btn btn-xs btn-danger\" data-state=\""+data+"\" data-id=\""+row.id+"\"><i class=\"fa fa-times\"></i></a>";
+          }
+        }
+      },
+      {
+        targets: 6, // Schedule
+        render: function (data, type, row) {
+          if (data) {
+            return data.map(function (v) {
+              var result = "<span style='white-space: nowrap;'>"
+              result += v.day.slice(0, 3);
+              result += "<span class='btn-group'>";
+              result += ['morning', 'afternoon', 'evening'].map(function (time) {
+                if (v[time].available && v[time].scheduled) {
+                  return "<span class='btn btn-xs btn-success'>" + time[0].toUpperCase() + "</span>";
+                } else if (v[time].available) {
+                  return "<span class='btn btn-xs btn-warning'>" + time[0].toUpperCase() + "</span>";
                 } else {
-                    // Open this row
-                    $(this).children("i").removeClass("fa-plus");
-                    $(this).children("i").addClass("fa-minus");
-                    var offset = $(".dataTables_scrollBody").scrollLeft();
-                    row.child("<p class='expando' style='margin-left: "+offset+"px;'>"+row.data()[key]+"</p>").show();
-                    tr.addClass("shown");
+                  return "<span class='btn btn-xs btn-default'>" + time[0].toUpperCase() + "</span>";
                 }
-            });
+              }).join("");
+              result += "</span>"
+              return result;
+            }).join("<br>");
+          }
         }
-        expando("interests");
-        expando("previousExperience");
-        expando("notes");
+      },
+      {
+        targets: [-6, -7, -8 ], // Notes, Previous Experience, Interests
+        render: function (data, type, row) {
+          if (data) {
+            return "<i class=\"btn btn-xs btn-info fa fa-plus\"></i>";
+          } else {
+            return "<i class=\"btn btn-xs btn-default fa fa-plus\"></i>";
+          }
+        }
+      },
+    ],
+  });
+  // Visible Toggles
+  var colvis = new $.fn.dataTable.ColVis(table);
+  $("#options").append(colvis.button());
 
-        $('#volunteer_table').on('draw.dt', drawHook);
-        $("#volunteer_table").dataTable().fnDraw();
+  function drawHook() {
+    // Scan for tagsinputs.
+    var inputs = $("input[data-role=\"tagsinput\"]").tagsinput({
+      maxChars: 80,
     });
+
+    $("input[data-role=\"tagsinput\"]").off("itemAdded");
+    $("input[data-role=\"tagsinput\"]").on("itemAdded", function (e) {
+      var item = e.item,
+      id = $(this).data("id"),
+      self = this;
+      console.log("ADD " + item + " to " + id);
+      $.ajax({
+        url: "/api/volunteer/"+id+"/tags",
+        method: "PUT",
+        data: { add: item, },
+      }).done(function (data) {
+        return;
+      }).fail(function (data) {
+        alert(data.responseJSON.error);
+      });
+    });
+
+    $("input[data-role=\"tagsinput\"]").off("itemRemoved");
+    $("input[data-role=\"tagsinput\"]").on("itemRemoved", function (e) {
+      var item = e.item,
+      id = $(this).data("id"),
+      self = this;
+      console.log("REMOVE " + item + " from " + id);
+      $.ajax({
+        url: "/api/volunteer/"+id+"/tags",
+        method: "DELETE",
+        data: { remove: item, },
+      }).done(function (data) {
+        return;
+      }).fail(function (data) {
+        alert("Failed, please reload the page, then try again.");
+      });
+    });
+    // Approved and Verified.
+    $("a.applied").off("click");
+    $("a.applied").on("click", function (e) {
+      var self = this,
+      id = $(this).data("id"),
+      state = $(this).data("state");
+      $.ajax({
+        url: "/api/volunteer/"+id+"/applied",
+        method: "PUT",
+        data: { applied: !state, },
+      }).done(function (data) {
+        $(self).data("state", data.state);
+        if (data.state === true) {
+          $(self)
+          .removeClass("btn-danger")
+          .addClass("btn-success")
+          .children("i")
+          .removeClass("fa-times")
+          .addClass("fa-check");
+        } else {
+          $(self)
+          .removeClass("btn-success")
+          .addClass("btn-danger")
+          .children("i")
+          .removeClass("fa-check")
+          .addClass("fa-times");
+        }
+        return;
+      }).fail(function (data) {
+        alert("Failed, please reload the page, then try again.");
+      });
+    });
+    $("a.approval").off("click");
+    $("a.approval").on("click", function (e) {
+      var self = this,
+      id = $(this).data("id"),
+      state = $(this).data("state");
+
+      var sendMail = false;
+      if (state === false) {
+        // Might need to send an email.
+        sendMail = window.confirm("Would you like to send an email?\n(Ok sends, Cancel does not)");
+      }
+
+      $.ajax({
+        url: "/api/volunteer/"+id+"/approval",
+        method: "PUT",
+        data: {
+          approved: !state,
+          sendMail: sendMail,
+        },
+      }).done(function (data) {
+        $(self).data("state", data.state);
+        if (data.state === true) {
+          $(self)
+          .removeClass("btn-danger")
+          .addClass("btn-success")
+          .children("i")
+          .removeClass("fa-times")
+          .addClass("fa-check");
+        } else {
+          $(self)
+          .removeClass("btn-success")
+          .addClass("btn-danger")
+          .children("i")
+          .removeClass("fa-check")
+          .addClass("fa-times");
+        }
+        return;
+      }).fail(function (data) {
+        alert("Failed, please reload the page, then try again.");
+      });
+    });
+    $("a.followUp").off("click");
+    $("a.followUp").on("click", function (e) {
+      var self = this,
+      id = $(this).data("id"),
+      state = $(this).data("state");
+      $.ajax({
+        url: "/api/volunteer/"+id+"/followup",
+        method: "PUT",
+        data: { followUp: !state, },
+      }).done(function (data) {
+        $(self).data("state", data.state);
+        if (data.state === true) {
+          $(self)
+          .removeClass("btn-danger")
+          .addClass("btn-success")
+          .children("i")
+          .removeClass("fa-times")
+          .addClass("fa-check");
+        } else {
+          $(self)
+          .removeClass("btn-success")
+          .addClass("btn-danger")
+          .children("i")
+          .removeClass("fa-check")
+          .addClass("fa-times");
+        }
+        return;
+      }).fail(function (data) {
+        alert("Failed, please reload the page, then try again.");
+      });
+    });
+  }
+
+  // Expandos
+  function expando(key) {
+    $("td."+key).on("click", function () {
+      var tr = $(this).closest("tr");
+      var row = table.api().row(tr);
+      if (row.child.isShown()) {
+        // This row is already open - close it
+        $(this).children("i").removeClass("fa-minus");
+        $(this).children("i").addClass("fa-plus");
+        row.child.hide();
+        tr.removeClass("shown");
+      } else {
+        // Open this row
+        $(this).children("i").removeClass("fa-plus");
+        $(this).children("i").addClass("fa-minus");
+        var offset = $(".dataTables_scrollBody").scrollLeft();
+        row.child("<p class='expando' style='margin-left: "+offset+"px;'>"+row.data()[key]+"</p>").show();
+        tr.addClass("shown");
+      }
+    });
+  }
+  expando("interests");
+  expando("previousExperience");
+  expando("notes");
+
+  $('#volunteer_table').on('draw.dt', drawHook);
+  $("#volunteer_table").dataTable().fnDraw();
+});
 </script>

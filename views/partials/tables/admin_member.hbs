@@ -1,103 +1,103 @@
 <div id="options"></div>
 <table id="member_table" class="table table-hover"></table>
 <script>
-    $(function () {
-        var columns = {{{JSON columns 0}}};
-        var table = $("#member_table").dataTable({
-            stateSave: true,
-            stateDuration: 60*60*24*5, // 5 days.
-            scrollX: true,
-            // Datas
-            data: {{{JSON data 0}}},
-            columns: columns,
-            columnDefs: [
-                {
-                    targets: 0,
-                    render: function (data, type, row) {
-                        return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.Group.AccountId+"/group\"><i class=\"fa fa-fw fa-user\"></i></a>";
-                    },
-                },
-                {
-                    targets: [ -1, ], // Delete
-                    render: function (data, type, row) {
-                        return "<a href='/api/member/delete/" + row.id + "' class='btn btn-xs btn-danger' onclick='return confirm(\"Are you sure?\")'><i class='fa fa-fw fa-trash'></i></a>";
-                    }
-                },
-                {
-                    targets: -2,
-                    render: function (data, type, row) {
-                        return "<a class=\"btn btn-primary\">"+data+"</a>";
-                    },
-                },
-                {
-                    targets: [ -3, -4 ], // Created and Updated at
-                    render: function (data, type, row) {
-                        return new Date(data).toLocaleString();
-                    },
-                },
-                {
-                    targets: -5, // Tags
-                    render: function (data, type, row) {
-                        return  "<input class=\"tags\" data-id=\""+row.id+"\" data-role=\"tagsinput\" value=\""+data+"\">";
-                    },
-                },
-                {
-                    targets: -7, // Complete
-                    render: function (data, type, row) {
-                        if (data === true) {
-                            return "<a class=\"btn btn-xs btn-success\"><i class=\"fa fa-check\"></i></a>";
-                        } else {
-                            return "<a class=\"btn btn-xs btn-danger\"><i class=\"fa fa-times\"></i></a>";
-                        }
-                    },
-                }
-            ],
-        });
-        // Visible Toggles
-        var colvis = new $.fn.dataTable.ColVis(table);
-        $("#options").append(colvis.button());
-        // Scan for tagsinputs.
-        function drawHook() {
-            var inputs = $("input[data-role=\"tagsinput\"]").tagsinput({
-                maxChars: 80,
-            });
-
-            $("input[data-role=\"tagsinput\"]").off("itemAdded");
-            $("input[data-role=\"tagsinput\"]").on("itemAdded", function (e) {
-                var item = e.item,
-                    id = $(this).data("id"),
-                    self = this;
-                console.log("ADD " + item + " to " + id);
-                $.ajax({
-                    url: "/api/member/"+id+"/tags",
-                    method: "PUT",
-                    data: { add: item, },
-                }).done(function (data) {
-                    return;
-                }).fail(function (data) {
-                    alert(data.responseJSON.error);
-                });
-            });
-
-            $("input[data-role=\"tagsinput\"]").off("itemRemoved");
-            $("input[data-role=\"tagsinput\"]").on("itemRemoved", function (e) {
-                var item = e.item,
-                    id = $(this).data("id"),
-                    self = this;
-                console.log("REMOVE " + item + " from " + id);
-                $.ajax({
-                    url: "/api/member/"+id+"/tags",
-                    method: "DELETE",
-                    data: { remove: item, },
-                }).done(function (data) {
-                    return;
-                }).fail(function (data) {
-                    alert("Failed, please reload the page.");
-                });
-            });
+$(function () {
+  var columns = {{{JSON columns 0}}};
+  var table = $("#member_table").dataTable({
+    stateSave: true,
+    stateDuration: 60*60*24*5, // 5 days.
+    scrollX: true,
+    // Datas
+    data: {{{JSON data 0}}},
+    columns: columns,
+    columnDefs: [
+      {
+        targets: 0,
+        render: function (data, type, row) {
+          return "<a class=\"btn btn-xs btn-info\" href=\"/admin/manage/"+row.Group.AccountId+"/group\"><i class=\"fa fa-fw fa-user\"></i></a>";
+        },
+      },
+      {
+        targets: [ -1, ], // Delete
+        render: function (data, type, row) {
+          return "<a href='/api/member/delete/" + row.id + "' class='btn btn-xs btn-danger' onclick='return confirm(\"Are you sure?\")'><i class='fa fa-fw fa-trash'></i></a>";
         }
-
-        $('#member_table').on('draw.dt', drawHook);
-        $("#member_table").dataTable().fnDraw();
+      },
+      {
+        targets: -2,
+        render: function (data, type, row) {
+          return "<a class=\"btn btn-primary\">"+data+"</a>";
+        },
+      },
+      {
+        targets: [ -3, -4 ], // Created and Updated at
+        render: function (data, type, row) {
+          return new Date(data).toLocaleString();
+        },
+      },
+      {
+        targets: -5, // Tags
+        render: function (data, type, row) {
+          return  "<input class=\"tags\" data-id=\""+row.id+"\" data-role=\"tagsinput\" value=\""+data+"\">";
+        },
+      },
+      {
+        targets: -7, // Complete
+        render: function (data, type, row) {
+          if (data === true) {
+            return "<a class=\"btn btn-xs btn-success\"><i class=\"fa fa-check\"></i></a>";
+          } else {
+            return "<a class=\"btn btn-xs btn-danger\"><i class=\"fa fa-times\"></i></a>";
+          }
+        },
+      }
+    ],
+  });
+  // Visible Toggles
+  var colvis = new $.fn.dataTable.ColVis(table);
+  $("#options").append(colvis.button());
+  // Scan for tagsinputs.
+  function drawHook() {
+    var inputs = $("input[data-role=\"tagsinput\"]").tagsinput({
+      maxChars: 80,
     });
+
+    $("input[data-role=\"tagsinput\"]").off("itemAdded");
+    $("input[data-role=\"tagsinput\"]").on("itemAdded", function (e) {
+      var item = e.item,
+      id = $(this).data("id"),
+      self = this;
+      console.log("ADD " + item + " to " + id);
+      $.ajax({
+        url: "/api/member/"+id+"/tags",
+        method: "PUT",
+        data: { add: item, },
+      }).done(function (data) {
+        return;
+      }).fail(function (data) {
+        alert(data.responseJSON.error);
+      });
+    });
+
+    $("input[data-role=\"tagsinput\"]").off("itemRemoved");
+    $("input[data-role=\"tagsinput\"]").on("itemRemoved", function (e) {
+      var item = e.item,
+      id = $(this).data("id"),
+      self = this;
+      console.log("REMOVE " + item + " from " + id);
+      $.ajax({
+        url: "/api/member/"+id+"/tags",
+        method: "DELETE",
+        data: { remove: item, },
+      }).done(function (data) {
+        return;
+      }).fail(function (data) {
+        alert("Failed, please reload the page.");
+      });
+    });
+  }
+
+  $('#member_table').on('draw.dt', drawHook);
+  $("#member_table").dataTable().fnDraw();
+});
 </script>
