@@ -10047,31 +10047,23 @@ footer {
 #landing .content * {
   display: inline-block;
 }
-#landing .slug {
+.slug {
   font-size: 40pt;
 }
-#landing .place {
+.place {
   font-size: 32pt;
 }
-#landing .points {
+.points {
   font-size: 36pt;
+}
+div.markdown {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 div.markdown figure {
   text-align: center;
   font-style: italic;
   padding: 5px;
-}
-div.markdown div.parallax {
-  height: 350px;
-}
-div.markdown div.parallax div {
-  height: 350px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 /* ---- */
 /* GLOBAL STYLES
@@ -10124,6 +10116,20 @@ body {
 .invalid {
   border-color: red;
   outline-color: red;
+}
+/* For Parallax */
+div.parallax {
+  padding-bottom: 10px;
+  overflow-x: hidden;
+}
+div.parallax div {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  box-shadow: inset 0 10px 25px -25px black, inset 0 -10px 25px -25px black;
 }
 /* Display the logo nice like */
 #gov-logo-center {

@@ -31,7 +31,6 @@ module.exports = function (httpd, db, redis) {
     getMemberCount(db).then(function (count) {
       res.render("index", {
         title: "Landing Page",
-        layout: null,
         memberCount: count,
         account: req.session.account,
         admin: req.session.isAdmin,

@@ -1,190 +1,156 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#">
-    {{> head}}
-    <body>
-        {{> navbar}}
-        <section id="landing">
-            <div class="content">
-                <div>
-                    <img src="/logos/gov.png"><br>
-                    <h1 class="slug">A National Aboriginal Youth Conference</h1><br>
-                    <h1 class="place">March 21-24, 2016, Victoria, B.C.</h1><br>
-                    <span class="points">
-                        <a class="btn btn-lg btn-primary" onclick="$('html, body').animate({scrollTop: $('#wrap').offset().top - 40}, 'slow');">
-                            <i class="fa fa-chevron-right"></i>
-                            Explore
-                        </a>
-                    </span>
+<div class="parallax" style="height: 95vh;">
+  <div style="background-image: url(/images/landing-page.jpg); height: 95vh; text-align: center; color: white;">
+    <img src="/logos/gov.png"><br>
+      <h1 class="slug">A National Aboriginal Youth Conference</h1><br>
+      <h1 class="place">March 21-24, 2016, Victoria, B.C.</h1><br>
+      <span class="points">
+          <a class="btn btn-lg btn-primary" onclick="$('html, body').animate({scrollTop: $('#wrap').offset().top - 40}, 'slow');">
+              <i class="fa fa-chevron-right"></i>
+              Explore
+          </a>
+      </span>
+  </div>
+</div>
+
+
+<div id="timer">
+    <p class="lead" style="padding-top: 30px;">
+        Gathering Our Voices 2016 begins at the <strong>Victoria Conference Centre</strong> in <span id="countdown"></span>!
+        {{#if flags.groupRegistration}}
+            <br>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="{{memberCount}}" aria-valuemin="0" aria-valuemax="2000" style="width: {{percent memberCount 2000}}%;">
+                    {{memberCount}} / 2000 spots filled!
                 </div>
             </div>
-        </section>
-        <div id="wrap">
-            <main>
-                <section class="container marketing">
-                    <div class="text-center row">
-                        <div id="timer">
-                            <p class="lead" style="padding-top: 30px;">
-                                Gathering Our Voices 2016 begins at the <strong>Victoria Conference Centre</strong> in <span id="countdown"></span>!
-                                {{#if flags.groupRegistration}}
-                                    <br>
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" aria-valuenow="{{memberCount}}" aria-valuemin="0" aria-valuemax="2000" style="width: {{percent memberCount 2000}}%;">
-                                            {{memberCount}} / 2000 spots filled!
-                                        </div>
-                                    </div>
-                                {{/if}}
-                            </p>
-                            <script>
-                                var timer = countdown(
-                                    new Date("March 21, 2016 17:00"),
-                                    function (ts) {
-                                        document.getElementById("countdown").innerHTML = ts.toHTML("strong");
-                                    },
-                                    countdown.DAYS | countdown.HOURS | countdown.MINUTES | countdown.SECONDS
-                                )
-                            </script>
-                        </div>
-                        {{#if flags.groupRegistration}}
-                            <p><a href="/register" class="btn btn-block btn-lg btn-primary">Apply as a group, facilitator, volunteer, or exhibitor!</a></p>
-                        {{else}}
-                            <div class="well">
-                                <h3>Delegate Registration Closed - Maximum Capacity Reached</h3>
-                                Each year groups work hard to fundraise to make the trip to the conference.  We are inspired with the high level of interest in Gathering Our Voices and encourage those who cannot participate this year to register early for next year’s conference. Registration for GOV opens every year in late September; we recommend signing up to our distribution list to get the most up to date information.
-                            </div>
-                            <div>
-                                <a class="btn btn-block btn-lg btn-primary" href="/register">Interested in getting involved? Become a Volunteer!</a>
-                            </div>
-                        {{/if}}
-
-                        <p>Interact with us via:</p>
-                        <div class="btn-group">
-                            <a class="btn btn-info" style="background-color: #56ADEE" target="_blank" href="https://twitter.com/{{@config.social.twitter}}">
-                                <i class="fa fa-twitter"></i>
-                                Twitter
-                            </a>
-                            <a class="btn btn-info" style="background-color: #3A5795"  target="_blank" href="https://www.facebook.com/{{@config.social.facebook}}">
-                                <i class="fa fa-facebook"></i>
-                                Facebook
-                            </a>
-                            <a class="btn btn-info"  style="background-color: #DA4A38" target="_blank" href="{{@config.social.list}}">
-                                <i class="fa fa-envelope"></i>
-                                Mailing List
-                            </a>
-                        </div>
-                    </div>
-                    <hr class="featurette-divider">
-                    <div class="row featurette">
-                        <div class="col-sm-7">
-                            {{#markdown}}
-                                ## Participate in the action
-                                Get involved in interactive workshops and exciting shows
-                                with others from the community. You will have the opportunity
-                                to engage with your colleagues, mentors, and Elders in a
-                                meaningful way.
-
-                                Looking to get more from GOV? You can take part in our talent
-                                showcase and prove your salt, or nominate an Aboriginal Youth
-                                Champion who has made a difference in your community.
-                            {{/markdown}}
-
-                            <div class="text-center">
-                                <div class="btn-group">
-                                    <a class="btn btn-primary" target="_blank" href="/documents/registration.pdf">
-                                        Registration Package
-                                    </a>
-                                    <a class="btn btn-primary" target="_blank" href="/documents/honour.doc">
-                                        Honour A Youth
-                                    </a>
-                                    <a class="btn btn-primary" target="_blank" href="/documents/talent.docx">
-                                        Talent Showcase
-                                    </a>
-                                    <a class="btn btn-primary" target="_blank" href="/documents/poster.pdf">
-                                        Poster
-                                    </a>
-                                    <a class="btn btn-primary" target="_blank" href="/documents/fundraising.pdf">
-                                        Fundraising Help
-                                    </a>
-                                </div>
-                            </div>
-                            <br>
-                        </div>
-                        <div class="col-sm-5 text-center">
-                            <img class="img-rounded" src="/images/landing-participate.jpg">
-                        </div>
-                    </div>
-                    <hr class="featurette-divider">
-                    <div class="row featurette">
-                        <div class="col-sm-5 text-center">
-                            <img class="img-rounded" src="/images/landing-learn.jpg">
-                        </div>
-                        <div class="col-sm-7">
-                          {{#markdown}}
-                              ## Learn from valuable mentors
-                              More than 60 different workshops will be offered in 4 different
-                              areas: Cultural and Spiritual, Physical, Mental, and Emotional.
-                              Workshops will be grounded in cultural teachings and each delegate
-                              will have a chance to select from workshops in each area. Our goal
-                              is to provide youth with a unique experience and a chance to
-                              positively engage with each other.
+        {{/if}}
+    </p>
+    <script>
+        var timer = countdown(
+            new Date("March 21, 2016 17:00"),
+            function (ts) {
+                document.getElementById("countdown").innerHTML = ts.toHTML("strong");
+            },
+            countdown.DAYS | countdown.HOURS | countdown.MINUTES | countdown.SECONDS
+        )
+    </script>
+</div>
 
 
-                              Workshop submissions are collected and reviewed by a panel of youth
-                              and selected to represent each of the four different areas. The panel
-                              considers: level of interaction, how the workshop is culturally based,
-                              and relevance to Aboriginal youth. Full workshop descriptions will be
-                              released in early February. Youth will be able to select from a wide
-                              array of workshops for a diverse, learning experience.
-                          {{/markdown}}
-                          <a class="btn btn-block btn-primary" href="/workshops">Explore Workshops</a>
-                        </div>
-                     </div>
-                    <hr class="featurette-divider">
-                    <div class="row featurette">
-                        <div class="col-sm-7">
-                          {{#markdown}}
-                              ## Listen to inspiring leaders and peers
-                              We are currently seeking the best and brightest Emcees, Entertainment
-                              and Keynote speakers to motivate, uplift and inspire Aboriginal youth
-                              to make a better tomorrow.  If you are interested in being an Emcee,
-                              Entertainment or Keynote at this year’s conference, please see the
-                              application link below.
+
+{{#if flags.groupRegistration}}
+    <p><a href="/register" class="btn btn-block btn-lg btn-primary">Apply as a group, facilitator, volunteer, or exhibitor!</a></p>
+{{else}}
+    <div class="well">
+        <h3>Delegate Registration Closed - Maximum Capacity Reached</h3>
+        Each year groups work hard to fundraise to make the trip to the conference.  We are inspired with the high level of interest in Gathering Our Voices and encourage those who cannot participate this year to register early for next year’s conference. Registration for GOV opens every year in late September; we recommend signing up to our distribution list to get the most up to date information.
+    </div>
+    <div>
+        <a class="btn btn-block btn-lg btn-primary" href="/register">Interested in getting involved? Become a Volunteer!</a>
+    </div>
+{{/if}}
+
+<p>Interact with us via:</p>
+<div class="btn-group">
+  <a class="btn btn-info" style="background-color: #56ADEE" target="_blank" href="https://twitter.com/{{@config.social.twitter}}">
+    <i class="fa fa-twitter"></i>
+    Twitter
+  </a>
+  <a class="btn btn-info" style="background-color: #3A5795"  target="_blank" href="https://www.facebook.com/{{@config.social.facebook}}">
+    <i class="fa fa-facebook"></i>
+    Facebook
+  </a>
+  <a class="btn btn-info"  style="background-color: #DA4A38" target="_blank" href="{{@config.social.list}}">
+    <i class="fa fa-envelope"></i>
+    Mailing List
+  </a>
+</div>
+
+<hr class="featurette-divider">
+
+{{#markdown}}
+  ## Participate in the action
+  Get involved in interactive workshops and exciting shows
+  with others from the community. You will have the opportunity
+  to engage with your colleagues, mentors, and Elders in a
+  meaningful way.
+
+  Looking to get more from GOV? You can take part in our talent
+  showcase and prove your salt, or nominate an Aboriginal Youth
+  Champion who has made a difference in your community.
+
+  <div class="text-center">
+    <div class="btn-group">
+      <a class="btn btn-primary" target="_blank" href="/documents/registration.pdf">
+        Registration Package
+      </a>
+      <a class="btn btn-primary" target="_blank" href="/documents/honour.doc">
+        Honour A Youth
+      </a>
+      <a class="btn btn-primary" target="_blank" href="/documents/talent.docx">
+        Talent Showcase
+      </a>
+      <a class="btn btn-primary" target="_blank" href="/documents/poster.pdf">
+        Poster
+      </a>
+      <a class="btn btn-primary" target="_blank" href="/documents/fundraising.pdf">
+        Fundraising Help
+      </a>
+    </div>
+  </div>
+{{/markdown}}
+
+{{#markdown}}
+  ## Learn from valuable mentors
+  More than 60 different workshops will be offered in 4 different
+  areas: Cultural and Spiritual, Physical, Mental, and Emotional.
+  Workshops will be grounded in cultural teachings and each delegate
+  will have a chance to select from workshops in each area. Our goal
+  is to provide youth with a unique experience and a chance to
+  positively engage with each other.
 
 
-                              In past years we hosted the likes of J.R. LaRose, Dr. Evan Adams, Grand Chief
-                              Ed John, Grand Chief Stewart Phillip, Chief Jody Wilson-Raybould, Adrian Duke,
-                              Justin Rain, Dakota Brant, Waneek Horn-Miller, Deidri Jack, Mathew Strongeagle,
-                              Richard Peters, Theresa Point, Ta’Kaiya Blaney.
-                          {{/markdown}}
-                          <a class="btn btn-primary btn-block" target="_blank" href="/documents/emcee.pdf">
-                              Call for Emcee, Keynote and Entertainment
-                          </a>
-                        </div>
-                        <div class="col-sm-5 text-center">
-                          <img class="img-rounded" src="/images/landing-listen.jpg">
-                        </div>
-                    </div>
-                    <hr class="featurette-divider">
-                    <div class="row featurette">
-                        <div class="col-sm-5 text-center">
-                            <img class="img-rounded" src="/images/landing-connect.jpg">
-                        </div>
-                        <div class="col-sm-7">
-                          {{#markdown}}
-                              ## Connect and prepare for the future
-                              A gathering of this size means an incredible opportunity to find new peers,
-                              employers, educators, teachers, Elders, and most of all, friends. A bustling
-                              career and education fair, an Elders lounge, and more will be ready for you
-                              to explore.
+  Workshop submissions are collected and reviewed by a panel of youth
+  and selected to represent each of the four different areas. The panel
+  considers: level of interaction, how the workshop is culturally based,
+  and relevance to Aboriginal youth. Full workshop descriptions will be
+  released in early February. Youth will be able to select from a wide
+  array of workshops for a diverse, learning experience.
+
+  <a class="btn btn-block btn-primary" href="/workshops">Explore Workshops</a>
+{{/markdown}}
+
+{{> parallax url="/images/landing-learn.jpg" height="40vh" }}
+
+{{#markdown}}
+  ## Listen to inspiring leaders and peers
+  We are currently seeking the best and brightest Emcees, Entertainment
+  and Keynote speakers to motivate, uplift and inspire Aboriginal youth
+  to make a better tomorrow.  If you are interested in being an Emcee,
+  Entertainment or Keynote at this year’s conference, please see the
+  application link below.
 
 
-                              Then, return to your community with newfound skills, a broader world view, and
-                              new friends to keep in touch with.
-                          {{/markdown}}
-                        </div>
-                    </div>
-                </section>
-            </main>
-            {{> footer}}
-        </div>
-    </body>
-</html>
+  In past years we hosted the likes of J.R. LaRose, Dr. Evan Adams, Grand Chief
+  Ed John, Grand Chief Stewart Phillip, Chief Jody Wilson-Raybould, Adrian Duke,
+  Justin Rain, Dakota Brant, Waneek Horn-Miller, Deidri Jack, Mathew Strongeagle,
+  Richard Peters, Theresa Point, Ta’Kaiya Blaney.
+
+  <a class="btn btn-primary btn-block" target="_blank" href="/documents/emcee.pdf">
+    Call for Emcee, Keynote and Entertainment
+  </a>
+{{/markdown}}
+
+{{#markdown}}
+  ## Connect and prepare for the future
+  A gathering of this size means an incredible opportunity to find new peers,
+  employers, educators, teachers, Elders, and most of all, friends. A bustling
+  career and education fair, an Elders lounge, and more will be ready for you
+  to explore.
+
+
+  Then, return to your community with newfound skills, a broader world view, and
+  new friends to keep in touch with.
+{{/markdown}}
+
+{{> parallax url="/images/landing-participate.jpg" height="40vh" }}
