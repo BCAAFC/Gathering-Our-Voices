@@ -50,20 +50,22 @@
     </div>
 {{/if}}
 
-<p>Interact with us via:</p>
-<div class="btn-group">
-  <a class="btn btn-info" style="background-color: #56ADEE" target="_blank" href="https://twitter.com/{{@config.social.twitter}}">
-    <i class="fa fa-twitter"></i>
-    Twitter
-  </a>
-  <a class="btn btn-info" style="background-color: #3A5795"  target="_blank" href="https://www.facebook.com/{{@config.social.facebook}}">
-    <i class="fa fa-facebook"></i>
-    Facebook
-  </a>
-  <a class="btn btn-info"  style="background-color: #DA4A38" target="_blank" href="{{@config.social.list}}">
-    <i class="fa fa-envelope"></i>
-    Mailing List
-  </a>
+<div class="text-center">
+  <p>Interact with us via:</p>
+  <div class="btn-group">
+    <a class="btn btn-info" style="background-color: #56ADEE" target="_blank" href="https://twitter.com/{{@config.social.twitter}}">
+      <i class="fa fa-twitter"></i>
+      Twitter
+    </a>
+    <a class="btn btn-info" style="background-color: #3A5795"  target="_blank" href="https://www.facebook.com/{{@config.social.facebook}}">
+      <i class="fa fa-facebook"></i>
+      Facebook
+    </a>
+    <a class="btn btn-info"  style="background-color: #DA4A38" target="_blank" href="{{@config.social.list}}">
+      <i class="fa fa-envelope"></i>
+      Mailing List
+    </a>
+  </div>
 </div>
 
 <hr class="featurette-divider">
@@ -98,9 +100,7 @@
       </a>
     </div>
   </div>
-{{/markdown}}
 
-{{#markdown}}
   ## Learn from valuable mentors
   More than 60 different workshops will be offered in 4 different
   areas: Cultural and Spiritual, Physical, Mental, and Emotional.
@@ -118,11 +118,9 @@
   array of workshops for a diverse, learning experience.
 
   <a class="btn btn-block btn-primary" href="/workshops">Explore Workshops</a>
-{{/markdown}}
 
-{{> parallax url="/images/landing-learn.jpg" height="40vh" }}
+  {{> parallax url="/images/landing-learn.jpg" height="40vh" }}
 
-{{#markdown}}
   ## Listen to inspiring leaders and peers
   We are currently seeking the best and brightest Emcees, Entertainment
   and Keynote speakers to motivate, uplift and inspire Aboriginal youth
@@ -139,9 +137,7 @@
   <a class="btn btn-primary btn-block" target="_blank" href="/documents/emcee.pdf">
     Call for Emcee, Keynote and Entertainment
   </a>
-{{/markdown}}
 
-{{#markdown}}
   ## Connect and prepare for the future
   A gathering of this size means an incredible opportunity to find new peers,
   employers, educators, teachers, Elders, and most of all, friends. A bustling
@@ -151,6 +147,6 @@
 
   Then, return to your community with newfound skills, a broader world view, and
   new friends to keep in touch with.
-{{/markdown}}
 
-{{> parallax url="/images/landing-participate.jpg" height="40vh" }}
+  {{> parallax url="/images/landing-participate.jpg" height="40vh" }}
+{{/markdown}}
