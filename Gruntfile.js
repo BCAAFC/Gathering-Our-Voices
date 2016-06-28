@@ -88,13 +88,28 @@ module.exports = function(grunt) {
         ]
       }
     },
+    imagemin: {
+      build: {
+        options: {
+          optimizationLevel: 3,
+          svgoPlugins: [{ removeViewBox: false }],
+        },
+        files: [{
+          expand: true,
+          cwd: 'static/images/',
+          src: ['**/*.{png,jpg,gif}'],
+          dest: 'static/images/',
+        }],
+      }
+    },
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
   grunt.loadNpmTasks('grunt-concurrent');
   // Default task(s).
-  grunt.registerTask('build', ['uglify', 'less', 'copy']);
+  grunt.registerTask('build', ['uglify', 'less', 'copy', 'imagemin']);
 
 };
