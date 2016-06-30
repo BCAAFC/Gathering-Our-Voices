@@ -11,4 +11,8 @@
         You're seeing this because you're an admin.
     </div>
     {{> tables/user_workshop columns=columns workshops=workshops}}
+{{else}}
+  {{#markdown}}
+    Currently workshop registration is closed. We will be releasing workshops sometime in February.
+  {{/markdown}}
 {{/if}}
