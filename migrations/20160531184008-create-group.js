@@ -13,8 +13,10 @@ module.exports = {
         type: Sequelize.ENUM,
         values: [
           "Friendship Centre",
-          "Off-reserve",
-          "On-reserve",
+          "Off-reserve School",
+          "Off-reserve Community Group",
+          "On-reserve School",
+          "On-reserve Community Group",
           "MCFD or Delegated Agency",
           "Other",
         ],

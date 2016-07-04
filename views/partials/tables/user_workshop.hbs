@@ -94,10 +94,6 @@ $(function () {
   var colvis = new $.fn.dataTable.ColVis(table);
   $("#options").append(colvis.button());
 
-  $("#workshop_table").DataTable().rows().every(function () {
-    this.child(this.data().summary).show();
-  });
-
   $("#workshop_table").dataTable().fnDraw();
 
   // Toggle Buttons

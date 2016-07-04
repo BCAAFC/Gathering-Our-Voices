@@ -45,7 +45,7 @@ $(function () {
         }
       },
       {
-        targets: [ 8, 9, 10, 21, 25, 26 ], // Description, Summary, InteractionLevel, Biography, Honorarium, Notes
+        targets: [ 8, 21, 25, 26 ], // Description, Biography, Honorarium, Notes
         render: function (data, type, row) {
           if (data) {
             return "<i class=\"btn btn-xs btn-info fa fa-plus\"></i>";
@@ -263,8 +263,6 @@ $(function () {
     // Expandos
     expando("categoryReason");
     expando("description");
-    expando("summary");
-    expando("interactionLevel");
     expando("biography");
     expando("honorarium");
     expando("notes");

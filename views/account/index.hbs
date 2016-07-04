@@ -10,7 +10,7 @@
 <div class="container">
   <div class="row">
     <div id="group" class="col-md-3 col-sm-6 col-xs-12 text-center">
-      <img class="img-rounded img-fill" src="/images/acc-group.jpg">
+      <img class="img-rounded img-fill" src="/images/account/group.jpg">
       {{#if account.Group}}
         <a class="btn btn-block btn-primary" href="/account/group">Manage your Group</a>
       {{else if admin}}
@@ -24,7 +24,7 @@
       <p><strong>Deadline:</strong> {{date @config.dates.start}}</p>
     </div>
     <div id="facilitate" class="col-md-3 col-sm-6 col-xs-12 text-center">
-      <img class="img-rounded img-fill" src="/images/acc-facilitate.jpg">
+      <img class="img-rounded img-fill" src="/images/account/facilitate.jpg">
       {{#if account.Workshops}}
         <a class="btn btn-block btn-primary" href="/account/workshops">Modify Facilitation Application</a>
       {{else if admin}}
@@ -38,7 +38,7 @@
       <p><strong>Deadline:</strong> {{date @config.deadlines.facilitator}}</p>
     </div>
     <div id="exhibit" class="col-md-3 col-sm-6 col-xs-12 text-center">
-      <img class="img-rounded img-fill" src="/images/acc-exhibit.jpg">
+      <img class="img-rounded img-fill" src="/images/account/exhibit.jpg">
       {{#if account.Exhibitor}}
         <a class="btn btn-block btn-primary" href="/account/exhibitor">Modify Exhibitor Application</a>
       {{else if admin}}
@@ -52,7 +52,7 @@
       <p><strong>Deadline:</strong> {{date @config.deadlines.exhibitor}}</p>
     </div>
     <div id="volunteer" class="col-md-3 col-sm-6 col-xs-12 text-center">
-      <img class="img-rounded img-fill" src="/images/acc-volunteer.jpg">
+      <img class="img-rounded img-fill" src="/images/account/volunteer.jpg">
       {{#if account.Volunteer}}
         <a class="btn btn-block btn-primary" href="/account/volunteer">Modify Volunteer Application</a>
       {{else if admin}}

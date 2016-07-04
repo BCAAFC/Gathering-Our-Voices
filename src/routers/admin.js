@@ -174,7 +174,6 @@ module.exports = function (db, redis) {
       workshops = workshops.map(function (workshop) {
         workshop.description = workshop.description.replace(/\n/g, "<br>");
         workshop.biography = workshop.biography.replace(/\n/g, "<br>");
-        workshop.interactionLevel = workshop.interactionLevel.replace(/\n/g, "<br>");
         return workshop;
       });
       res.render("admin/workshop_selection_printout", {
@@ -208,7 +207,6 @@ module.exports = function (db, redis) {
       workshops = workshops.map(function (workshop) {
         workshop.description = workshop.description.replace(/\n/g, "<br>");
         workshop.biography = workshop.biography.replace(/\n/g, "<br>");
-        workshop.interactionLevel = workshop.interactionLevel.replace(/\n/g, "<br>");
         return workshop;
       });
       res.render("admin/workshop_approved_printout", {

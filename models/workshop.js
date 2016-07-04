@@ -58,14 +58,6 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    summary: {
-      type: DataTypes.STRING(500),
-      allowNull: false,
-    },
-    interactionLevel: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
     maxCapacity: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -75,11 +67,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
     },
     // Requirements
-    mailing: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      comment: "Is a mailing required?"
-    },
     flipcharts: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -97,10 +84,6 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
     },
     screen: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
-    player: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },

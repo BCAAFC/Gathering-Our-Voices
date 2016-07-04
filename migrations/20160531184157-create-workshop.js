@@ -37,14 +37,6 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false,
       },
-      summary: {
-        type: Sequelize.STRING(500),
-        allowNull: false,
-      },
-      interactionLevel: {
-        type: Sequelize.TEXT,
-        allowNull: false,
-      },
       maxCapacity: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -54,11 +46,6 @@ module.exports = {
         allowNull: false,
       },
       // Requirements
-      mailing: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        comment: "Is a mailing required?"
-      },
       flipcharts: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -76,10 +63,6 @@ module.exports = {
         allowNull: false,
       },
       screen: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-      },
-      player: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },

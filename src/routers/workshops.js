@@ -17,7 +17,6 @@ module.exports = function (db, redis) {
         'facilitators',
         'length',
         'audience',
-        'summary'
       ],
       include: [{
         model: db.Session,
@@ -47,7 +46,6 @@ module.exports = function (db, redis) {
         { title: 'Length', data: 'length', className: 'length' },
         { title: 'Audience', data: 'audience', className: 'audience' },
         { title: 'Sessions', data: 'Sessions', className: 'sessions' },
-        // { title: 'Summary', data: 'summary', className: 'summary' },
       ];
       res.render("workshops/index", {
         title: "Workshop List",

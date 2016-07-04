@@ -24,9 +24,6 @@ module.exports = function (db, redis) {
             if (typeof req.body.audience === "string") { req.body.audience = [req.body.audience]; }
             if (typeof req.body.type === "string") { req.body.type = [req.body.type]; }
 
-            if (req.body.mailing === "Yes") { req.body.mailing = true; } else
-            if (req.body.mailing === "No") { req.body.mailing = false; }
-
             if (req.body.projector === "Yes") { req.body.projector = true; } else
             if (req.body.projector === "No") { req.body.projector = false; }
 
@@ -35,9 +32,6 @@ module.exports = function (db, redis) {
 
             if (req.body.screen === "Yes") { req.body.screen = true; } else
             if (req.body.screen === "No") { req.body.screen = false; }
-
-            if (req.body.player === "Yes") { req.body.player = true; } else
-            if (req.body.player === "No") { req.body.player = false; }
 
             if (req.body.meals === "Yes") { req.body.meals = true; } else
             if (req.body.meals === "No") { req.body.meals = false; }
@@ -104,16 +98,12 @@ module.exports = function (db, redis) {
             if (typeof req.body.type === "string") { req.body.type = [req.body.type]; }
 
             // Transform HTML form.
-            if (req.body.mailing === "Yes") { req.body.mailing = true; } else
-            if (req.body.mailing === "No") { req.body.mailing = false; }
             if (req.body.power === "Yes") { req.body.power = true; } else
             if (req.body.power === "No") { req.body.power = false; }
             if (req.body.projector === "Yes") { req.body.projector = true; } else
             if (req.body.projector === "No") { req.body.projector = false; }
             if (req.body.screen === "Yes") { req.body.screen = true; } else
             if (req.body.screen === "No") { req.body.screen = false; }
-            if (req.body.player === "Yes") { req.body.player = true; } else
-            if (req.body.player === "No") { req.body.player = false; }
             if (req.body.meals === "Yes") { req.body.meals = true; } else
             if (req.body.meals === "No") { req.body.meals = false; }
             if (req.body.accomodation === "Yes") { req.body.accomodation = true; } else
@@ -134,15 +124,11 @@ module.exports = function (db, redis) {
             workshop.audience = req.body.audience || workshop.audience;
             workshop.type = req.body.type || workshop.type;
             workshop.description = req.body.description || workshop.description;
-            workshop.summary = req.body.summary || workshop.summary;
-            workshop.interactionLevel = req.body.interactionLevel || workshop.interactionLevel;
             workshop.maxCapacity = req.body.maxCapacity || workshop.maxCapacity;
             workshop.minCapacity = req.body.minCapacity || workshop.minCapacity;
-            workshop.mailing = req.body.mailing; // Can't do "|| workshop.mailing;" since might be false.
             workshop.flipchart = req.body.flipchart || workshop.flipchart;
             workshop.projector = req.body.projector; // Can't do "|| workshop.projector;" since might be false.
             workshop.screen = req.body.screen; // Can't do "|| workshop.screen;" since might be false.
-            workshop.player = req.body.player; // Can't do "|| workshop.player;" since might be false.
             workshop.room = req.body.room || workshop.room;
             workshop.biography = req.body.biography || workshop.biography;
             workshop.meals = req.body.meals; // Can't do "|| workshop.meals;" since might be false.
