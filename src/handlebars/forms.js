@@ -1,37 +1,40 @@
 'use strict';
-
 module.exports = function (hbs) {
 
+  // Shorthand.
+  var escape = hbs.handlebars.Utils.escapeExpression;
+
   hbs.registerHelper("form_input", function (options) {
-    var params = options.hash,
-    output = [];
+    // Not all form elements are consistent. This attempts to help with some basics.
+    var title = escape(options.hash.title),
+        name = escape(options.hash.name),
+        description = escape(options.hash.description),
+        type = escape(options.hash.type),
+        required = options.hash.required,
+        value = null;
 
-    // Defaults
-    if (params.type === "checkbox") {
-      if (params.value === true) {
-        params.value = " checked=\"checked\"";
-      } else { params.value = ""; }
-    } else if (params.value !== null && params.value !== undefined) {
-      params.value = " value=\"" + hbs.handlebars.Utils.escapeExpression(params.value) + "\"";
-    } else { params.value = ""; }
+    // A main concern here is that checkboxes don't use `value` but instead the `checked` attribute.
+    // The below conditional checks this and makes `value` the correct output.
+    if (type === `checkbox`) {
+      // If a checkbox is ticked it shows the `checked='checked'` attribute.
+      if (options.hash.value === true) {
+        value = `checked='checked'`
+      }
+    } else {
+      // If it's anything else it uses `value='foo'`.
+      value = `value=${escape(options.hash.value)}`
+    }
 
-    if (params.required) { params.required = " required"; }
-    else { params.required = ""; }
-    // Build
-    output.push("<div class=form-group>");
-    output.push("<label for=" + params.name + ">" + params.title);
-    if (params.required) { output.push("*"); }
-    output.push("</label>");
-    if (params.description) {
-      output.push("<p>" + params.description + "</p>");
-    }
-    if (params.type === "number") {
-      output.push("<p><small>This input will only accept numeric values.</small></p>");
-    }
-    output.push("<input class=form-control type=" + params.type + " name=" + params.name + params.required + params.value + ">");
-    output.push("</div>");
-    // Return
-    return new hbs.handlebars.SafeString(output.join(""));
+    return new hbs.handlebars.SafeString(`
+      <div class='form-group'>
+        <label for='${name}'>
+          ${title} ${required? '*' : ''}
+        </label>
+        ${description? '<p>' + description + '</p>' : ''}
+        ${type === 'number'? '<p><small>This input will only accept numeric values.</small></p>' : ''}
+        <input class='form-control' type='${type}' name='${name}' ${required? 'required' : ''} ${value}>
+      </div>
+    `);
   });
 
   hbs.registerHelper("form_textarea", function (options) {

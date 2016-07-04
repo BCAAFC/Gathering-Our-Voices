@@ -22,18 +22,14 @@ module.exports = function (hbs) {
     return total;
   });
 
-  hbs.registerHelper("img", function (classes, keyword, options) {
-    return new hbs.handlebars.SafeString("<img class=\"" + classes + "\" src=\"/api/image/" + keyword + ".jpg\">");
-  });
-
   hbs.registerHelper("flag", function (flag, flags, options) {
     var out;
     if (flags[flag] === null || flags[flag] === undefined) {
-      out = "<a class=\"btn btn-default\" href=\"/admin/flag/" + flag + "/true\">Create: " + flag + "</a>";
+      out = `<a class="btn btn-default" href="/admin/flag/${flag}/true">Create: ${flag}</a>`;
     } else if (flags[flag] === true) {
-      out = "<a class=\"btn btn-success\" href=\"/admin/flag/" + flag + "/" + !flags[flag] + "\">Unset:" + flag + "</a>";
+      out = `<a class="btn btn-success" href="/admin/flag/${flag}/${!flags[flag]}">Unset: ${flag}</a>`;
     } else {
-      out = "<a class=\"btn btn-danger\" href=\"/admin/flag/" + flag + "/" + !flags[flag] + "\">Set:" + flag + "</a>";
+      out = `<a class="btn btn-danger" href="/admin/flag/${flag}/${!flags[flag]}">Set: ${flag}</a>`;
     }
     return new hbs.handlebars.SafeString(out);
   });

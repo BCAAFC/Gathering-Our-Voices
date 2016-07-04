@@ -11,6 +11,7 @@ renderer.image = function (href, title, text) {
 }
 marked.setOptions({
   renderer: renderer,
+  smartypants: true,
 });
 
 module.exports = function (hbs) {
@@ -21,9 +22,7 @@ module.exports = function (hbs) {
     while (content[i] == ' ') { i += 1; }
     // Trim all lines with the appropriate indent level.
     var lines = content.split('\n').map(line => line.slice(i)).join('\n');
-    return "<div class='markdown'>" + marked(lines, {
-      smartypants: true,
-    }) + "</div>";
+    return `<div class='markdown'>${marked(lines)}</div>`;
   });
 
   return hbs;
