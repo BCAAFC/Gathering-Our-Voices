@@ -10119,7 +10119,7 @@ body {
 }
 /* For Parallax */
 div.parallax {
-  padding-bottom: 10px;
+  margin-bottom: 20px;
   overflow-x: hidden;
 }
 div.parallax div {
@@ -10130,6 +10130,9 @@ div.parallax div {
   background-repeat: no-repeat;
   background-size: cover;
   box-shadow: inset 0 10px 25px -25px black, inset 0 -10px 25px -25px black;
+}
+div.parallax:not(:first-child) {
+  margin-top: 20px;
 }
 /* Display the logo nice like */
 #gov-logo-center {
