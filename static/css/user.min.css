@@ -10057,13 +10057,18 @@ footer {
   font-size: 36pt;
 }
 div.markdown {
-  padding-top: 10px;
   padding-bottom: 10px;
 }
 div.markdown figure {
   text-align: center;
   font-style: italic;
   padding: 5px;
+}
+div.markdown figure img {
+  width: 100%;
+}
+div.markdown:not(:first-child) {
+  padding-top: 10px;
 }
 /* ---- */
 /* GLOBAL STYLES

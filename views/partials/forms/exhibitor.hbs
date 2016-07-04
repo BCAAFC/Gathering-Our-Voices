@@ -6,10 +6,6 @@
         <legend>Apply to be an Exhibitor</legend>
     {{/if}}
 
-    <div class="well">
-        <p>You will be required to fulfill a Criminal Record Check using <a target='blank' href='https://justice.gov.bc.ca/eCRC/'>this link</a> and access code <code>2LMZZ4EHQ6</code> for <strong>all representatives</strong>. Please email us <a href="mailto:govcoordinator@bcaafc.com">govcoordinator@bcaafc.com</a> your <strong>full, legal names</strong> when done.</p>
-    </div>
-
     {{#form_tags title="Representatives" name="representatives"
         description="Please include <strong>all</strong> representatives to be on site. First and last name. Please comma seperate."}}
         {{#each exhibitor.representatives}}
@@ -47,7 +43,7 @@
         description="Mark this if you have an item for the delegate bags.
                      <strong>Note you will be required to provide 1200 of the item(s), mailing address will be provided in mid-February</strong>. (Please, no paper items.)"}}}
     {{#form_select title="Payment Method" name="payment" selected=exhibitor.payment required=true
-        description="There is a $400 fee for a 2-day booth. Preferred payment is by cheque payable to BCAAFC mail to: 551 Chatham Street, Victoria, BC V8T 1E3. If you are paying by credit card you can contact us at 1 800 990-2432."}}
+        description="Preferred payment is by cheque payable to BCAAFC mail to: 551 Chatham Street, Victoria, BC V8T 1E3. If you are paying by credit card you can contact us at 1 800 990-2432."}}
         <option value="Cheque">Cheque</option>
         <option value="Money Order">Money Order</option>
         <option value="Credit Card">Credit Card</option>

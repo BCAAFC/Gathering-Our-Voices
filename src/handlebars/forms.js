@@ -1,4 +1,7 @@
 'use strict';
+
+var marked = require('marked');
+
 module.exports = function (hbs) {
 
   // Shorthand.
@@ -8,8 +11,8 @@ module.exports = function (hbs) {
     // Not all form elements are consistent. This attempts to help with some basics.
     var title = escape(options.hash.title),
         name = escape(options.hash.name),
-        description = escape(options.hash.description),
-        type = escape(options.hash.type),
+        description = options.hash.description,
+        type = options.hash.type,
         required = options.hash.required,
         value = null;
 
@@ -30,7 +33,7 @@ module.exports = function (hbs) {
         <label for='${name}'>
           ${title} ${required? '*' : ''}
         </label>
-        ${description? '<p>' + description + '</p>' : ''}
+        ${description? '<p>' + marked(description) + '</p>' : ''}
         ${type === 'number'? '<p><small>This input will only accept numeric values.</small></p>' : ''}
         <input class='form-control' type='${type}' name='${name}' ${required? 'required' : ''} ${value}>
       </div>
@@ -38,28 +41,22 @@ module.exports = function (hbs) {
   });
 
   hbs.registerHelper("form_textarea", function (options) {
-    var params = options.hash,
-    output = [];
-    // Defaults
-    if (!params.value) { params.value = ""; }
-    if (params.required) { params.required = " required"; }
-    else { params.required = ""; }
-    // Build
-    output.push("<div class=form-group>");
-    output.push("<label for=" + params.name + ">" + params.title);
-    if (params.required) { output.push("*"); }
-    output.push("</label>");
-    if (params.description) {
-      output.push("<p>" + params.description + "</p>");
-    }
-    output.push("<textarea class=form-control" + " name=" + params.name + params.required + ">");
-    if (params.value) {
-      output.push(params.value);
-    }
-    output.push("</textarea>");
-    output.push("</div>");
-    // Return
-    return new hbs.handlebars.SafeString(output.join(""));
+    var title = escape(options.hash.title),
+        name = escape(options.hash.name),
+        description = escape(options.hash.description),
+        type = escape(options.hash.type),
+        required = options.hash.required,
+        value = escape(options.hash.value);
+
+    return new hbs.handlebars.SafeString(`
+      <div class='form-group'>
+        <label for='${name}'>
+          ${title} ${required? '*' : ''}
+        </label>
+        ${description? '<p>' + marked(description) + '</p>' : ''}
+        <textarea class='form-control' name='${name}' ${required? 'required' : ''}>${value}</textarea>
+      </div>
+    `);
   });
 
   hbs.registerHelper("form_select", function (options) {

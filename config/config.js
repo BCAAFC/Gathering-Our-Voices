@@ -34,7 +34,7 @@ module.exports = {
   // Prices of various involvements.
   'prices': {
     // Exhibitors are always the same price.
-    'exhibitor': 400,
+    'exhibitor': 500,
     // Delegates have two prices.
     'regular': 175,
     'earlybird': 125,
