@@ -607,6 +607,7 @@ module.exports = function (db, redis) {
       }).then(function (result) {
         // Postgres seems to sort wrong.
         result = result.sort(function (a, b) { return a.createdAt - b.createdAt });
+        if (result.length === 0) { return []; }
         var item = result.shift(),
         currDate = moment(item.createdAt).startOf('day'),
         acc = 0,

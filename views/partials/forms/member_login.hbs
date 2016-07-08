@@ -1,6 +1,6 @@
 <form action="/workshops/member" method="POST" class="form-horizontal">
     <legend>View Workshops for Member</legend>
-
+    
     {{form_input title="Email Address" name="email" type="text" required=true}}
     {{form_input title="Secret" name="secret" type="text" required=true}}
 
@@ -9,6 +9,8 @@
     </div>
 
     <p>
+      If your primary contact has entered your email, you may check your workshops with your secret here.
+      <br>
       Can't remember your secret code? Ask your group's primary contact!
     </p>
 </form>
