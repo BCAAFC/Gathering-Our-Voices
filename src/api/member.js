@@ -34,18 +34,14 @@ module.exports = function (db, redis) {
       // Determine cost
       if (new Date() < EARLYBIRD_DEADLINE) {
         // Earlybird.
-        req.body.cost = 125;
+        req.body.ticketType = 'earlybird';
       } else {
         // Regular
-        req.body.cost = 175;
+        req.body.ticketType = 'regular';
       }
       if (!req.body.allergies) { req.body.allergies = []; }
       if (!req.body.conditions) { req.body.conditions = []; }
-      // Strip
-      if (req.session.isAdmin) {
-        delete req.body.cost;
-        delete req.body.tags;
-      }
+
       // Create
       return account.Group.createMember(req.body);
     }).then(function (member) {
@@ -97,7 +93,7 @@ module.exports = function (db, redis) {
       member.conditions = req.body.conditions || [];
       // Admin
       if (req.session.isAdmin) {
-        member.cost = Number(req.body.cost);
+        member.ticketType = req.body.ticketType;
       }
       // Save
       return member.save();

@@ -200,12 +200,7 @@ function beforeHook(member, options) {
         throw new Error(member.type + " must be born between "+ limits[0] +" and " + limits[1]);
       }
     }
-    // TicketType
-    if (member.createdAt < config.deadlines.earlybird) {
-      member.ticketType = 'earlybird';
-    } else if (!member.createdAt && new Date() < config.deadlines.earlybird) {
-      member.ticketType = 'earlybird';
-    }
+
     // Complete?
     if (member.name &&
       member.type &&
