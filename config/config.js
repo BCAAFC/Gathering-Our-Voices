@@ -44,6 +44,9 @@ module.exports = {
     'start': new Date('March 21, 2017'),
     'end': new Date('March 24, 2017'),
   },
+  'notifications': {
+    'workshopsToday': [ new Date('March 22, 2017 07:15'), new Date('March 23, 2017 07:30'), ],
+  },
   // Various deadlines related to the conference.
   'deadlines': {
     'earlybird': new Date('February 7, 2017'),

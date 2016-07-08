@@ -1,9 +1,10 @@
 'use strict';
 
 var client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN),
-cron = require('cron').CronJob,
-moment = require("moment"),
-_ = require("lodash");
+    cron = require('cron').CronJob,
+    moment = require("moment"),
+    config = require("../config/config"),
+    _ = require("lodash");
 
 module.exports = function(db) {
   // Sends an SMS to the delegate.
@@ -75,23 +76,25 @@ module.exports = function(db) {
 
   function setupCron(time) {
     var date = new Date(time);
-    new cron(date, function() {
-      /* runs once at the specified date. */
-      console.log("Running job to send messages for ", time, "...");
-      notifyDelegates(date);
-    },
-    function () {
-      /* This function is executed when the job stops */
-      console.log("Done job ", time, "...");
-    },
-    true, /* Start the job right now */
-    "America/Vancouver" /* Time zone of this job. */
-  );
-}
+    new cron(date,
+      function() {
+        /* runs once at the specified date. */
+        console.log("Running job to send messages for ", time, "...");
+        notifyDelegates(date);
+      },
+      function () {
+        /* This function is executed when the job stops */
+        console.log("Done job ", time, "...");
+      },
+      true, /* Start the job right now */
+      "America/Vancouver" /* Time zone of this job. */
+    );
+  }
 
-console.log("Hooking cronjobs...");
-return [
-  setupCron("Mar 22 2017 07:11:00"),
-  setupCron("Mar 23 2017 07:30:00"),
-];
+  console.log("Hooking cronjobs...");
+
+  return config.notifications.workshopsToday.map(day => {
+    console.log(`Set up Workshops Notification for ${day}`);
+    return setupCron(day);
+  });
 };
