@@ -36,8 +36,8 @@ module.exports = {
     // Exhibitors are always the same price.
     'exhibitor': 500,
     // Delegates have two prices.
-    'regular': 175,
-    'earlybird': 125,
+    'regular': 200,
+    'earlybird': 150,
   },
   // The dates of the conference
   'dates': {
