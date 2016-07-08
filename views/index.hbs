@@ -14,20 +14,21 @@
 
 
 <div id="timer">
-    <p class="lead" style="padding-top: 30px;">
-        Gathering Our Voices 2016 begins at the <strong>Victoria Conference Centre</strong> in <span id="countdown"></span>!
+    <p class="lead text-center" style="padding-top: 30px;">
+        Gathering Our Voices 2016 begins at the <strong>Victoria Conference Centre</strong> in <br>
+        <span id="countdown"></span>!
         {{#if flags.groupRegistration}}
             <br>
             <div class="progress">
-                <div class="progress-bar" role="progressbar" aria-valuenow="{{memberCount}}" aria-valuemin="0" aria-valuemax="2000" style="width: {{percent memberCount 2000}}%;">
-                    {{memberCount}} / 2000 spots filled!
+                <div class="progress-bar" role="progressbar" aria-valuenow="{{memberCount}}" aria-valuemin="0" aria-valuemax="{{@config.capacity}}" style="width: {{percent memberCount @config.capacity}}%;">
+                    {{memberCount}} / {{@config.capacity}} spots filled!
                 </div>
             </div>
         {{/if}}
     </p>
     <script>
         var timer = countdown(
-            new Date("March 21, 2016 17:00"),
+            new Date("{{@config.dates.start}}"),
             function (ts) {
                 document.getElementById("countdown").innerHTML = ts.toHTML("strong");
             },

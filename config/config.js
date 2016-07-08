@@ -31,6 +31,8 @@ module.exports = {
       'oldest': 125,
     },
   },
+  // The capacity of the conference. This is a soft capacity and the site will not automagically close registration.
+  'capacity': 1200,
   // Prices of various involvements.
   'prices': {
     // Exhibitors are always the same price.
