@@ -10065,7 +10065,9 @@ div.markdown figure {
   padding: 5px;
 }
 div.markdown figure img {
-  width: 100%;
+  max-width: 100%;
+  width: auto;
+  border-radius: 5px;
 }
 div.markdown:not(:first-child) {
   padding-top: 10px;
@@ -10077,6 +10079,9 @@ div.markdown:not(:first-child) {
 body {
   /*padding-bottom: 40px;*/
   color: #5a5a5a;
+}
+main.container > div.markdown:first-child {
+  padding-top: 25px;
 }
 .img-fill {
   max-width: 100%;
