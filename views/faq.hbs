@@ -10,7 +10,7 @@
 
   ## Conference Details
   * **When and where is the Conference happening this year?**
-    Gathering Our Voices will be in Victoria, BC - March 21-24, 2016 at the Victoria
+    Gathering Our Voices will be in Victoria, BC from {{date @config.dates.start}} until {{date @config.dates.end}} at the Victoria
     Conference Centre and other venues around the city.
   * **How can I register?**
     To register for Gathering Our Voices please visit:
@@ -48,10 +48,10 @@
 
   ## Registration Process
   * **How much are registration fees and when are they due?**
-    + Early registration fees: $125/participant (youth, young adults AND chaperones).
-      Due by February 29th, 2016.
-    + Regular registration fees: $175/participant (including youth, young adults AND
-      chaperones) Due by February 29th, 2016.
+    + Early registration fees: ${{@config.prices.earlybird}}/participant (youth, young adults AND chaperones).
+      Due by {{date @config.deadlines.payment}}.
+    + Regular registration fees: ${{@config.prices.regular}}/participant (including youth, young adults AND
+      chaperones). Due by {{date @config.deadlines.payment}}.
   * **Who has to register for the conference?**
     All youth and chaperones must register and pay the registration fees for the
     conference - No Exceptions.
@@ -59,9 +59,9 @@
     + Plenary sessions, opening ceremonies, talent showcase, dance, cultural
     morning, closing ceremonies
     + Workshops
-    + Monday, March 21st : Dinner
-    + Tuesday, March 22nd: Breakfast and Lunch
-    + Wednesday, March 23rd: Breakfast and Lunch
+    + Day 1: Dinner
+    + Day 2: Breakfast and Lunch
+    + Day 3: Breakfast and Lunch
   * **What does Registration fees not cover?**
     + Travel
     + Accommodation
@@ -79,7 +79,7 @@
     reserve your rooms as soon as possible as accommodation options will fill quickly.
   * **How can I get to Victoria?**
     Check out this quick list of various transportation options to help you plan your
-    trip to Gathering Our Voices 2016:
+    trip to Gathering Our Voices:
 
     + **Air**
       - **Victoria Airport – YYJ**
@@ -136,8 +136,8 @@
 
 
   ## General Exhibitor Information
-  * **Exhibitor Registration Fee:** $400 per table, 2 days, March 22nd and 23rd, 8:30 am – 5:00 pm.
-  * Exhibitor application deadline is January 29, 2016
+  * **Exhibitor Registration Fee:** ${{@config.prices.exhibitor}} per table, Days 2 and 3, 8:30 am – 5:00 pm.
+  * Exhibitor application deadline is {{date @config.deadlines.exhibitor}}.
   * To Register visit the home page and click the large blue button apply as a group facilitator, volunteer, or exhibitor!
   * Preferred method of payment is by cheque payable to BCAAFC and mailed to: 551 Chatham Street, Victoria, BC  V8T 1E1.
   * Each booth will be provided with one 6’ skirted table and two chairs.
