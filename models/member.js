@@ -7,8 +7,10 @@ var Promise = require("bluebird"),
   eliminateDuplicates = require("../src/utils/eliminate-duplicates"),
   randomWords = require("../src/utils/random-words");
 
+var Member;
+
 module.exports = function(sequelize, DataTypes) {
-  var Member = sequelize.define('Member', {
+  Member = sequelize.define('Member', {
     // Main
     name: {
       type: DataTypes.STRING,
@@ -121,7 +123,8 @@ module.exports = function(sequelize, DataTypes) {
       },
       isRightAge: function () {
         var bracket = Member.birthDateLimits(this.type);
-        return moment(this.birthDate).isBetween(bracket[0], bracket[1]);
+        // Note the ordering of this **does** matter.
+        return moment(this.birthDate).isBetween(bracket[1], bracket[0]);
       }
     },
     classMethods: {
@@ -193,7 +196,7 @@ function beforeHook(member, options) {
     // Age
     if (member.type && member.birthDate) {
       if (!member.isRightAge) {
-        var limits = birthDateLimits(member.type);
+        var limits = Member.birthDateLimits(member.type);
         throw new Error(member.type + " must be born between "+ limits[0] +" and " + limits[1]);
       }
     }
@@ -212,12 +215,12 @@ function beforeHook(member, options) {
       member.contactRelation &&
       member.contactPhone &&
       member.medicalNumber)
-      {
+    {
         member.complete = true;
-      } else {
+    } else {
         member.complete = false;
-      }
+    }
 
-      return resolve(member);
-    });
-  }
+    return resolve(member);
+  });
+}
