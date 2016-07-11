@@ -83,7 +83,7 @@ module.exports = function (hbs) {
       conflict = "conflict=\"" + conflict + "\"";
     } else { conflict = ""; }
 
-    return new hbs.handlebars.SafeString("<option "+disabled+" "+conflict+" name=member value="+member.id+">"+member.name+" "+note+"</option>");
+    return new hbs.handlebars.SafeString(`<option ${disabled} ${conflict} name='member' value=${member.id}>${member.name} ${note}</option>`);
   });
 
   hbs.registerHelper("if-in-session", function (options) {
