@@ -9,12 +9,12 @@ module.exports = function (hbs) {
 
   hbs.registerHelper("form_input", function (options) {
     // Not all form elements are consistent. This attempts to help with some basics.
-    var title = escape(options.hash.title),
+    var title = String(options.hash.title),
         name = escape(options.hash.name),
         description = options.hash.description,
-        type = options.hash.type,
-        required = options.hash.required,
-        value = null;
+        type = escape(options.hash.type),
+        required = Boolean(options.hash.required),
+        value = null; // Done later.
 
     // A main concern here is that checkboxes don't use `value` but instead the `checked` attribute.
     // The below conditional checks this and makes `value` the correct output.
@@ -41,12 +41,12 @@ module.exports = function (hbs) {
   });
 
   hbs.registerHelper("form_textarea", function (options) {
-    var title = escape(options.hash.title),
+    var title = String(options.hash.title),
         name = escape(options.hash.name),
-        description = escape(options.hash.description),
+        description = options.hash.description, // Optional
         type = escape(options.hash.type),
-        required = options.hash.required,
-        value = escape(options.hash.value);
+        required = Boolean(options.hash.required),
+        value = String(options.hash.value);
 
     return new hbs.handlebars.SafeString(`
       <div class='form-group'>
@@ -60,46 +60,51 @@ module.exports = function (hbs) {
   });
 
   hbs.registerHelper("form_select", function (options) {
-    var params = options.hash,
-    output = [];
-    // Defaults
-    if (params.required) { params.required = " required"; }
-    else { params.required = ""; }
-    if (params.multiple) { params.multiple = " multiple size=" + params.multiple; }
-    else { params.multiple = ""; }
-    // Build
-    output.push("<div class=form-group>");
-    output.push("<label for=" + params.name + ">" + params.title);
-    if (params.required) { output.push("*"); }
-    output.push("</label>");
-    if (params.description) {
-      output.push("<p>" + params.description + "</p>");
-    }
-    if (params.multiple) {
-      output.push("<p><small>To select multiple items, use the CONTROL or COMMAND key and click.</small></p>");
-    }
-    output.push("<select class=form-control name=" + params.name + " " + params.required + params.multiple + ">");
-    // Selected Worker
-    var child = options.fn(this);
-    if (params.selected && !params.multiple) {
-      child = child.replace(
-        "value=\"" + params.selected + "\"",
-        "value=\"" + params.selected + "\" selected='selected'"
+    var title = String(options.hash.title),
+        name = escape(options.hash.name),
+        description = options.hash.description, // Optional
+        multiple = Number(options.hash.multiple), // Size
+        required = Boolean(options.hash.required),
+        selected = options.hash.selected; // String or Array
+
+    var inner = options.fn(this);
+
+    if (selected && !multiple) {
+      inner = inner.replace(
+        `value='${selected}'`,
+        `value='${selected}' selected='selected'`
       );
-    } else if (params.selected && params.multiple) {
-      params.selected.map(function (item) {
-        child = child.replace(
-          "value=\"" + item + "\"",
-          "value=\"" + item + "\" selected='selected'"
+      // Handle both.
+      inner = inner.replace(
+        `value="${selected}"`,
+        `value="${selected}" selected='selected'`
+      );
+    } else if (selected && multiple) {
+      selected.map(function (item) {
+        inner = inner.replace(
+          `value='${item}'`,
+          `value='${item}' selected='selected'`
+        );
+        // Handle both.
+        inner = inner.replace(
+          `value="${item}"`,
+          `value="${item}" selected='selected'`
         );
       });
     }
-    output.push(child);
-    // Closes
-    output.push("</select>");
-    output.push("</div>");
-    // Return
-    return new hbs.handlebars.SafeString(output.join(""));
+
+    return new hbs.handlebars.SafeString(`
+      <div class='form-group'>
+        <label for='${name}'>
+          ${title} ${required? '*' : ''}
+        </label>
+        ${description? '<p>' + marked(description) + '</p>' : ''}
+        ${multiple? '<p><small>To select multiple items, use the CONTROL or COMMAND key and click.</small></p>' : ''}
+        <select class='form-control' name='${name}' ${required? 'required' : ''} ${multiple? 'multiple size='+size : ''}>
+          ${inner}
+        </select>
+      </div>
+    `);
   });
 
   hbs.registerHelper("form_tags", function (options) {
