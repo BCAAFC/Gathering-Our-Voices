@@ -65,9 +65,8 @@ module.exports = function (hbs) {
         description = options.hash.description, // Optional
         multiple = Number(options.hash.multiple), // Size
         required = Boolean(options.hash.required),
-        selected = options.hash.selected; // String or Array
-
-    var inner = options.fn(this);
+        selected = options.hash.selected, // String or Array
+        inner = options.fn(this);
 
     if (selected && !multiple) {
       inner = inner.replace(
@@ -100,7 +99,7 @@ module.exports = function (hbs) {
         </label>
         ${description? '<p>' + marked(description) + '</p>' : ''}
         ${multiple? '<p><small>To select multiple items, use the CONTROL or COMMAND key and click.</small></p>' : ''}
-        <select class='form-control' name='${name}' ${required? 'required' : ''} ${multiple? 'multiple size='+size : ''}>
+        <select class='form-control' name='${name}' ${required? 'required' : ''} ${multiple? 'multiple size='+multiple : ''}>
           ${inner}
         </select>
       </div>
@@ -108,26 +107,23 @@ module.exports = function (hbs) {
   });
 
   hbs.registerHelper("form_tags", function (options) {
-    var params = options.hash,
-    output = [];
-    // Defaults
-    if (params.required) { params.required = " required"; }
-    else { params.required = ""; }
-    // Build
-    output.push("<div class=form-group>");
-    output.push("<label for=" + params.name + ">" + params.title);
-    if (params.required) { output.push("*"); }
-    output.push("</label>");
-    if (params.description) {
-      output.push("<p>" + params.description + "</p>");
-    }
-    output.push("<select multiple data-role=\"tagsinput\" class=form-control name=" + params.name + " " + params.required + ">");
-    output.push(options.fn(this));
-    // Closes
-    output.push("</select>");
-    output.push("</div>");
-    // Return
-    return new hbs.handlebars.SafeString(output.join(""));
+    var required = Boolean(options.hash.required),
+        description = options.hash.description,
+        name = escape(options.hash.name),
+        title = String(options.hash.title),
+        inner = options.fn(this);
+
+    return new hbs.handlebars.SafeString(`
+      <div class='form-group'>
+        <label for='${name}'>
+          ${title} ${required? '*' : ''}
+        </label>
+        ${description? '<p>' + marked(description) + '</p>' : ''}
+        <select multiple data-role='tagsinput' class='form-control' name='${name}' ${required? 'required' : ''}>
+          ${inner}
+        </select>
+      </div>
+    `);
   });
 
   hbs.registerHelper("form_boolean", function (options) {
