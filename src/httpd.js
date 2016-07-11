@@ -1,5 +1,7 @@
 'use strict';
 
+var config = require("../config/config");
+
 var fs = require("fs"),
 marked = require("marked"),
 express = require("express"),
@@ -39,7 +41,7 @@ module.exports = function (db, redisClient) {
   var session = require("express-session"),
   RedisStore = require("connect-redis")(session);
   server.use(require("express-session")({
-    secret            : process.env.SECRET,
+    secret            : config.secret,
     store             : new RedisStore({
       client: redisClient,
       ttl: 60*60*8 // 8 hours
@@ -62,17 +64,17 @@ module.exports = function (db, redisClient) {
 
   // Static Mappings
   server.use("/css", express.static("./static/css",
-  {maxAge: 86400000 * 4}));
+    { maxAge: 86400000 * 4 }));
   server.use("/documents", express.static("./static/documents",
-  {maxAge: 86400000 * 4}));
+    { maxAge: 86400000 * 4 }));
   server.use("/fonts", express.static("./static/fonts",
-  {maxAge: 86400000 * 4}));
+    { maxAge: 86400000 * 4 }));
   server.use("/images", express.static("./static/images",
-  {maxAge: 86400000 * 4}));
+    { maxAge: 86400000 * 4 }));
   server.use("/logos", express.static("./static/logos",
-  {maxAge: 86400000 * 4}));
+    { maxAge: 86400000 * 4 }));
   server.use("/js", express.static("./static/js",
-  {maxAge: 86400000 * 4}));
+    { maxAge: 86400000 * 4 }));
   server.get("/favicon.ico", function (req, res) { res.send("./static/favicon.ico"); });
 
   return server;

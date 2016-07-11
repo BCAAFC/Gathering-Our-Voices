@@ -1,9 +1,9 @@
 'use strict';
 
-var client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN),
+var config = require("../config/config"),
+    client = require('twilio')(config.twilio.sid, config.twilio.token),
     cron = require('cron').CronJob,
     moment = require("moment"),
-    config = require("../config/config"),
     _ = require("lodash");
 
 module.exports = function(db) {

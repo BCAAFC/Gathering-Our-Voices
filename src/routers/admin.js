@@ -316,40 +316,6 @@ module.exports = function (db, redis) {
     });
   });
 
-  router.route("/images")
-  .get(function (req, res) {
-    fs.readdir(process.env.UPLOAD_DIR + "images/", function (err, files) {
-      if (err) {
-        alert.error(req, err.message);
-        console.log(err);
-        return res.redirect("back");
-      }
-      files = files
-      .filter(function (val) { return val[0] !== '.'; })
-      .map(function (val) { return val.split(".").shift(); });
-      res.render("admin/images", {
-        title: "Administration - Images",
-        account: req.session.account,
-        admin: req.session.isAdmin,
-        flags: db.Flag.cache,
-        alert: req.alert,
-        files: files,
-      });
-    });
-  });
-
-  router.route("/editor")
-  .get(function (req, res) {
-    db.Page.findAll({}).then(function (pages) {
-      res.render("editor", {
-        layout: null,
-        pages: pages,
-        admin: req.session.isAdmin,
-        flags: db.Flag.cache,
-      });
-    });
-  });
-
   router.route("/manage/:id/*?")
   .get(function (req, res) {
     db.Account.findOne({

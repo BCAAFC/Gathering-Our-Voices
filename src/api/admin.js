@@ -1,6 +1,7 @@
 'use strict';
 
-var middleware = require("../utils/middleware");
+var middleware = require("../utils/middleware"),
+    config     = require("../../config/config");
 
 var csv_stringify = require("csv-stringify");
 
@@ -17,7 +18,7 @@ module.exports = (db, redis) => {
             // Capitalize as expected.
             model = model.charAt(0).toUpperCase() + model.slice(1)
             // Make sure key is right.
-            if (process.env.DATASOURCE_KEY !== null && key !== process.env.DATASOURCE_KEY) {
+            if (config.datasourceKey !== null && key !== config.datasourceKey) {
                 reject(new Error("Key is invalid."));
             } else {
                 resolve(db[model].findAll({ order: "id", raw: true }));

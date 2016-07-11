@@ -7,7 +7,7 @@
 'use strict';
 
 // Check the environment.
-var env = require("./src/env")();
+var config = require("./config/config");
 
 // Connect to the database.
 var db = require("./models");
@@ -21,8 +21,8 @@ var httpd = require("./src/httpd")(db, redis);
 // Assign the routers to the server.
 httpd = require("./src/routers")(httpd, db, redis);
 
-httpd.listen(process.env.PORT, function () {
-  console.log("Listening on " + process.env.PORT);
+httpd.listen(config.port, function () {
+  console.log("Listening on " + config.port);
 });
 
 // Start up one time cron jobs.

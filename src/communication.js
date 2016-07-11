@@ -1,11 +1,13 @@
 'use strict';
 
+var config = require("../config/config");
+
 var fs = require("fs"),
-marked = require("marked"),
-Promise = require("bluebird"),
-Handlebars = require("handlebars"),
-nodemailer = require("nodemailer"),
-mail_transport = nodemailer.createTransport(process.env.MAILGUN_CREDS);
+    marked = require("marked"),
+    Promise = require("bluebird"),
+    Handlebars = require("handlebars"),
+    nodemailer = require("nodemailer"),
+    mail_transport = nodemailer.createTransport(config.mailgun);
 
 // Use sync stuff here because it's easy and it only happens once at startup.
 var templates = {}
@@ -17,7 +19,7 @@ fs.readdirSync("mails/").forEach(function (mail_template) {
 
 module.exports = {
   mail: function mail(options) {
-    if (process.env.MAILGUN_CREDS == "undefined") { // Env variables are strings. :S
+    if (config.mailgun === undefined) { // Env variables are strings. :S
       console.log("Attempted to mail, but no credentials were present.")
       return new Promise(function (resolve, reject) { return resolve(); });
     } else {
