@@ -4,3 +4,4 @@ bower_components/
 npm-debug.log
 uploads/
 backups/*.tar.gz
+config/config.js
