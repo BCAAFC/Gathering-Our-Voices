@@ -127,51 +127,32 @@ module.exports = function (hbs) {
   });
 
   hbs.registerHelper("form_boolean", function (options) {
-    var params = options.hash,
-    output = [];
-    // Defaults
-    if (params.required) { params.required = " required"; }
-    else { params.required = ""; }
-    // Build
-    output.push("<div class=form-group>");
-    output.push("<label for=" + params.name + ">" + params.title);
-    if (params.required) { output.push("*"); }
-    output.push("</label>");
-    if (params.description) {
-      output.push("<p>" + params.description + "</p>");
-    }
-    // Radios
-    if (params.value === true) {
-      output.push("<div class=\"radio-inline\"><label>" +
-      "<input type=\"radio\" name=\"" + params.name + "\" value=\"Yes\" checked=\"checked\"" + params.required + ">" +
-      "Yes" +
-      "</label></div>");
-      output.push("<div class=\"radio-inline\"><label>" +
-      "<input type=\"radio\" name=\"" + params.name + "\" value=\"No\"" + params.required + ">" +
-      "No" +
-      "</label></div>");
-    } else if (params.value === false) {
-      output.push("<div class=\"radio-inline\"><label>" +
-      "<input type=\"radio\" name=\"" + params.name + "\" value=\"Yes\"" + params.required + ">" +
-      "Yes" +
-      "</label></div>");
-      output.push("<div class=\"radio-inline\"><label>" +
-      "<input type=\"radio\" name=\"" + params.name + "\" value=\"No\" checked=\"checked\"" + params.required + ">" +
-      "No" +
-      "</label></div>");
-    } else {
-      output.push("<div class=\"radio-inline\"><label>" +
-      "<input type=\"radio\" name=\"" + params.name + "\" value=\"Yes\"" + params.required + ">" +
-      "Yes" +
-      "</label></div>");
-      output.push("<div class=\"radio-inline\"><label>" +
-      "<input type=\"radio\" name=\"" + params.name + "\" value=\"No\"" + params.required + ">" +
-      "No" +
-      "</label></div>");
-    }
-    output.push("</div>");
+    var required = Boolean(options.hash.required),
+        name = escape(options.hash.name),
+        title = String(options.hash.title),
+        description = options.hash.description, // Optional
+        value = options.hash.value; // True / False / Null
 
-    return new hbs.handlebars.SafeString(output.join(""));
+    return new hbs.handlebars.SafeString(`
+      <div class='form-group'>
+        <label for='${name}'>
+          ${title} ${required? '*' : ''}
+        </label>
+        ${description? '<p>' + marked(description) + '</p>' : ''}
+        <div class='radio-inline'>
+          <label>
+            <input type='radio' name='${name}' ${required? 'required' : ''} value='Yes' ${value === true? "checked='checked'" : ''}>
+            Yes
+          </label>
+        </div>
+        <div class='radio-inline'>
+          <label>
+            <input type='radio' name='${name}' ${required? 'required' : ''} value='No' ${value === false? "checked='checked'" : ''}>
+            No
+          </label>
+        </div>
+      </div>
+    `);
   });
 
   return hbs;
