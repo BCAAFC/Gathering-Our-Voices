@@ -27,19 +27,13 @@ module.exports = function (hbs) {
     return tokens.join(" ");
   });
 
-  hbs.registerHelper("date", function (val) {
-    if (!val) { return ""; }
-    else { return moment(val).format("MM/DD/YYYY"); }
-  });
-
-  hbs.registerHelper("datetime", function (val) {
-    if (!val) { return ""; }
-    else { return moment(val).format("MM/DD/YYYY hh:mm A"); }
-  });
-
-  hbs.registerHelper("time", function (val) {
-    if (!val) { return ""; }
-    else { return moment(val).format("hh:mm A"); }
+  hbs.registerHelper("date", function (val, options) {
+    var formatting = options.hash.formatting || 'MM/DD/YYYY';
+    if (!val) {
+      return "";
+    } else {
+      return new hbs.handlebars.SafeString(moment(val).format(formatting));
+    }
   });
 
   hbs.registerHelper("label-list", function (list) {

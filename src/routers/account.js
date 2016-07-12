@@ -4,6 +4,7 @@ var config = require("../../config/config");
 
 var Promise = require("bluebird"),
     fs = require("fs"),
+    moment = require('moment'),
     alert = require("../utils/alert");
 
 module.exports = function (db, redis) {
@@ -328,17 +329,18 @@ module.exports = function (db, redis) {
         include: [db.Volunteer]
       }).then(function (account) {
         req.session.account = account;
-        var schedule;
-        if (!account.Volunteer) {
-          schedule = db.Volunteer.build({ }).schedule;
-        }
         res.render("account/volunteer", {
           title: "Account - Volunteer",
           account: account,
           admin: req.session.isAdmin,
           flags: db.Flag.cache,
           alert: req.alert,
-          schedule: schedule, // Used on empty volunteer.
+          //
+          dayZeroDate: moment(config.dates.start).subtract(1, 'days').toDate(),
+          dayOneDate: config.dates.start,
+          dayTwoDate: moment(config.dates.start).add(1, 'days').toDate(),
+          dayThreeDate: moment(config.dates.start).add(2, 'days').toDate(),
+          dayFourDate: moment(config.dates.start).add(3, 'days').toDate(),
         });
       }).catch(function (error) {
         alert.error(req, error.message);

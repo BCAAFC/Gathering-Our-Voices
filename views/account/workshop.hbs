@@ -31,8 +31,8 @@
         <tbody>
             {{#each workshop.Sessions}}
                 <tr>
-                    <td>{{datetime start}}</td>
-                    <td>{{datetime end}}</td>
+                    <td>{{date start formatting='MM/DD/YYYY hh:mm A'}}</td>
+                    <td>{{date end formatting='MM/DD/YYYY hh:mm A'}}</td>
                     <td>{{room}}</td>
                     <td>{{venue}}</td>
                     <td>{{Members.length}}/{{capacity}}</td>

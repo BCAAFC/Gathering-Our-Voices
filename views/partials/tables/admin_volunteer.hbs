@@ -82,29 +82,6 @@ $(function () {
         }
       },
       {
-        targets: 6, // Schedule
-        render: function (data, type, row) {
-          if (data) {
-            return data.map(function (v) {
-              var result = "<span style='white-space: nowrap;'>"
-              result += v.day.slice(0, 3);
-              result += "<span class='btn-group'>";
-              result += ['morning', 'afternoon', 'evening'].map(function (time) {
-                if (v[time].available && v[time].scheduled) {
-                  return "<span class='btn btn-xs btn-success'>" + time[0].toUpperCase() + "</span>";
-                } else if (v[time].available) {
-                  return "<span class='btn btn-xs btn-warning'>" + time[0].toUpperCase() + "</span>";
-                } else {
-                  return "<span class='btn btn-xs btn-default'>" + time[0].toUpperCase() + "</span>";
-                }
-              }).join("");
-              result += "</span>"
-              return result;
-            }).join("<br>");
-          }
-        }
-      },
-      {
         targets: [-6, -7, -8 ], // Notes, Previous Experience, Interests
         render: function (data, type, row) {
           if (data) {

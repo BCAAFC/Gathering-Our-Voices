@@ -29,11 +29,29 @@
         },
 
         // Availability & Schedule
-        // This is by day. Yes it's still kind of gross.
-        schedule: {
-            type: Sequelize.JSON,
-            allowNull: false,
-        },
+        // Availability & Schedule
+        // Day 0 is the day **before** opening ceremonies.
+        dayZeroMorning:   { type: Sequelize.TEXT, allowNull: true, defaultValue: null, },
+        dayZeroAfternoon: { type: Sequelize.TEXT, allowNull: true, defaultValue: null, },
+        dayZeroEvening:   { type: Sequelize.TEXT, allowNull: true, defaultValue: null, },
+        // Day 1 is the day of OC / Registration
+        dayOneMorning:    { type: Sequelize.TEXT, allowNull: true, defaultValue: null, },
+        dayOneAfternoon:  { type: Sequelize.TEXT, allowNull: true, defaultValue: null, },
+        dayOneEvening:    { type: Sequelize.TEXT, allowNull: true, defaultValue: null, },
+        // Day 2 is the first day of workshops
+        dayTwoMorning:    { type: Sequelize.TEXT, allowNull: true, defaultValue: null, },
+        dayTwoAfternoon:  { type: Sequelize.TEXT, allowNull: true, defaultValue: null, },
+        dayTwoEvening:    { type: Sequelize.TEXT, allowNull: true, defaultValue: null, },
+        // Day 3 is the second day of workshops
+        dayThreeMorning:  { type: Sequelize.TEXT, allowNull: true, defaultValue: null, },
+        dayThreeAfternoon: { type: Sequelize.TEXT, allowNull: true, defaultValue: null, },
+        dayThreeEvening:  { type: Sequelize.TEXT, allowNull: true, defaultValue: null, },
+        // Day 4 is the closing day.
+        dayFourMorning:   { type: Sequelize.TEXT, allowNull: true, defaultValue: null, },
+        dayFourAfternoon: { type: Sequelize.TEXT, allowNull: true, defaultValue: null, },
+        dayFourEvening:   { type: Sequelize.TEXT, allowNull: true, defaultValue: null, },
+
+
         // Emergency Name/number
         emergencyName: {
             type: Sequelize.TEXT,

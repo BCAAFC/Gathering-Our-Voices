@@ -8,43 +8,6 @@ var csv_stringify = require("csv-stringify"),
     moment = require("moment"),
     Promise = require("bluebird");
 
-function scaffoldDay(day, req, current) {
-    var  result = {};
-
-    result.day = day;
-    result.morning = {};
-    result.morning.available = req.body[day + '-morning-available']? true : false;
-    if (req.session.isAdmin) {
-        result.morning.scheduled = req.body[day + '-morning-scheduled'];
-    } else if (current && current.morning) {
-        result.morning.scheduled = current.morning.scheduled;
-    } else {
-        result.morning.scheduled = null;
-    }
-
-    result.afternoon = {};
-    result.afternoon.available = req.body[day + '-afternoon-available']? true : false;
-    if (req.session.isAdmin) {
-        result.afternoon.scheduled = req.body[day + '-afternoon-scheduled'];
-    } else if (current && current.afternoon) {
-        result.afternoon.scheduled = current.afternoon.scheduled;
-    } else {
-        result.afternoon.scheduled = null;
-    }
-
-    result.evening = {};
-    result.evening.available = req.body[day + '-evening-available']? true : false;
-    if (req.session.isAdmin) {
-        result.evening.scheduled = req.body[day + '-evening-scheduled'];
-    } else if (current && current.evening) {
-        result.evening.scheduled = current.evening.scheduled;
-    } else {
-        result.evening.scheduled = null;
-    }
-
-    return result;
-}
-
 module.exports = function (db, redis) {
     var router = require("express").Router();
 
@@ -61,32 +24,30 @@ module.exports = function (db, redis) {
                 throw new Error("No account found.");
             }
 
-            var volunteer = {};
-
-            var schedule = [
-                scaffoldDay("Sunday, March 20", req),
-                scaffoldDay("Monday, March 21", req),
-                scaffoldDay("Tuesday, March 22", req),
-                scaffoldDay("Wednesday, March 23", req),
-                scaffoldDay("Thursday, March 24", req),
-            ];
-            volunteer.schedule = schedule;
+            Object.keys(req.body).filter(key => key.startsWith('day')).map(key => {
+              console.log(`isAdmin ${req.session.isAdmin} | Key ${req.body[key]}`)
+              if (req.body[key] === 'on') {
+                // They've just turned it on.
+                volunteer[key] = 'Available';
+                console.log(`Turning ${key} on.`);
+              } else if (req.session.isAdmin && req.body[key]) {
+                // Admin is defining the task.
+                volunteer[key] = req.body[key];
+                console.log(`Setting ${key} to ${req.body[key]}.`);
+              } else {
+                // It's no longer defined.
+                volunteer[key] = null;
+                console.log(`Nulling ${key}`);
+              }
+            });
 
             if (req.body.applied === "on") {
-                volunteer.applied = true;
+                req.body.applied = true;
             } else {
-                volunteer.applied = false;
+                req.body.applied = false;
             }
 
-            volunteer.emergencyName = req.body.emergencyName;
-            volunteer.emergencyPhone = req.body.emergencyPhone;
-            volunteer.tshirt = req.body.tshirt;
-            volunteer.previousExperience = req.body.previousExperience;
-            volunteer.interests = req.body.interests;
-            volunteer.notes = req.body.notes;
-
-            console.log(volunteer);
-            return account.createVolunteer(volunteer);
+            return account.createVolunteer(req.body);
         }).then(function (volunteer) {
             res.format({
                 'text/html': function () {
@@ -128,7 +89,6 @@ module.exports = function (db, redis) {
             }
 
             // Approved/FollowUp is done seperately.
-
             volunteer.emergencyName = req.body.emergencyName;
             volunteer.emergencyPhone = req.body.emergencyPhone;
             volunteer.tshirt = req.body.tshirt;
@@ -136,9 +96,23 @@ module.exports = function (db, redis) {
             volunteer.previousExperience = req.body.previousExperience;
             volunteer.notes = req.body.notes;
 
-            volunteer.schedule = volunteer.schedule.map(function (v) {
-                return scaffoldDay(v.day, req, v);
+            Object.keys(req.body).filter(key => key.startsWith('day')).map(key => {
+              console.log(`isAdmin ${req.session.isAdmin} | Key ${req.body[key]}`)
+              if (req.body[key] === 'on') {
+                // They've just turned it on.
+                volunteer[key] = 'Available';
+                console.log(`Turning ${key} on.`);
+              } else if (req.session.isAdmin && req.body[key]) {
+                // Admin is defining the task.
+                volunteer[key] = req.body[key];
+                console.log(`Setting ${key} to ${req.body[key]}.`);
+              } else {
+                // It's no longer defined.
+                volunteer[key] = null;
+                console.log(`Nulling ${key}`);
+              }
             });
+
 
             return volunteer.save();
         }).then(function (volunteer) {

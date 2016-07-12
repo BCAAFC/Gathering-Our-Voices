@@ -46,7 +46,7 @@ module.exports = function (hbs) {
         description = options.hash.description, // Optional
         type = escape(options.hash.type),
         required = Boolean(options.hash.required),
-        value = String(options.hash.value);
+        value = options.hash.value;
 
     return new hbs.handlebars.SafeString(`
       <div class='form-group'>
@@ -54,7 +54,7 @@ module.exports = function (hbs) {
           ${title} ${required? '*' : ''}
         </label>
         ${description? '<p>' + marked(description) + '</p>' : ''}
-        <textarea class='form-control' name='${name}' ${required? 'required' : ''}>${value}</textarea>
+        <textarea class='form-control' name='${name}' ${required? 'required' : ''}>${value? value : ''}</textarea>
       </div>
     `);
   });

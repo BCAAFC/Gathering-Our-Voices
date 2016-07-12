@@ -13,79 +13,243 @@
     {{#unless flags.volunteerRegistration}}
         <div class="alert alert-warning">Modifying your availability is now locked, please contact the volunteer coordinator to change your schedule.</div>
     {{/unless}}
-    {{#if volunteer}}
-        <div id="availability" class="row">
-            {{#each volunteer.schedule}}
-                <div id="{{day}}" class="form-group col-sm-4">
-                    <table class="table">
-                        <thead>
-                            <tr><th colspan=3>{{day}}</th></tr>
-                            <tr><th>Avail?</th><th>Time</th><th>Scheduled</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="checkbox" name="{{day}}-morning-available" {{#if this.morning.available}} checked="checked" {{/if}} {{#unless ../admin}}{{#unless ../flags.volunteerRegistration}} disabled {{/unless}}{{/unless}}></td>
-                                <td>Morning</td>
-                                {{#if ../admin}}
-                                    <td><input type=text name="{{day}}-morning-scheduled" value="{{morning.scheduled}}"></td>
-                                {{else}}
-                                    <td><pre>{{morning.scheduled}}</pre></td>
-                                {{/if}}
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" name="{{day}}-afternoon-available" {{#if this.afternoon.available}} checked="checked" {{/if}} {{#unless ../admin}}{{#unless ../flags.volunteerRegistration}} disabled {{/unless}}{{/unless}}></td>
-                                <td>Afternoon</td>
-                                {{#if ../admin}}
-                                    <td><input type=text name="{{day}}-afternoon-scheduled" value="{{afternoon.scheduled}}"></td>
-                                {{else}}
-                                    <td><pre>{{afternoon.scheduled}}</pre></td>
-                                {{/if}}
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" name="{{day}}-evening-available" {{#if this.evening.available}} checked="checked" {{/if}} {{#unless ../admin}}{{#unless ../flags.volunteerRegistration}} disabled {{/unless}}{{/unless}}></td>
-                                <td>Evening</td>
-                                {{#if ../admin}}
-                                    <td><input type=text name="{{day}}-evening-scheduled" value="{{evening.scheduled}}"></td>
-                                {{else}}
-                                    <td><pre>{{evening.scheduled}}</pre></td>
-                                {{/if}}
-                            </tr>
-                        </tbody>
-                    </table></td>
-                </div>
-            {{/each}}
-        </div>
-    {{else}}
-        <div id="availability" class="row">
-            {{#each schedule}}
-                <div id="{{day}}" class="form-group col-sm-4">
-                    <table class="table">
-                        <thead>
-                            <tr><th colspan=3>{{day}}</th></tr>
-                            <tr><th>Avail?</th><th>Time</th><th>Scheduled</th></tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td><input type="checkbox" name="{{day}}-morning-available" {{#if this.morning.available}} checked="checked" {{/if}}></td>
-                                <td>Morning</td>
-                                <td><small>Pending Availability</small></td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" name="{{day}}-afternoon-available" {{#if this.afternoon.available}} checked="checked" {{/if}}></td>
-                                <td>Afternoon</td>
-                                <td><small>Pending Availability</small></td>
-                            </tr>
-                            <tr>
-                                <td><input type="checkbox" name="{{day}}-evening-available" {{#if this.evening.available}} checked="checked" {{/if}}></td>
-                                <td>Evening</td>
-                                <td><small>Pending Availability</small></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            {{/each}}
-        </div>
-    {{/if}}
+
+
+    <div id="availability" class="row">
+      <div class="form-group col-sm-4">
+          <table class="table">
+              <thead>
+                <tr>
+                  <th>Day</th>
+                  <th>Time</th>
+                  <th>Schedule</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td rowspan=3>{{date dayZeroDate formatting='ddd MM/DD/YYYY'}}</td>
+                  <td>Morning</td>
+                  <td>
+                    {{#if admin}}
+                      <input type='text' name='dayZeroMorning' value='{{volunteer.dayZeroMorning}}'>
+                    {{else}}
+                      {{#if volunteer.dayZeroMorning}}
+                        <span>{{volunteer.dayZeroMorning}}</span>
+                      {{else}}
+                        <input type='checkbox' name='dayZeroMorning' {{#if volunteer.dayZeroMorning}} checked='checked' {{/if}} {{#unless flags.volunteerRegistration}} disabled {{/unless}}>
+                      {{/if}}
+                    {{/if}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Afternoon</td>
+                  <td>
+                    {{#if admin}}
+                      <input type='text' name='dayZeroAfternoon' value='{{volunteer.dayZeroAfternoon}}'>
+                    {{else}}
+                      {{#if volunteer.dayZeroAfternoon}}
+                        <span>{{volunteer.dayZeroAfternoon}}</span>
+                      {{else}}
+                        <input type='checkbox' name='dayZeroAfternoon' {{#if volunteer.dayZeroAfternoon}} checked='checked' {{/if}} {{#unless flags.volunteerRegistration}} disabled {{/unless}}>
+                      {{/if}}
+                    {{/if}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Evening</td>
+                  <td>
+                    {{#if admin}}
+                      <input type='text' name='dayZeroEvening' value='{{volunteer.dayZeroEvening}}'>
+                    {{else}}
+                      {{#if volunteer.dayZeroEvening}}
+                        <span>{{volunteer.dayZeroEvening}}</span>
+                      {{else}}
+                        <input type='checkbox' name='dayZeroEvening' {{#if volunteer.dayZeroEvening}} checked='checked' {{/if}} {{#unless flags.volunteerRegistration}} disabled {{/unless}}>
+                      {{/if}}
+                    {{/if}}
+                  </td>
+                </tr>
+                <!-- Day Break -->
+                <tr>
+                  <td rowspan=3>{{date dayOneDate formatting='ddd MM/DD/YYYY'}}</td>
+                  <td>Morning</td>
+                  <td>
+                    {{#if admin}}
+                      <input type='text' name='dayOneMorning' value='{{volunteer.dayOneMorning}}'>
+                    {{else}}
+                      {{#if volunteer.dayOneMorning}}
+                        <span>{{volunteer.dayOneMorning}}</span>
+                      {{else}}
+                        <input type='checkbox' name='dayOneMorning' {{#if volunteer.dayOneMorning}} checked='checked' {{/if}} {{#unless flags.volunteerRegistration}} disabled {{/unless}}>
+                      {{/if}}
+                    {{/if}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Afternoon</td>
+                  <td>
+                    {{#if admin}}
+                      <input type='text' name='dayOneAfternoon' value='{{volunteer.dayOneAfternoon}}'>
+                    {{else}}
+                      {{#if volunteer.dayOneAfternoon}}
+                        <span>{{volunteer.dayOneAfternoon}}</span>
+                      {{else}}
+                        <input type='checkbox' name='dayOneAfternoon' {{#if volunteer.dayOneAfternoon}} checked='checked' {{/if}} {{#unless flags.volunteerRegistration}} disabled {{/unless}}>
+                      {{/if}}
+                    {{/if}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Evening</td>
+                  <td>
+                    {{#if admin}}
+                      <input type='text' name='dayOneEvening' value='{{volunteer.dayOneEvening}}'>
+                    {{else}}
+                      {{#if volunteer.dayOneEvening}}
+                        <span>{{volunteer.dayOneEvening}}</span>
+                      {{else}}
+                        <input type='checkbox' name='dayOneEvening' {{#if volunteer.dayOneEvening}} checked='checked' {{/if}} {{#unless flags.volunteerRegistration}} disabled {{/unless}}>
+                      {{/if}}
+                    {{/if}}
+                  </td>
+                </tr>
+                <!-- Day Break -->
+                <tr>
+                  <td rowspan=3>{{date dayTwoDate formatting='ddd MM/DD/YYYY'}}</td>
+                  <td>Morning</td>
+                  <td>
+                    {{#if admin}}
+                      <input type='text' name='dayTwoMorning' value='{{volunteer.dayTwoMorning}}'>
+                    {{else}}
+                      {{#if volunteer.dayTwoMorning}}
+                        <span>{{volunteer.dayTwoMorning}}</span>
+                      {{else}}
+                        <input type='checkbox' name='dayTwoMorning' {{#if volunteer.dayTwoMorning}} checked='checked' {{/if}} {{#unless flags.volunteerRegistration}} disabled {{/unless}}>
+                      {{/if}}
+                    {{/if}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Afternoon</td>
+                  <td>
+                    {{#if admin}}
+                      <input type='text' name='dayTwoAfternoon' value='{{volunteer.dayTwoAfternoon}}'>
+                    {{else}}
+                      {{#if volunteer.dayTwoAfternoon}}
+                        <span>{{volunteer.dayTwoAfternoon}}</span>
+                      {{else}}
+                        <input type='checkbox' name='dayTwoAfternoon' {{#if volunteer.dayTwoAfternoon}} checked='checked' {{/if}} {{#unless flags.volunteerRegistration}} disabled {{/unless}}>
+                      {{/if}}
+                    {{/if}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Evening</td>
+                  <td>
+                    {{#if admin}}
+                      <input type='text' name='dayTwoEvening' value='{{volunteer.dayTwoEvening}}'>
+                    {{else}}
+                      {{#if volunteer.dayTwoEvening}}
+                        <span>{{volunteer.dayTwoEvening}}</span>
+                      {{else}}
+                        <input type='checkbox' name='dayTwoEvening' {{#if volunteer.dayTwoEvening}} checked='checked' {{/if}} {{#unless flags.volunteerRegistration}} disabled {{/unless}}>
+                      {{/if}}
+                    {{/if}}
+                  </td>
+                </tr>
+                <!-- Day Break -->
+                <tr>
+                  <td rowspan=3>{{date dayThreeDate formatting='ddd MM/DD/YYYY'}}</td>
+                  <td>Morning</td>
+                  <td>
+                    {{#if admin}}
+                      <input type='text' name='dayThreeMorning' value='{{volunteer.dayThreeMorning}}'>
+                    {{else}}
+                      {{#if volunteer.dayThreeMorning}}
+                        <span>{{volunteer.dayThreeMorning}}</span>
+                      {{else}}
+                        <input type='checkbox' name='dayThreeMorning' {{#if volunteer.dayThreeMorning}} checked='checked' {{/if}} {{#unless flags.volunteerRegistration}} disabled {{/unless}}>
+                      {{/if}}
+                    {{/if}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Afternoon</td>
+                  <td>
+                    {{#if admin}}
+                      <input type='text' name='dayThreeAfternoon' value='{{volunteer.dayThreeAfternoon}}'>
+                    {{else}}
+                      {{#if volunteer.dayThreeAfternoon}}
+                        <span>{{volunteer.dayThreeAfternoon}}</span>
+                      {{else}}
+                        <input type='checkbox' name='dayThreeAfternoon' {{#if volunteer.dayThreeAfternoon}} checked='checked' {{/if}} {{#unless flags.volunteerRegistration}} disabled {{/unless}}>
+                      {{/if}}
+                    {{/if}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Evening</td>
+                  <td>
+                    {{#if admin}}
+                      <input type='text' name='dayThreeEvening' value='{{volunteer.dayThreeEvening}}'>
+                    {{else}}
+                      {{#if volunteer.dayThreeEvening}}
+                        <span>{{volunteer.dayThreeEvening}}</span>
+                      {{else}}
+                        <input type='checkbox' name='dayThreeEvening' {{#if volunteer.dayThreeEvening}} checked='checked' {{/if}} {{#unless flags.volunteerRegistration}} disabled {{/unless}}>
+                      {{/if}}
+                    {{/if}}
+                  </td>
+                </tr>
+                <!-- Day Break -->
+                <tr>
+                  <td rowspan=3>{{date dayFourDate formatting='ddd MM/DD/YYYY'}}</td>
+                  <td>Morning</td>
+                  <td>
+                    {{#if admin}}
+                      <input type='text' name='dayFourMorning' value='{{volunteer.dayFourMorning}}'>
+                    {{else}}
+                      {{#if volunteer.dayFourMorning}}
+                        <span>{{volunteer.dayFourMorning}}</span>
+                      {{else}}
+                        <input type='checkbox' name='dayFourMorning' {{#if volunteer.dayFourMorning}} checked='checked' {{/if}} {{#unless flags.volunteerRegistration}} disabled {{/unless}}>
+                      {{/if}}
+                    {{/if}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Afternoon</td>
+                  <td>
+                    {{#if admin}}
+                      <input type='text' name='dayFourAfternoon' value='{{volunteer.dayFourAfternoon}}'>
+                    {{else}}
+                      {{#if volunteer.dayFourAfternoon}}
+                        <span>{{volunteer.dayFourAfternoon}}</span>
+                      {{else}}
+                        <input type='checkbox' name='dayFourAfternoon' {{#if volunteer.dayFourAfternoon}} checked='checked' {{/if}} {{#unless flags.volunteerRegistration}} disabled {{/unless}}>
+                      {{/if}}
+                    {{/if}}
+                  </td>
+                </tr>
+                <tr>
+                  <td>Evening</td>
+                  <td>
+                    {{#if admin}}
+                      <input type='text' name='dayFourEvening' value='{{volunteer.dayFourEvening}}'>
+                    {{else}}
+                      {{#if volunteer.dayFourEvening}}
+                        <span>{{volunteer.dayFourEvening}}</span>
+                      {{else}}
+                        <input type='checkbox' name='dayFourEvening' {{#if volunteer.dayFourEvening}} checked='checked' {{/if}} {{#unless flags.volunteerRegistration}} disabled {{/unless}}>
+                      {{/if}}
+                    {{/if}}
+                  </td>
+                </tr>
+              </tbody>
+          </table>
+      </div>
+    </div>
+
 
     <div class="form-group">
         <p class="lead">Shirt Size</p>

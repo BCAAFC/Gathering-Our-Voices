@@ -15,9 +15,9 @@
       <h4>Sessions</h4>
       {{#each Sessions}}
         <div class="col-sm-3">
-          <strong>Start:</strong> {{datetime start}}
+          <strong>Start:</strong> {{date start formatting='MM/DD/YYYY hh:mm A'}}
           <br>
-          <strong>End:</strong> {{time end}}
+          <strong>End:</strong> {{date end formatting='hh:mm A'}}
           <br>
           <strong>Room:</strong> {{room}}
           <br>

@@ -12,8 +12,8 @@
           {{#each member.Sessions}}
             <tr>
                 <td><a href="/workshops/{{Workshop.id}}">{{Workshop.title}}</a></td>
-                <td>{{datetime start}}</td>
-                <td>{{time end}}</td>
+                <td>{{date start formatting='MM/DD/YYYY hh:mm A'}}</td>
+                <td>{{date end formatting='hh:mm A'}}</td>
                 <td>{{room}}</td>
                 <td>{{venue}}</td>
             </tr>
@@ -41,8 +41,8 @@
           {{#each interests}}
             <tr>
                 <td><a href="/workshops/{{Workshop.id}}">{{Workshop.title}}</a></td>
-                <td>{{datetime start}}</td>
-                <td>{{time end}}</td>
+                <td>{{date start formatting='MM/DD/YYYY hh:mm A'}}</td>
+                <td>{{date end formatting='hh:mm A'}}</td>
                 <td>{{room}}</td>
                 <td>{{venue}}</td>
             </tr>

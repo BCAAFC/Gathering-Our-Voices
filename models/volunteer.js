@@ -1,4 +1,8 @@
 'use strict';
+
+var eliminateDuplicates = require('../src/utils/eliminate-duplicates'),
+    communication = require('../src/communication');
+
 module.exports = function(sequelize, DataTypes) {
   var Volunteer = sequelize.define('Volunteer', {
     // CRC
@@ -22,19 +26,28 @@ module.exports = function(sequelize, DataTypes) {
     },
 
     // Availability & Schedule
-    // This is by day. Yes it's still kind of gross.
-    schedule: {
-      type: DataTypes.JSON,
-      allowNull: false,
-      // Easier to iterator over and always in order.
-      defaultValue: [
-        dayScaffold("Sunday, March 20"),
-        dayScaffold("Monday, March 21"),
-        dayScaffold("Tuesday, March 22"),
-        dayScaffold("Wednesday, March 23"),
-        dayScaffold("Thursday, March 24"),
-      ],
-    },
+    // Day 0 is the day **before** opening ceremonies.
+    dayZeroMorning:   { type: DataTypes.TEXT, allowNull: true, defaultValue: null, },
+    dayZeroAfternoon: { type: DataTypes.TEXT, allowNull: true, defaultValue: null, },
+    dayZeroEvening:   { type: DataTypes.TEXT, allowNull: true, defaultValue: null, },
+    // Day 1 is the day of OC / Registration
+    dayOneMorning:    { type: DataTypes.TEXT, allowNull: true, defaultValue: null, },
+    dayOneAfternoon:  { type: DataTypes.TEXT, allowNull: true, defaultValue: null, },
+    dayOneEvening:    { type: DataTypes.TEXT, allowNull: true, defaultValue: null, },
+    // Day 2 is the first day of workshops
+    dayTwoMorning:    { type: DataTypes.TEXT, allowNull: true, defaultValue: null, },
+    dayTwoAfternoon:  { type: DataTypes.TEXT, allowNull: true, defaultValue: null, },
+    dayTwoEvening:    { type: DataTypes.TEXT, allowNull: true, defaultValue: null, },
+    // Day 3 is the second day of workshops
+    dayThreeMorning:  { type: DataTypes.TEXT, allowNull: true, defaultValue: null, },
+    dayThreeAfternoon: { type: DataTypes.TEXT, allowNull: true, defaultValue: null, },
+    dayThreeEvening:  { type: DataTypes.TEXT, allowNull: true, defaultValue: null, },
+    // Day 4 is the closing day.
+    dayFourMorning:   { type: DataTypes.TEXT, allowNull: true, defaultValue: null, },
+    dayFourAfternoon: { type: DataTypes.TEXT, allowNull: true, defaultValue: null, },
+    dayFourEvening:   { type: DataTypes.TEXT, allowNull: true, defaultValue: null, },
+
+
     // Emergency Name/number
     emergencyName: {
       type: DataTypes.TEXT,
@@ -118,21 +131,3 @@ module.exports = function(sequelize, DataTypes) {
   });
   return Volunteer;
 };
-
-function dayScaffold(day) {
-  return {
-    day: day,
-    morning: {
-      available: false,
-      scheduled: null,
-    },
-    afternoon: {
-      available: false,
-      scheduled: null,
-    },
-    evening: {
-      available: false,
-      scheduled: null,
-    },
-  };
-}
