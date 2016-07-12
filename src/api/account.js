@@ -39,14 +39,6 @@ module.exports = function (db, redis) {
     });
 
     router.route("/")
-    // Send all accounts.
-    .get(middleware.admin, function (req, res) {
-        db.Account.findAll({}).then(function (accounts) {
-            res.status(200).json(accounts);
-        }).catch(function (error) {
-            res.status(401).json({ error: error.message });
-        });
-    })
     // Account creation.
     .post(function (req, res) {
         if (!req.body.robots || req.body.robots.trim().toLowerCase() !== "victoria") {

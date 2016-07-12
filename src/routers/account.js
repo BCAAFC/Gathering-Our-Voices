@@ -13,7 +13,19 @@ module.exports = function (db, redis) {
   .get(function (req, res) {
     db.Account.findOne({
       where: { id: req.session.account.id, },
-      include: [db.Workshop, db.Exhibitor, db.Group, db.Volunteer],
+      include: [{
+        model: db.Workshop,
+        attributes: ['id'],
+      }, {
+        model: db.Exhibitor,
+        attributes: ['id'],
+      }, {
+        model: db.Group,
+        attributes: ['id'],
+      }, {
+        model: db.Volunteer,
+        attributes: ['id'],
+      }],
     }).then(function (account) {
       req.session.account = account;
       res.render("account/index", {
