@@ -28,7 +28,7 @@ is primarily configured through environment variables.
 * `grunt build`
 * Setup your environment. See `config/` for various knobs to tweak.
 * `./node_modules/sequelize-cli/bin/sequelize db:migrate`
-* `node_modules/sequelize-cli/bin/sequelize db:seed:all`
+* `./node_modules/sequelize-cli/bin/sequelize db:seed:all`
 * Run `start.js` with the desired settings.
 
 Example:
@@ -56,75 +56,7 @@ To restore given a `backups/$DATE.tar.gz`:
 
 ## How to Deploy ##
 
-In order to deploy on Funtoo this script is used in `/etc/init.d/gov2016`:
-
-```bash
-#!/sbin/runscript
-
-# Do NOT "set -e"
-
-# PATH should only include /usr/* if it runs after the mountnfs.sh script
-PATH=/sbin:/usr/sbin:/bin:/usr/bin
-DESC="gov2016"
-NAME=gov2016
-DIR_ROOT=$FIXME
-GROUP=$FIXME
-USER=$FIXME
-DAEMON=/usr/bin/node
-DAEMON_ARGS="index.js"
-LOGFILE=/var/log/gov2016
-PIDFILE=/var/run/$NAME.pid
-SCRIPTNAME=/etc/init.d/$NAME
-# Exports for node
-export NODE_ENV=production
-export PORT=$FIXME
-export SECRET=$FIXME
-export ADMINS=$FIXME
-export PG_URL=$FIXME
-export UPLOAD_DIR=$FIXME
-export MANDRILL_APIKEY=$FIXME
-export TWILIO_ACCOUNT_SID=$FIXME
-export TWILIO_AUTH_TOKEN=$FIXME
-
-extra_commands="firstrun"
-#
-source /lib64/rc/sh/functions.sh
-
-depend() {
-  use logger dns
-  need net redis postgresql  
-}
-
-start() {
-  ebegin "Starting ${DESC}"
-  start-stop-daemon --start --quiet \
-    --user $USER:$GROUP --chdir $DIR_ROOT --background \
-    --stdout $LOGFILE --stderr $LOGFILE \
-    --make-pidfile --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_ARGS
-  eend $?
-}
-
-#
-# Function that stops the daemon/service
-#
-stop() {
-  ebegin "Stopping ${DESC}"
-  start-stop-daemon --stop --quiet --retry=TERM/30/KILL/5 \
-    --pidfile $PIDFILE --exec $DAEMON
-  eend $?
-}
-
-firstrun() {
-  ebegin "Doing FIRSTRUN for ${DESC}"
-  export FIRSTRUN=true
-  start-stop-daemon --start --quiet \
-    --user $USER:$GROUP --chdir $DIR_ROOT --background \
-    --stdout $LOGFILE --stderr $LOGFILE \
-    --make-pidfile --pidfile $PIDFILE --exec $DAEMON -- $DAEMON_ARGS
-
-  eend $? "failed"
-}
-```
+You can explore the `Dockerfile` and the `docker-compose.yml` for how to deploy.
 
 ## Contributors ##
 

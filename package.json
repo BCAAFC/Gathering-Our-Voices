@@ -8,7 +8,7 @@
     "npm": "~3.8.6"
   },
   "scripts": {
-    "start": "node start.js"
+    "start": "./node_modules/sequelize-cli/bin/sequelize db:migrate && node start.js"
   },
   "repository": {
     "type": "git",
