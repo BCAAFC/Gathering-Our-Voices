@@ -1,10 +1,23 @@
 'use strict';
 
 var config = require("../config/config"),
-    client = require('twilio')(config.twilio.sid, config.twilio.token),
     cron = require('cron').CronJob,
     moment = require("moment"),
     _ = require("lodash");
+
+// If the twilio creds don't exist we build a simple mock.
+var client;
+if (config.twilio.sid && config.twilio.token) {
+    client = require('twilio')(config.twilio.sid, config.twilio.token);
+} else {
+    client = {
+      sendMessage: function(data, cb) {
+          console.log("Faking Twilio call...")
+          cb(null, null);
+      }
+    };
+}
+
 
 module.exports = function(db) {
   // Sends an SMS to the delegate.

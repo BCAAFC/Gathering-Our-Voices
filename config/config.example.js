@@ -1,10 +1,8 @@
 module.exports = {
   // The port to run on.
-  'port': 80,
+  'port': 8080,
   // The secret for cookies.
   'secret': 'example',
-  // The URL for redis.
-  'redis': 'redis',
   // The credentials for Mailgun.
   // Ex. `smtps://$EMAIL:$PASSWORD@smtp.mailgun.org`
   'mailgun': undefined,

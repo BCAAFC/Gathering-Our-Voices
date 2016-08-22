@@ -7,7 +7,7 @@ marked = require("marked"),
 express = require("express"),
 morgan = require("morgan");
 
-module.exports = function (db, redisClient) {
+module.exports = function (db) {
   var server = express();
 
   // Logging
@@ -38,14 +38,9 @@ module.exports = function (db, redisClient) {
   }));
 
   // Session handling.
-  var session = require("express-session"),
-  RedisStore = require("connect-redis")(session);
-  server.use(require("express-session")({
+  var session = require("express-session");
+  server.use(session({
     secret            : config.secret,
-    store             : new RedisStore({
-      client: redisClient,
-      ttl: 60*60*8 // 8 hours
-    }),
     resave            : true,
     saveUninitialized : true,
     secure            : true

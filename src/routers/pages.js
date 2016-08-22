@@ -3,7 +3,7 @@
 var hbs = require("hbs"),
     url = require("url");
 
-module.exports = function (db, redis) {
+module.exports = function (db) {
   var router = require("express").Router();
 
   router.get("/about", function (req, res) {

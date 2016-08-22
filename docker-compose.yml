@@ -2,17 +2,13 @@ version: '2'
 services:
   postgres:
     image: postgres
-  redis:
-    image: redis
   web:
     build: .
     ports:
-      - "80:8080"
+      - "8080:8080"
     # Not explicitly naming links is a bad idea since compose gives them other
     # names, so when you lookup by hostname it can't find it with ENOTFOUND.
     links:
       - postgres
-      - redis
     depends_on:
       - postgres
-      - redis
