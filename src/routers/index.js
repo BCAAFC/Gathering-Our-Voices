@@ -25,7 +25,7 @@ function getMemberCount(db) {
   }
 }
 
-module.exports = function (httpd, db, redis) {
+module.exports = function (httpd, db) {
 
   httpd.get("/", function (req, res) {
     getMemberCount(db).then(function (count) {
@@ -40,7 +40,7 @@ module.exports = function (httpd, db, redis) {
   });
 
   httpd.use("/api",
-  require("../api")(db, redis));
+  require("../api")(db));
 
   httpd.use(function (req, res, next) {
     // Consume message.
@@ -53,21 +53,21 @@ module.exports = function (httpd, db, redis) {
 
   // Workshop routes
   httpd.use("/workshops",
-  require("./workshops")(db, redis));
+  require("./workshops")(db));
 
   // Account routes.
   httpd.use("/account",
   middleware.auth,
-  require("./account")(db, redis));
+  require("./account")(db));
 
   // Admin routes.
   httpd.use("/admin",
   middleware.admin,
-  require("./admin")(db, redis));
+  require("./admin")(db));
 
   // It's quite important that this is last.
   httpd.use("/",
-  require("./pages")(db, redis));
+  require("./pages")(db));
 
   // 404
   httpd.use(function notFoundHandler(req, res) {

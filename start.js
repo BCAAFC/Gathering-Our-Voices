@@ -12,14 +12,11 @@ var config = require("./config/config");
 // Connect to the database.
 var db = require("./models");
 
-// Connect to redis.
-var redis = require("./src/redis")();
-
 // Fire up the HTTP server.
-var httpd = require("./src/httpd")(db, redis);
+var httpd = require("./src/httpd")(db);
 
 // Assign the routers to the server.
-httpd = require("./src/routers")(httpd, db, redis);
+httpd = require("./src/routers")(httpd, db);
 
 httpd.listen(config.port, function () {
   console.log("Listening on " + config.port);

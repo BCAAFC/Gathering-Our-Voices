@@ -7,7 +7,7 @@ var Promise = require("bluebird"),
     moment = require('moment'),
     alert = require("../utils/alert");
 
-module.exports = function (db, redis) {
+module.exports = function (db) {
   var router = require("express").Router();
 
   router.route("/")

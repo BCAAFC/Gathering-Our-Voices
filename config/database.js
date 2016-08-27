@@ -1,9 +1,9 @@
  module.exports = {
   'development': {
-    'username': 'hoverbear',
+    'username': 'postgres',
     'password': null,
-    'database': 'gov_dev',
-    'host': 'localhost',
+    'database': 'postgres',
+    'host': 'postgres',
     'dialect': 'postgres',
     'logging': false
   },

@@ -43,6 +43,8 @@ module.exports = function (db, redisClient) {
   server.use(require("express-session")({
     secret            : config.secret,
     store             : new RedisStore({
+      host: config.redis,
+      // logErrors: true,
       client: redisClient,
       ttl: 60*60*8 // 8 hours
     }),
