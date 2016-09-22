@@ -44,16 +44,14 @@ module.exports = {
 
   down: function (queryInterface, Sequelize) {
     return queryInterface.bulkDelete('Flags', {
-      where: {
-        keyword: [
-          "groupRegistration",
-          "memberRegistration",
-          "exhibitorRegistration",
-          "facilitatorRegistration",
-          "volunteerRegistration",
-          "workshopSignup"
-        ]
-      },
-    }, {});
+      keyword: [
+        "groupRegistration",
+        "memberRegistration",
+        "exhibitorRegistration",
+        "facilitatorRegistration",
+        "volunteerRegistration",
+        "workshopSignup"
+      ],
+    });
   }
 };
