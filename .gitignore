@@ -5,3 +5,4 @@ npm-debug.log
 uploads/
 backups/*.tar.gz
 config/config.js
+config/database.js
