@@ -21,7 +21,7 @@
         <a class="btn btn-block btn-default" href="/account/group">Declare your Group</a>
       {{/if}}
       <p>As a group, register your youth (and young at heart) for the main events and their choice of curated workshops.</p>
-      <p><strong>Deadline:</strong> {{date @config.dates.start}}</p>
+      <p><strong>Deadline:</strong> {{date @config.dates.start formatting="MMM DD, YYYY"}}</p>
     </div>
     <div id="facilitate" class="col-md-3 col-sm-6 col-xs-12 text-center">
       <img class="img-rounded img-fill" src="/images/account/facilitate.jpg">
@@ -49,7 +49,7 @@
         <a class="btn btn-block btn-default" href="/account/exhibitor">Apply to Exhibit</a>
       {{/if}}
       <p>As an exhibitor, you'll have space in our Career & Education Fair and meet hundreds of interested delegates.</p>
-      <p><strong>Deadline:</strong> {{date @config.deadlines.exhibitor}}</p>
+      <p><strong>Deadline:</strong> {{date @config.deadlines.exhibitor formatting="MMM DD, YYYY"}}</p>
     </div>
     <div id="volunteer" class="col-md-3 col-sm-6 col-xs-12 text-center">
       <img class="img-rounded img-fill" src="/images/account/volunteer.jpg">
@@ -63,7 +63,7 @@
         <a class="btn btn-block btn-default" href="/account/volunteer">Apply to Volunteer</a>
       {{/if}}
       <p>As a volunteer, you'll be <strong>our hero</strong> and be a key part of the event in every way!</p>
-      <p><strong>Deadline:</strong> {{date @config.deadlines.volunteer}}</p>
+      <p><strong>Deadline:</strong> {{date @config.deadlines.volunteer formatting="MMM DD, YYYY"}}</p>
     </div>
   </div>
   <div class="row text-center">
