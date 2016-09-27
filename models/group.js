@@ -58,16 +58,16 @@ module.exports = function(sequelize, DataTypes) {
     instanceMethods: {
       // Returns a hard number.
       cost: function () {
-        return this.getMembers({attributes: ['id'], }).then(function (members) {
+        return this.getMembers({attributes: ['id', 'ticketType'], }).then(function (members) {
           // Get counts of each price.
           var counts = members.reduce(function (acc, member, idx) {
             if (!acc[member.ticketType]) { acc[member.ticketType] = 0; }
             acc[member.ticketType] +=1;
             return acc;
-          }, {});
+          }, { regular: 0, earlybird: 0 });
           // Find number of free.
-          var regularCount = (counts['regular']) ? counts['regular'].length : 0,
-              earlybirdCount = (counts['earlybird']) ? counts['earlybird'].length : 0;
+          var regularCount = counts['regular'],
+              earlybirdCount = counts['earlybird'];
           var free = Math.floor((regularCount + earlybirdCount) / 6);
           // Drop some regulars till we have no more frees, or no more regs.
           while (free > 0 && counts['regular'] > 0) {
@@ -86,7 +86,7 @@ module.exports = function(sequelize, DataTypes) {
       // Returns a tabular description.
       breakdown: function () {
         return this.getMembers({
-          attributes: ['name', 'type', 'ticketType', ],
+          attributes: ['name', 'type', 'ticketType' ],
         }).then(function (members) {
           // Get counts of each price.
           var counts = members.reduce(function (acc, member, idx) {
@@ -102,6 +102,8 @@ module.exports = function(sequelize, DataTypes) {
           var idx = 0;
           while (free > 0 && counts['regular'].length > idx) {
             free -= 1;
+            // Need to clone it as a plain object because of sequelize getter semantics.
+            counts['regular'][idx] = counts['regular'][idx].get({plain: true})
             counts['regular'][idx].cost = 0;
             idx += 1;
           }
@@ -109,6 +111,8 @@ module.exports = function(sequelize, DataTypes) {
           idx = 0;
           while (free > 0 && counts['earlybird'].length > idx) {
             free -= 1;
+            // Need to clone it as a plain object because of sequelize getter semantics.
+            counts['earlybird'][idx] = counts['earlybird'][idx].get({plain: true})
             counts['earlybird'][idx].cost = 0;
             idx += 1;
           }
