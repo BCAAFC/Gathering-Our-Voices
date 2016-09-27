@@ -93,7 +93,7 @@ module.exports = function(sequelize, DataTypes) {
             if (!acc[member.ticketType]) { acc[member.ticketType] = []; }
             acc[member.ticketType].push(member);
             return acc;
-          }, {});
+          }, { 'regular': [], 'earlybird': [] }); // Init to empty.
           // Find number of free.
           var regularCount = (counts['regular']) ? counts['regular'].length : 0,
               earlybirdCount = (counts['earlybird']) ? counts['earlybird'].length : 0;
