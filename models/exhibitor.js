@@ -136,7 +136,7 @@ module.exports = function(sequelize, DataTypes) {
             to: account.email,
             from: '"GOV Robot" <website-robot@mg.bcaafc.com>',
             cc: "dpreston@bcaafc.com",
-            title: "Exhibitor Application Recieved",
+            title: "Exhibitor Application Received",
             template: "apply_exhibitor",
             variables: {
               name: account.name,
