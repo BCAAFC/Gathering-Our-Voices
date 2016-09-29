@@ -25,7 +25,7 @@ module.exports = function (hbs) {
       }
     } else {
       // If it's anything else it uses `value='foo'`.
-      value = `value=${escape(options.hash.value)}`
+      value = `value="${escape(options.hash.value)}"`
     }
 
     return new hbs.handlebars.SafeString(`
