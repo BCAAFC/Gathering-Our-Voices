@@ -10139,12 +10139,12 @@ div.parallax div {
 }
 /* iPhone */
 @media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
-  div.parallax {
+  div.parallax > div {
     background-attachment: scroll;
   }
 }
 @media only screen and (min-device-width: 375px) and (max-device-width: 667px) {
-  div.parallax {
+  div.parallax > div {
     background-attachment: scroll;
   }
 }
