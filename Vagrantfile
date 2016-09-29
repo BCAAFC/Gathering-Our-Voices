@@ -41,10 +41,11 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
-    apt-get install -y git redis-server postgresql nodejs-legacy npm build-essential git
+    apt-get install -y git redis-server postgresql nodejs-legacy npm build-essential git libjpeg-progs
+    npm install -g bower
+    npm install -g grunt-cli
     echo "ALTER USER postgres WITH PASSWORD 'postgres';" | sudo su postgres -c psql
     cd /vagrant
     ./node_modules/sequelize-cli/bin/sequelize db:migrate
-    ./node_modules/sequelize-cli/bin/sequelize db:seed:all
   SHELL
 end
