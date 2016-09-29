@@ -10133,32 +10133,17 @@ div.parallax div {
   right: 0;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  background-size: 100%;
-  /* Workaround for IOS Safari */
   background-size: cover;
   background-position: center;
   box-shadow: inset 0 10px 25px -25px black, inset 0 -10px 25px -25px black;
 }
-/* iPhone Portrait */
-@media screen and (max-device-width: 480px) and (orientation: portrait) {
+/* iPhone */
+@media only screen and (min-device-width: 320px) and (max-device-width: 568px) {
   div.parallax {
     background-attachment: scroll;
   }
 }
-/* iPhone Landscape */
-@media screen and (max-device-width: 480px) and (orientation: landscape) {
-  div.parallax {
-    background-attachment: scroll;
-  }
-}
-/* iPad Portrait */
-@media screen and (min-device-width: 481px) and (orientation: portrait) {
-  div.parallax {
-    background-attachment: scroll;
-  }
-}
-/* iPad Landscape */
-@media screen and (min-device-width: 481px) and (orientation: landscape) {
+@media only screen and (min-device-width: 375px) and (max-device-width: 667px) {
   div.parallax {
     background-attachment: scroll;
   }
