@@ -1,8 +1,9 @@
 'use strict';
 
 var bcrypt = require("bcrypt"),
-Promise = require("bluebird"),
-communication = require("../src/communication");
+  Promise = require("bluebird"),
+  crypto = require('crypto'),
+  communication = require("../src/communication");
 
 var compare = Promise.promisify(bcrypt.compare);
 
