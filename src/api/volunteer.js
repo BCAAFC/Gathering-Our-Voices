@@ -25,18 +25,18 @@ module.exports = function (db, redis) {
             }
 
             Object.keys(req.body).filter(key => key.startsWith('day')).map(key => {
-              console.log(`isAdmin ${req.session.isAdmin} | Key ${req.body[key]}`)
+              console.log(`isAdmin ${req.session.isAdmin} | Key ${req.body[key]}`);
               if (req.body[key] === 'on') {
                 // They've just turned it on.
-                volunteer[key] = 'Available';
+                req.body[key] = 'Available';
                 console.log(`Turning ${key} on.`);
               } else if (req.session.isAdmin && req.body[key]) {
                 // Admin is defining the task.
-                volunteer[key] = req.body[key];
+                req.body[key] = req.body[key];
                 console.log(`Setting ${key} to ${req.body[key]}.`);
               } else {
                 // It's no longer defined.
-                volunteer[key] = null;
+                req.body[key] = null;
                 console.log(`Nulling ${key}`);
               }
             });
@@ -97,7 +97,7 @@ module.exports = function (db, redis) {
             volunteer.notes = req.body.notes;
 
             Object.keys(req.body).filter(key => key.startsWith('day')).map(key => {
-              console.log(`isAdmin ${req.session.isAdmin} | Key ${req.body[key]}`)
+              console.log(`isAdmin ${req.session.isAdmin} | Key ${req.body[key]}`);
               if (req.body[key] === 'on') {
                 // They've just turned it on.
                 volunteer[key] = 'Available';
@@ -281,10 +281,10 @@ module.exports = function (db, redis) {
         }).then(function (volunteers) {
             // Process Schedule
             for (var vol_num=0; vol_num < volunteers.length; vol_num++) {
-                volunteers[vol_num].tags = String(volunteers[vol_num].tags)
-                volunteers[vol_num].applied = String(volunteers[vol_num].applied)
-                volunteers[vol_num].approved = String(volunteers[vol_num].approved)
-                volunteers[vol_num].followUp = String(volunteers[vol_num].followUp)
+                volunteers[vol_num].tags = String(volunteers[vol_num].tags);
+                volunteers[vol_num].applied = String(volunteers[vol_num].applied);
+                volunteers[vol_num].approved = String(volunteers[vol_num].approved);
+                volunteers[vol_num].followUp = String(volunteers[vol_num].followUp);
                 var schedule = volunteers[vol_num].schedule;
                 for (var i=0; i < schedule.length; i++) {
                     var entry = schedule[i];
