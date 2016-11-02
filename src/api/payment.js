@@ -36,13 +36,13 @@ module.exports = function (db, redis) {
         }).then(function (payment) {
             if (!payment) { throw new Error("Payment not found."); }
             return payment.destroy();
-        }).then(function (member) {
+        }).then(function (payment) {
             res.format({
                 'text/html': function () {
                     alert.success(req, "Payment deleted.");
                     res.redirect('/account/payments');
                 },
-                'default': function () { res.status(200).json(account); },
+                'default': function () { res.status(200).json({}); },
             });
         }).catch(function (error) {
             res.format({
@@ -72,7 +72,7 @@ module.exports = function (db, redis) {
         }).then(function (payment) {
             res.format({
                 'text/html': function () { res.redirect('back'); },
-                'default': function () { res.status(200).json(session); },
+                'default': function () { res.status(200).json({}); },
             });
         }).catch(function (error) {
             console.log(error);

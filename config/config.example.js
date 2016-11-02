@@ -71,6 +71,6 @@ module.exports = {
     'facilitator': new Date('November 6, 2017'),
     'exhibitor': new Date('January 29, 2017'),
     'volunteer': new Date('February 29, 2017'),
-    'payment': new Date('February 29, 2017'),
+    'payment': new Date('February 28, 2017'),
   },
 }

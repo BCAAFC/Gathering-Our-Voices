@@ -34,7 +34,7 @@ module.exports = function (db, redis) {
                     alert.success(req, "Updated workshop session");
                     res.redirect('/account/workshop/' + req.body.workshop);
                 },
-                'default': function () { res.status(200).json(session); },
+                'default': function () { res.status(200).json(workshop); },
             });
         }).catch(function (error) {
             console.log(error);

@@ -50,7 +50,7 @@ module.exports = function (db, redis) {
           alert.success(req, "Member added.");
           res.redirect('/account/group');
         },
-        'default': function () { res.status(200).json(account); },
+        'default': function () { res.status(200).json(member); },
       });
     }).catch(function (error) {
       console.error(error);
@@ -103,7 +103,7 @@ module.exports = function (db, redis) {
           alert.success(req, "Member updated.");
           res.redirect('/account/group');
         },
-        'default': function () { res.status(200).json(account); },
+        'default': function () { res.status(200).json(member); },
       });
     }).catch(function (error) {
       res.format({
@@ -167,7 +167,7 @@ module.exports = function (db, redis) {
           alert.success(req, "Member deleted.");
           res.redirect('/account/group');
         },
-        'default': function () { res.status(200).json(account); },
+        'default': function () { res.status(200).json(member); },
       });
     }).catch(function (error) {
       res.format({
