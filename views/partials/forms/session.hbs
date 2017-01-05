@@ -8,9 +8,9 @@
     {{/if}}
 
 
-    {{form_input title="Start Time" name="start" type="datetime" value=(datetime session.start)
+    {{form_input title="Start Time" name="start" type="datetime" value=(date session.start formatting="MM/DD/YYYY hh:mm A")
         description="Should be <code>MM/DD/YYYY hh:mm AM</code>"}}
-    {{form_input title="End Time" name="end" type="datetime" value=(datetime session.end)
+    {{form_input title="End Time" name="end" type="datetime" value=(date session.end formatting="MM/DD/YYYY hh:mm A")
         description="Should be <code>MM/DD/YYYY hh:mm AM</code>"}}
     {{form_input title="Room" name="room" type="text" value=session.room}}
     {{form_input title="Venue" name="venue" type="text" value=session.venue}}
