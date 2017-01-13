@@ -121,11 +121,6 @@ module.exports = function(sequelize, DataTypes) {
       cost: function () {
         return config.prices[this.getDataValue('ticketType')];
       },
-      isRightAge: function () {
-        var bracket = Member.birthDateLimits(this.type);
-        // Note the ordering of this **does** matter.
-        return moment(this.birthDate).isBetween(bracket[1], bracket[0]);
-      }
     },
     classMethods: {
       associate: function (models) {
@@ -157,6 +152,11 @@ module.exports = function(sequelize, DataTypes) {
             }
           });
         });
+      },
+      isRightAge: function () {
+        var bracket = Member.birthDateLimits(this.type);
+        // Note the ordering of this **does** matter.
+        return moment(this.birthDate).isBetween(bracket[1], bracket[0]);
       },
     },
     hooks: {
@@ -195,7 +195,7 @@ function beforeHook(member, options) {
     member.tags = eliminateDuplicates(member.tags);
     // Age
     if (member.type && member.birthDate) {
-      if (!member.isRightAge) {
+      if (!member.isRightAge()) {
         var limits = Member.birthDateLimits(member.type);
         throw new Error(member.type + " must be born between "+ limits[0] +" and " + limits[1]);
       }
