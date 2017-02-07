@@ -50,7 +50,7 @@
                                             <select name="member" class="form-control">
                                                 <option value="">Select a member...</option>
                                                 {{#each ../../account.Group.Members}}
-                                                    {{{member-option member=this workshop=../../../workshop session=../../this}}}
+                                                    {{{member-option member=this workshop=../../../workshop session=../this}}}
                                                 {{else}}
                                                     <option disabled=true>Your group has no members!</option>
                                                 {{/each}}
@@ -84,7 +84,7 @@
                                             {{#if-in-session member=this session=../this}}
                                                 <tr>
                                                     <td>{{name}}</td>
-                                                    <td><a class="btn btn-xs btn-danger" href="/api/session/{{../../id}}/remove/{{id}}" onclick="return confirm('Are you sure?')">
+                                                    <td><a class="btn btn-xs btn-danger" href="/api/session/{{../id}}/remove/{{id}}" onclick="return confirm('Are you sure?')">
                                                         <i class="fa fa-fw fa-trash"></i>
                                                     </a></td>
                                                 </tr>
