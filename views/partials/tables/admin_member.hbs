@@ -40,13 +40,13 @@ $(function () {
         },
       },
       {
-        targets: -5, // Tags
+        targets: -6, // Tags
         render: function (data, type, row) {
           return  "<input class=\"tags\" data-id=\""+row.id+"\" data-role=\"tagsinput\" value=\""+data+"\">";
         },
       },
       {
-        targets: -7, // Complete
+        targets: -8, // Complete
         render: function (data, type, row) {
           if (data === true) {
             return "<a class=\"btn btn-xs btn-success\"><i class=\"fa fa-check\"></i></a>";
