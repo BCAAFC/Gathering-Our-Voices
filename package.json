@@ -35,7 +35,7 @@
     "gm": "~1.23.0",
     "handlebars": "~4.0.5",
     "hbs": "~4.0.1",
-    "lodash": "~4.16.1",
+    "lodash": "~4.17.15",
     "marked": "~0.3.6",
     "method-override": "~2.3.6",
     "moment": "~2.15.1",
